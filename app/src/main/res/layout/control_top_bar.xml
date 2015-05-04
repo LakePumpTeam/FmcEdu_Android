@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/page_top_bar_color"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:layout_height="@dimen/activity_top_bar_height">
+
+    <LinearLayout
+        android:id="@+id/top_bar_ll_back"
+        android:layout_width="@dimen/operate_icon_height"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_height="@dimen/operate_icon_height">
+
+        <ImageView
+            android:layout_width="@dimen/operate_icon_core_width"
+            android:layout_height="@dimen/operate_icon_core_height"
+            android:scaleType="fitXY"
+            android:src="@mipmap/back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/top_bar_ll_back"
+        android:layout_toLeftOf="@+id/top_bar_ll_operate">
+
+        <TextView
+            android:id="@+id/top_bar_txt_title"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_large"
+            android:layout_height="wrap_content"
+            android:textColor="@color/page_top_bar_font_color"
+            android:text="@string/app_name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_bar_ll_operate"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+
+        android:paddingRight="@dimen/activity_horizontal_padding"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/top_bar_ll_operate_text"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_height="@dimen/operate_icon_height">
+
+            <TextView
+                android:id="@+id/top_bar_txt_operate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_middle"
+                android:textColor="@color/page_top_bar_font_color"
+                android:text="编辑" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_bar_ll_operate_image"
+            android:layout_width="@dimen/operate_icon_height"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_height="@dimen/operate_icon_height">
+
+            <ImageView
+                android:id="@+id/top_bar_img_operate"
+                android:layout_width="@dimen/operate_icon_core_width"
+                android:layout_height="@dimen/operate_icon_core_height"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

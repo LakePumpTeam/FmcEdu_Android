@@ -1,0 +1,116 @@
+package com.fmc.edu.customcontrol;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.fmc.edu.R;
+import com.fmc.edu.utils.StringUtils;
+
+class TopBarControl extends LinearLayout {
+    private Context mContext;
+    private boolean backVisible;
+    private String topTitle;
+    private String operatorText;
+    private int operatorImageSrc;
+
+    private LinearLayout llBack;
+    private LinearLayout llOperate;
+    private LinearLayout llOperateText;
+    private LinearLayout llOperateImage;
+    private ImageView imgOperate;
+    private TextView txtOperate;
+    private TextView txtTitle;
+    private OnOperateOnClickListener mOnOperateOnClickListener;
+
+    public interface OnOperateOnClickListener {
+        void onOperateClick(View v);
+    }
+
+    public TopBarControl(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+        initAttribute(attrs);
+        initContentView();
+        initData();
+        bindControlEvent();
+    }
+
+    private void initAttribute(AttributeSet attrs) {
+        TypedArray arrayList = mContext.obtainStyledAttributes(attrs, R.styleable.TopBarControl);
+        backVisible = arrayList.getBoolean(R.styleable.TopBarControl_backVisible, false);
+        topTitle = arrayList.getString(R.styleable.TopBarControl_topTitle);
+        operatorText = arrayList.getString(R.styleable.TopBarControl_operatorText);
+        operatorImageSrc = arrayList.getResourceId(R.styleable.TopBarControl_operatorImageSrc, 0);
+    }
+
+    private void initContentView() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.control_top_bar, null);
+        llBack = (LinearLayout) view.findViewById(R.id.top_bar_ll_back);
+        llOperate = (LinearLayout) view.findViewById(R.id.top_bar_ll_operate);
+        llOperateText = (LinearLayout) view.findViewById(R.id.top_bar_ll_operate_text);
+        llOperateImage = (LinearLayout) view.findViewById(R.id.top_bar_ll_operate_image);
+        imgOperate = (ImageView) view.findViewById(R.id.top_bar_img_operate);
+        txtOperate = (TextView) view.findViewById(R.id.top_bar_txt_operate);
+        txtTitle = (TextView) view.findViewById(R.id.top_bar_txt_title);
+        this.addView(view);
+        this.setBackgroundColor(getResources().getColor(R.color.page_top_bar_color));
+    }
+
+    private void initData() {
+        txtTitle.setText(topTitle);
+        llBack.setVisibility(backVisible ? VISIBLE : GONE);
+        if (StringUtils.isEmptyOrNull(operatorText) && operatorImageSrc == 0) {
+            llOperate.setVisibility(GONE);
+            return;
+        }
+        llOperate.setVisibility(VISIBLE);
+        if (operatorImageSrc != 0) {
+            llOperateImage.setVisibility(VISIBLE);
+            llOperateText.setVisibility(GONE);
+            imgOperate.setImageDrawable(getResources().getDrawable(operatorImageSrc));
+            return;
+        }
+        llOperateImage.setVisibility(GONE);
+        llOperateText.setVisibility(VISIBLE);
+        txtOperate.setText(operatorText);
+    }
+
+    private void bindControlEvent() {
+        llBack.setOnClickListener(llBackOnClickListener);
+        llOperate.setOnClickListener(operateOnClickListener);
+    }
+
+    private OnClickListener llBackOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (llBack.getVisibility() == VISIBLE) {
+                ((Activity) mContext).finish();
+            }
+        }
+    };
+
+    private OnClickListener operateOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (llOperate.getVisibility() == GONE) {
+                return;
+            }
+            if (null == mOnOperateOnClickListener) {
+                return;
+            }
+            mOnOperateOnClickListener.onOperateClick(v);
+        }
+    };
+
+    public void setmOnOperateOnClickListener(OnOperateOnClickListener mOnOperateOnClickListener) {
+        this.mOnOperateOnClickListener = mOnOperateOnClickListener;
+    }
+}
