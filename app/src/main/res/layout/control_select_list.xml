@@ -11,7 +11,7 @@
         android:layout_height="@dimen/activity_top_bar_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/activity_horizontal_padding">
+        android:paddingLeft="@dimen/activity_horizontal_padding_middle">
 
         <TextView
             android:id="@+id/select_list_txt_title"

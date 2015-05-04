@@ -10,4 +10,12 @@
 
     <color name="select_list_bg_color">#333</color>
     <color name="select_list_divider_color">#444</color>
+
+    <color name="edit_text_font_color">#333</color>
+    <color name="edit_text_hint_font_color">#ccc</color>
+    <color name="edit_text_bg_color">#E5EFF6</color>
+
+    <color name="text_button_bg_color_nor">#03A9F5</color>
+    <color name="text_button_bg_color_sel">#03A933</color>
+    <color name="text_button_font_color">#333</color>
 </resources>

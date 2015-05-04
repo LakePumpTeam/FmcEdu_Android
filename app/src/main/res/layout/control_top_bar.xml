@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@color/page_top_bar_color"
-    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingLeft="@dimen/activity_horizontal_padding_middle"
     android:layout_height="@dimen/activity_top_bar_height">
 
     <LinearLayout
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
 
-        android:paddingRight="@dimen/activity_horizontal_padding"
+        android:paddingRight="@dimen/activity_horizontal_padding_middle"
         android:gravity="center_vertical"
         android:visibility="gone"
         android:layout_height="match_parent">

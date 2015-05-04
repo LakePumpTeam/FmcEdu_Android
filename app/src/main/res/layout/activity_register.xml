@@ -1,13 +1,56 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
         android:layout_width="match_parent"
-        fmc:topTitle="@string/title_activity_register"
-        fmc:backVisible="true"
-        fmc:operatorText="编辑"
-        android:layout_height="@dimen/activity_top_bar_height"></com.fmc.edu.customcontrol.TopBarControl>
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="false"
+        fmc:topTitle="@string/title_activity_register"></com.fmc.edu.customcontrol.TopBarControl>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/register_edit_cellphone"
+                style="@style/EditTextStyle"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/register_txt_get_auth_code"
+                android:hint="@string/hint_input_cellphone"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/register_txt_get_auth_code"
+                style="@style/TextButtonShortStyle"
+                android:layout_alignParentRight="true"
+                android:text="@string/get_auth_code" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/register_edit_auth_code"
+            style="@style/EditTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+            android:hint="@string/hint_input_auth_code" />
+
+        <EditText
+            android:id="@+id/register_edit_password"
+            style="@style/EditTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+            android:hint="@string/hint_input_password"
+            android:inputType="textPassword"
+            android:maxLength="16" />
+    </LinearLayout>
+</LinearLayout>
