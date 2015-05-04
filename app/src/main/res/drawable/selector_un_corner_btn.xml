@@ -2,17 +2,22 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
         <shape>
-            <solid android:color="@color/text_button_bg_color_sel"></solid>
+            <solid android:color="@color/text_button_bg_color_sel"/>
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/text_button_bg_color_sel"></solid>
+            <solid android:color="@color/text_button_bg_color_sel"/>
         </shape>
     </item>
-    <item >
+    <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/text_button_bg_color_nor"></solid>
+            <solid android:color="@color/bg_color_un_enable"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/text_button_bg_color_nor"/>
         </shape>
     </item>
 </selector>

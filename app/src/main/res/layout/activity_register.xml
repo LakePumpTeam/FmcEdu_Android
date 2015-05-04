@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="false"
-        fmc:topTitle="@string/title_activity_register"></com.fmc.edu.customcontrol.TopBarControl>
+        fmc:topTitle="@string/title_activity_register"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -26,14 +26,15 @@
                 android:id="@+id/register_edit_cellphone"
                 style="@style/EditTextStyle"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/register_txt_get_auth_code"
+                android:layout_toLeftOf="@+id/register_validate_btn_get_auth_code"
                 android:hint="@string/hint_input_cellphone"
                 android:inputType="phone" />
 
-            <TextView
-                android:id="@+id/register_txt_get_auth_code"
-                style="@style/TextButtonShortStyle"
+            <com.fmc.edu.customcontrol.ValidateButtonControl
+                android:id="@+id/register_validate_btn_get_auth_code"
+                style="@style/UnRoundCornerShortButtonStyle"
                 android:layout_alignParentRight="true"
+                android:enabled="false"
                 android:text="@string/get_auth_code" />
         </RelativeLayout>
 
@@ -41,16 +42,41 @@
             android:id="@+id/register_edit_auth_code"
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:hint="@string/hint_input_auth_code" />
 
         <EditText
             android:id="@+id/register_edit_password"
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:hint="@string/hint_input_password"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
             android:inputType="textPassword"
             android:maxLength="16" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/register_ck_read_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/AnnotationTextStyle"
+                android:text="我已阅读并接受《xxx协议》" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/register_btn_next_step"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            style="@style/LongButtonStyle"
+            android:enabled="false"
+            android:text="@string/next_step" />
     </LinearLayout>
 </LinearLayout>

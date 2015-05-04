@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TopBarControl">
-        <attr name="backVisible" format="boolean"></attr>
-        <attr name="topTitle" format="reference|string"></attr>
-        <attr name="operatorText" format="reference|string"></attr>
-        <attr name="operatorImageSrc" format="reference"></attr>
+        <attr name="backVisible" format="boolean" />
+        <attr name="topTitle" format="reference|string" />
+        <attr name="operatorText" format="reference|string" />
+        <attr name="operatorImageSrc" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="ValidateButtonControl">
+        <attr name="repeatSendTime" format="integer" />
     </declare-styleable>
 </resources>

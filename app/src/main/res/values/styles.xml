@@ -16,7 +16,7 @@
         <item name="android:paddingLeft">@dimen/activity_horizontal_padding_small</item>
     </style>
 
-    <style name="TextButtonShortStyle">
+    <style name="UnRoundCornerShortButtonStyle">
         <item name="android:layout_height">@dimen/edit_text_height</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:background">@drawable/selector_un_corner_btn</item>
@@ -25,6 +25,21 @@
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">@dimen/activity_horizontal_padding_middle</item>
         <item name="android:paddingRight">@dimen/activity_horizontal_padding_middle</item>
+    </style>
+
+    <style name="AnnotationTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textColor">@color/annotation_txt_font_color</item>
+    </style>
+
+    <style name="LongButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textColor">@drawable/selector_btn_is_enable_font_color</item>
+        <item name="android:background">@drawable/selector_btn_is_enable_bg_color</item>
     </style>
 
 </resources>

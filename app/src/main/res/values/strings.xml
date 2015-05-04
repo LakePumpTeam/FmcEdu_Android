@@ -8,4 +8,5 @@
     <string name="get_auth_code">获取验证码</string>
     <string name="hint_input_auth_code">输入验证码</string>
     <string name="hint_input_password">密码需要6-16位字符</string>
+    <string name="next_step">下一步</string>
 </resources>

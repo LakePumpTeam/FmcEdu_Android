@@ -17,5 +17,14 @@
 
     <color name="text_button_bg_color_nor">#03A9F5</color>
     <color name="text_button_bg_color_sel">#03A933</color>
-    <color name="text_button_font_color">#333</color>
+    <color name="text_button_font_color">#777</color>
+
+    <color name="btn_font_color_enable">#fff</color>
+    <color name="btn_font_color_un_enable">#ccc</color>
+    <color name="btn_bg_color_enable">#5B9BD5</color>
+    <color name="btn_bg_color_sel">#5B77D5</color>
+
+    <color name="bg_color_un_enable">#aaa</color>
+    <color name="annotation_txt_font_color">#ccc</color>
+
 </resources>
