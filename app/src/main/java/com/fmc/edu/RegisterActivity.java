@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.fmc.edu.Enums.WatcherTypeEnum;
+import com.fmc.edu.enums.WatcherTypeEnum;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ValidationUtils;
@@ -97,9 +97,10 @@ public class RegisterActivity extends Activity {
                 validateBtnGetAuthCode.setEnabled(isEffectPhone);
             }
 
-            String phoneStr = editCellphone.getText().toString();
-            String validateCode = editAuthCode.getText().toString();
-            if (!StringUtils.isEmptyOrNull(phoneStr) && !StringUtils.isEmptyOrNull(validateCode) && ckReadAgreement.isChecked()) {
+            boolean isValidatePhone = !StringUtils.isEmptyOrNull(editCellphone.getText()) && ValidationUtils.isMobilePhone(editCellphone.getText().toString());
+            boolean isValidateCode = !StringUtils.isEmptyOrNull(editAuthCode.getText());
+            boolean isValidatePassword = editPassword.length() >= 6 && editPassword.length() <= 16;
+            if (isValidatePhone && isValidateCode && ckReadAgreement.isChecked() && isValidatePassword) {
                 btnNextStep.setEnabled(true);
                 return;
             }
