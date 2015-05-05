@@ -1,6 +1,7 @@
 package com.fmc.edu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -61,7 +62,8 @@ public class RegisterActivity extends Activity {
     private View.OnClickListener btnNextStepOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO ÏÂÒ»²½
+            Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
+            startActivity(intent);
         }
     };
 

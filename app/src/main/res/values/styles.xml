@@ -16,6 +16,15 @@
         <item name="android:paddingLeft">@dimen/activity_horizontal_padding_small</item>
     </style>
 
+    <style name="DropDownShortEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edit_text_height</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_padding_small</item>
+    </style>
+
     <style name="UnRoundCornerShortButtonStyle">
         <item name="android:layout_height">@dimen/edit_text_height</item>
         <item name="android:layout_width">wrap_content</item>
