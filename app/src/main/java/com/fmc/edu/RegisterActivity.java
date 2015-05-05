@@ -42,6 +42,7 @@ public class RegisterActivity extends Activity {
 
     private void initViewEvents() {
         btnNextStep.setOnClickListener(btnNextStepOnClickListener);
+        validateBtnGetAuthCode.setOnClickListener(btnGetAuthCodeOnClickListener);
 
         MyTextWatcher validatePhoneTextWatcher = new MyTextWatcher();
         editCellphone.addTextChangedListener(validatePhoneTextWatcher);
@@ -61,6 +62,14 @@ public class RegisterActivity extends Activity {
         @Override
         public void onClick(View v) {
             //TODO 下一步
+        }
+    };
+
+    private View.OnClickListener btnGetAuthCodeOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //TODO 获取验证码
+
         }
     };
 
