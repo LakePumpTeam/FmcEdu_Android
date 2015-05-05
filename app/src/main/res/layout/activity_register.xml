@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
-
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="false"
@@ -43,8 +42,8 @@
             android:id="@+id/register_edit_auth_code"
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_verticalzxcvbnm"
-            android:digits="1234567890qwertyuiopasdfghjkl_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
             android:hint="@string/hint_input_auth_code" />
 
         <EditText
@@ -52,16 +51,16 @@
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:digits="1234567890qwertyuiopasdfghjklassword"
-            android:hint="@string/hint_input_pzxcvbnm"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+            android:hint="@string/hint_input_password"
             android:inputType="textPassword"
             android:maxLength="16" />
 
         <LinearLayout
-            android:layout_width="matchizontal"
-            android:layout_height="wrap__margin"
-            android:layout_marginTop="@dimen/activity_vertical_parent"
-            android:orientation="horcontent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/register_ck_read_agreement"
@@ -75,8 +74,8 @@
 
         <Button
             android:id="@+id/register_btn_next_step"
-            style="@style/LongButt_margin"
-            android:layout_marginTop="@dimen/activity_verticalonStyle"
+            style="@style/LongButtonStyle"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:enabled="false"
             android:text="@string/next_step" />
     </LinearLayout>

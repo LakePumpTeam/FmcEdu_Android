@@ -61,7 +61,7 @@ class TopBarControl extends LinearLayout {
         txtOperate = (TextView) view.findViewById(R.id.top_bar_txt_operate);
         txtTitle = (TextView) view.findViewById(R.id.top_bar_txt_title);
         this.addView(view);
-        this.setBackgroundColor(getResources().getColor(R.color.page_top_bar_color));
+        this.setBackgroundColor(getResources().getColor(R.color.activity_top_bar_color));
     }
 
     private void initData() {
@@ -84,8 +84,12 @@ class TopBarControl extends LinearLayout {
     }
 
     private void bindControlEvent() {
-        llBack.setOnClickListener(llBackOnClickListener);
-        llOperate.setOnClickListener(operateOnClickListener);
+        if (llBack.getVisibility() == VISIBLE) {
+            llBack.setOnClickListener(llBackOnClickListener);
+        }
+        if (llOperate.getVisibility() == VISIBLE) {
+            llOperate.setOnClickListener(operateOnClickListener);
+        }
     }
 
     private OnClickListener llBackOnClickListener = new OnClickListener() {
@@ -100,9 +104,6 @@ class TopBarControl extends LinearLayout {
     private OnClickListener operateOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (llOperate.getVisibility() == GONE) {
-                return;
-            }
             if (null == mOnOperateOnClickListener) {
                 return;
             }

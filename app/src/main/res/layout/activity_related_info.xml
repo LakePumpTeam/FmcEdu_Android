@@ -10,27 +10,205 @@
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_related_info" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_middle">
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
-        <EditText
-            android:id="@+id/related_info_edit_province"
-            style="@style/DropDownShortEditTextStyle"
-            android:layout_weight="1"
-            android:text="四川省" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/related_info_edit_city"
-            style="@style/DropDownShortEditTextStyle"
-            android:layout_weight="1"
-            android:text="成都市" />
-    </LinearLayout>
 
-    <EditText
-        android:id="@+id/related_info_edit_school"
-        style="@style/DropDownShortEditTextStyle"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
-        android:text="成都理工大学" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle">
+
+                <TextView
+                    android:id="@+id/related_info_txt_province"
+                    style="@style/DropDownShortTextViewStyle"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_choice_province" />
+
+                <TextView
+                    android:id="@+id/related_info_txt_city"
+                    style="@style/DropDownShortTextViewStyle"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_choice_city" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/related_info_txt_school"
+                style="@style/DropDownShortTextViewStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_choice_school" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle">
+
+                <TextView
+                    android:id="@+id/related_info_txt_class"
+                    style="@style/DropDownShortTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_padding"
+                    android:paddingRight="@dimen/activity_horizontal_padding" />
+
+                <TextView
+                    style="@style/LabelTextStyle"
+                    android:text="@string/label_class"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle" />
+
+                <TextView
+                    android:id="@+id/related_info_txt_grade"
+                    style="@style/DropDownShortTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_padding"
+                    android:paddingRight="@dimen/activity_horizontal_padding" />
+
+                <TextView
+                    style="@style/LabelTextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:text="@string/label_grade" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin_middle">
+
+                <TextView
+                    style="@style/LabelTextStyle"
+                    android:text="@string/label_teacher"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle" />
+
+                <TextView
+                    android:id="@+id/related_info_txt_teacher"
+                    style="@style/LabelTextStyle"
+                    android:paddingLeft="@dimen/activity_horizontal_padding"
+                    android:paddingRight="@dimen/activity_horizontal_padding" />
+            </LinearLayout>
+
+            <View style="@style/DividerLineStyle" />
+
+            <EditText
+                android:id="@+id/related_info_edit_device_code"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_device_code" />
+
+            <EditText
+                android:id="@+id/related_info_edit_device_card_num"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_device_card_num" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/related_info_edit_stu_name"
+                    style="@style/EditTextStyle"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                    android:hint="@string/hint_stu_name"
+                    android:layout_toLeftOf="@+id/related_info_img_stu_name" />
+
+                <ImageView
+                    android:id="@+id/related_info_img_stu_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/related_info_edit_relation"
+                    style="@style/EditTextStyle"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                    android:hint="@string/hint_relation"
+                    android:layout_toLeftOf="@+id/related_info_img_relation" />
+
+                <ImageView
+                    android:id="@+id/related_info_img_relation"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/related_info_edit_par_name"
+                    style="@style/EditTextStyle"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                    android:hint="@string/hint_par_name"
+                    android:layout_toLeftOf="@+id/related_info_img_par_name" />
+
+                <ImageView
+                    android:id="@+id/related_info_img_par_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_launcher" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/related_info_sex"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_stu_sex" />
+
+            <EditText
+                android:id="@+id/related_info_edit_birthday"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_birthday" />
+
+            <EditText
+                android:id="@+id/related_info_edit_address"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_address" />
+
+            <EditText
+                android:id="@+id/related_info_edit_comment"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
+                android:hint="@string/hint_comment" />
+
+            <Button
+                android:id="@+id/related_info_btn_submit_audit"
+                style="@style/LongButtonStyle"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/btn_submit_audit" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

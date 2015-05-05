@@ -1,8 +1,9 @@
 package com.fmc.edu.customcontrol;
 
-import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
@@ -29,7 +31,7 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/5/3.
  */
-public class SelectListControl extends DialogFragment {
+public class SelectListControl extends PopupWindow {
     private Button btnLoadMore;
     private LinearLayout llTitle;
     private ListView listView;
@@ -44,7 +46,7 @@ public class SelectListControl extends DialogFragment {
     private List<CommonEntity> mSourceList;
     private String mTitle;
     private String mMethodPath;
-    private Map<String, List<String>> mParameter;
+    private Map<String, Object> mParameter;
     private final static int MAX_PAGE_SIZE = 15;
     private int mPageCount;
 
@@ -53,57 +55,38 @@ public class SelectListControl extends DialogFragment {
         void onItemSelected(CommonEntity obj, View view);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        int style = android.support.v4.app.DialogFragment.STYLE_NO_TITLE;
-        int theme = 0;
-        setStyle(style, theme);
-        mContext = getActivity();
+    public SelectListControl(Context context) {
+        super(context, null);
+        mContext = context;
+        initPopWindow();
+        initContentView();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        getDialog().setTitle(mTitle);
-        mView = inflater.inflate(R.layout.control_select_list, container, false);
+    private void initContentView() {
+        mView = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
         llTitle = (LinearLayout) mView.findViewById(R.id.select_list_ll_title);
         txtTitle = (TextView) mView.findViewById(R.id.select_list_txt_title);
         listView = (ListView) mView.findViewById(R.id.select_list_list);
         txtTitle.setText(mTitle);
 
-        bindListView();
+        // bindListView();
+        this.setContentView(mView);
         listView.setOnItemClickListener(onItemClickListener);
         progressControl = new ProgressControl(mContext);
-        return mView;
     }
 
-    public void setSourceListener(OnItemSelectedListener sourceListener) {
+    private void initPopWindow() {
+        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        this.setFocusable(false);
+        this.setOutsideTouchable(false);
+        this.setTouchable(false);
+        ColorDrawable dw = new ColorDrawable(-000000);
+        this.setBackgroundDrawable(dw);
+    }
+
+    public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
         this.mOnItemSelectedListener = sourceListener;
-    }
-
-    public static SelectListControl newInstance(OnItemSelectedListener listener, Map<String, List<String>> parameter, String methodPath, View view, String title) {
-
-        SelectListControl selectListControl = new SelectListControl();
-        selectListControl.setSourceListener(listener);
-        selectListControl.setListenerView(view);
-        selectListControl.setDialogTitle(title);
-        selectListControl.mMethodPath = methodPath;
-        selectListControl.mParameter = parameter;
-        selectListControl.mPageCount = 0;
-        return selectListControl;
-    }
-
-    public void setAdapterDataSource(List<CommonEntity> dataSource) {
-        this.mSourceList = dataSource;
-    }
-
-    public void setListenerView(View listenerView) {
-        this.mListenerView = listenerView;
-    }
-
-    public void setDialogTitle(String dialogTitle) {
-        this.mTitle = dialogTitle;
     }
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -135,28 +118,27 @@ public class SelectListControl extends DialogFragment {
     }
 
     private void loadData() {
-        try {
-            getParameter();
-            MyIon.with(mContext).load(mMethodPath)
-                    .setBodyParameters(mParameter)
-                    .as(new MapTokenTypeUtils())
-                    .setCallback(new FutureCallback<Map<String, Object>>() {
-                        @Override
-                        public void onCompleted(Exception e, Map<String, Object> stringObjectMap) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, stringObjectMap)) {
-                                ToastToolUtils.showShort(HttpTools.getStatusMsg(e, stringObjectMap));
-                            } else {
-                                List<Map<String, Object>> data = HttpTools.getListMap(stringObjectMap);
-                                handleData(data);
-                            }
-                        }
-                    });
-            progressControl.showAsDropDown(mView);
-        } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
-            e.printStackTrace();
-        }
+//        try {
+//            MyIon.with(mContext).load(mMethodPath)
+//                    .setBodyParameters(mParameter)
+//                    .as(new MapTokenTypeUtils())
+//                    .setCallback(new FutureCallback<Map<String, Object>>() {
+//                        @Override
+//                        public void onCompleted(Exception e, Map<String, Object> stringObjectMap) {
+//                            progressControl.dismiss();
+//                            if (!HttpTools.isRequestSuccessfully(e, stringObjectMap)) {
+//                                ToastToolUtils.showShort(HttpTools.getStatusMsg(e, stringObjectMap));
+//                            } else {
+//                                List<Map<String, Object>> data = HttpTools.getListMap(stringObjectMap);
+//                                handleData(data);
+//                            }
+//                        }
+//                    });
+//            progressControl.showAsDropDown(mView);
+//        } catch (NetWorkUnAvailableException e) {
+//            progressControl.dismiss();
+//            e.printStackTrace();
+//        }
     }
 
     private void getParameter() {

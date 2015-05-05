@@ -70,8 +70,7 @@ public class RegisterActivity extends Activity {
     private View.OnClickListener btnGetAuthCodeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO »ñÈ¡ÑéÖ¤Âë
-
+            //TODO è·å–éªŒè¯ç 
         }
     };
 

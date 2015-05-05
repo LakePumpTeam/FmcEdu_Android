@@ -1,16 +1,32 @@
 <resources>
     <string name="app_name">FmcEdu</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
     <string name="title_activity_register">注册</string>
     <string name="title_activity_related_info">关联信息</string>
+
+    <string name="btn_submit_audit">提交审核</string>
+    <string name="get_auth_code">获取验证码</string>
 
     <string name="hint_input_cellphone">输入手机号</string>
     <string name="hint_input_auth_code">输入验证码</string>
     <string name="hint_input_password">密码需要6-16位字符</string>
+    <string name="hint_device_code">设备编号</string>
+    <string name="hint_device_card_num">设备卡号</string>
+    <string name="hint_stu_name">学生姓名</string>
+    <string name="hint_relation">与学生关系</string>
+    <string name="hint_par_name">家长姓名</string>
+    <string name="hint_birthday">学生出生年月</string>
+    <string name="hint_stu_sex">学生性别</string>
+    <string name="hint_address">家庭住址</string>
+    <string name="hint_comment">备注信息</string>
 
-    <string name="get_auth_code">获取验证码</string>
+    <string name="hint_choice_province">选择省</string>
+    <string name="hint_choice_city">选择市</string>
+    <string name="hint_choice_school">选择学校</string>
+
+    <string name="label_class">班级</string>
+    <string name="label_grade">年级</string>
+    <string name="label_teacher">班主任</string>
+
     <string name="next_step">下一步</string>
 </resources>
