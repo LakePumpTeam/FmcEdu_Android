@@ -2,8 +2,6 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +12,7 @@ import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 public class RelatedInfoActivity extends Activity {
@@ -87,47 +82,84 @@ public class RelatedInfoActivity extends Activity {
         @Override
         public void onClick(View v) {
             //TODO 年级列表
-//            DialogFragment classListControl = SelectListControl.newInstance(selectedItemListener, null, "", v, "班级列表");
-            SelectListControl classListControl = new SelectListControl(RelatedInfoActivity.this, testClassList(), "班级列表", v);
-            classListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
-
-        }
-    };
-
-    private SelectListControl.OnItemSelectedListener selectedItemListener = new SelectListControl.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(CommonEntity obj, View view) {
-
+            handleDropDownClick(v, OperateType.Class);
         }
     };
 
     private View.OnClickListener txtCityOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 城市列表
+            handleDropDownClick(v, OperateType.City);
         }
     };
 
     private View.OnClickListener txtGradeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 班级列表
+            handleDropDownClick(v, OperateType.Grade);
         }
     };
 
     private View.OnClickListener txtProvinceOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 省列表
+            handleDropDownClick(v, OperateType.Province);
         }
     };
 
     private View.OnClickListener txtSchoolOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 学校列表
+            handleDropDownClick(v, OperateType.School);
         }
     };
+
+    private void handleDropDownClick(View v, OperateType operateType) {
+
+        //TODO 处理数据
+        switch (operateType) {
+            case Province:
+                handleClick(v, testClassList(), "省列表");
+                break;
+            case City:
+                handleClick(v, testClassList(), "城市列表");
+                break;
+            case School:
+                handleClick(v, testClassList(), "学校列表");
+                break;
+            case Class:
+                handleClick(v, testClassList(), "年级列表");
+                break;
+            case Grade:
+                handleClick(v, testClassList(), "班级列表");
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void handleClick(View v, List<CommonEntity> list, String title) {
+        SelectListControl classListControl = new SelectListControl(RelatedInfoActivity.this, list, title, v);
+        classListControl.setOnItemClickListener(selectedItemListener);
+        classListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+
+    private SelectListControl.OnItemSelectedListener selectedItemListener = new SelectListControl.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(CommonEntity obj, View view) {
+            TextView textView = (TextView) view;
+            textView.setText(obj.getFullName());
+            textView.setTag(obj.getId());
+        }
+    };
+
+    enum OperateType {
+        Province,
+        City,
+        School,
+        Class,
+        Grade;
+    }
 
 
     private void testInitData() {
@@ -168,5 +200,6 @@ public class RelatedInfoActivity extends Activity {
         }
         return list;
     }
+
 
 }

@@ -21,7 +21,6 @@ import com.fmc.edu.adapter.SelectListControlAdapter;
 import com.fmc.edu.entity.CommonEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Candy on 2015/5/3.
@@ -56,6 +55,16 @@ public class SelectListControl extends PopupWindow {
         initContentView();
     }
 
+    private void initPopWindow() {
+        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        this.setFocusable(true);
+        this.setOutsideTouchable(true);
+        this.setTouchable(true);
+        ColorDrawable dw = new ColorDrawable(-000000);
+        this.setBackgroundDrawable(dw);
+    }
+
     private void initContentView() {
         LinearLayout linearLayout = new LinearLayout(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -81,19 +90,12 @@ public class SelectListControl extends PopupWindow {
         listView.setOnItemClickListener(onItemClickListener);
     }
 
-    private void initPopWindow() {
-        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setFocusable(true);
-        this.setOutsideTouchable(true);
-        this.setTouchable(true);
-        ColorDrawable dw = new ColorDrawable(-000000);
-        this.setBackgroundDrawable(dw);
-    }
-
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (null == mOnItemSelectedListener) {
+                return;
+            }
             CommonEntity obj = (CommonEntity) parent.getAdapter().getItem(position);
             mOnItemSelectedListener.onItemSelected(obj, mClickView);
             dismiss();

@@ -13,15 +13,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        android:paddingBottom="@dimen/activity_vertical_padding"
+        android:paddingTop="@dimen/activity_vertical_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
 
@@ -65,10 +66,10 @@
 
                 <TextView
                     style="@style/LabelTextStyle"
-                    android:text="@string/label_class"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle"
+                    android:text="@string/label_class" />
 
                 <TextView
                     android:id="@+id/related_info_txt_grade"
@@ -87,14 +88,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin_middle">
+                android:layout_marginBottom="@dimen/activity_horizontal_margin_middle"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_middle">
 
                 <TextView
                     style="@style/LabelTextStyle"
-                    android:text="@string/label_teacher"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_middle"
+                    android:text="@string/label_teacher" />
 
                 <TextView
                     android:id="@+id/related_info_txt_teacher"
@@ -125,16 +126,16 @@
                     android:id="@+id/related_info_edit_stu_name"
                     style="@style/EditTextStyle"
                     android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
-                    android:hint="@string/hint_stu_name"
-                    android:layout_toLeftOf="@+id/related_info_img_stu_name" />
+                    android:layout_toLeftOf="@+id/related_info_img_stu_name"
+                    android:hint="@string/hint_stu_name" />
 
                 <ImageView
                     android:id="@+id/related_info_img_stu_name"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:src="@mipmap/ic_launcher" />
             </RelativeLayout>
 
@@ -146,16 +147,16 @@
                     android:id="@+id/related_info_edit_relation"
                     style="@style/EditTextStyle"
                     android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
-                    android:hint="@string/hint_relation"
-                    android:layout_toLeftOf="@+id/related_info_img_relation" />
+                    android:layout_toLeftOf="@+id/related_info_img_relation"
+                    android:hint="@string/hint_relation" />
 
                 <ImageView
                     android:id="@+id/related_info_img_relation"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:src="@mipmap/ic_launcher" />
             </RelativeLayout>
 
@@ -167,16 +168,16 @@
                     android:id="@+id/related_info_edit_par_name"
                     style="@style/EditTextStyle"
                     android:layout_marginTop="@dimen/activity_horizontal_margin_middle"
-                    android:hint="@string/hint_par_name"
-                    android:layout_toLeftOf="@+id/related_info_img_par_name" />
+                    android:layout_toLeftOf="@+id/related_info_img_par_name"
+                    android:hint="@string/hint_par_name" />
 
                 <ImageView
                     android:id="@+id/related_info_img_par_name"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_middle"
                     android:src="@mipmap/ic_launcher" />
             </RelativeLayout>
 
