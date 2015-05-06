@@ -35,6 +35,7 @@ public class SelectListControl extends PopupWindow {
     private SelectListControlAdapter mSelectListControlAdapter;
     private OnItemSelectedListener mOnItemSelectedListener;
     private List<CommonEntity> mSourceList;
+    private DisplayMetrics mDisplayMetrics;
     private String mTitle;
     private final static int MAX_PAGE_SIZE = 15;
     private int mPageCount;
@@ -50,15 +51,15 @@ public class SelectListControl extends PopupWindow {
         mSourceList = sourceList;
         mTitle = title;
         mClickView = clickView;
+        mDisplayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         initPopWindow();
         initContentView();
     }
 
     private void initPopWindow() {
-        DisplayMetrics dm = new DisplayMetrics();
-        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        this.setWidth(dm.widthPixels);
-        this.setHeight( dm.heightPixels);
+        this.setWidth(mDisplayMetrics.widthPixels);
+        this.setHeight(mDisplayMetrics.heightPixels);
         this.setFocusable(true);
         this.setOutsideTouchable(true);
         this.setTouchable(true);
@@ -67,15 +68,12 @@ public class SelectListControl extends PopupWindow {
     }
 
     private void initContentView() {
-        DisplayMetrics dm = new DisplayMetrics();
-        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         LinearLayout linearLayout = new LinearLayout(mContext);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
         linearLayout.setPadding(40, 30, 40, 30);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
-
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
         txtTitle = (TextView) view.findViewById(R.id.select_list_txt_title);
@@ -83,8 +81,7 @@ public class SelectListControl extends PopupWindow {
         txtTitle.setText(mTitle);
         linearLayout.addView(view);
 
-
-        view.setMinimumHeight(dm.heightPixels * 2 / 3);
+        view.setMinimumHeight(mDisplayMetrics.heightPixels * 2 / 3);
         this.setContentView(linearLayout);
 
         bindListView();

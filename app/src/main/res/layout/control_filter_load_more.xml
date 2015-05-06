@@ -13,6 +13,6 @@
         android:text="查看更多  ＞＞"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_size_small"
-        android:padding="@dimen/activity_horizontal_padding_middle" />
+        android:padding="@dimen/activity_padding_middle" />
 
 </LinearLayout>

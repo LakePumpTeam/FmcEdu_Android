@@ -13,9 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -42,7 +42,7 @@
             android:id="@+id/register_edit_auth_code"
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_margin"
             android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
             android:hint="@string/hint_input_auth_code" />
 
@@ -50,7 +50,7 @@
             android:id="@+id/register_edit_password"
             style="@style/EditTextStyle"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_margin"
             android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
             android:hint="@string/hint_input_password"
             android:inputType="textPassword"
@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_margin"
             android:orientation="horizontal">
 
             <CheckBox
@@ -75,7 +75,7 @@
         <Button
             android:id="@+id/register_btn_next_step"
             style="@style/LongButtonStyle"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_margin"
             android:enabled="false"
             android:text="@string/next_step" />
     </LinearLayout>

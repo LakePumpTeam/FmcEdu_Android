@@ -7,13 +7,13 @@
 
     <color name="annotation_txt_font_color">#ccc</color>
 
+
     <color name="bg_color_un_enable">#aaa</color>
 
     <color name="btn_font_color_enable">#fff</color>
     <color name="btn_font_color_un_enable">#ccc</color>
     <color name="btn_bg_color_enable">#01BABC</color>
     <color name="btn_bg_color_sel">#5B77D5</color>
-
 
     <color name="divider_bg_color">#ccc</color>
 
@@ -22,8 +22,9 @@
     <color name="edit_text_bg_color">#E5EFF6</color>
     <color name="edit_text_border_color">#01BABC</color>
 
-    <color name="popup_window_alert_bg_color">#555</color>
-    <color name="popup_window_alert_font_color">#fff</color>
+    <color name="popup_window_alert_bg_color">#F3F3F3</color>
+    <color name="popup_window_alert_font_color">#333</color>
+    <color name="popup_window_alert_btn_font_color">#3F98FB</color>
 
     <color name="select_list_bg_color">#333</color>
     <color name="select_list_divider_color">#444</color>

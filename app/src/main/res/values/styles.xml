@@ -12,12 +12,20 @@
         <item name="android:textColor">@color/annotation_txt_font_color</item>
     </style>
 
+    <style name="OvalButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:textSize">@dimen/font_size_middle</item>
+        <item name="android:textColor">@color/btn_font_color_enable</item>
+        <item name="android:background">@drawable/selector_btn_oval_corner</item>
+    </style>
+
     <style name="DropDownShortTextViewStyle">
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/edit_text_height</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_padding_small</item>
+        <item name="android:paddingLeft">@dimen/activity_padding_small</item>
         <item name="android:singleLine">true</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textSize">@dimen/font_size_small</item>
@@ -35,7 +43,7 @@
         <item name="android:background">@color/edit_text_bg_color</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/edit_text_height</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_padding_small</item>
+        <item name="android:paddingLeft">@dimen/activity_padding_small</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/edit_text_font_color</item>
         <item name="android:textColorHint">@color/edit_text_hint_font_color</item>
@@ -60,12 +68,12 @@
 
 
     <style name="UnRoundCornerShortButtonStyle">
-        <item name="android:background">@drawable/selector_un_corner_btn</item>
+        <item name="android:background">@drawable/selector_btn_un_corner</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">@dimen/edit_text_height</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingRight">@dimen/activity_horizontal_padding_middle</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_padding_middle</item>
+        <item name="android:paddingRight">@dimen/activity_padding_middle</item>
+        <item name="android:paddingLeft">@dimen/activity_padding_middle</item>
         <item name="android:textColor">@color/text_button_font_color</item>
         <item name="android:textSize">@dimen/font_size_small</item>
     </style>
