@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="activity_bg_color">#F0FCFC</color>
     <color name="activity_top_bar_color">#03A9F5</color>
     <color name="activity_top_bar_font_color">#fff</color>
+    <color name="activity_font_color">#01BABC</color>
 
     <color name="annotation_txt_font_color">#ccc</color>
 
@@ -9,7 +11,7 @@
 
     <color name="btn_font_color_enable">#fff</color>
     <color name="btn_font_color_un_enable">#ccc</color>
-    <color name="btn_bg_color_enable">#5B9BD5</color>
+    <color name="btn_bg_color_enable">#01BABC</color>
     <color name="btn_bg_color_sel">#5B77D5</color>
 
 
@@ -18,6 +20,7 @@
     <color name="edit_text_font_color">#333</color>
     <color name="edit_text_hint_font_color">#ccc</color>
     <color name="edit_text_bg_color">#E5EFF6</color>
+    <color name="edit_text_border_color">#01BABC</color>
 
     <color name="popup_window_alert_bg_color">#555</color>
     <color name="popup_window_alert_font_color">#fff</color>

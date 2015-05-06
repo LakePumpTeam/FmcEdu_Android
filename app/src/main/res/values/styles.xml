@@ -49,6 +49,7 @@
         <item name="android:textColor">@color/text_label_font_color</item>
     </style>
 
+
     <style name="LongButtonStyle">
         <item name="android:background">@drawable/selector_btn_is_enable_bg_color</item>
         <item name="android:layout_width">match_parent</item>

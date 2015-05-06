@@ -8,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -56,8 +55,10 @@ public class SelectListControl extends PopupWindow {
     }
 
     private void initPopWindow() {
-        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        this.setWidth(dm.widthPixels);
+        this.setHeight( dm.heightPixels);
         this.setFocusable(true);
         this.setOutsideTouchable(true);
         this.setTouchable(true);
@@ -66,9 +67,10 @@ public class SelectListControl extends PopupWindow {
     }
 
     private void initContentView() {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         LinearLayout linearLayout = new LinearLayout(mContext);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels);
         linearLayout.setPadding(40, 30, 40, 30);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
@@ -81,8 +83,7 @@ public class SelectListControl extends PopupWindow {
         txtTitle.setText(mTitle);
         linearLayout.addView(view);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+
         view.setMinimumHeight(dm.heightPixels * 2 / 3);
         this.setContentView(linearLayout);
 
