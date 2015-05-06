@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,12 @@ import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class RelatedInfoActivity extends Activity {
@@ -81,8 +88,8 @@ public class RelatedInfoActivity extends Activity {
         public void onClick(View v) {
             //TODO 年级列表
 //            DialogFragment classListControl = SelectListControl.newInstance(selectedItemListener, null, "", v, "班级列表");
-            SelectListControl classListControl = new SelectListControl(RelatedInfoActivity.this);
-            classListControl.showAsDropDown(v);
+            SelectListControl classListControl = new SelectListControl(RelatedInfoActivity.this, testClassList(), "班级列表", v);
+            classListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
 
         }
     };
@@ -150,6 +157,16 @@ public class RelatedInfoActivity extends Activity {
 
         editStuName.setText("张三");
         txtTeacher.setText("李老师");
+    }
+
+    private List<CommonEntity> testClassList() {
+        List<CommonEntity> list = new ArrayList<CommonEntity>();
+
+        for (int i = 0; i < 15; i++) {
+            CommonEntity item = new CommonEntity(String.valueOf(i), "班级" + i);
+            list.add(item);
+        }
+        return list;
     }
 
 }

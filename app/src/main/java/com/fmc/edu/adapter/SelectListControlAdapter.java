@@ -16,9 +16,9 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/5/3.
  */
-public class SelectListControlAdapter extends FmcBaseAdapter<Map<String, Object>> {
+public class SelectListControlAdapter extends FmcBaseAdapter<CommonEntity> {
 
-    public SelectListControlAdapter(Context context, List<Map<String, Object>> list) {
+    public SelectListControlAdapter(Context context, List<CommonEntity> list) {
         super(context, list);
     }
 
@@ -29,9 +29,9 @@ public class SelectListControlAdapter extends FmcBaseAdapter<Map<String, Object>
         }
         TextView txtId = (TextView) convertView.findViewById(R.id.select_item_txt_id);
         TextView txtName = (TextView) convertView.findViewById(R.id.select_item_txt_name);
-        Map<String, Object> item = mItems.get(position);
-        txtId.setText(item.get("id").toString());
-        txtName.setText(item.get("fullname").toString());
+        CommonEntity item = mItems.get(position);
+        txtId.setText(item.getId());
+        txtName.setText(item.getFullName());
         return convertView;
     }
 }

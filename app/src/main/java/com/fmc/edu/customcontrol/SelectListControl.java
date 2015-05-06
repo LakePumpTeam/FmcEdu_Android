@@ -1,9 +1,11 @@
 package com.fmc.edu.customcontrol;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +19,7 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.SelectListControlAdapter;
 import com.fmc.edu.entity.CommonEntity;
-import com.fmc.edu.http.HttpTools;
-import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
-import com.fmc.edu.utils.MapTokenTypeUtils;
-import com.fmc.edu.utils.ToastToolUtils;
-import com.koushikdutta.async.future.FutureCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +28,16 @@ import java.util.Map;
  */
 public class SelectListControl extends PopupWindow {
     private Button btnLoadMore;
-    private LinearLayout llTitle;
     private ListView listView;
     private TextView txtTitle;
-    private View mListenerView;
-    private View mView;
+    private View mClickView;
     private View mLoadMoreView;
-    private ProgressControl progressControl;
+
     private Context mContext;
     private SelectListControlAdapter mSelectListControlAdapter;
     private OnItemSelectedListener mOnItemSelectedListener;
     private List<CommonEntity> mSourceList;
     private String mTitle;
-    private String mMethodPath;
-    private Map<String, Object> mParameter;
     private final static int MAX_PAGE_SIZE = 15;
     private int mPageCount;
 
@@ -55,64 +46,77 @@ public class SelectListControl extends PopupWindow {
         void onItemSelected(CommonEntity obj, View view);
     }
 
-    public SelectListControl(Context context) {
+    public SelectListControl(Context context, List<CommonEntity> sourceList, String title, View clickView) {
         super(context, null);
         mContext = context;
+        mSourceList = sourceList;
+        mTitle = title;
+        mClickView = clickView;
         initPopWindow();
         initContentView();
     }
 
     private void initContentView() {
-        mView = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
-        llTitle = (LinearLayout) mView.findViewById(R.id.select_list_ll_title);
-        txtTitle = (TextView) mView.findViewById(R.id.select_list_txt_title);
-        listView = (ListView) mView.findViewById(R.id.select_list_list);
-        txtTitle.setText(mTitle);
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        linearLayout.setPadding(40, 30, 40, 30);
+        linearLayout.setLayoutParams(params);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
 
-        // bindListView();
-        this.setContentView(mView);
+
+        View view = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
+        txtTitle = (TextView) view.findViewById(R.id.select_list_txt_title);
+        listView = (ListView) view.findViewById(R.id.select_list_list);
+        txtTitle.setText(mTitle);
+        linearLayout.addView(view);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        view.setMinimumHeight(dm.heightPixels * 2 / 3);
+        this.setContentView(linearLayout);
+
+        bindListView();
         listView.setOnItemClickListener(onItemClickListener);
-        progressControl = new ProgressControl(mContext);
     }
 
     private void initPopWindow() {
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setFocusable(false);
-        this.setOutsideTouchable(false);
-        this.setTouchable(false);
+        this.setFocusable(true);
+        this.setOutsideTouchable(true);
+        this.setTouchable(true);
         ColorDrawable dw = new ColorDrawable(-000000);
         this.setBackgroundDrawable(dw);
-    }
-
-    public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
-        this.mOnItemSelectedListener = sourceListener;
     }
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             CommonEntity obj = (CommonEntity) parent.getAdapter().getItem(position);
-            mOnItemSelectedListener.onItemSelected(obj, mListenerView);
+            mOnItemSelectedListener.onItemSelected(obj, mClickView);
             dismiss();
         }
     };
 
     private void bindListView() {
+        if (null == mSourceList || 0 == mSourceList.size()) {
+            return;
+        }
+
         mLoadMoreView = LayoutInflater.from(mContext).inflate(R.layout.control_filter_load_more, null);
         btnLoadMore = (Button) mLoadMoreView.findViewById(R.id.filter_load_more_btn);
         if (null == btnLoadMore) {
             return;
         }
-
         btnLoadMore.setOnClickListener(loadMoreOnClickListener);
-
         boolean isAddFooter = mSourceList.size() >= MAX_PAGE_SIZE;
         if (isAddFooter) {
             listView.addFooterView(mLoadMoreView);
         }
         if (null == listView.getAdapter()) {
-            mSelectListControlAdapter = new SelectListControlAdapter(mContext, null);
+            mSelectListControlAdapter = new SelectListControlAdapter(mContext, mSourceList);
             listView.setAdapter(mSelectListControlAdapter);
         }
     }
@@ -141,23 +145,6 @@ public class SelectListControl extends PopupWindow {
 //        }
     }
 
-    private void getParameter() {
-        List<String> filterKey = new ArrayList<String>();
-        filterKey.add("");
-        mParameter.put("filterkey", filterKey);
-        List<String> pageCount = new ArrayList<String>();
-        pageCount.add(String.valueOf(mPageCount));
-        mParameter.put("pagecount", pageCount);
-        List<String> filterSize = new ArrayList<String>();
-        filterKey.add(String.valueOf(MAX_PAGE_SIZE));
-        mParameter.put("pagesize", filterSize);
-    }
-
-    private void handleData(List<Map<String, Object>> data) {
-        mSelectListControlAdapter.addAllItems(data, false);
-        mSelectListControlAdapter.notifyDataSetChanged();
-    }
-
     private View.OnClickListener loadMoreOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -165,4 +152,13 @@ public class SelectListControl extends PopupWindow {
             loadData();
         }
     };
+
+    public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
+        this.mOnItemSelectedListener = sourceListener;
+    }
+
+    public void setLoadMoreData(List<CommonEntity> data) {
+        mSelectListControlAdapter.addAllItems(data, false);
+        mSelectListControlAdapter.notifyDataSetChanged();
+    }
 }
