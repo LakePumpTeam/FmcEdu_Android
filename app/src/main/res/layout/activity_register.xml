@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
-        android:layout_marginBottom="@dimen/activity_margin"
         fmc:topTitle="@string/title_activity_register" />
 
     <LinearLayout
@@ -56,7 +55,6 @@
             <EditText
                 android:id="@+id/register_edit_auth_code"
                 style="@style/EditTextStyle"
-
                 android:layout_alignParentLeft="true"
                 android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
                 android:hint="@string/hint_input_auth_code" />

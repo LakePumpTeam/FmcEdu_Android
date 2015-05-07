@@ -7,8 +7,7 @@
     <color name="activity_top_bar_font_color">#fff</color>
     <color name="activity_font_color">#fff</color>
 
-    <color name="annotation_txt_font_color">#ccc</color>
-
+    <color name="annotation_txt_font_color">#979a9a</color>
 
     <color name="btn_bg_color_un_enable">#c5c5c5</color>
     <color name="btn_bg_color_nor">#34c8c9</color>
@@ -18,7 +17,7 @@
 
     <color name="divider_bg_color">#ccc</color>
 
-    <color name="edit_text_font_color">#fff</color>
+    <color name="edit_text_font_color">#555</color>
     <color name="edit_text_hint_font_color">#b4b4b4</color>
     <color name="edit_text_bg_color">#fff</color>
     <color name="edit_text_border_color">#fff</color>
