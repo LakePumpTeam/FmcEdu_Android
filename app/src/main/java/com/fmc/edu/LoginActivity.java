@@ -9,8 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
+import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ValidationUtils;
+
+import static com.fmc.edu.customcontrol.PromptWindowControl.OnOperateOnClickListener;
 
 
 public class LoginActivity extends Activity {
@@ -54,7 +57,17 @@ public class LoginActivity extends Activity {
     private View.OnClickListener txtForgetPasswordOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 忘记密码操作
+            PromptWindowControl promptWindowControl = new PromptWindowControl(LoginActivity.this);
+            promptWindowControl.setOnOperateOnClickListener(operateOnClickListener);
+            promptWindowControl.showWindow(v, "忘记密码?", "你可以通过注册手机重置密码", "重置密码");
+        }
+    };
+
+
+    private OnOperateOnClickListener operateOnClickListener = new OnOperateOnClickListener() {
+        @Override
+        public void onOperateOnClick() {
+//TODO 重置密码操作
         }
     };
 

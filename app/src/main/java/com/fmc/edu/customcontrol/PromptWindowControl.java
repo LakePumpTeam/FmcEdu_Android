@@ -58,7 +58,7 @@ public class PromptWindowControl extends PopupWindow {
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.control_alert_window, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.control_prompt_window, null);
         view.setMinimumWidth(mDisplayMetrics.widthPixels * 4 / 5);
 
         txtTitle = (TextView) view.findViewById(R.id.prompt_window_txt_title);
