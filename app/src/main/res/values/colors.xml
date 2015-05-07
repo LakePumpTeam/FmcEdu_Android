@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="activity_bg_color">#F0FCFC</color>
-    <color name="activity_top_bar_color">#03A9F5</color>
+    <color name="activity_top_bar_color">#01BABC</color>
     <color name="activity_top_bar_font_color">#fff</color>
     <color name="activity_font_color">#01BABC</color>
 
     <color name="annotation_txt_font_color">#ccc</color>
 
-
-    <color name="bg_color_un_enable">#aaa</color>
+    <color name="btn_bg_color_un_enable">#aaa</color>
 
     <color name="btn_font_color_enable">#fff</color>
     <color name="btn_font_color_un_enable">#ccc</color>
@@ -19,12 +18,15 @@
 
     <color name="edit_text_font_color">#333</color>
     <color name="edit_text_hint_font_color">#ccc</color>
-    <color name="edit_text_bg_color">#E5EFF6</color>
+    <color name="edit_text_bg_color">#fff</color>
     <color name="edit_text_border_color">#01BABC</color>
+
+    <color name="label_import_font_color">#ff0000</color>
 
     <color name="popup_window_alert_bg_color">#F3F3F3</color>
     <color name="popup_window_alert_font_color">#333</color>
     <color name="popup_window_alert_btn_font_color">#3F98FB</color>
+
 
     <color name="select_list_bg_color">#333</color>
     <color name="select_list_divider_color">#444</color>

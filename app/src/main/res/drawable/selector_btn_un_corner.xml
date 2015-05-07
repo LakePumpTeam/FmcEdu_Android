@@ -12,7 +12,7 @@
     </item>
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/bg_color_un_enable"/>
+            <solid android:color="@color/btn_bg_color_un_enable"/>
         </shape>
     </item>
     <item>

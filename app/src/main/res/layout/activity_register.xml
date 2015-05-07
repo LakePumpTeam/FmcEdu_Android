@@ -2,25 +2,29 @@
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
-        fmc:backVisible="false"
+        fmc:backVisible="true"
+        android:layout_marginBottom="@dimen/activity_margin"
         fmc:topTitle="@string/title_activity_register" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
         android:layout_marginTop="@dimen/activity_margin"
         android:orientation="vertical">
 
+        <View style="@style/DividerLineStyle" />
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/edit_text_bg_color"
+            android:padding="@dimen/activity_padding_middle">
 
             <EditText
                 android:id="@+id/register_edit_cellphone"
@@ -32,50 +36,83 @@
 
             <com.fmc.edu.customcontrol.ValidateButtonControl
                 android:id="@+id/register_validate_btn_get_auth_code"
-                style="@style/UnRoundCornerShortButtonStyle"
+                style="@style/OvalButtonStyle"
+                android:paddingLeft="@dimen/activity_padding"
+                android:paddingRight="@dimen/activity_padding"
+                android:layout_width="wrap_content"
                 android:layout_alignParentRight="true"
                 android:enabled="false"
                 android:text="@string/get_auth_code" />
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/register_edit_auth_code"
-            style="@style/EditTextStyle"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
-            android:hint="@string/hint_input_auth_code" />
-
-        <EditText
-            android:id="@+id/register_edit_password"
-            style="@style/EditTextStyle"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
-            android:hint="@string/hint_input_password"
-            android:inputType="textPassword"
-            android:maxLength="16" />
+        <View style="@style/DividerLineStyle" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:orientation="horizontal">
+            android:background="@color/edit_text_bg_color"
+            android:padding="@dimen/activity_padding_middle">
 
-            <CheckBox
-                android:id="@+id/register_ck_read_agreement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/register_edit_auth_code"
+                style="@style/EditTextStyle"
 
-            <TextView
-                style="@style/AnnotationTextStyle"
-                android:text="我已阅读并接受《xxx协议》" />
+                android:layout_alignParentLeft="true"
+                android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+                android:hint="@string/hint_input_auth_code" />
         </LinearLayout>
+
+        <View style="@style/DividerLineStyle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/edit_text_bg_color"
+            android:padding="@dimen/activity_padding_middle">
+
+            <EditText
+                android:id="@+id/register_edit_password"
+                style="@style/EditTextStyle"
+                android:layout_alignParentLeft="true"
+                android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+                android:hint="@string/hint_input_password"
+                android:inputType="textPassword"
+                android:maxLength="16" />
+        </LinearLayout>
+
+        <View style="@style/DividerLineStyle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/edit_text_bg_color"
+            android:padding="@dimen/activity_padding_middle">
+
+            <EditText
+                android:id="@+id/register_edit_confirm_password"
+                style="@style/EditTextStyle"
+                android:layout_alignParentLeft="true"
+                android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
+                android:hint="@string/hint_confirm_password"
+                android:inputType="textPassword"
+                android:maxLength="16" />
+        </LinearLayout>
+
+        <View style="@style/DividerLineStyle" />
+
+        <CheckBox
+            android:id="@+id/register_ck_read_agreement"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_middle"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_middle"
+            android:textColor="@color/annotation_txt_font_color"
+            android:text="@string/txt_read_agreement" />
 
         <Button
             android:id="@+id/register_btn_next_step"
-            style="@style/LongButtonStyle"
-            android:layout_marginTop="@dimen/activity_margin"
+            style="@style/OvalButtonStyle"
+            android:layout_margin="@dimen/activity_margin"
             android:enabled="false"
             android:text="@string/next_step" />
     </LinearLayout>

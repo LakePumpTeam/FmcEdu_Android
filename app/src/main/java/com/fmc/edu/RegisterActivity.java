@@ -9,9 +9,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.fmc.edu.common.MyTextWatcher;
+import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ValidationUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterActivity extends Activity {
@@ -21,6 +25,7 @@ public class RegisterActivity extends Activity {
     private EditText editCellphone;
     private EditText editAuthCode;
     private EditText editPassword;
+    private EditText editConfirmPassword;
     private ValidateButtonControl validateBtnGetAuthCode;
 
 
@@ -38,6 +43,7 @@ public class RegisterActivity extends Activity {
         editCellphone = (EditText) findViewById(R.id.register_edit_cellphone);
         editAuthCode = (EditText) findViewById(R.id.register_edit_auth_code);
         editPassword = (EditText) findViewById(R.id.register_edit_password);
+        editConfirmPassword = (EditText) findViewById(R.id.register_edit_confirm_password);
         validateBtnGetAuthCode = (ValidateButtonControl) findViewById(R.id.register_validate_btn_get_auth_code);
     }
 
@@ -62,7 +68,17 @@ public class RegisterActivity extends Activity {
     private View.OnClickListener btnNextStepOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String password = editPassword.getText().toString();
+            String confirmPassword = editConfirmPassword.getText().toString();
+            //TODO 检查验证码是否有效
+            if (!password.equals(confirmPassword)) {
+                AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
+                alertWindowControl.showWindow(v, "注册失败", "两次密码输入不一致");
+                return;
+            }
             Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
+            intent.putExtra("cellphone", editCellphone.getText().toString());
+            intent.putExtra("password", editPassword.getText().toString());
             startActivity(intent);
         }
     };
@@ -109,4 +125,5 @@ public class RegisterActivity extends Activity {
         }
         btnNextStep.setEnabled(false);
     }
+
 }

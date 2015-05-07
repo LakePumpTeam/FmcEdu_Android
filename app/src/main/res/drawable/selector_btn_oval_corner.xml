@@ -12,6 +12,12 @@
             <corners android:radius="1000dp"></corners>
         </shape>
     </item>
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="@color/btn_bg_color_un_enable"></solid>
+            <corners android:radius="1000dp"></corners>
+        </shape>
+    </item>
     <item>
         <shape>
             <solid android:color="@color/btn_bg_color_enable"></solid>

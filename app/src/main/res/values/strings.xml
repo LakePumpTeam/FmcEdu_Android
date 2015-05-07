@@ -13,7 +13,8 @@
 
     <string name="hint_input_cellphone">请输入手机号</string>
     <string name="hint_input_auth_code">输入验证码</string>
-    <string name="hint_input_password">密码需要6-16位字符</string>
+    <string name="hint_input_password">设置密码,密码需要6-16位字符</string>
+    <string name="hint_confirm_password">确认密码,请再次输入密码</string>
     <string name="hint_device_code">设备编号</string>
     <string name="hint_device_card_num">设备卡号</string>
     <string name="hint_stu_name">学生姓名</string>
@@ -23,15 +24,16 @@
     <string name="hint_stu_sex">学生性别</string>
     <string name="hint_address">家庭住址</string>
     <string name="hint_comment">备注信息</string>
-    <string name="hint_choice_province">选择省</string>
+    <string name="hint_choice_province">地区</string>
     <string name="hint_choice_city">选择市</string>
     <string name="hint_choice_school">选择学校</string>
 
-    <string name="label_class">班级</string>
-    <string name="label_grade">年级</string>
+    <string name="label_class">年级</string>
+    <string name="label_grade">班级</string>
     <string name="label_teacher">班主任</string>
 
     <string name="next_step">下一步</string>
+    <string name="txt_read_agreement">我已阅读并接受《服务协议》</string>
 
 
 </resources>
