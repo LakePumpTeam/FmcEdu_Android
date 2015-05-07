@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
-    android:background="@drawable/shape_round_corner_light"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/activity_margin"
     android:layout_marginRight="@dimen/activity_margin"
-    android:layout_height="wrap_content">
+    android:background="@drawable/shape_round_corner_light"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/prompt_window_txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
         android:textColor="@color/popup_window_alert_font_color"
-        android:textSize="@dimen/font_size_middle"
-        android:layout_marginTop="@dimen/activity_margin" />
+        android:textSize="@dimen/font_size_middle" />
 
 
     <TextView
         android:id="@+id/prompt_window_txt_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_small"
         android:layout_margin="@dimen/activity_margin"
-        android:textColor="@color/popup_window_alert_font_color" />
+        android:textColor="@color/popup_window_alert_font_color"
+        android:textSize="@dimen/font_size_small" />
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider_bg_color"
-        android:layout_height="@dimen/divider_height" />
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_bg_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/divider_bg_color"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_corner_light">
+
 
         <TextView
             android:id="@+id/prompt_window_txt_cancel"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:clickable="true"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_round_corner_light"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
             android:padding="@dimen/activity_padding"
+            android:text="取消"
             android:textColor="@color/popup_window_alert_btn_font_color"
-            android:textSize="@dimen/font_size_middle"
-            android:text="取消" />
+            android:textSize="@dimen/font_size_middle" />
 
-        <TextView
-            android:id="@+id/prompt_window_txt_operator"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/shape_round_corner_light"
-            android:clickable="true"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_padding"
-            android:textColor="@color/popup_window_alert_btn_font_color"
-            android:textSize="@dimen/font_size_middle"
-            android:text="重置密码" />
+            android:layout_weight="1"
+            android:background="@drawable/shape_round_corner_light">
+
+            <View
+                android:layout_width="@dimen/divider_height"
+                android:layout_height="match_parent"
+                android:background="@color/divider_bg_color"
+                android:layout_marginTop="@dimen/activity_margin_small"
+                android:layout_marginBottom="@dimen/activity_margin_small" />
+
+            <TextView
+                android:id="@+id/prompt_window_txt_operator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="@dimen/activity_padding"
+                android:text="重置密码"
+                android:textColor="@color/popup_window_alert_btn_font_color"
+                android:textSize="@dimen/font_size_middle" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

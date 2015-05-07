@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@color/activity_login_bg_color"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="35dp"
@@ -20,15 +20,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
         android:background="@drawable/shape_edit_oval_corner_border">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:src="@mipmap/ic_phone"/>
 
         <EditText
             android:id="@+id/login_edit_cellphone"
             style="@style/EditTextStyle"
+            android:textColorHint="@color/activity_login_hint_color"
             android:layout_marginLeft="@dimen/activity_margin_middle"
             android:background="@drawable/shape_edit_oval_corner"
             android:hint="@string/hint_input_cellphone" />
@@ -37,16 +42,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:layout_marginTop="@dimen/activity_margin"
         android:background="@drawable/shape_edit_oval_corner_border">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:src="@mipmap/ic_lock"/>
 
         <EditText
             android:id="@+id/login_edit_password"
             style="@style/EditTextStyle"
+            android:textColorHint="@color/activity_login_hint_color"
             android:layout_marginLeft="@dimen/activity_margin_middle"
             android:background="@drawable/shape_edit_oval_corner"
             android:hint="@string/edit_input_password"
@@ -66,7 +75,7 @@
 
     <Button
         android:id="@+id/login_btn_login"
-        style="@style/OvalButtonStyle"
+        style="@style/OvalButtonStyleBorder"
         android:layout_marginTop="@dimen/activity_margin"
         android:layout_marginBottom="@dimen/activity_margin_middle"
         android:text="@string/btn_login" />

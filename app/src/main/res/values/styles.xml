@@ -13,6 +13,10 @@
         <item name="android:background">@drawable/selector_btn_oval_corner</item>
     </style>
 
+    <style name="OvalButtonStyleBorder" parent="OvalButtonStyle">
+        <item name="android:background">@drawable/selector_btn_oval_corner_border</item>
+    </style>
+
     <style name="DropDownShortTextViewStyle">
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical</item>

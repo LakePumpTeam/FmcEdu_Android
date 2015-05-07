@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="activity_login_bg_color">#00bbbb</color>
+    <color name="activity_login_hint_color">#ddd</color>
     <color name="activity_bg_color">#F0FCFC</color>
     <color name="activity_top_bar_color">#01BABC</color>
     <color name="activity_top_bar_font_color">#fff</color>
-    <color name="activity_font_color">#01BABC</color>
+    <color name="activity_font_color">#fff</color>
 
     <color name="annotation_txt_font_color">#ccc</color>
 
-    <color name="btn_bg_color_un_enable">#aaa</color>
 
+    <color name="btn_bg_color_un_enable">#c5c5c5</color>
+    <color name="btn_bg_color_enable">#01babc</color>
+    <color name="btn_bg_color_sel">#01a2a4</color>
     <color name="btn_font_color_enable">#fff</color>
-    <color name="btn_font_color_un_enable">#ccc</color>
-    <color name="btn_bg_color_enable">#01BABC</color>
-    <color name="btn_bg_color_sel">#5B77D5</color>
+    <color name="btn_font_color_un_enable">#fff</color>
 
     <color name="divider_bg_color">#ccc</color>
 
-    <color name="edit_text_font_color">#333</color>
-    <color name="edit_text_hint_font_color">#ccc</color>
+    <color name="edit_text_font_color">#fff</color>
+    <color name="edit_text_hint_font_color">#b4b4b4</color>
     <color name="edit_text_bg_color">#fff</color>
-    <color name="edit_text_border_color">#01BABC</color>
+    <color name="edit_text_border_color">#fff</color>
 
     <color name="label_import_font_color">#ff0000</color>
 
     <color name="popup_window_alert_bg_color">#F3F3F3</color>
-    <color name="popup_window_alert_font_color">#333</color>
-    <color name="popup_window_alert_btn_font_color">#3F98FB</color>
+    <color name="popup_window_alert_font_color">#020000</color>
+    <color name="popup_window_alert_btn_font_color">#007bfe</color>
 
 
     <color name="select_list_bg_color">#333</color>
