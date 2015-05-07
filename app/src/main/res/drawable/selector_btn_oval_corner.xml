@@ -21,7 +21,7 @@
 
     <item>
         <shape>
-            <solid android:color="@color/btn_bg_color_enable"></solid>
+            <solid android:color="@color/btn_bg_color_nor"></solid>
             <corners android:radius="1000dp"></corners>
         </shape>
     </item>

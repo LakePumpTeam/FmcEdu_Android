@@ -11,8 +11,8 @@
 
 
     <color name="btn_bg_color_un_enable">#c5c5c5</color>
-    <color name="btn_bg_color_enable">#01babc</color>
-    <color name="btn_bg_color_sel">#01a2a4</color>
+    <color name="btn_bg_color_nor">#34c8c9</color>
+    <color name="btn_bg_color_sel">#03b5b8</color>
     <color name="btn_font_color_enable">#fff</color>
     <color name="btn_font_color_un_enable">#fff</color>
 
