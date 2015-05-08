@@ -36,6 +36,8 @@
     <color name="text_button_bg_color_sel">#03A933</color>
     <color name="text_button_font_color">#777</color>
     <color name="text_label_font_color">#999</color>
+    <color name="text_font_color_w">#fff</color>
+    <color name="text_font_color">#333</color>
 
 
 </resources>

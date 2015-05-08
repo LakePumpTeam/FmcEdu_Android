@@ -23,7 +23,7 @@ import android.widget.ImageView;
 public class CircleImageControl extends ImageView {
 
     Paint paint;
-    private int radius = 80;
+    private int radius = 100;
 
 
     public CircleImageControl(Context context, AttributeSet attrs) {
@@ -124,27 +124,18 @@ public class CircleImageControl extends ImageView {
     }
 
     private Bitmap MatirxBitMap(Bitmap bitmap) {
-        // 获取这个图片的宽和高
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
         double density = dm.density;
-        // 定义预转换成的图片的宽度和高度
         int newWidth = (int) (75 * density);
         int newHeight = (int) (75 * density);
 
-        // 计算缩放率，新尺寸除原始尺寸
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
-
-        // 创建操作图片用的matrix对象
         Matrix matrix = new Matrix();
-
-        // 缩放图片动作
         matrix.postScale(scaleWidth, scaleHeight);
-
-        // 创建新的图片
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
     }
 }

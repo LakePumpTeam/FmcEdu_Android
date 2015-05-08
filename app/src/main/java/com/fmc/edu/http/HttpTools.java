@@ -16,7 +16,7 @@ public class HttpTools {
     private static String STATUS = "status";
     private static String DATA = "data";
 
-    public static boolean isRequestSuccessfully(Exception e, Map<String, Object> data) {
+    public static boolean isRequestSuccessfully(Exception e, Map<String, ?> data) {
         if (e != null) {
             return false;
         }
@@ -27,7 +27,7 @@ public class HttpTools {
         return false;
     }
 
-    public static String getStatus(Map<String, Object> data) {
+    public static String getStatus(Map<String, ?> data) {
         if (data == null || data.get(STATUS) == null) {
             return null;
         }

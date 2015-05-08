@@ -52,11 +52,18 @@
         <item name="android:textSize">@dimen/font_size_small</item>
     </style>
 
+
     <style name="LabelTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_middle</item>
         <item name="android:textColor">@color/text_label_font_color</item>
         <item name="android:background">@color/edit_text_bg_color</item>
+    </style>
+    <style name="TextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_font_color</item>
+        <item name="android:textSize">@dimen/font_size_middle</item>
     </style>
 </resources>

@@ -132,7 +132,7 @@ public class RegisterActivity extends Activity {
                     .asString(Charset.forName("utf8"))
                     .setCallback(new FMCMapFutureCallback() {
                         @Override
-                        public void onTranslateCompleted(Exception e, Map<String, Object> result) {
+                        public void onTranslateCompleted(Exception e, Map<String, ?> result) {
                             progressControl.dismiss();
                             if (!HttpTools.isRequestSuccessfully(e, result)) {
                                 AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);

@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,18 @@ public class JsonToMapUtils {
         return toMap(object.getJSONObject(key));
     }
 
+    public static Map<String, ?> getMap(String str) {
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            return toMap(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Collections.EMPTY_MAP;
+    }
+
     public static Map<String, ?> toMap(JSONObject object) throws JSONException {
+
         Map<String, Object> map = new HashMap();
         Iterator keys = object.keys();
         while (keys.hasNext()) {

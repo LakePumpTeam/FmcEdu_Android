@@ -9,4 +9,8 @@
     <declare-styleable name="ValidateButtonControl">
         <attr name="repeatSendTime" format="integer" />
     </declare-styleable>
+    <declare-styleable name="MenuItemControl">
+        <attr name="menuName" format="string|reference" />
+        <attr name="drawableId" format="reference"></attr>
+    </declare-styleable>
 </resources>
