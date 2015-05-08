@@ -36,6 +36,9 @@
             android:name="com.fmc.edu.service_host"
             android:value="http://192.168.199.169/" />
 
+        <meta-data
+            android:name="com.fmc.edu.is_development"
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"

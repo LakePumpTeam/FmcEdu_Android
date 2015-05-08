@@ -105,12 +105,14 @@
             <EditText
                 android:id="@+id/related_info_edit_device_code"
                 style="@style/EditTextStyle"
+                android:paddingLeft="@dimen/activity_padding"
                 android:hint="@string/hint_device_code" />
 
             <View style="@style/DividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_device_card_num"
+                android:paddingLeft="@dimen/activity_padding"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_device_card_num" />
 
@@ -119,6 +121,7 @@
 
             <EditText
                 android:id="@+id/related_info_edit_birthday"
+                android:paddingLeft="@dimen/activity_padding"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_birthday" />
 
@@ -126,6 +129,7 @@
 
             <EditText
                 android:id="@+id/related_info_edit_address"
+                android:paddingLeft="@dimen/activity_padding"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_address" />
 
@@ -133,6 +137,7 @@
 
             <EditText
                 android:id="@+id/related_info_edit_comment"
+                android:paddingLeft="@dimen/activity_padding"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_comment" />
 
@@ -147,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_stu_sex"
-                    android:layout_marginLeft="@dimen/activity_margin_small"
+                    android:paddingLeft="@dimen/activity_padding"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/edit_text_font_color"
                     android:textSize="@dimen/font_size_small" />
@@ -161,7 +166,10 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@drawable/selector_radio_check"
                         android:textSize="@dimen/font_size_small"
+                        android:paddingLeft="@dimen/activity_padding_middle"
+                        android:layout_margin="@dimen/activity_margin_middle"
                         android:textColor="@color/edit_text_font_color"
                         android:text="女生" />
 
@@ -169,6 +177,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/font_size_small"
+                        android:layout_margin="@dimen/activity_margin_middle"
+                        android:button="@drawable/selector_radio_check"
+                        android:paddingLeft="@dimen/activity_padding_middle"
                         android:text="男生"
                         android:textColor="@color/edit_text_font_color" />
 

@@ -13,18 +13,14 @@ import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ValidationUtils;
-import com.koushikdutta.async.future.FutureCallback;
 
 import java.nio.charset.Charset;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class RegisterActivity extends Activity {
@@ -47,6 +43,10 @@ public class RegisterActivity extends Activity {
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);
+
+        if (AppConfigUtils.IsDevelopment()) {
+            initTestData();
+        }
     }
 
     private void initViews() {
@@ -139,28 +139,27 @@ public class RegisterActivity extends Activity {
     }
 
     private void doNextStep(View view) {
-        progressControl.showWindow(view);
-        try {
-            //TODO 路径没有配好
-            progressControl.showWindow(view);
-            MyIon.with(this)
-                    .load(AppConfigUtils.getServiceHost() + "url")
-                    .setBodyParameter("authcode", editCellphone.getText().toString())
-                    .as(new MapTokenTypeUtils())
-                    .setCallback(new FutureCallback<Map<String, Object>>() {
-                        @Override
-                        public void onCompleted(Exception e, Map<String, Object> result) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                return;
-                            }
-                            afterNextStep();
-                        }
-                    });
-        } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
-            e.printStackTrace();
-        }
+//        try {
+//            //TODO 路径没有配好
+//            progressControl.showWindow(view);
+//            MyIon.with(this)
+//                    .load(AppConfigUtils.getServiceHost() + "url")
+//                    .setBodyParameter("authcode", editCellphone.getText().toString())
+//                    .as(new MapTokenTypeUtils())
+//                    .setCallback(new FutureCallback<Map<String, Object>>() {
+//                        @Override
+//                        public void onCompleted(Exception e, Map<String, Object> result) {
+//                            progressControl.dismiss();
+//                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+//                                return;
+//                            }
+        afterNextStep();
+//                        }
+//                    });
+//        } catch (NetWorkUnAvailableException e) {
+//            progressControl.dismiss();
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -187,6 +186,14 @@ public class RegisterActivity extends Activity {
             return;
         }
         btnNextStep.setEnabled(false);
+    }
+
+    private void initTestData() {
+        ckReadAgreement.setChecked(true);
+        editCellphone.setText("13880454117");
+        editAuthCode.setText("123456");
+        editPassword.setText("123456");
+        editConfirmPassword.setText("123456");
     }
 
 }

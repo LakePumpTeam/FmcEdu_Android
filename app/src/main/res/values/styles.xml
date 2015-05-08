@@ -31,7 +31,7 @@
         <item name="android:textSize">@dimen/font_size_small</item>
         <item name="android:textColorHint">@color/edit_text_hint_font_color</item>
         <item name="android:textColor">@color/edit_text_font_color</item>
-        <item name="android:drawableRight">@mipmap/t</item>
+        <item name="android:drawableRight">@mipmap/ic_arrow_down</item>
     </style>
 
     <style name="DividerLineStyle">

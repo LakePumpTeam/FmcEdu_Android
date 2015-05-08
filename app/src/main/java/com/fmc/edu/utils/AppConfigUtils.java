@@ -3,7 +3,9 @@ package com.fmc.edu.utils;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import com.fmc.edu.FmcApplication;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,13 +14,20 @@ import java.util.Map;
  */
 public class AppConfigUtils {
     private static String SERVICE_HOST = "com.fmc.edu.service_host";
+    private static String IS_DEVELOPMENT = "com.fmc.edu.is_development";
+
     private static Map<String, Object> configCacheMap = new HashMap<String, Object>(10);
 
     public static String getServiceHost() {
         return ConvertUtils.getString(getValue(SERVICE_HOST, null));
     }
 
-    public static Object getValue(String metaKey, String defaultVal) {
+    public static boolean IsDevelopment() {
+        return ConvertUtils.getBoolean(getValue(IS_DEVELOPMENT, false));
+
+    }
+
+    public static Object getValue(String metaKey, Object defaultVal) {
         if (metaKey == null) {
             return defaultVal;
         }

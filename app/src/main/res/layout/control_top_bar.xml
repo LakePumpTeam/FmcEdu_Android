@@ -18,8 +18,8 @@
         <ImageView
             android:layout_width="@dimen/operate_icon_core_width"
             android:layout_height="@dimen/operate_icon_core_height"
-            android:scaleType="fitXY"
-            android:src="@mipmap/back" />
+            android:scaleType="center"
+            android:src="@mipmap/ic_back" />
     </LinearLayout>
 
     <LinearLayout

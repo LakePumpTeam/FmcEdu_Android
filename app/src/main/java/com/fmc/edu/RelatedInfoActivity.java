@@ -11,12 +11,20 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
+import com.fmc.edu.http.HttpTools;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.http.NetWorkUnAvailableException;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
+import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class RelatedInfoActivity extends Activity {
@@ -40,6 +48,8 @@ public class RelatedInfoActivity extends Activity {
     private String mCellphone;
     private String mPassword;
 
+    private ProgressControl mProgressControl;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class RelatedInfoActivity extends Activity {
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellphone");
         mPassword = getIntent().getStringExtra("password");
+        mProgressControl = new ProgressControl(this);
         initData();
     }
 
@@ -84,11 +95,10 @@ public class RelatedInfoActivity extends Activity {
     private View.OnClickListener btnSubmitAuditOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 提交审核
             if (!isInputFinish(v)) {
                 return;
             }
-            doSubmitAudit();
+            doSubmitAudit(v);
 
         }
     };
@@ -220,14 +230,75 @@ public class RelatedInfoActivity extends Activity {
         return true;
     }
 
-    private void doSubmitAudit() {
-        //TODO 调用提交注册审核的接口
+    private void doSubmitAudit(View view) {
+        try {
+            //TODO 路径没有配好
+            mProgressControl.showWindow(view);
+            MyIon.with(this)
+                    .load(AppConfigUtils.getServiceHost() + "提交审核路径")
+                    .setBodyParameter("address", editAddress.getText().toString())
+                    .setBodyParameter("cellphone", mCellphone)
+                    .setBodyParameter("birthday", editBirthday.getText().toString())
+                    .setBodyParameter("devicecardnum", editDeviceCardNum.getText().toString())
+                    .setBodyParameter("devicecode", editDeviceCode.getText().toString())
+                    .setBodyParameter("parname", editParName.getText().toString())
+                    .setBodyParameter("relation", editRelation.getText().toString())
+                    .setBodyParameter("stuname", editStuName.getText().toString())
+                    .setBodyParameter("sex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString())
+                    .setBodyParameter("password", editRelation.getText().toString())
+                    .setBodyParameter("schoolid", String.valueOf(txtSchool.getTag()))
+                    .setBodyParameter("proviceid", String.valueOf(txtProvince.getTag()))
+                    .setBodyParameter("cityid", String.valueOf(txtCity.getTag()))
+                    .setBodyParameter("classid", String.valueOf(txtClass.getTag()))
+                    .setBodyParameter("gradeid", String.valueOf(txtGrade.getTag()))
+                    .setBodyParameter("teacherid", String.valueOf(txtTeacher.getTag()))
+                    .as(new MapTokenTypeUtils())
+                    .setCallback(new FutureCallback<Map<String, Object>>() {
+                        @Override
+                        public void onCompleted(Exception e, Map<String, Object> result) {
+                            mProgressControl.dismiss();
+                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                return;
+                            }
+                            afterInitSubmit();
+                        }
+                    });
+        } catch (NetWorkUnAvailableException e) {
+            mProgressControl.dismiss();
+            e.printStackTrace();
+        }
     }
 
     private void initData() {
         ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
-        //TODO 调用接口，对部分数据进行初始化
-//        editAddress.setText("高薪区华阳");
+
+        try {
+            //TODO 路径没有配好、参数没有定好
+            mProgressControl.showWindow(btnSubmitAudit);
+            MyIon.with(this)
+                    .load(AppConfigUtils.getServiceHost() + "提交审核路径")
+                    .setBodyParameter("cellphone", mCellphone)
+                    .as(new MapTokenTypeUtils())
+                    .setCallback(new FutureCallback<Map<String, Object>>() {
+                        @Override
+                        public void onCompleted(Exception e, Map<String, Object> result) {
+                            mProgressControl.dismiss();
+                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                return;
+                            }
+                            afterInitData();
+                        }
+                    });
+        } catch (NetWorkUnAvailableException e) {
+            mProgressControl.dismiss();
+            e.printStackTrace();
+        }
+
+    }
+
+    private void afterInitData() {
+        //TODO 调用接口，对返回的数据进行绑定
+        //        editAddress.setText("高薪区华阳");
 //        editBirthday.setText("2015年05月05日");
 //
 //        txtClass.setText("7");
@@ -253,6 +324,10 @@ public class RelatedInfoActivity extends Activity {
 //
 //        editStuName.setText("张三");
 //        txtTeacher.setText("李老师");
+    }
+
+    private void afterInitSubmit(){
+
     }
 
     private List<CommonEntity> testClassList() {
