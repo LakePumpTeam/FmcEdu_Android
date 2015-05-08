@@ -1,11 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_margin"
-    android:paddingRight="@dimen/activity_margin"
-    android:paddingTop="@dimen/activity_margin"
-    android:paddingBottom="@dimen/activity_margin"
-    tools:context=".MainActivity">
+    android:background="@color/activity_bg_color">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:operatorImageSrc="@mipmap/ic_setting"
+        fmc:topTitle="@string/app_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@mipmap/main_bg">
+
+    </LinearLayout>
+
 
 </RelativeLayout>

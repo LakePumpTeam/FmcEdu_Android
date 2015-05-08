@@ -13,11 +13,15 @@ import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.FMCMapFutureCallback;
+import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 import com.fmc.edu.utils.ValidationUtils;
+import com.koushikdutta.async.future.FutureCallback;
 
 import java.nio.charset.Charset;
 import java.util.Map;
@@ -130,6 +134,11 @@ public class RegisterActivity extends Activity {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, Object> result) {
                             progressControl.dismiss();
+                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
+                                alertWindowControl.showWindow(btnNextStep, "获取失败", e.getMessage());
+                                return;
+                            }
                         }
                     });
         } catch (NetWorkUnAvailableException e) {
@@ -139,27 +148,29 @@ public class RegisterActivity extends Activity {
     }
 
     private void doNextStep(View view) {
-//        try {
-//            //TODO 路径没有配好
-//            progressControl.showWindow(view);
-//            MyIon.with(this)
-//                    .load(AppConfigUtils.getServiceHost() + "url")
-//                    .setBodyParameter("authcode", editCellphone.getText().toString())
-//                    .as(new MapTokenTypeUtils())
-//                    .setCallback(new FutureCallback<Map<String, Object>>() {
-//                        @Override
-//                        public void onCompleted(Exception e, Map<String, Object> result) {
-//                            progressControl.dismiss();
-//                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-//                                return;
-//                            }
-        afterNextStep();
-//                        }
-//                    });
-//        } catch (NetWorkUnAvailableException e) {
-//            progressControl.dismiss();
-//            e.printStackTrace();
-//        }
+        try {
+            //TODO 路径没有配好
+            progressControl.showWindow(view);
+            MyIon.with(this)
+                    .load(AppConfigUtils.getServiceHost() + "注册成功路径")
+                    .setBodyParameter("authcode", editCellphone.getText().toString())
+                    .as(new MapTokenTypeUtils())
+                    .setCallback(new FutureCallback<Map<String, Object>>() {
+                        @Override
+                        public void onCompleted(Exception e, Map<String, Object> result) {
+                            progressControl.dismiss();
+                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
+                                alertWindowControl.showWindow(btnNextStep, "注册失败", e.getMessage());
+                                return;
+                            }
+                            afterNextStep();
+                        }
+                    });
+        } catch (NetWorkUnAvailableException e) {
+            progressControl.dismiss();
+            e.printStackTrace();
+        }
 
     }
 
@@ -167,8 +178,7 @@ public class RegisterActivity extends Activity {
         String password = editPassword.getText().toString();
         String confirmPassword = editConfirmPassword.getText().toString();
         if (!password.equals(confirmPassword)) {
-            AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
-            alertWindowControl.showWindow(btnNextStep, "注册失败", "两次密码输入不一致");
+            ToastToolUtils.showLong("两次密码输入不一致");
             return;
         }
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);

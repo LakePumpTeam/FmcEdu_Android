@@ -20,6 +20,7 @@ import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class RelatedInfoActivity extends Activity {
     private View.OnClickListener btnSubmitAuditOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (!isInputFinish(v)) {
+            if (!isInputFinish()) {
                 return;
             }
             doSubmitAudit(v);
@@ -185,46 +186,41 @@ public class RelatedInfoActivity extends Activity {
     }
 
 
-    private boolean isInputFinish(View view) {
-        AlertWindowControl alertWindowControl = new AlertWindowControl(this);
+    private boolean isInputFinish() {
         if (StringUtils.isEmptyOrNull(txtProvince.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择省份");
+            ToastToolUtils.showLong("请选择省份");
             return false;
         }
         if (StringUtils.isEmptyOrNull(txtCity.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择城市");
+            ToastToolUtils.showLong("请选择城市");
             return false;
         }
         if (StringUtils.isEmptyOrNull(txtSchool.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择学校");
+            ToastToolUtils.showLong("请选择学校");
             return false;
         }
         if (StringUtils.isEmptyOrNull(txtClass.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择年级");
+            ToastToolUtils.showLong("请选择年级");
             return false;
         }
         if (StringUtils.isEmptyOrNull(txtTeacher.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "班主任不能为空");
+            ToastToolUtils.showLong("班主任不能为空");
             return false;
         }
         if (StringUtils.isEmptyOrNull(editParName.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请输入家长姓名");
+            ToastToolUtils.showLong("请输入家长姓名");
             return false;
         }
         if (StringUtils.isEmptyOrNull(editStuName.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请输入学生姓名");
+            ToastToolUtils.showLong("请输入学生姓名");
             return false;
         }
         if (StringUtils.isEmptyOrNull(editRelation.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请录入与学生的关系");
+            ToastToolUtils.showLong("请录入与学生的关系");
             return false;
         }
         if (StringUtils.isEmptyOrNull(txtProvince.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择省份");
-            return false;
-        }
-        if (StringUtils.isEmptyOrNull(txtProvince.getText())) {
-            alertWindowControl.showWindow(view, "提交失败", "请选择省份");
+            ToastToolUtils.showLong("请选择省份");
             return false;
         }
         return true;
@@ -245,7 +241,7 @@ public class RelatedInfoActivity extends Activity {
                     .setBodyParameter("relation", editRelation.getText().toString())
                     .setBodyParameter("stuname", editStuName.getText().toString())
                     .setBodyParameter("sex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString())
-                    .setBodyParameter("password", editRelation.getText().toString())
+                    .setBodyParameter("password", mPassword)
                     .setBodyParameter("schoolid", String.valueOf(txtSchool.getTag()))
                     .setBodyParameter("proviceid", String.valueOf(txtProvince.getTag()))
                     .setBodyParameter("cityid", String.valueOf(txtCity.getTag()))
@@ -258,6 +254,8 @@ public class RelatedInfoActivity extends Activity {
                         public void onCompleted(Exception e, Map<String, Object> result) {
                             mProgressControl.dismiss();
                             if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                AlertWindowControl alertWindowControl = new AlertWindowControl(RelatedInfoActivity.this);
+                                alertWindowControl.showWindow(btnSubmitAudit, "提交失败", e.getMessage());
                                 return;
                             }
                             afterInitSubmit();
@@ -276,7 +274,7 @@ public class RelatedInfoActivity extends Activity {
             //TODO 路径没有配好、参数没有定好
             mProgressControl.showWindow(btnSubmitAudit);
             MyIon.with(this)
-                    .load(AppConfigUtils.getServiceHost() + "提交审核路径")
+                    .load(AppConfigUtils.getServiceHost() + "获取初始值路径")
                     .setBodyParameter("cellphone", mCellphone)
                     .as(new MapTokenTypeUtils())
                     .setCallback(new FutureCallback<Map<String, Object>>() {
@@ -326,8 +324,8 @@ public class RelatedInfoActivity extends Activity {
 //        txtTeacher.setText("李老师");
     }
 
-    private void afterInitSubmit(){
-
+    private void afterInitSubmit() {
+//TODO 提交成功后的操作
     }
 
     private List<CommonEntity> testClassList() {
