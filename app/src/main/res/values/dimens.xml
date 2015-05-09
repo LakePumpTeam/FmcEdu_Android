@@ -9,6 +9,7 @@
     <dimen name="activity_padding">16dp</dimen>
 
     <dimen name="activity_top_bar_height">48dp</dimen>
+    <dimen name="activity_bottom_bar_height">48dp</dimen>
 
     <dimen name="btn_height">48dp</dimen>
 

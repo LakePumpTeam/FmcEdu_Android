@@ -26,11 +26,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        initData();
+      //  initData();
     }
 
     private void initViews() {
-        gridMenu = (GridView) findViewById(R.id.main_grid_menu);
+//        gridMenu = (GridView) findViewById(R.id.main_grid_menu);
         txtTeacher = (TextView) findViewById(R.id.main_txt_teacher);
         txtClassGrade = (TextView) findViewById(R.id.main_txt_class_grade);
     }

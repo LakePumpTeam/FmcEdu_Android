@@ -28,8 +28,8 @@ public class MainMenuAdapter extends FmcBaseAdapter<MenuItemEntity> {
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_main_grid, null);
         }
-        TextView gridMenu = (TextView) convertView.findViewById(R.id.item_main_grid_menu);
-        ImageView hasDynamic = (ImageView) convertView.findViewById(R.id.item_main_grid_has_dynamic);
+        TextView gridMenu = (TextView) convertView.findViewById(R.id.item_main_grid_txt_menu);
+        ImageView hasDynamic = (ImageView) convertView.findViewById(R.id.item_main_grid_img_has_dynamic);
 
         MenuItemEntity item = mItems.get(position);
         gridMenu.setText(item.menuName);

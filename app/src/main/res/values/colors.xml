@@ -39,5 +39,7 @@
     <color name="text_font_color_w">#fff</color>
     <color name="text_font_color">#333</color>
 
+    <color name="gradient_center_color">#ffcccccc</color>
+    <color name="gradient_start_end_color">#00cccccc</color>
 
 </resources>

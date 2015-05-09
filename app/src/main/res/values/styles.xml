@@ -34,11 +34,21 @@
         <item name="android:drawableRight">@mipmap/ic_arrow_down</item>
     </style>
 
-    <style name="DividerLineStyle">
+    <style name="HorizontalDividerLineStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/divider_height</item>
         <item name="android:background">@color/divider_bg_color</item>
     </style>
+
+    <style name="VerticalGradientDividerLineStyle">
+        <item name="android:layout_width">@dimen/divider_height</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/shape_layout_vertical_gradient_color</item>
+    </style>
+    <style name="HorizontalGradientDividerLineStyle" parent="HorizontalDividerLineStyle">
+        <item name="android:background">@drawable/shape_layout_horizontal_gradient_color</item>
+    </style>
+
 
     <style name="EditTextStyle">
         <item name="android:background">@color/edit_text_bg_color</item>

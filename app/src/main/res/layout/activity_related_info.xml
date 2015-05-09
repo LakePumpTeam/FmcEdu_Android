@@ -31,7 +31,7 @@
                 android:drawableLeft="@mipmap/icon_required"
                 android:layout_marginTop="@dimen/activity_margin_middle" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_city"
@@ -39,7 +39,7 @@
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/hint_choice_city" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_school"
@@ -47,7 +47,7 @@
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/hint_choice_school" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_class"
@@ -55,7 +55,7 @@
                 android:hint="@string/label_class"
                 android:drawableLeft="@mipmap/icon_required" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_grade"
@@ -63,7 +63,7 @@
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/label_grade" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_teacher"
@@ -73,7 +73,7 @@
                 android:hint="@string/label_teacher" />
 
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_par_name"
@@ -82,7 +82,7 @@
                 android:drawablePadding="@dimen/activity_padding_middle"
                 android:hint="@string/hint_par_name" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_stu_name"
@@ -91,7 +91,7 @@
                 android:drawablePadding="@dimen/activity_padding_middle"
                 android:hint="@string/hint_stu_name" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_relation"
@@ -100,7 +100,7 @@
                 android:drawablePadding="@dimen/activity_padding_middle"
                 android:hint="@string/hint_relation" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_device_code"
@@ -108,7 +108,7 @@
                 android:paddingLeft="@dimen/activity_padding"
                 android:hint="@string/hint_device_code" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_device_card_num"
@@ -116,7 +116,7 @@
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_device_card_num" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
 
             <EditText
@@ -125,7 +125,7 @@
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_birthday" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_address"
@@ -133,7 +133,7 @@
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_address" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_comment"
@@ -141,7 +141,7 @@
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_comment" />
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <LinearLayout
                 android:background="@color/edit_text_bg_color"
@@ -186,7 +186,7 @@
                 </RadioGroup>
             </LinearLayout>
 
-            <View style="@style/DividerLineStyle" />
+            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:layout_width="wrap_content"

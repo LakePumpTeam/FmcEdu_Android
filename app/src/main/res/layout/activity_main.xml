@@ -2,14 +2,14 @@
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/activity_bg_color">
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
         android:id="@+id/main_top_bar"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="@dimen/activity_top_bar_height"
+        android:layout_alignParentTop="true"
         fmc:backVisible="true"
         fmc:operatorImageSrc="@mipmap/ic_setting"
         fmc:topTitle="@string/app_name" />
@@ -17,11 +17,12 @@
     <LinearLayout
         android:id="@+id/main_ll_user_info"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="143dp"
         android:layout_below="@+id/main_top_bar"
-        android:orientation="vertical"
+        android:background="@mipmap/main_bg"
+
         android:gravity="center"
-        android:background="@mipmap/main_bg">
+        android:orientation="vertical">
 
         <com.fmc.edu.customcontrol.CircleImageControl
             android:layout_width="80dp"
@@ -43,32 +44,212 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/main_ll_bottom_bar"
+        android:layout_below="@+id/main_ll_user_info"
+        android:layout_marginTop="@dimen/activity_margin_middle"
+        android:background="#fff"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/main_view_school_down_line"
+                    fmc:drawableId="@mipmap/ic_school_dynamic"
+                    fmc:menuName="校园动态"></com.fmc.edu.customcontrol.MenuItemControl>
+
+                <View
+                    android:id="@+id/main_view_school_down_line"
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentLeft="true"></View>
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_grade_dynamic"
+                    fmc:menuName="班级动态"></com.fmc.edu.customcontrol.MenuItemControl>
+
+                <View
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_marginTop="@dimen/activity_margin_middle"></View>
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_syllabus_dynamic"
+                    fmc:menuName="课程表"></com.fmc.edu.customcontrol.MenuItemControl>
+
+                <View
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true"></View>
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    fmc:drawableId="@mipmap/ic_parenting"
+                    fmc:menuName="亲子教育" />
+
+                <View
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentLeft="true" />
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_kids_school"
+                    fmc:menuName="育儿课堂" />
+
+                <View
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <View style="@style/VerticalGradientDividerLineStyle" />
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_campus"
+                    fmc:menuName="校园吧"></com.fmc.edu.customcontrol.MenuItemControl>
+
+                <View
+                    style="@style/HorizontalGradientDividerLineStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></LinearLayout>
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_location"
+                    fmc:menuName="智能定位" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentLeft="true" />
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fmc:drawableId="@mipmap/ic_audit"
+                    fmc:menuName="注册审批" />
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <GridView
-        android:layout_below="@+id/main_ll_user_info"
-        android:id="@+id/main_grid_menu"
+    <FrameLayout
+        android:id="@+id/main_ll_bottom_bar"
         android:layout_width="match_parent"
-        android:verticalSpacing="1.0px"
-        android:horizontalSpacing="1.0px"
-        android:numColumns="3"
-        android:layout_height="wrap_content"></GridView>
+        android:layout_height="@dimen/activity_bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_margin_middle"
+            android:background="#fff"></LinearLayout>
+
+        <View
+            style="@style/HorizontalDividerLineStyle"
+            android:layout_marginTop="@dimen/activity_margin_middle" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher" />
+    </FrameLayout>
 </RelativeLayout>
