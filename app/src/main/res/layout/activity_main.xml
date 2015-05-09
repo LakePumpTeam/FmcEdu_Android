@@ -62,6 +62,7 @@
                 android:orientation="vertical">
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_school_dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/main_view_school_down_line"
