@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/select_list_bg_color"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/select_list_ll_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
+        android:background="@color/activity_login_bg_color"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_padding_middle">
@@ -31,6 +32,7 @@
         android:id="@+id/select_list_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:background="@color/select_list_bg_color"
         android:divider="@color/select_list_divider_color"
         android:dividerHeight="@dimen/divider_height"
         android:textSize="@dimen/font_size_small" />

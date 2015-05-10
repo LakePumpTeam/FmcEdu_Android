@@ -23,7 +23,7 @@ import android.widget.ImageView;
 public class CircleImageControl extends ImageView {
 
     Paint paint;
-    private int radius = 100;
+    private int radius = 80;
 
 
     public CircleImageControl(Context context, AttributeSet attrs) {
@@ -60,16 +60,16 @@ public class CircleImageControl extends ImageView {
         Bitmap circleMap = toRoundBitmap(bitmap);
         canvas.drawBitmap(circleMap, 0, 0, paint);
 
-        paint.setColor(Color.WHITE);
-        paint.setAntiAlias(true);
-        DisplayMetrics dm = new DisplayMetrics();
-        dm = getResources().getDisplayMetrics();
-        double density = dm.density;
-        int strokeWidth = (int) (5 * density);
-        paint.setStrokeWidth(strokeWidth);
-        paint.setStyle(Paint.Style.STROKE);
-        int stockeRadius = (int) (width / 2 - 3 * density);
-        canvas.drawCircle(width / 2, width / 2, stockeRadius, paint);
+//        paint.setColor(Color.WHITE);
+//        paint.setAntiAlias(true);
+//        DisplayMetrics dm = new DisplayMetrics();
+//        dm = getResources().getDisplayMetrics();
+//        double density = dm.density;
+//        int strokeWidth = (int) (5 * density);
+//        paint.setStrokeWidth(strokeWidth);
+//        paint.setStyle(Paint.Style.STROKE);
+//        int stockeRadius = (int) (width / 2 - 3 * density);
+//        canvas.drawCircle(width / 2, width / 2, 0, paint);
     }
 
     public Bitmap toRoundBitmap(Bitmap bitmap) {
@@ -129,8 +129,8 @@ public class CircleImageControl extends ImageView {
         DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
         double density = dm.density;
-        int newWidth = (int) (75 * density);
-        int newHeight = (int) (75 * density);
+        int newWidth = (int) (radius * density);
+        int newHeight = (int) (radius * density);
 
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;

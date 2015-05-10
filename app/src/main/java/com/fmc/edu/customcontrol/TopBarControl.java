@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.utils.StringUtils;
 
-class TopBarControl extends LinearLayout {
+public class TopBarControl extends LinearLayout {
     private Context mContext;
     private boolean backVisible;
     private String topTitle;
@@ -111,7 +111,7 @@ class TopBarControl extends LinearLayout {
         }
     };
 
-    public void setmOnOperateOnClickListener(OnOperateOnClickListener mOnOperateOnClickListener) {
+    public void setOnOperateOnClickListener(OnOperateOnClickListener mOnOperateOnClickListener) {
         this.mOnOperateOnClickListener = mOnOperateOnClickListener;
     }
 }

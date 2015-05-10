@@ -45,6 +45,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/shape_layout_vertical_gradient_color</item>
     </style>
+
     <style name="HorizontalGradientDividerLineStyle" parent="HorizontalDividerLineStyle">
         <item name="android:background">@drawable/shape_layout_horizontal_gradient_color</item>
     </style>
@@ -70,10 +71,23 @@
         <item name="android:textColor">@color/text_label_font_color</item>
         <item name="android:background">@color/edit_text_bg_color</item>
     </style>
+
+    <style name="TabRadioStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/select_radio_btn_bg_color</item>
+        <item name="android:textColor">@drawable/selector_radio_btn_font_color</item>
+        <item name="android:textSize">@dimen/font_size_middle</item>
+    </style>
+
     <style name="TextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_font_color</item>
-        <item name="android:textSize">@dimen/font_size_middle</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
     </style>
+
 </resources>

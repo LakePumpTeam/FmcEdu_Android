@@ -29,17 +29,22 @@
     <color name="popup_window_alert_btn_font_color">#007bfe</color>
 
 
-    <color name="select_list_bg_color">#333</color>
-    <color name="select_list_divider_color">#444</color>
+    <color name="select_list_bg_color">#fff</color>
+    <color name="select_list_divider_color">#ccc</color>
 
     <color name="text_button_bg_color_nor">#03A9F5</color>
     <color name="text_button_bg_color_sel">#03A933</color>
     <color name="text_button_font_color">#777</color>
     <color name="text_label_font_color">#999</color>
     <color name="text_font_color_w">#fff</color>
-    <color name="text_font_color">#333</color>
+    <color name="text_font_color">#555</color>
+    <color name="radio_color_sel">#34c8c9</color>
+    <color name="radio_color_nor">#999</color>
 
     <color name="gradient_center_color">#ffcccccc</color>
     <color name="gradient_start_end_color">#00cccccc</color>
+
+    <color name="dynamic_title_color">#555</color>
+    <color name="dynamic_content_color">#999</color>
 
 </resources>

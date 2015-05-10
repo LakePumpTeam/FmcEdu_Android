@@ -9,21 +9,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.fmc.edu.common.MyTextWatcher;
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.fmc.edu.utils.ValidationUtils;
-import com.koushikdutta.async.future.FutureCallback;
 
-import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -36,8 +32,8 @@ public class RegisterActivity extends Activity {
     private EditText editPassword;
     private EditText editConfirmPassword;
     private ValidateButtonControl validateBtnGetAuthCode;
-
     private ProgressControl progressControl;
+    private String mHostUrl;
 
 
     @Override
@@ -47,7 +43,7 @@ public class RegisterActivity extends Activity {
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);
-
+        mHostUrl = AppConfigUtils.getServiceHost();
         if (AppConfigUtils.IsDevelopment()) {
             initTestData();
         }
@@ -86,12 +82,12 @@ public class RegisterActivity extends Activity {
         public void onClick(View v) {
             doNextStep(v);
         }
-
     };
 
     private View.OnClickListener btnGetAuthCodeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            validateBtnGetAuthCode.startCountdown();
             getAuthCode(v);
         }
     };
@@ -113,7 +109,6 @@ public class RegisterActivity extends Activity {
         }
     };
 
-
     private MyTextWatcher.OnTextChangedListener validateInputTextChangeListener = new MyTextWatcher.OnTextChangedListener() {
         @Override
         public void onTextChanged() {
@@ -121,69 +116,69 @@ public class RegisterActivity extends Activity {
         }
     };
 
-
     private void getAuthCode(View view) {
-        try {
-            progressControl.showWindow(view);
-            String url = AppConfigUtils.getServiceHost() + "profile/requestPhoneIdentify";
-            MyIon.with(this)
-                    .load(url)
-                    .setBodyParameter("cellphone", editCellphone.getText().toString())
-                    .asString(Charset.forName("utf8"))
-                    .setCallback(new FMCMapFutureCallback() {
-                        @Override
-                        public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
-                                alertWindowControl.showWindow(btnNextStep, "获取失败", e.getMessage());
-                                return;
-                            }
+        progressControl.showWindow(view);
+        String url = mHostUrl + "profile/requestPhoneIdentify";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("cellPhone", editCellphone.getText().toString());
+
+        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
+                .setCallback(new FMCMapFutureCallback() {
+                    @Override
+                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                        progressControl.dismiss();
+                        if (!HttpTools.isRequestSuccessfully(e, result)) {
+                            ToastToolUtils.showLong(result.get("msg").toString());
+                            return;
                         }
-                    });
-        } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
-            e.printStackTrace();
-        }
+                        if (AppConfigUtils.IsDevelopment()) {
+                            Map<String, Object> data = (Map<String, Object>) result.get("data");
+                            editAuthCode.setText(data.get("identifyCode").toString());
+                        }
+                    }
+                });
     }
 
     private void doNextStep(View view) {
-        try {
-            //TODO 路径没有配好
-            progressControl.showWindow(view);
-            MyIon.with(this)
-                    .load(AppConfigUtils.getServiceHost() + "注册成功路径")
-                    .setBodyParameter("authcode", editCellphone.getText().toString())
-                    .as(new MapTokenTypeUtils())
-                    .setCallback(new FutureCallback<Map<String, Object>>() {
-                        @Override
-                        public void onCompleted(Exception e, Map<String, Object> result) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                AlertWindowControl alertWindowControl = new AlertWindowControl(RegisterActivity.this);
-                                alertWindowControl.showWindow(btnNextStep, "注册失败", e.getMessage());
-                                return;
-                            }
-                            afterNextStep();
-                        }
-                    });
-        } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
-            e.printStackTrace();
-        }
-
-    }
-
-    private void afterNextStep() {
         String password = editPassword.getText().toString();
         String confirmPassword = editConfirmPassword.getText().toString();
         if (!password.equals(confirmPassword)) {
             ToastToolUtils.showLong("两次密码输入不一致");
             return;
         }
+
+        progressControl.showWindow(view);
+        String url = mHostUrl + "profile/requestRegisterConfirm";
+        Map<String, Object> params = getNextStepParams();
+        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
+                .setCallback(new FMCMapFutureCallback() {
+                    @Override
+                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                        progressControl.dismiss();
+                        if (!HttpTools.isRequestSuccessfully(e, result)) {
+                            ToastToolUtils.showLong(result.get("msg").toString());
+                            return;
+                        }
+                        afterNextStep();
+                    }
+                });
+    }
+
+    private Map<String, Object> getNextStepParams() {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("cellPhone", editCellphone.getText());
+        data.put("authCode", editAuthCode.getText());
+        String md5Password = StringUtils.MD5(editCellphone.getText().toString(), editPassword.getText().toString());
+        String md5ConfirmPassword = StringUtils.MD5(editCellphone.getText().toString(), editConfirmPassword.getText().toString());
+        data.put("password", md5Password);
+        data.put("confirmPassword", md5ConfirmPassword);
+        return data;
+    }
+
+    private void afterNextStep() {
+
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
         intent.putExtra("cellphone", editCellphone.getText().toString());
-        intent.putExtra("password", editPassword.getText().toString());
         startActivity(intent);
     }
 

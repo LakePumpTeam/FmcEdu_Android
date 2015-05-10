@@ -51,7 +51,7 @@ public class MenuItemControl extends LinearLayout {
         this.addView(view);
     }
 
-    private void setHasDynamic(boolean hasDynamic) {
+    public void setHasDynamic(boolean hasDynamic) {
         imgHasDynamic.setVisibility(hasDynamic ? VISIBLE : GONE);
     }
 }

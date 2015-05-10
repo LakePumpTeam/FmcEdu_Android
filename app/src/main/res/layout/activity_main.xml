@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/main_ll_user_info"
         android:layout_width="match_parent"
-        android:layout_height="143dp"
+        android:layout_height="160dp"
         android:layout_below="@+id/main_top_bar"
         android:background="@mipmap/main_bg"
 
@@ -25,20 +25,28 @@
         android:orientation="vertical">
 
         <com.fmc.edu.customcontrol.CircleImageControl
+            android:id="@+id/main_circle_img_head_photo"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/chrysanthemum" />
 
         <TextView
             android:id="@+id/main_txt_teacher"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_small"
+            android:text="李老师"
+            android:textColor="@color/activity_font_color"
+            android:textSize="@dimen/font_size_middle" />
 
         <TextView
             android:id="@+id/main_txt_class_grade"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="3年级2班"
+            android:textColor="@color/activity_font_color"
+            android:textSize="@dimen/font_size_middle" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,6 +93,7 @@
                     android:layout_alignParentLeft="true"></View>
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_grade_dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_grade_dynamic"
@@ -105,6 +114,7 @@
                     android:layout_marginTop="@dimen/activity_margin_middle"></View>
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_syllabus_dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_syllabus_dynamic"
@@ -129,9 +139,9 @@
                 android:orientation="vertical">
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_parenting"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     fmc:drawableId="@mipmap/ic_parenting"
                     fmc:menuName="亲子教育" />
 
@@ -150,6 +160,7 @@
                     android:layout_alignParentLeft="true" />
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_kid_school"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_kids_school"
@@ -168,6 +179,7 @@
                 <View style="@style/VerticalGradientDividerLineStyle" />
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_campus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_campus"
@@ -193,6 +205,7 @@
                 android:orientation="vertical">
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_location"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_location"
@@ -210,6 +223,7 @@
                     android:layout_alignParentLeft="true" />
 
                 <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_audit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fmc:drawableId="@mipmap/ic_audit"
@@ -247,10 +261,11 @@
             android:layout_marginTop="@dimen/activity_margin_middle" />
 
         <ImageView
+            android:id="@+id/main_img_send_new_msg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_send" />
     </FrameLayout>
 </RelativeLayout>

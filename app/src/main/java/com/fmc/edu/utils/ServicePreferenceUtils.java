@@ -15,7 +15,14 @@ public class ServicePreferenceUtils {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("cellphone", userEntity.cellphone);
         editor.putString("password", encryptPWD(userEntity.password));
+        editor.commit();
+    }
 
+    public static void clearLoginUserPreference(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 
     public static LoginUserEntity getLoginUserByPreference(Context context) {

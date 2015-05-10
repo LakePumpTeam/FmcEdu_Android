@@ -45,10 +45,7 @@ public class RelatedInfoActivity extends Activity {
     private TextView txtProvince;
     private TextView txtSchool;
     private TextView txtTeacher;
-
     private String mCellphone;
-    private String mPassword;
-
     private ProgressControl mProgressControl;
 
     @Override
@@ -59,7 +56,6 @@ public class RelatedInfoActivity extends Activity {
         initViews();
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellphone");
-        mPassword = getIntent().getStringExtra("password");
         mProgressControl = new ProgressControl(this);
         initData();
     }
@@ -241,7 +237,6 @@ public class RelatedInfoActivity extends Activity {
                     .setBodyParameter("relation", editRelation.getText().toString())
                     .setBodyParameter("stuname", editStuName.getText().toString())
                     .setBodyParameter("sex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString())
-                    .setBodyParameter("password", mPassword)
                     .setBodyParameter("schoolid", String.valueOf(txtSchool.getTag()))
                     .setBodyParameter("proviceid", String.valueOf(txtProvince.getTag()))
                     .setBodyParameter("cityid", String.valueOf(txtCity.getTag()))
@@ -269,7 +264,6 @@ public class RelatedInfoActivity extends Activity {
 
     private void initData() {
         ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
-
         try {
             //TODO 路径没有配好、参数没有定好
             mProgressControl.showWindow(btnSubmitAudit);

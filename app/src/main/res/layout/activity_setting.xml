@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_setting" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <TextView
+        android:id="@+id/setting_txt_modify_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@color/edit_text_bg_color"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
+        android:text="@string/modify_password" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <TextView
+        android:id="@+id/setting_txt_new_msg_notice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@color/edit_text_bg_color"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
+        android:text="@string/new_msg_notice_setting" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <TextView
+        android:id="@+id/setting_txt_version"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@color/edit_text_bg_color"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
+        android:text="@string/version_info" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <TextView
+        android:id="@+id/setting_txt_about"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@color/edit_text_bg_color"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
+        android:text="@string/about" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <Button
+        android:id="@+id/setting_btn_login_out"
+        style="@style/OvalButtonStyle"
+        android:layout_margin="@dimen/activity_margin"
+        android:text="@string/login_out" />
+
+</LinearLayout>

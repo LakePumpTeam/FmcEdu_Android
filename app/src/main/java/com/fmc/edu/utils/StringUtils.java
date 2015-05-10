@@ -20,7 +20,8 @@ public class StringUtils {
         return false;
     }
 
-    public static String MD5(String strInput) {
+    public static String MD5(String salt, String strInput) {
+        strInput = salt + strInput;
         StringBuffer buf = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

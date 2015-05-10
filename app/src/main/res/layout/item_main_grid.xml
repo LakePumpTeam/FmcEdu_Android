@@ -9,17 +9,14 @@
         style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/activity_padding_middle"
-        android:padding="@dimen/activity_padding"
+        android:drawablePadding="@dimen/activity_padding_small"
         android:text="校园动态" />
 
     <ImageView
         android:id="@+id/item_main_grid_img_has_dynamic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_gravity="right|top"
         android:src="@mipmap/ic_red_point"
         android:visibility="gone" />
 </FrameLayout>

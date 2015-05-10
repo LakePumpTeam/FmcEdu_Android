@@ -38,7 +38,7 @@
                 style="@style/OvalButtonStyle"
                 android:paddingLeft="@dimen/activity_padding"
                 android:paddingRight="@dimen/activity_padding"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_alignParentRight="true"
                 android:enabled="false"
                 android:text="@string/get_auth_code" />
@@ -112,6 +112,6 @@
             style="@style/OvalButtonStyle"
             android:layout_margin="@dimen/activity_margin"
             android:enabled="false"
-            android:text="@string/next_step" />
+            android:text="@string/title_activity_register" />
     </LinearLayout>
 </LinearLayout>
