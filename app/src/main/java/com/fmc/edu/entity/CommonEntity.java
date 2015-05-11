@@ -7,10 +7,14 @@ public class CommonEntity {
     private String mId;
     private String mFullName;
 
+    public CommonEntity() {
+    }
+
     public CommonEntity(String id, String fullName) {
         this.mId = id;
         this.mFullName = fullName;
     }
+
 
     public String getId() {
         return mId;

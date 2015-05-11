@@ -25,6 +25,13 @@ public class ServicePreferenceUtils {
         editor.commit();
     }
 
+    public static void clearPasswordPreference(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("password", "");
+        editor.commit();
+    }
+
     public static LoginUserEntity getLoginUserByPreference(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         LoginUserEntity loginUserEntity = new LoginUserEntity();
@@ -35,6 +42,7 @@ public class ServicePreferenceUtils {
         loginUserEntity.password = sharedPreferences.getString("password", "");
         return loginUserEntity;
     }
+
 
     public static String encryptPWD(String ssoToken) {
         try {

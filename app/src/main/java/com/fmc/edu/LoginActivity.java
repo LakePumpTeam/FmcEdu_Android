@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
     private TextView txtForgetPassword;
     private TextView txtRegister;
 
-    private int REGIEST_CODE = 1;
+    private int REQUEST_CODE_REGISTER = 1;
     private ProgressControl mProgressControl;
 
     @Override
@@ -80,7 +80,8 @@ public class LoginActivity extends Activity {
     private OnOperateOnClickListener operateOnClickListener = new OnOperateOnClickListener() {
         @Override
         public void onOperateOnClick() {
-            //TODO 重置密码操作
+            Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivityForResult(intent, REGIEST_CODE);
+            startActivityForResult(intent, REQUEST_CODE_REGISTER);
         }
     };
 
@@ -98,7 +99,7 @@ public class LoginActivity extends Activity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (requestCode == REGIEST_CODE) {
+        if (requestCode == REQUEST_CODE_REGISTER) {
             this.finish();
         }
 

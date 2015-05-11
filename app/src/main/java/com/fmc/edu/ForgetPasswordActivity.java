@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.fmc.edu.common.MyTextWatcher;
@@ -23,10 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RegisterActivity extends Activity {
+public class ForgetPasswordActivity extends Activity {
 
-    private Button btnNextStep;
-    private CheckBox ckReadAgreement;
+    private Button btnReset;
     private EditText editCellphone;
     private EditText editAuthCode;
     private EditText editPassword;
@@ -39,7 +37,7 @@ public class RegisterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_forget_password);
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);
@@ -50,17 +48,16 @@ public class RegisterActivity extends Activity {
     }
 
     private void initViews() {
-        btnNextStep = (Button) findViewById(R.id.register_btn_next_step);
-        ckReadAgreement = (CheckBox) findViewById(R.id.register_ck_read_agreement);
-        editCellphone = (EditText) findViewById(R.id.register_edit_cellphone);
-        editAuthCode = (EditText) findViewById(R.id.register_edit_auth_code);
-        editPassword = (EditText) findViewById(R.id.register_edit_password);
-        editConfirmPassword = (EditText) findViewById(R.id.register_edit_confirm_password);
-        validateBtnGetAuthCode = (ValidateButtonControl) findViewById(R.id.register_validate_btn_get_auth_code);
+        btnReset = (Button) findViewById(R.id.forget_password_btn_reset);
+        editCellphone = (EditText) findViewById(R.id.forget_password_edit_cellphone);
+        editAuthCode = (EditText) findViewById(R.id.forget_password_edit_auth_code);
+        editPassword = (EditText) findViewById(R.id.forget_password_edit_password);
+        editConfirmPassword = (EditText) findViewById(R.id.forget_password_edit_confirm);
+        validateBtnGetAuthCode = (ValidateButtonControl) findViewById(R.id.forget_password_btn_get_auth_code);
     }
 
     private void initViewEvents() {
-        btnNextStep.setOnClickListener(btnNextStepOnClickListener);
+        btnReset.setOnClickListener(btnResetOnClickListener);
         validateBtnGetAuthCode.setOnClickListener(btnGetAuthCodeOnClickListener);
 
         MyTextWatcher validatePhoneTextWatcher = new MyTextWatcher();
@@ -74,7 +71,6 @@ public class RegisterActivity extends Activity {
         editPassword.addTextChangedListener(validateInputTextWatcher);
         validateInputTextWatcher.setOnTextChangedListener(validateInputTextChangeListener);
 
-        ckReadAgreement.setOnClickListener(ckReadAgreementOnClickListener);
     }
 
     private View.OnClickListener btnGetAuthCodeOnClickListener = new View.OnClickListener() {
@@ -82,13 +78,6 @@ public class RegisterActivity extends Activity {
         public void onClick(View v) {
             validateBtnGetAuthCode.startCountdown();
             getAuthCode(v);
-        }
-    };
-
-    private View.OnClickListener ckReadAgreementOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            CheckValidateInput();
         }
     };
 
@@ -109,7 +98,7 @@ public class RegisterActivity extends Activity {
         }
     };
 
-    private View.OnClickListener btnNextStepOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener btnResetOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String password = editPassword.getText().toString();
@@ -118,7 +107,7 @@ public class RegisterActivity extends Activity {
                 ToastToolUtils.showLong("两次密码输入不一致");
                 return;
             }
-            doNextStepOnClick(v);
+            doResetPasswordOnClick(v);
         }
     };
 
@@ -145,7 +134,9 @@ public class RegisterActivity extends Activity {
                 });
     }
 
-    private void doNextStepOnClick(View view) {
+    private void doResetPasswordOnClick(View view) {
+
+        //TODO 忘记密码的接口
         progressControl.showWindow(view);
         String url = mHostUrl + "profile/requestRegisterConfirm";
         Map<String, Object> params = getNextStepParams();
@@ -158,7 +149,7 @@ public class RegisterActivity extends Activity {
                             ToastToolUtils.showLong(result.get("msg").toString());
                             return;
                         }
-                        afterNextStep();
+                        afterResetPassword();
                     }
                 });
     }
@@ -174,10 +165,9 @@ public class RegisterActivity extends Activity {
         return data;
     }
 
-    private void afterNextStep() {
+    private void afterResetPassword() {
 
-        Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
-        intent.putExtra("cellphone", editCellphone.getText().toString());
+        Intent intent = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -185,19 +175,17 @@ public class RegisterActivity extends Activity {
         boolean isValidatePhone = !StringUtils.isEmptyOrNull(editCellphone.getText().toString()) && ValidationUtils.isMobilePhone(editCellphone.getText().toString());
         boolean isValidateCode = !StringUtils.isEmptyOrNull(editAuthCode.getText());
         boolean isValidatePassword = editPassword.length() >= 6 && editPassword.length() <= 16;
-        if (isValidatePhone && isValidateCode && ckReadAgreement.isChecked() && isValidatePassword) {
-            btnNextStep.setEnabled(true);
+        if (isValidatePhone && isValidateCode && isValidatePassword) {
+            btnReset.setEnabled(true);
             return;
         }
-        btnNextStep.setEnabled(false);
+        btnReset.setEnabled(false);
     }
 
     private void initTestData() {
-        ckReadAgreement.setChecked(true);
         editCellphone.setText("13880454117");
         editAuthCode.setText("123456");
         editPassword.setText("123456");
         editConfirmPassword.setText("123456");
     }
-
 }

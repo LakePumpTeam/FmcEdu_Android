@@ -38,6 +38,9 @@
         <meta-data
             android:name="com.fmc.edu.is_development"
             android:value="true" />
+        <meta-data
+            android:name="com.fmc.edu.page_size"
+            android:value="10" />
 
         <activity
             android:name=".MainActivity"
@@ -68,10 +71,18 @@
         <activity
             android:name=".SchoolDynamicActivity"
             android:label="@string/title_activity_school_dynamic"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".KidSchoolActivity"
             android:label="@string/title_activity_kid_school"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ModifyPasswordActivity"
+            android:label="@string/title_activity_modify_password"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ForgetPasswordActivity"
+            android:label="@string/title_activity_forget_password"
             android:screenOrientation="portrait"></activity>
     </application>
 

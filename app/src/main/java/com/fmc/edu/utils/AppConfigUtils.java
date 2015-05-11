@@ -15,6 +15,7 @@ import java.util.Map;
 public class AppConfigUtils {
     private static String SERVICE_HOST = "com.fmc.edu.service_host";
     private static String IS_DEVELOPMENT = "com.fmc.edu.is_development";
+    private static String PAGE_SIZE = "com.fmc.edu.page_size";
 
     private static Map<String, Object> configCacheMap = new HashMap<String, Object>(10);
 
@@ -22,9 +23,13 @@ public class AppConfigUtils {
         return ConvertUtils.getString(getValue(SERVICE_HOST, null));
     }
 
-    public static boolean IsDevelopment() {
+    public static boolean isDevelopment() {
         return ConvertUtils.getBoolean(getValue(IS_DEVELOPMENT, false));
 
+    }
+
+    public static int getPageSize() {
+        return ConvertUtils.getInteger(getValue(PAGE_SIZE, 10));
     }
 
     public static Object getValue(String metaKey, Object defaultVal) {

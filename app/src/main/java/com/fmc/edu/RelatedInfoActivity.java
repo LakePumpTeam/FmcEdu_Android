@@ -14,6 +14,7 @@ import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
+import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.http.NetWorkUnAvailableException;
@@ -24,6 +25,7 @@ import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +43,17 @@ public class RelatedInfoActivity extends Activity {
     private RadioGroup rgSex;
     private TextView txtClass;
     private TextView txtCity;
-    private TextView txtGrade;
     private TextView txtProvince;
     private TextView txtSchool;
     private TextView txtTeacher;
     private String mCellphone;
     private ProgressControl mProgressControl;
+    private String mHostUrl;
+    private Map<String, Object> mParams;
+    private SelectListControl classListControl;
+    private int mPageIndex;
+    private int mPageSize;
+
 
     @Override
 
@@ -57,12 +64,15 @@ public class RelatedInfoActivity extends Activity {
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellphone");
         mProgressControl = new ProgressControl(this);
+        mHostUrl = AppConfigUtils.getServiceHost();
+        mPageSize = AppConfigUtils.getPageSize();
+        mParams = new HashMap<>();
+
         initData();
     }
 
     private void initViews() {
         btnSubmitAudit = (Button) findViewById(R.id.related_info_btn_submit_audit);
-
         editAddress = (EditText) findViewById(R.id.related_info_edit_address);
         editBirthday = (EditText) findViewById(R.id.related_info_edit_birthday);
         editComment = (EditText) findViewById(R.id.related_info_edit_comment);
@@ -74,7 +84,6 @@ public class RelatedInfoActivity extends Activity {
         rgSex = (RadioGroup) findViewById(R.id.related_info_rg_sex);
         txtClass = (TextView) findViewById(R.id.related_info_txt_class);
         txtCity = (TextView) findViewById(R.id.related_info_txt_city);
-        txtGrade = (TextView) findViewById(R.id.related_info_txt_grade);
         txtProvince = (TextView) findViewById(R.id.related_info_txt_province);
         txtSchool = (TextView) findViewById(R.id.related_info_txt_school);
         txtTeacher = (TextView) findViewById(R.id.related_info_txt_teacher);
@@ -84,7 +93,6 @@ public class RelatedInfoActivity extends Activity {
         btnSubmitAudit.setOnClickListener(btnSubmitAuditOnClickListener);
         txtClass.setOnClickListener(txtClassOnClickListener);
         txtCity.setOnClickListener(txtCityOnClickListener);
-        txtGrade.setOnClickListener(txtGradeOnClickListener);
         txtProvince.setOnClickListener(txtProvinceOnClickListener);
         txtSchool.setOnClickListener(txtSchoolOnClickListener);
     }
@@ -102,6 +110,7 @@ public class RelatedInfoActivity extends Activity {
     private View.OnClickListener txtClassOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             handleDropDownClick(v, OperateType.Class);
         }
     };
@@ -110,13 +119,6 @@ public class RelatedInfoActivity extends Activity {
         @Override
         public void onClick(View v) {
             handleDropDownClick(v, OperateType.City);
-        }
-    };
-
-    private View.OnClickListener txtGradeOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            handleDropDownClick(v, OperateType.Grade);
         }
     };
 
@@ -135,34 +137,28 @@ public class RelatedInfoActivity extends Activity {
     };
 
     private void handleDropDownClick(View v, OperateType operateType) {
-
+        mParams = new HashMap<String, Object>();
+        mPageIndex = 1;
+        classListControl = null;
         //TODO 处理数据
         switch (operateType) {
             case Province:
-                handleClick(v, testClassList(), "省列表");
+                handleDropDownClick(v, "location/requestProv", OperateType.Province);
                 break;
             case City:
-                handleClick(v, testClassList(), "城市列表");
+                handleDropDownClick(v, "location/requestCities", OperateType.City);
                 break;
             case School:
-                handleClick(v, testClassList(), "学校列表");
+                handleDropDownClick(v, "school/requestSchools", OperateType.School);
                 break;
             case Class:
-                handleClick(v, testClassList(), "年级列表");
-                break;
-            case Grade:
-                handleClick(v, testClassList(), "班级列表");
+                handleDropDownClick(v, "school/requestClasses", OperateType.Class);
                 break;
             default:
                 break;
         }
     }
 
-    private void handleClick(View v, List<CommonEntity> list, String title) {
-        SelectListControl classListControl = new SelectListControl(RelatedInfoActivity.this, list, title, v);
-        classListControl.setOnItemClickListener(selectedItemListener);
-        classListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
-    }
 
     private SelectListControl.OnItemSelectedListener selectedItemListener = new SelectListControl.OnItemSelectedListener() {
         @Override
@@ -172,14 +168,6 @@ public class RelatedInfoActivity extends Activity {
             textView.setTag(obj.getId());
         }
     };
-
-    enum OperateType {
-        Province,
-        City,
-        School,
-        Class,
-        Grade;
-    }
 
 
     private boolean isInputFinish() {
@@ -241,7 +229,6 @@ public class RelatedInfoActivity extends Activity {
                     .setBodyParameter("proviceid", String.valueOf(txtProvince.getTag()))
                     .setBodyParameter("cityid", String.valueOf(txtCity.getTag()))
                     .setBodyParameter("classid", String.valueOf(txtClass.getTag()))
-                    .setBodyParameter("gradeid", String.valueOf(txtGrade.getTag()))
                     .setBodyParameter("teacherid", String.valueOf(txtTeacher.getTag()))
                     .as(new MapTokenTypeUtils())
                     .setCallback(new FutureCallback<Map<String, Object>>() {
@@ -322,15 +309,120 @@ public class RelatedInfoActivity extends Activity {
 //TODO 提交成功后的操作
     }
 
-    private List<CommonEntity> testClassList() {
-        List<CommonEntity> list = new ArrayList<CommonEntity>();
 
-        for (int i = 0; i < 15; i++) {
-            CommonEntity item = new CommonEntity(String.valueOf(i), "班级" + i);
-            list.add(item);
-        }
-        return list;
+    private void handleDropDownClick(View view, String url, final OperateType operateType) {
+        mProgressControl.showWindow(view);
+        handleParams(operateType);
+        MyIon.setUrlAndBodyParams(this, mHostUrl + url, mParams, mProgressControl)
+                .setCallback(new FMCMapFutureCallback() {
+                    @Override
+                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                        mProgressControl.dismiss();
+                        if (!HttpTools.isRequestSuccessfully(e, result)) {
+                            ToastToolUtils.showLong(result.get("msg").toString());
+                            return;
+                        }
+                        Map<String, Object> data = (Map<String, Object>) result.get("data");
+                        afterGetList(operateType, data);
+                    }
+                });
     }
 
 
+    private void handleParams(OperateType operateType) {
+        mParams.put("pageIndex", mPageIndex);
+        mParams.put("pageSize", mPageSize);
+        switch (operateType) {
+            case City:
+                mParams.put("provId", txtProvince.getTag());
+                break;
+            case School:
+                mParams.put("cityId", txtCity.getTag());
+                break;
+            case Class:
+                mParams.put("schoolId", txtSchool.getTag());
+                break;
+        }
+    }
+
+    private void afterGetList(OperateType operateType, Map<String, Object> result) {
+        List<CommonEntity> data = new ArrayList<>();
+        String title = "";
+        View view = null;
+        switch (operateType) {
+            case Province:
+                data = getCommonEntityList(result, "provs", operateType);
+                view = txtProvince;
+                title = "省份列表";
+                break;
+            case City:
+                data = getCommonEntityList(result, "cities", operateType);
+                view = txtCity;
+                title = "城市列表";
+                break;
+            case School:
+                data = getCommonEntityList(result, "schools", operateType);
+                view = txtSchool;
+                title = "学校列表";
+                break;
+            case Class:
+                data = getCommonEntityList(result, "classes", operateType);
+                view = txtClass;
+                title = "班级列表";
+                break;
+        }
+        if (null == classListControl) {
+            classListControl = new SelectListControl(RelatedInfoActivity.this, data, title, view);
+            classListControl.setOnItemClickListener(selectedItemListener);
+            classListControl.showAtLocation(view, Gravity.CENTER, 0, 0);
+        } else {
+            classListControl.setLoadMoreData(data);
+        }
+    }
+
+    private List<CommonEntity> getCommonEntityList(Map<String, Object> result, String key, OperateType operateType) {
+
+        Object obj = result.get("key");
+        if (null == obj) {
+            return new ArrayList<>();
+        }
+        List<Map<String, Object>> data = (List<Map<String, Object>>) obj;
+        return getCommonEntityList(data, operateType);
+    }
+
+    private List<CommonEntity> getCommonEntityList(List<Map<String, Object>> list, OperateType operateType) {
+
+        List<CommonEntity> commonEntityList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> item = list.get(i);
+            CommonEntity commonEntity = mapToCommonEntity(item, operateType);
+            commonEntityList.add(commonEntity);
+        }
+        return commonEntityList;
+    }
+
+
+    private CommonEntity mapToCommonEntity(Map<String, Object> map, OperateType operateType) {
+        switch (operateType) {
+            case Province:
+                return new CommonEntity(map.get("provId").toString(), map.get("name").toString());
+            case City:
+                return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
+            case School:
+                return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
+            case Class:
+                return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
+
+            default:
+                return new CommonEntity();
+        }
+
+    }
+
+    enum OperateType {
+        Province,
+        City,
+        School,
+        Class;
+    }
 }

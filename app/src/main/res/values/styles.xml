@@ -90,4 +90,12 @@
         <item name="android:textSize">@dimen/font_size_small</item>
     </style>
 
+    <style name="ValidateButtonStyle" parent="OvalButtonStyle">
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/activity_padding_middle</item>
+        <item name="android:paddingBottom">@dimen/activity_padding_middle</item>
+    </style>
+
 </resources>

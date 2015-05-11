@@ -31,8 +31,7 @@
     <string name="hint_choice_city">选择市</string>
     <string name="hint_choice_school">选择学校</string>
 
-    <string name="label_class">年级</string>
-    <string name="label_grade">班级</string>
+    <string name="label_class">班级</string>
     <string name="label_teacher">班主任</string>
 
     <string name="next_step">下一步</string>
@@ -45,6 +44,11 @@
     <string name="version_info">版本信息</string>
     <string name="about">关于我们</string>
     <string name="login_out">退出登录</string>
+    <string name="title_activity_modify_password">修改密码</string>
+    <string name="old_password">原密码</string>
+    <string name="btn_submit">提交</string>
+    <string name="title_activity_forget_password">忘记密码</string>
+    <string name="reset_password">重置密码</string>
 
 
 </resources>
