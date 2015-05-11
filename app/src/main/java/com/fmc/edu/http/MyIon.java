@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Base64;
 import android.widget.PopupWindow;
 
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.NetworkUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.ion.Ion;
@@ -25,23 +27,40 @@ public class MyIon {
         return Ion.with(context);
     }
 
-    public static ResponseFuture<String> setUrlAndBodyParams(Context context, String url, Map<String, Object> params, PopupWindow popupWindow) {
-
-        try {
-            Builders.Any.B withB = MyIon.with(context).load(url);
-            if (null == params) {
-                return withB.asString(Charset.forName("utf8"));
-            }
-
-            for (String key : params.keySet()) {
-                String value = params.get(key).toString();
-                withB.setBodyParameter(key, Base64.encodeToString(value.getBytes(), Base64.DEFAULT));
-            }
+    public static ResponseFuture<String> setUrlAndBodyParams(Context context, String url, Map<String, Object> params) throws NetWorkUnAvailableException {
+        Builders.Any.B withB = MyIon.with(context).load(url);
+        if (null == params) {
             return withB.asString(Charset.forName("utf8"));
+        }
+        for (String key : params.keySet()) {
+            String value = params.get(key).toString();
+            withB.setBodyParameter(key, Base64.encodeToString(value.getBytes(), Base64.DEFAULT));
+        }
+        return withB.asString(Charset.forName("utf8"));
+    }
+
+    public static void httpPost(Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
+        try {
+            MyIon.setUrlAndBodyParams(context, url, params)
+                    .setCallback(new FMCMapFutureCallback() {
+                        @Override
+                        public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                            progressControl.dismiss();
+                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                ToastToolUtils.showLong(result.get("msg").toString());
+                                return;
+                            }
+                            afterCallBack.afterCallBack(result.get("data"));
+                        }
+                    });
         } catch (NetWorkUnAvailableException e) {
+            progressControl.dismiss();
             e.printStackTrace();
-            popupWindow.dismiss();
-            return null;
         }
     }
+
+    public static interface AfterCallBack {
+        void afterCallBack(Object resultData);
+    }
+
 }

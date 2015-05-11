@@ -21,20 +21,13 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_middle" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divider_bg_color" />
-
-
     <ListView
         android:id="@+id/select_list_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@color/select_list_bg_color"
-        android:divider="@color/select_list_divider_color"
-        android:dividerHeight="@dimen/divider_height"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:textSize="@dimen/font_size_small" />
 
 

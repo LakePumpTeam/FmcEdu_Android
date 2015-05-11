@@ -37,20 +37,24 @@ public class SelectListControl extends PopupWindow {
     private List<CommonEntity> mSourceList;
     private DisplayMetrics mDisplayMetrics;
     private String mTitle;
-    private final static int MAX_PAGE_SIZE = 15;
-    private int mPageCount;
-
+    private boolean mIsLastPage;
+    private OnLoadMoreListener mOnLoadMoreListener;
 
     public interface OnItemSelectedListener {
         void onItemSelected(CommonEntity obj, View view);
     }
 
-    public SelectListControl(Context context, List<CommonEntity> sourceList, String title, View clickView) {
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
+    public SelectListControl(Context context, List<CommonEntity> sourceList, boolean isLastPage, String title, View clickView) {
         super(context, null);
         mContext = context;
         mSourceList = sourceList;
         mTitle = title;
         mClickView = clickView;
+        mIsLastPage = isLastPage;
         mDisplayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         initPopWindow();
@@ -111,14 +115,28 @@ public class SelectListControl extends PopupWindow {
             return;
         }
         btnLoadMore.setOnClickListener(loadMoreOnClickListener);
-        boolean isAddFooter = mSourceList.size() >= MAX_PAGE_SIZE;
-        if (isAddFooter) {
+        if (mIsLastPage) {
             listView.addFooterView(mLoadMoreView);
         }
         if (null == listView.getAdapter()) {
             mSelectListControlAdapter = new SelectListControlAdapter(mContext, mSourceList);
             listView.setAdapter(mSelectListControlAdapter);
         }
+    }
+
+    private View.OnClickListener loadMoreOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (null == mOnLoadMoreListener) {
+                return;
+            }
+            mOnLoadMoreListener.onLoadMore();
+        }
+    };
+
+
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.mOnLoadMoreListener = mOnLoadMoreListener;
     }
 
     private void loadData() {
@@ -144,14 +162,6 @@ public class SelectListControl extends PopupWindow {
 //            e.printStackTrace();
 //        }
     }
-
-    private View.OnClickListener loadMoreOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPageCount++;
-            loadData();
-        }
-    };
 
     public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
         this.mOnItemSelectedListener = sourceListener;

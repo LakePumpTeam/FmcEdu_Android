@@ -14,6 +14,7 @@ import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -80,7 +81,6 @@ public class RegisterActivity extends Activity {
     private View.OnClickListener btnGetAuthCodeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            validateBtnGetAuthCode.startCountdown();
             getAuthCode(v);
         }
     };
@@ -127,40 +127,29 @@ public class RegisterActivity extends Activity {
         String url = mHostUrl + "profile/requestPhoneIdentify";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
-
-        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
-                .setCallback(new FMCMapFutureCallback() {
-                    @Override
-                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                        progressControl.dismiss();
-                        if (!HttpTools.isRequestSuccessfully(e, result)) {
-                            ToastToolUtils.showLong(result.get("msg").toString());
-                            return;
-                        }
-                        if (AppConfigUtils.isDevelopment()) {
-                            Map<String, Object> data = (Map<String, Object>) result.get("data");
-                            editAuthCode.setText(data.get("identifyCode").toString());
-                        }
-                    }
-                });
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                if (AppConfigUtils.isDevelopment()) {
+                    Map<String, Object> data = (Map<String, Object>) resultData;
+                    editAuthCode.setText(data.get("identifyCode").toString());
+                }
+                validateBtnGetAuthCode.startCountdown();
+            }
+        });
     }
 
     private void doNextStepOnClick(View view) {
         progressControl.showWindow(view);
         String url = mHostUrl + "profile/requestRegisterConfirm";
         Map<String, Object> params = getNextStepParams();
-        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
-                .setCallback(new FMCMapFutureCallback() {
-                    @Override
-                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                        progressControl.dismiss();
-                        if (!HttpTools.isRequestSuccessfully(e, result)) {
-                            ToastToolUtils.showLong(result.get("msg").toString());
-                            return;
-                        }
-                        afterNextStep();
-                    }
-                });
+
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                afterNextStep();
+            }
+        });
     }
 
     private Map<String, Object> getNextStepParams() {

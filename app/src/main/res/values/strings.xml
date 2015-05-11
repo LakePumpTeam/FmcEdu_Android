@@ -27,8 +27,8 @@
     <string name="hint_stu_sex">学生性别</string>
     <string name="hint_address">家庭住址</string>
     <string name="hint_comment">备注信息</string>
-    <string name="hint_choice_province">地区</string>
-    <string name="hint_choice_city">选择市</string>
+    <string name="hint_choice_province">选择学校所属省份</string>
+    <string name="hint_choice_city">选择学校所属城市</string>
     <string name="hint_choice_school">选择学校</string>
 
     <string name="label_class">班级</string>

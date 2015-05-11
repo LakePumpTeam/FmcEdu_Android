@@ -10,8 +10,6 @@ import android.widget.EditText;
 import com.fmc.edu.common.MyTextWatcher;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
-import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -117,21 +115,15 @@ public class ForgetPasswordActivity extends Activity {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
 
-        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
-                .setCallback(new FMCMapFutureCallback() {
-                    @Override
-                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                        progressControl.dismiss();
-                        if (!HttpTools.isRequestSuccessfully(e, result)) {
-                            ToastToolUtils.showLong(result.get("msg").toString());
-                            return;
-                        }
-                        if (AppConfigUtils.isDevelopment()) {
-                            Map<String, Object> data = (Map<String, Object>) result.get("data");
-                            editAuthCode.setText(data.get("identifyCode").toString());
-                        }
-                    }
-                });
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                if (AppConfigUtils.isDevelopment()) {
+                    Map<String, Object> data = (Map<String, Object>) resultData;
+                    editAuthCode.setText(data.get("identifyCode").toString());
+                }
+            }
+        });
     }
 
     private void doResetPasswordOnClick(View view) {
@@ -139,22 +131,16 @@ public class ForgetPasswordActivity extends Activity {
         //TODO 忘记密码的接口
         progressControl.showWindow(view);
         String url = mHostUrl + "profile/requestRegisterConfirm";
-        Map<String, Object> params = getNextStepParams();
-        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
-                .setCallback(new FMCMapFutureCallback() {
-                    @Override
-                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                        progressControl.dismiss();
-                        if (!HttpTools.isRequestSuccessfully(e, result)) {
-                            ToastToolUtils.showLong(result.get("msg").toString());
-                            return;
-                        }
-                        afterResetPassword();
-                    }
-                });
+        Map<String, Object> params = getResetPasswordParams();
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                afterResetPassword();
+            }
+        });
     }
 
-    private Map<String, Object> getNextStepParams() {
+    private Map<String, Object> getResetPasswordParams() {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("cellPhone", editCellphone.getText());
         data.put("authCode", editAuthCode.getText());

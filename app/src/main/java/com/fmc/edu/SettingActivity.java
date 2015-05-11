@@ -62,7 +62,8 @@ public class SettingActivity extends Activity {
     private View.OnClickListener txtModifyPasswordOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 修改密码
+            Intent intent = new Intent(SettingActivity.this, ModifyPasswordActivity.class);
+            startActivity(intent);
         }
     };
 

@@ -68,20 +68,13 @@ public class ModifyPasswordActivity extends Activity {
         //TODO 修改密码的路径
         progressControl.showWindow(view);
         String url = mHostUrl + "profile/requestRegisterConfirm";
-
         Map<String, Object> params = getSubmitParams();
-        MyIon.setUrlAndBodyParams(this, url, params, progressControl)
-                .setCallback(new FMCMapFutureCallback() {
-                    @Override
-                    public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                        progressControl.dismiss();
-                        if (!HttpTools.isRequestSuccessfully(e, result)) {
-                            ToastToolUtils.showLong(result.get("msg").toString());
-                            return;
-                        }
-                        afterModifyPassword();
-                    }
-                });
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                afterModifyPassword();
+            }
+        });
     }
 
     private Map<String, Object> getSubmitParams() {
