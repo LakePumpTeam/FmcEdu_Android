@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_login_bg_color"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="35dp"
+    android:paddingRight="35dp">
+
+    <TextView
+        android:id="@+id/auditing_txt_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:clickable="true"
+        android:text="正在审核，请稍后登录...."
+        android:textColor="@color/activity_font_color"
+        android:textSize="@dimen/font_size_large" />
+
+    <Button
+        android:id="@+id/auditing_btn_login_out"
+        style="@style/OvalButtonStyleBorder"
+        android:layout_marginBottom="@dimen/activity_margin_middle"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:text="@string/login_out" />
+
+
+</LinearLayout>

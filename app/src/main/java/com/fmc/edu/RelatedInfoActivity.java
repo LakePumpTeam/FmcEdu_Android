@@ -1,6 +1,7 @@
 package com.fmc.edu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -10,18 +11,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
-import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +30,8 @@ public class RelatedInfoActivity extends Activity {
     private EditText editAddress;
     private EditText editBirthday;
     private EditText editComment;
-    private EditText editDeviceCardNum;
-    private EditText editDeviceCode;
+    private EditText editBraceletCardNum;
+    private EditText editBraceletNumber;
     private EditText editParName;
     private EditText editRelation;
     private EditText editStuName;
@@ -45,6 +41,7 @@ public class RelatedInfoActivity extends Activity {
     private TextView txtProvince;
     private TextView txtSchool;
     private TextView txtTeacher;
+    private TextView txtCellphone;
     private String mCellphone;
     private ProgressControl mProgressControl;
     private String mHostUrl;
@@ -69,6 +66,7 @@ public class RelatedInfoActivity extends Activity {
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
         ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
+        txtCellphone.setText(mCellphone);
     }
 
     private void initViews() {
@@ -76,11 +74,12 @@ public class RelatedInfoActivity extends Activity {
         editAddress = (EditText) findViewById(R.id.related_info_edit_address);
         editBirthday = (EditText) findViewById(R.id.related_info_edit_birthday);
         editComment = (EditText) findViewById(R.id.related_info_edit_comment);
-        editDeviceCardNum = (EditText) findViewById(R.id.related_info_edit_device_card_num);
-        editDeviceCode = (EditText) findViewById(R.id.related_info_edit_device_code);
+        editBraceletCardNum = (EditText) findViewById(R.id.related_info_edit_device_card_num);
+        editBraceletNumber = (EditText) findViewById(R.id.related_info_edit_device_code);
         editParName = (EditText) findViewById(R.id.related_info_edit_par_name);
         editRelation = (EditText) findViewById(R.id.related_info_edit_relation);
         editStuName = (EditText) findViewById(R.id.related_info_edit_stu_name);
+        txtCellphone = (TextView) findViewById(R.id.related_info_txt_cellphone);
         rgSex = (RadioGroup) findViewById(R.id.related_info_rg_sex);
         txtClass = (TextView) findViewById(R.id.related_info_txt_class);
         txtCity = (TextView) findViewById(R.id.related_info_txt_city);
@@ -158,9 +157,17 @@ public class RelatedInfoActivity extends Activity {
                 handleDropDownClick("location/requestCities");
                 break;
             case School:
+                if (0 == txtCity.getTag()) {
+                    ToastToolUtils.showLong("请先选择城市");
+                    return;
+                }
                 handleDropDownClick("school/requestSchools");
                 break;
             case Class:
+                if (0 == txtSchool.getTag()) {
+                    ToastToolUtils.showLong("请先选择学校");
+                    return;
+                }
                 handleDropDownClick("school/requestClasses");
                 break;
             default:
@@ -185,46 +192,43 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void doSubmitAudit(View view) {
-        try {
-            //TODO 路径没有配好
-            mProgressControl.showWindow(view);
-            MyIon.with(this)
-                    .load(AppConfigUtils.getServiceHost() + "提交审核路径")
-                    .setBodyParameter("address", editAddress.getText().toString())
-                    .setBodyParameter("cellphone", mCellphone)
-                    .setBodyParameter("birthday", editBirthday.getText().toString())
-                    .setBodyParameter("devicecardnum", editDeviceCardNum.getText().toString())
-                    .setBodyParameter("devicecode", editDeviceCode.getText().toString())
-                    .setBodyParameter("parname", editParName.getText().toString())
-                    .setBodyParameter("relation", editRelation.getText().toString())
-                    .setBodyParameter("stuname", editStuName.getText().toString())
-                    .setBodyParameter("sex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString())
-                    .setBodyParameter("schoolid", String.valueOf(txtSchool.getTag()))
-                    .setBodyParameter("proviceid", String.valueOf(txtProvince.getTag()))
-                    .setBodyParameter("cityid", String.valueOf(txtCity.getTag()))
-                    .setBodyParameter("classid", String.valueOf(txtClass.getTag()))
-                    .setBodyParameter("teacherid", String.valueOf(txtTeacher.getTag()))
-                    .as(new MapTokenTypeUtils())
-                    .setCallback(new FutureCallback<Map<String, Object>>() {
-                        @Override
-                        public void onCompleted(Exception e, Map<String, Object> result) {
-                            mProgressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                AlertWindowControl alertWindowControl = new AlertWindowControl(RelatedInfoActivity.this);
-                                alertWindowControl.showWindow(btnSubmitAudit, "提交失败", e.getMessage());
-                                return;
-                            }
-                            afterInitSubmit();
-                        }
-                    });
-        } catch (NetWorkUnAvailableException e) {
-            mProgressControl.dismiss();
-            e.printStackTrace();
-        }
+        mProgressControl.showWindow(view);
+        String url = mHostUrl + "profile/requestRegisterBaseInfo";
+        MyIon.httpPost(this, url, getParams(), mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Object resultData) {
+                afterInitSubmit(resultData);
+            }
+        });
     }
 
-    private void afterInitSubmit() {
-//TODO 提交成功后的操作
+    private Map<String, Object> getParams() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("cellphone", mCellphone);
+        params.put("provId", String.valueOf(txtProvince.getTag()));
+        params.put("cityId", String.valueOf(txtCity.getTag()));
+        params.put("schoolId", String.valueOf(txtSchool.getTag()));
+        params.put("classId", String.valueOf(txtClass.getTag()));
+        params.put("teacherId", String.valueOf(txtTeacher.getTag()));
+        params.put("studentName", editStuName.getText().toString());
+        params.put("studentSex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString());
+        params.put("studentAge", editBirthday.getText().toString());
+        params.put("parentName", editParName.getText().toString());
+        params.put("relation", editRelation.getText().toString());
+        params.put("address", editAddress.getText().toString());
+        params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
+        params.put("braceletNumber", editBraceletNumber.getText().toString());
+        return params;
+    }
+
+
+    private void afterInitSubmit(Object resultData) {
+        if (null == resultData) {
+            return;
+        }
+        Intent intent = new Intent(RelatedInfoActivity.this, AuditingActivity.class);
+        startActivity(intent);
+        RelatedInfoActivity.this.finish();
     }
 
     private void clearSelectInfo() {
@@ -287,7 +291,7 @@ public class RelatedInfoActivity extends Activity {
                 title = "学校列表";
                 break;
             case Class:
-                data = getCommonEntityList(result, "classes");
+                data = getCommonEntityList(result, "classList");
                 view = txtClass;
                 title = "班级列表";
                 break;

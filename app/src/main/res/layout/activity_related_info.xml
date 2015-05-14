@@ -71,6 +71,17 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
+            <TextView
+                android:id="@+id/related_info_txt_cellphone"
+                style="@style/EditTextStyle"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:enabled="false"
+                android:hint="@string/cellphone" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
             <EditText
                 android:id="@+id/related_info_edit_par_name"
                 style="@style/EditTextStyle"
