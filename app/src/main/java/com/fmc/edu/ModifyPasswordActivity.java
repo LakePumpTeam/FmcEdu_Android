@@ -71,7 +71,7 @@ public class ModifyPasswordActivity extends Activity {
         Map<String, Object> params = getSubmitParams();
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
+            public void afterCallBack(Map<String, Object> data) {
                 afterModifyPassword();
             }
         });

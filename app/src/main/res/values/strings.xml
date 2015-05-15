@@ -7,6 +7,8 @@
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_school_dynamic">校园动态</string>
     <string name="title_activity_kid_school">育儿学堂</string>
+    <string name="title_activity_auditing">AuditingActivity</string>
+    <string name="title_activity_wait_audit">用户审核</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>
@@ -49,7 +51,6 @@
     <string name="btn_submit">提交</string>
     <string name="title_activity_forget_password">忘记密码</string>
     <string name="reset_password">重置密码</string>
-    <string name="title_activity_auditing">AuditingActivity</string>
     <string name="cellphone">电话号码</string>
 
 

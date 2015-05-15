@@ -49,6 +49,7 @@ public class ValidateButtonControl extends Button {
         if (startingCountdownListener != null) {
             startingCountdownListener.onStartingCountdown();
         }
+        passTime = 0;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

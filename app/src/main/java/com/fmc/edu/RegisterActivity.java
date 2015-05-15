@@ -22,10 +22,10 @@ import com.fmc.edu.utils.ValidationUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class RegisterActivity extends Activity {
-
     private Button btnNextStep;
     private CheckBox ckReadAgreement;
     private EditText editCellphone;
@@ -35,7 +35,6 @@ public class RegisterActivity extends Activity {
     private ValidateButtonControl validateBtnGetAuthCode;
     private ProgressControl progressControl;
     private String mHostUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,9 +128,8 @@ public class RegisterActivity extends Activity {
         params.put("cellPhone", editCellphone.getText().toString());
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
+            public void afterCallBack(Map<String, Object> data) {
                 if (AppConfigUtils.isDevelopment()) {
-                    Map<String, Object> data = (Map<String, Object>) resultData;
                     editAuthCode.setText(data.get("identifyCode").toString());
                 }
                 validateBtnGetAuthCode.startCountdown();
@@ -146,7 +144,7 @@ public class RegisterActivity extends Activity {
 
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
+            public void afterCallBack(Map<String, Object> data) {
                 afterNextStep();
             }
         });
@@ -164,7 +162,6 @@ public class RegisterActivity extends Activity {
     }
 
     private void afterNextStep() {
-
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
         intent.putExtra("cellphone", editCellphone.getText().toString());
         startActivity(intent);
@@ -188,5 +185,4 @@ public class RegisterActivity extends Activity {
         editPassword.setText("123456");
         editConfirmPassword.setText("123456");
     }
-
 }

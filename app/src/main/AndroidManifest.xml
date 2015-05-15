@@ -88,6 +88,10 @@
             android:name=".AuditingActivity"
             android:label="@string/title_activity_auditing" >
         </activity>
+        <activity
+            android:name=".WaitAuditActivity"
+            android:label="@string/title_activity_wait_audit" >
+        </activity>
     </application>
 
 </manifest>

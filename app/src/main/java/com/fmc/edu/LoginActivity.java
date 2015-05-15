@@ -51,6 +51,7 @@ public class LoginActivity extends Activity {
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         bindViewEvents();
+        autoLogin();
     }
 
     private void initViews() {
@@ -67,11 +68,28 @@ public class LoginActivity extends Activity {
         txtRegister.setOnClickListener(txtRegisterOnClickListener);
     }
 
+    private void autoLogin() {
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        if (null == loginUserEntity) {
+            return;
+        }
+        doLogin(btnLogin, loginUserEntity.cellphone, loginUserEntity.password);
+    }
+
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            doLogin(v);
-            //     afterLogin();
+            String cellphone = editCellphone.getText().toString();
+            String password = editPassword.getText().toString();
+            if (StringUtils.isEmptyOrNull(cellphone)) {
+                ToastToolUtils.showLong("请输入账号");
+                return;
+            }
+            if (StringUtils.isEmptyOrNull(password)) {
+                ToastToolUtils.showLong("请输入密码");
+                return;
+            }
+            doLogin(v, cellphone, password);
         }
     };
 
@@ -83,7 +101,6 @@ public class LoginActivity extends Activity {
             promptWindowControl.showWindow(v, "忘记密码?", "你可以通过注册手机重置密码", "重置密码");
         }
     };
-
 
     private OnOperateOnClickListener operateOnClickListener = new OnOperateOnClickListener() {
         @Override
@@ -112,9 +129,7 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void doLogin(View view) {
-        String cellphone = editCellphone.getText().toString();
-        String password = editPassword.getText().toString();
+    private void doLogin(View view, String cellphone, String password) {
         if (StringUtils.isEmptyOrNull(cellphone) && ValidationUtils.isMobilePhone(cellphone)) {
             ToastToolUtils.showLong("请输入有效的电话号码");
             return;
@@ -134,8 +149,8 @@ public class LoginActivity extends Activity {
         params.put("password", StringUtils.MD5(cellphone, password));
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
-                afterLogin(resultData);
+            public void afterCallBack(Map<String, Object> data) {
+                afterLogin(data);
             }
         });
     }
@@ -145,6 +160,10 @@ public class LoginActivity extends Activity {
             return;
         }
         Map<String, Object> mapData = (Map<String, Object>) data;
+        if (!ConvertUtils.getBoolean(mapData.get("isSuccess"))) {
+            AlertWindowControl alertWindowControl = new AlertWindowControl(this);
+            alertWindowControl.showWindow(btnLogin, "登录失败", ConvertUtils.getString(mapData.get("businessMsg")));
+        }
         LoginUserEntity userEntity = LoginUserEntity.toLoginUserEntity(mapData);
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
 
@@ -152,14 +171,19 @@ public class LoginActivity extends Activity {
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
             Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
             startActivity(intent);
+            this.finish();
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            this.finish();
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
+        Intent intent = new Intent(LoginActivity.this, RelatedInfoActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }
 

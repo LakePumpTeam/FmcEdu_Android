@@ -14,8 +14,11 @@ import android.widget.TextView;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -49,24 +52,27 @@ public class RelatedInfoActivity extends Activity {
     private SelectListControl classListControl;
     private int mPageIndex;
     private int mPageSize;
+    private boolean mIsModify;
     private OperateType mCurrentOperateType;
     private View mSelectView;
-
+    private Map<String, Object> mOldData;
+    private boolean mIsAudit = false;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_related_info);
         initViews();
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellphone");
+        mIsModify = getIntent().getBooleanExtra("isModify", false);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
         ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
         txtCellphone.setText(mCellphone);
+        initPageData();
     }
 
     private void initViews() {
@@ -95,6 +101,50 @@ public class RelatedInfoActivity extends Activity {
         txtProvince.setOnClickListener(txtProvinceOnClickListener);
         txtSchool.setOnClickListener(txtSchoolOnClickListener);
     }
+
+    private void initPageData() {
+        if (!mIsModify) {
+            return;
+        }
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", loginUserEntity.userId);
+        MyIon.httpPost(this, mHostUrl + "", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                mOldData = data;
+                bindPageData();
+            }
+        });
+    }
+
+    private void bindPageData() {
+        editAddress.setText(ConvertUtils.getString(mOldData.get("address")));
+        editBirthday.setText(ConvertUtils.getString(mOldData.get("studentBirth")));
+//        editComment.setText(ConvertUtils.getString(mOldData.get("cellPhone")));
+        editBraceletCardNum.setText(ConvertUtils.getString(mOldData.get("braceletCardNumber")));
+        editBraceletNumber.setText(ConvertUtils.getString(mOldData.get("braceletNumber")));
+        editParName.setText(ConvertUtils.getString(mOldData.get("parentName")));
+        editRelation.setText(ConvertUtils.getString(mOldData.get("relation")));
+        editStuName.setText(ConvertUtils.getString(mOldData.get("studentName")));
+        txtCellphone.setText(ConvertUtils.getString(mOldData.get("cellPhone")));
+        txtClass.setTag(mOldData.get("classId"));
+        txtClass.setText(ConvertUtils.getString(mOldData.get("className")));
+        txtCity.setTag(mOldData.get("cityId"));
+        txtCity.setText(ConvertUtils.getString(mOldData.get("cityName")));
+        txtProvince.setTag(mOldData.get("provId"));
+        txtProvince.setText(ConvertUtils.getString(mOldData.get("provName")));
+        txtSchool.setTag(mOldData.get("schoolId"));
+        txtSchool.setText(ConvertUtils.getString(mOldData.get("schoolName")));
+        txtTeacher.setTag(mOldData.get("teacherId"));
+        txtTeacher.setText(ConvertUtils.getString(mOldData.get("teacherName")));
+        if (ConvertUtils.getBoolean(mOldData.get("studentSex"))) {
+            ((RadioButton) rgSex.getChildAt(1)).setChecked(true);
+        } else {
+            ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
+        }
+    }
+
 
     private View.OnClickListener txtProvinceOnClickListener = new View.OnClickListener() {
         @Override
@@ -180,12 +230,7 @@ public class RelatedInfoActivity extends Activity {
         handleParams();
         MyIon.httpPost(this, mHostUrl + url, mParams, mProgressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
-                if (StringUtils.isEmptyOrNull(resultData)) {
-                    ToastToolUtils.showLong("没有数据");
-                    return;
-                }
-                Map<String, Object> data = (Map<String, Object>) resultData;
+            public void afterCallBack(Map<String, Object> data) {
                 afterGetList(data);
             }
         });
@@ -196,8 +241,8 @@ public class RelatedInfoActivity extends Activity {
         String url = mHostUrl + "profile/requestRegisterBaseInfo";
         MyIon.httpPost(this, url, getParams(), mProgressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
-                afterInitSubmit(resultData);
+            public void afterCallBack(Map<String, Object> data) {
+                afterInitSubmit(data);
             }
         });
     }
@@ -218,7 +263,43 @@ public class RelatedInfoActivity extends Activity {
         params.put("address", editAddress.getText().toString());
         params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
         params.put("braceletNumber", editBraceletNumber.getText().toString());
+        mIsAudit = isAudit(params);
+        params.put("isAudit", mIsAudit);
         return params;
+    }
+
+    private boolean isAudit(Map<String, Object> newData) {
+        if (null == mOldData) {
+            return true;
+        }
+        if (!mOldData.get("provId").equals(newData.get("provId"))) {
+            return true;
+        }
+        if (!mOldData.get("cityId").equals(newData.get("cityId"))) {
+            return true;
+        }
+        if (!mOldData.get("schoolId").equals(newData.get("schoolId"))) {
+            return true;
+        }
+        if (!mOldData.get("classId").equals(newData.get("classId"))) {
+            return true;
+        }
+        if (!mOldData.get("teacherId").equals(newData.get("teacherId"))) {
+            return true;
+        }
+        if (!mOldData.get("studentName").equals(newData.get("studentName"))) {
+            return true;
+        }
+        if (!mOldData.get("studentAge").equals(newData.get("studentAge"))) {
+            return true;
+        }
+        if (!mOldData.get("parentName").equals(newData.get("parentName"))) {
+            return true;
+        }
+        if (!mOldData.get("relation").equals(newData.get("relation"))) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -226,9 +307,14 @@ public class RelatedInfoActivity extends Activity {
         if (null == resultData) {
             return;
         }
+        if (!mIsAudit) {
+            this.finish();
+            return;
+        }
+
         Intent intent = new Intent(RelatedInfoActivity.this, AuditingActivity.class);
         startActivity(intent);
-        RelatedInfoActivity.this.finish();
+        this.finish();
     }
 
     private void clearSelectInfo() {
@@ -335,7 +421,7 @@ public class RelatedInfoActivity extends Activity {
     private List<CommonEntity> getCommonEntityList(Map<String, Object> result, String key) {
 
         Object obj = result.get(key);
-        if (null == obj) {
+        if (StringUtils.isEmptyOrNull(obj)) {
             return new ArrayList<>();
         }
         List<Map<String, Object>> data = (List<Map<String, Object>>) obj;
@@ -360,9 +446,9 @@ public class RelatedInfoActivity extends Activity {
             case City:
                 return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
             case School:
-                return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
+                return new CommonEntity(map.get("schoolId").toString(), map.get("schoolName").toString());
             case Class:
-                return new CommonEntity(map.get("cityId").toString(), map.get("name").toString());
+                return new CommonEntity(map.get("classId").toString(), map.get("className").toString());
 
             default:
                 return new CommonEntity();
@@ -416,12 +502,7 @@ public class RelatedInfoActivity extends Activity {
         params.put("classId", txtClass.getTag());
         MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", mParams, mProgressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
-                if (StringUtils.isEmptyOrNull(resultData)) {
-                    ToastToolUtils.showLong("没有数据");
-                    return;
-                }
-                Map<String, Object> data = (Map<String, Object>) resultData;
+            public void afterCallBack(Map<String, Object> data) {
                 txtTeacher.setTag(data.get("headTeacherId").toString());
                 txtTeacher.setText(data.get("headTeacherName").toString());
             }

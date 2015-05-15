@@ -13,6 +13,8 @@ public class ServicePreferenceUtils {
     public static void saveLoginUserPreference(Context context, LoginUserEntity userEntity) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("userId",userEntity.userId);
+        editor.putInt("userRole",userEntity.userRole);
         editor.putString("cellphone", userEntity.cellphone);
         editor.putString("password", encryptPWD(userEntity.password));
         editor.commit();
@@ -34,12 +36,12 @@ public class ServicePreferenceUtils {
 
     public static LoginUserEntity getLoginUserByPreference(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
-        LoginUserEntity loginUserEntity = new LoginUserEntity();
         if (null == sharedPreferences) {
-            return loginUserEntity;
+            return null;
         }
+        LoginUserEntity loginUserEntity = new LoginUserEntity();
         loginUserEntity.cellphone = sharedPreferences.getString("cellphone", "");
-        loginUserEntity.password = sharedPreferences.getString("password", "");
+        loginUserEntity.password =decryptPWD( sharedPreferences.getString("password", ""));
         return loginUserEntity;
     }
 

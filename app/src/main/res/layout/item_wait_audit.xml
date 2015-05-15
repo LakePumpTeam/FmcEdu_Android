@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_margin_middle"
+    android:paddingTop="@dimen/activity_padding_middle">
+
+    <TextView
+        android:id="@+id/item_wait_audit_txt_label_cellphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/activity_margin_middle"
+        android:text="电话号码："
+        android:textColor="@color/text_cellphone_font_color"
+        android:textSize="@dimen/font_size_middle" />
+
+    <TextView
+        android:id="@+id/item_wait_audit_txt_cellphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/item_wait_audit_txt_label_cellphone"
+        android:text="187***885"
+        android:textColor="@color/text_cellphone_font_color"
+        android:textSize="@dimen/font_size_middle" />
+
+    <TextView
+        android:id="@+id/item_wait_audit_txt_label_parent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/item_wait_audit_txt_label_cellphone"
+        android:layout_marginLeft="@dimen/activity_margin_middle"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:text="请  求  人："
+        android:textColor="@color/text_parent_name_label_font_color"
+        android:textSize="@dimen/font_size_middle" />
+
+    <TextView
+        android:id="@+id/item_wait_audit_txt_parent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_wait_audit_txt_cellphone"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:layout_toRightOf="@id/item_wait_audit_txt_label_parent_name"
+        android:text="张三"
+        android:textColor="@color/text_parent_name_font_color"
+        android:textSize="@dimen/font_size_middle" />
+
+    <Button
+        android:id="@+id/item_wait_audit_btn_agree"
+        style="@style/ValidateButtonStyle"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/item_wait_audit_btn_refuse"
+        android:text="通过" />
+
+    <Button
+        android:id="@+id/item_wait_audit_btn_refuse"
+        style="@style/ValidateButtonStyle"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_margin_middle"
+        android:layout_marginRight="@dimen/activity_margin_middle"
+        android:background="@drawable/selector_btn_oval_coner_hollow_border"
+        android:textColor="@color/btn_border_color"
+        android:text="拒绝" />
+</RelativeLayout>

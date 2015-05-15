@@ -177,6 +177,7 @@
                         android:button="@drawable/selector_radio_check"
                         android:paddingLeft="@dimen/activity_padding_middle"
                         android:text="女生"
+                        android:tag="false"
                         android:textColor="@color/edit_text_font_color"
                         android:textSize="@dimen/font_size_small" />
 
@@ -187,6 +188,7 @@
                         android:button="@drawable/selector_radio_check"
                         android:paddingLeft="@dimen/activity_padding_middle"
                         android:text="男生"
+                        android:tag="true"
                         android:textColor="@color/edit_text_font_color"
                         android:textSize="@dimen/font_size_small" />
 

@@ -117,9 +117,8 @@ public class ForgetPasswordActivity extends Activity {
 
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
+            public void afterCallBack(Map<String, Object> data) {
                 if (AppConfigUtils.isDevelopment()) {
-                    Map<String, Object> data = (Map<String, Object>) resultData;
                     editAuthCode.setText(data.get("identifyCode").toString());
                 }
             }
@@ -134,7 +133,7 @@ public class ForgetPasswordActivity extends Activity {
         Map<String, Object> params = getResetPasswordParams();
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
-            public void afterCallBack(Object resultData) {
+            public void afterCallBack(Map<String, Object> data) {
                 afterResetPassword();
             }
         });

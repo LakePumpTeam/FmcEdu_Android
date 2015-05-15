@@ -2,11 +2,14 @@ package com.fmc.edu.http;
 
 import android.content.Context;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.PopupWindow;
 
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.NetworkUtils;
+import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
@@ -50,7 +53,17 @@ public class MyIon {
                                 ToastToolUtils.showLong(result.get("msg").toString());
                                 return;
                             }
-                            afterCallBack.afterCallBack(result.get("data"));
+                            if (StringUtils.isEmptyOrNull(result.get("data"))) {
+                                ToastToolUtils.showLong("服务器出错");
+                                return;
+                            }
+                            Map<String, Object> mapData = (Map<String, Object>) result.get("data");
+                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                                ToastToolUtils.showLong(ConvertUtils.getString(mapData.get("businessMsg")));
+                                return;
+                            }
+
+                            afterCallBack.afterCallBack(mapData);
                         }
                     });
         } catch (NetWorkUnAvailableException e) {
@@ -60,7 +73,7 @@ public class MyIon {
     }
 
     public static interface AfterCallBack {
-        void afterCallBack(Object resultData);
+        void afterCallBack(Map<String, Object> data);
     }
 
 }
