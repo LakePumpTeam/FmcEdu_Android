@@ -1,0 +1,142 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_teacher_info" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_padding"
+        android:paddingTop="@dimen/activity_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/teacher_info_edit_name"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:enabled="false"
+                android:hint="@string/hint_teacher_name" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/edit_text_bg_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/activity_padding"
+                    android:text="教师性别"
+                    android:textColor="@color/edit_text_font_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <RadioGroup
+                    android:id="@+id/teacher_info_rg_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_margin_middle"
+                        android:button="@drawable/selector_radio_check"
+                        android:paddingLeft="@dimen/activity_padding_middle"
+                        android:tag="false"
+                        android:text="女"
+                        android:textColor="@color/edit_text_font_color"
+                        android:textSize="@dimen/font_size_small" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_margin_middle"
+                        android:button="@drawable/selector_radio_check"
+                        android:paddingLeft="@dimen/activity_padding_middle"
+                        android:tag="true"
+                        android:text="男"
+                        android:textColor="@color/edit_text_font_color"
+                        android:textSize="@dimen/font_size_small" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/teacher_info_edit_course"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:enabled="false"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:hint="所授课程" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/teacher_info_edit_cellphone"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:enabled="false"
+                android:hint="@string/cellphone"
+                android:inputType="phone" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <TextView
+                android:id="@+id/teacher_info_txt_birth"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:hint="@string/hint_birthday"
+                android:enabled="false"
+                android:inputType="phone" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/teacher_info_edit_record"
+                android:enabled="false"
+                style="@style/EditTextStyle"
+                android:layout_height="150dp"
+                android:layout_marginBottom="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_margin_middle"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:gravity="top"
+                android:hint="履历"
+                android:padding="@dimen/activity_padding"
+                android:singleLine="false" />
+
+            <Button
+                android:id="@+id/teacher_info_btn_submit"
+                style="@style/OvalButtonStyleBorder"
+                android:layout_marginBottom="@dimen/activity_margin_middle"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:text="@string/btn_submit" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

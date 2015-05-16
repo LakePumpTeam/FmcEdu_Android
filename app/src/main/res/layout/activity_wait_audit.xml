@@ -14,8 +14,8 @@
         fmc:operatorText="全部通过"
         fmc:topTitle="@string/title_activity_wait_audit" />
 
-    <ListView
-        android:id="@+id/wait_audit_list"
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/wait_audit_slide_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

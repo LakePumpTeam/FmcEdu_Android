@@ -25,11 +25,9 @@ import java.util.List;
  * Created by Candy on 2015/5/3.
  */
 public class SelectListControl extends PopupWindow {
-    private Button btnLoadMore;
-    private ListView listView;
+    private SlideListView listView;
     private TextView txtTitle;
     private View mClickView;
-    private View mLoadMoreView;
 
     private Context mContext;
     private SelectListControlAdapter mSelectListControlAdapter;
@@ -37,8 +35,9 @@ public class SelectListControl extends PopupWindow {
     private List<CommonEntity> mSourceList;
     private DisplayMetrics mDisplayMetrics;
     private String mTitle;
-    private boolean mIsLastPage;
     private OnLoadMoreListener mOnLoadMoreListener;
+    private View mFooterView;
+    private boolean mIsLastPage;
 
     public interface OnItemSelectedListener {
         void onItemSelected(CommonEntity obj, View view);
@@ -81,7 +80,7 @@ public class SelectListControl extends PopupWindow {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
         txtTitle = (TextView) view.findViewById(R.id.select_list_txt_title);
-        listView = (ListView) view.findViewById(R.id.select_list_list);
+        listView = (SlideListView) view.findViewById(R.id.select_slide_list);
         txtTitle.setText(mTitle);
         linearLayout.addView(view);
 
@@ -90,6 +89,7 @@ public class SelectListControl extends PopupWindow {
 
         bindListView();
         listView.setOnItemClickListener(onItemClickListener);
+        listView.setOnLoadMoreListener(onLoadMoreListener);
     }
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -109,65 +109,35 @@ public class SelectListControl extends PopupWindow {
             return;
         }
 
-        mLoadMoreView = LayoutInflater.from(mContext).inflate(R.layout.control_filter_load_more, null);
-        btnLoadMore = (Button) mLoadMoreView.findViewById(R.id.filter_load_more_btn);
-        if (null == btnLoadMore) {
-            return;
-        }
-        btnLoadMore.setOnClickListener(loadMoreOnClickListener);
-        if (mIsLastPage) {
-            listView.addFooterView(mLoadMoreView);
-        }
         if (null == listView.getAdapter()) {
             mSelectListControlAdapter = new SelectListControlAdapter(mContext, mSourceList);
             listView.setAdapter(mSelectListControlAdapter);
         }
     }
 
-    private View.OnClickListener loadMoreOnClickListener = new View.OnClickListener() {
+    private SlideListView.OnLoadMoreListener onLoadMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
-        public void onClick(View v) {
-            if (null == mOnLoadMoreListener) {
+        public void onLoadMore(View footerView) {
+            if (null == mOnLoadMoreListener || mIsLastPage) {
                 return;
             }
+            footerView.setVisibility(View.VISIBLE);
+            mFooterView = footerView;
             mOnLoadMoreListener.onLoadMore();
         }
     };
 
-
     public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
         this.mOnLoadMoreListener = mOnLoadMoreListener;
-    }
-
-    private void loadData() {
-//        try {
-//            MyIon.with(mContext).load(mMethodPath)
-//                    .setBodyParameters(mParameter)
-//                    .as(new MapTokenTypeUtils())
-//                    .setCallback(new FutureCallback<Map<String, Object>>() {
-//                        @Override
-//                        public void onCompleted(Exception e, Map<String, Object> stringObjectMap) {
-//                            progressControl.dismiss();
-//                            if (!HttpTools.isRequestSuccessfully(e, stringObjectMap)) {
-//                                ToastToolUtils.showShort(HttpTools.getStatusMsg(e, stringObjectMap));
-//                            } else {
-//                                List<Map<String, Object>> data = HttpTools.getListMap(stringObjectMap);
-//                                handleData(data);
-//                            }
-//                        }
-//                    });
-//            progressControl.showAsDropDown(mView);
-//        } catch (NetWorkUnAvailableException e) {
-//            progressControl.dismiss();
-//            e.printStackTrace();
-//        }
     }
 
     public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
         this.mOnItemSelectedListener = sourceListener;
     }
 
-    public void setLoadMoreData(List<CommonEntity> data) {
+    public void setLoadMoreData(List<CommonEntity> data, boolean isLastPage) {
+        mIsLastPage = isLastPage;
+        mFooterView.setVisibility(View.GONE);
         mSelectListControlAdapter.addAllItems(data, false);
         mSelectListControlAdapter.notifyDataSetChanged();
     }

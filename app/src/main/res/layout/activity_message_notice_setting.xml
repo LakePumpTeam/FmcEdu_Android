@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_message_notice_setting" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_text_bg_color">
+
+        <TextView
+            style="@style/EditTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/activity_margin"
+            android:text="震动" />
+
+        <CheckBox
+            android:id="@+id/message_notice_setting_ck_shake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_margin" />
+    </RelativeLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_text_bg_color">
+
+        <TextView
+            style="@style/EditTextStyle"
+            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/activity_margin"
+            android:text="铃声" />
+
+        <CheckBox
+            android:id="@+id/message_notice_setting_ck_ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_margin" />
+    </RelativeLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <Button
+        android:id="@+id/message_notice_setting_btn_next_step"
+        style="@style/OvalButtonStyle"
+        android:layout_margin="@dimen/activity_margin"
+        android:text="@string/btn_save" />
+</LinearLayout>

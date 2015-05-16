@@ -14,11 +14,14 @@ import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -30,6 +33,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -50,6 +54,7 @@ public class MainActivity extends Activity {
     private TopBarControl topBar;
     private ProgressControl progressControl;
     private ImageLoader mImageLoader;
+    private int mUserRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,12 @@ public class MainActivity extends Activity {
         progressControl = new ProgressControl(this);
         initImageLoader();
         initViewEvents();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
 
     private void initViews() {
@@ -88,37 +99,24 @@ public class MainActivity extends Activity {
         menuCampus.setOnClickListener(menuItemOnClickListener);
         menuLocation.setOnClickListener(menuItemOnClickListener);
         menuAudit.setOnClickListener(menuItemOnClickListener);
+        circleImgHeadPhoto.setOnClickListener(photoOnClickListener);
+        txtTeacher.setOnClickListener(txtTeacherOnClickListener);
     }
 
     private void initData() {
-        //TODO 路径没有配置好
-        try {
-            progressControl.showWindow(txtTeacher);
-            String url = AppConfigUtils.getServiceHost() + "获取初始数据";
-            MyIon.with(this)
-                    .load(url)
-                    .asString(Charset.forName("utf8"))
-                    .setCallback(new FMCMapFutureCallback() {
-                        @Override
-                        public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                AlertWindowControl alertWindowControl = new AlertWindowControl(MainActivity.this);
-                                alertWindowControl.showWindow(txtTeacher, "获取失败", e.getMessage());
-                                return;
-                            }
-                            Map<String, Object> data = (Map<String, Object>) result.get("data");
-                            afterInitData(data);
-                        }
-                    });
-        } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
-            e.printStackTrace();
-        }
+        String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("profileId", loginUserEntity.userId);
+        MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                afterInitData(data);
+            }
+        });
     }
 
     private void afterInitData(Map<String, Object> initData) {
-        //TODO 根据返回数据绑定值
         mImageLoader.displayImage(initData.get("imgurl").toString(), circleImgHeadPhoto);
         menuSchoolDynamic.setHasDynamic(true);
         menuGradeDynamic.setHasDynamic(true);
@@ -128,8 +126,16 @@ public class MainActivity extends Activity {
         menuCampus.setHasDynamic(true);
         menuLocation.setHasDynamic(true);
         menuAudit.setHasDynamic(true);
-        txtTeacher.setText("");
-        txtClassGrade.setText("");
+        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
+        txtTeacher.setTag(ConvertUtils.getString(initData.get("teacherId")));
+        txtClassGrade.setText(ConvertUtils.getString(initData.get("className")));
+        mUserRole = ConvertUtils.getInteger(initData.get("userRole"));
+        if (ConvertUtils.getBoolean(initData.get("sex"))) {
+            circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_boy));
+        } else {
+            circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
+        }
+
     }
 
     private void initImageLoader() {
@@ -173,8 +179,34 @@ public class MainActivity extends Activity {
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             //TODO 发送新动态
+        }
+    };
+
+    private View.OnClickListener photoOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mUserRole == 1) {
+                LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
+                Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
+                intent.putExtra("teacherId", loginUserEntity.userId);
+                return;
+            }
+            Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
+            intent.putExtra("isModify", true);
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener txtTeacherOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mUserRole == 1) {
+                return;
+            }
+            LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
+            Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
+            intent.putExtra("teacherId", loginUserEntity.userId);
         }
     };
 
@@ -213,7 +245,7 @@ public class MainActivity extends Activity {
                     gotoDetailPage(v, RegisterActivity.class);
                     break;
                 case R.id.main_menu_audit:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    gotoDetailPage(v, WaitAuditActivity.class);
                     break;
                 default:
                     break;

@@ -65,9 +65,8 @@ public class ModifyPasswordActivity extends Activity {
     };
 
     private void doSubmitOnClick(View view) {
-        //TODO 修改密码的路径
         progressControl.showWindow(view);
-        String url = mHostUrl + "profile/requestRegisterConfirm";
+        String url = mHostUrl + "profile/requestAlterPwd";
         Map<String, Object> params = getSubmitParams();
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
@@ -82,10 +81,9 @@ public class ModifyPasswordActivity extends Activity {
         LoginUserEntity loginUser = ServicePreferenceUtils.getLoginUserByPreference(this);
         String md5OldPassword = StringUtils.MD5(loginUser.cellphone, editOldPassword.getText().toString());
         String md5Password = StringUtils.MD5(loginUser.cellphone, editPassword.getText().toString());
-        String md5ConfirmPassword = StringUtils.MD5(loginUser.cellphone, editConfirmPassword.getText().toString());
+        data.put("userId",loginUser.userId);
         data.put("oldPassword", md5OldPassword);
-        data.put("password", md5Password);
-        data.put("confirmPassword", md5ConfirmPassword);
+        data.put("newPassword", md5Password);
         return data;
     }
 
@@ -93,5 +91,6 @@ public class ModifyPasswordActivity extends Activity {
         ServicePreferenceUtils.clearPasswordPreference(this);
         Intent intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
+        this.finish();
     }
 }

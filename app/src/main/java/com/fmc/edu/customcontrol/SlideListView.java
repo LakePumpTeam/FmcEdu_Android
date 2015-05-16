@@ -1,4 +1,4 @@
-package com.fmc.edu.adapter;
+package com.fmc.edu.customcontrol;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -25,12 +25,10 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
     public SlideListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-    }
-
-    @Override
-    public void addFooterView(View v) {
+        setOnScrollListener(this);
         mFooterView = LayoutInflater.from(mContext).inflate(R.layout.listview_footer_view, null);
-        super.addFooterView(mFooterView);
+        mFooterView.setVisibility(GONE);
+        addFooterView(mFooterView);
     }
 
     @Override

@@ -41,6 +41,13 @@
         <meta-data
             android:name="com.fmc.edu.page_size"
             android:value="10" />
+        <meta-data
+            android:name="com.fmc.edu.two"
+            android:value="false" />
+        <meta-data
+            android:name="com.fmc.edu.version"
+            android:value="1.0" />
+
 
         <activity
             android:name=".MainActivity"
@@ -86,11 +93,23 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AuditingActivity"
-            android:label="@string/title_activity_auditing" >
-        </activity>
+            android:label="@string/title_activity_auditing" />
         <activity
             android:name=".WaitAuditActivity"
-            android:label="@string/title_activity_wait_audit" >
+            android:label="@string/title_activity_wait_audit" />
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test" />
+        <activity
+            android:name=".TeacherInfoActivity"
+            android:label="@string/title_activity_teacher_info" />
+        <activity
+            android:name=".MessageNoticeSettingActivity"
+            android:label="@string/title_activity_message_notice_setting" >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

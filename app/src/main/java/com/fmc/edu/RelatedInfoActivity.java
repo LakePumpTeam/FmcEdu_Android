@@ -1,11 +1,13 @@
 package com.fmc.edu;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,16 +24,17 @@ import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class RelatedInfoActivity extends Activity {
     private Button btnSubmitAudit;
     private EditText editAddress;
-    private EditText editBirthday;
     private EditText editComment;
     private EditText editBraceletCardNum;
     private EditText editBraceletNumber;
@@ -39,6 +42,7 @@ public class RelatedInfoActivity extends Activity {
     private EditText editRelation;
     private EditText editStuName;
     private RadioGroup rgSex;
+    private TextView txtBirthday;
     private TextView txtClass;
     private TextView txtCity;
     private TextView txtProvince;
@@ -54,6 +58,7 @@ public class RelatedInfoActivity extends Activity {
     private int mPageSize;
     private boolean mIsModify;
     private OperateType mCurrentOperateType;
+    private boolean mIsLastPage = true;
     private View mSelectView;
     private Map<String, Object> mOldData;
     private boolean mIsAudit = false;
@@ -70,15 +75,13 @@ public class RelatedInfoActivity extends Activity {
         mHostUrl = AppConfigUtils.getServiceHost();
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
-        ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
-        txtCellphone.setText(mCellphone);
         initPageData();
     }
 
     private void initViews() {
         btnSubmitAudit = (Button) findViewById(R.id.related_info_btn_submit_audit);
         editAddress = (EditText) findViewById(R.id.related_info_edit_address);
-        editBirthday = (EditText) findViewById(R.id.related_info_edit_birthday);
+        txtBirthday = (TextView) findViewById(R.id.related_info_txt_birthday);
         editComment = (EditText) findViewById(R.id.related_info_edit_comment);
         editBraceletCardNum = (EditText) findViewById(R.id.related_info_edit_device_card_num);
         editBraceletNumber = (EditText) findViewById(R.id.related_info_edit_device_code);
@@ -100,10 +103,13 @@ public class RelatedInfoActivity extends Activity {
         txtCity.setOnClickListener(txtCityOnClickListener);
         txtProvince.setOnClickListener(txtProvinceOnClickListener);
         txtSchool.setOnClickListener(txtSchoolOnClickListener);
+        txtBirthday.setOnClickListener(txtBirthListener);
     }
 
     private void initPageData() {
         if (!mIsModify) {
+            ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
+            txtCellphone.setText(mCellphone);
             return;
         }
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
@@ -120,7 +126,7 @@ public class RelatedInfoActivity extends Activity {
 
     private void bindPageData() {
         editAddress.setText(ConvertUtils.getString(mOldData.get("address")));
-        editBirthday.setText(ConvertUtils.getString(mOldData.get("studentBirth")));
+        txtBirthday.setText(ConvertUtils.getString(mOldData.get("studentBirth")));
 //        editComment.setText(ConvertUtils.getString(mOldData.get("cellPhone")));
         editBraceletCardNum.setText(ConvertUtils.getString(mOldData.get("braceletCardNumber")));
         editBraceletNumber.setText(ConvertUtils.getString(mOldData.get("braceletNumber")));
@@ -144,7 +150,6 @@ public class RelatedInfoActivity extends Activity {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
         }
     }
-
 
     private View.OnClickListener txtProvinceOnClickListener = new View.OnClickListener() {
         @Override
@@ -190,11 +195,31 @@ public class RelatedInfoActivity extends Activity {
             doSubmitAudit(v);
         }
     };
+    private View.OnClickListener txtBirthListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(RelatedInfoActivity.this, dateDialogDateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener dateDialogDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String birthDay = String.valueOf(year) + "-" + String.valueOf(monthOfYear) + "-" + String.valueOf(dayOfMonth);
+            txtBirthday.setText(birthDay);
+        }
+    };
 
     private void handleDropDownClick() {
-        mParams = new HashMap<>();
         mPageIndex = 1;
         classListControl = null;
+        mProgressControl.showWindow(mSelectView);
+        requestHttp();
+    }
+
+    private void requestHttp() {
         switch (mCurrentOperateType) {
             case Province:
                 handleDropDownClick("location/requestProv");
@@ -226,7 +251,6 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void handleDropDownClick(String url) {
-        mProgressControl.showWindow(mSelectView);
         handleParams();
         MyIon.httpPost(this, mHostUrl + url, mParams, mProgressControl, new MyIon.AfterCallBack() {
             @Override
@@ -257,7 +281,7 @@ public class RelatedInfoActivity extends Activity {
         params.put("teacherId", String.valueOf(txtTeacher.getTag()));
         params.put("studentName", editStuName.getText().toString());
         params.put("studentSex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString());
-        params.put("studentAge", editBirthday.getText().toString());
+        params.put("studentAge", txtBirthday.getText().toString());
         params.put("parentName", editParName.getText().toString());
         params.put("relation", editRelation.getText().toString());
         params.put("address", editAddress.getText().toString());
@@ -302,7 +326,6 @@ public class RelatedInfoActivity extends Activity {
         return false;
     }
 
-
     private void afterInitSubmit(Object resultData) {
         if (null == resultData) {
             return;
@@ -312,9 +335,9 @@ public class RelatedInfoActivity extends Activity {
             return;
         }
 
+        this.finish();
         Intent intent = new Intent(RelatedInfoActivity.this, AuditingActivity.class);
         startActivity(intent);
-        this.finish();
     }
 
     private void clearSelectInfo() {
@@ -341,6 +364,7 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void handleParams() {
+        mParams = new HashMap<>();
         mParams.put("pageIndex", mPageIndex);
         mParams.put("pageSize", mPageSize);
         switch (mCurrentOperateType) {
@@ -360,6 +384,7 @@ public class RelatedInfoActivity extends Activity {
         List<CommonEntity> data = new ArrayList<>();
         String title = "";
         View view = null;
+        mIsLastPage = ConvertUtils.getBoolean(result.get("isLastPage"));
         switch (mCurrentOperateType) {
             case Province:
                 data = getCommonEntityList(result, "provinces");
@@ -386,12 +411,12 @@ public class RelatedInfoActivity extends Activity {
             return;
         }
         if (null == classListControl) {
-            classListControl = new SelectListControl(RelatedInfoActivity.this, data, false, title, view);
+            classListControl = new SelectListControl(RelatedInfoActivity.this, data, mIsLastPage, title, view);
             classListControl.setOnItemClickListener(selectedItemListener);
             classListControl.setOnLoadMoreListener(onLoadMoreListener);
             classListControl.showAtLocation(view, Gravity.CENTER, 0, 0);
         } else {
-            classListControl.setLoadMoreData(data);
+            classListControl.setLoadMoreData(data, mIsLastPage);
         }
     }
 
@@ -414,7 +439,11 @@ public class RelatedInfoActivity extends Activity {
     private SelectListControl.OnLoadMoreListener onLoadMoreListener = new SelectListControl.OnLoadMoreListener() {
         @Override
         public void onLoadMore() {
+            if (mIsLastPage) {
+                return;
+            }
             mPageIndex++;
+            requestHttp();
         }
     };
 
@@ -422,6 +451,7 @@ public class RelatedInfoActivity extends Activity {
 
         Object obj = result.get(key);
         if (StringUtils.isEmptyOrNull(obj)) {
+            ToastToolUtils.showLong("无数据");
             return new ArrayList<>();
         }
         List<Map<String, Object>> data = (List<Map<String, Object>>) obj;
@@ -500,7 +530,7 @@ public class RelatedInfoActivity extends Activity {
         mProgressControl.showWindow(txtTeacher);
         Map<String, Object> params = new HashMap<>();
         params.put("classId", txtClass.getTag());
-        MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", mParams, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 txtTeacher.setTag(data.get("headTeacherId").toString());

@@ -126,9 +126,10 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
 
-            <EditText
-                android:id="@+id/related_info_edit_birthday"
+            <TextView
+                android:id="@+id/related_info_txt_birthday"
                 style="@style/EditTextStyle"
+                android:clickable="true"
                 android:hint="@string/hint_birthday"
                 android:paddingLeft="@dimen/activity_padding" />
 
@@ -176,8 +177,8 @@
                         android:layout_margin="@dimen/activity_margin_middle"
                         android:button="@drawable/selector_radio_check"
                         android:paddingLeft="@dimen/activity_padding_middle"
-                        android:text="女生"
                         android:tag="false"
+                        android:text="女"
                         android:textColor="@color/edit_text_font_color"
                         android:textSize="@dimen/font_size_small" />
 
@@ -187,8 +188,8 @@
                         android:layout_margin="@dimen/activity_margin_middle"
                         android:button="@drawable/selector_radio_check"
                         android:paddingLeft="@dimen/activity_padding_middle"
-                        android:text="男生"
                         android:tag="true"
+                        android:text="男"
                         android:textColor="@color/edit_text_font_color"
                         android:textSize="@dimen/font_size_small" />
 

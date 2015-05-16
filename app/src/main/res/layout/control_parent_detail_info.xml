@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/select_list_ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:background="@color/activity_login_bg_color"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_padding_middle">
+
+        <TextView
+            android:id="@+id/select_list_txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="家长详细信息"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_cellphone" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_cellphone"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_parent_name" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_parent_name"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_student_name" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_student_name"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_relation" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_relation"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_stu_sex" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_sex"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_birthday" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_birth"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_device_code" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_device_code"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_device_card_num" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_device_card_num"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_address" />
+
+                <TextView
+                    android:id="@+id/parent_detail_info_txt_address"
+                    style="@style/EditTextStyle"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:hint="@string/label_teacher" />
+            </LinearLayout>
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <Button
+                android:id="@+id/parent_detail_info_btn_close"
+                style="@style/OvalButtonStyle"
+                android:layout_margin="@dimen/activity_margin"
+                android:text="@string/btn_close" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -20,8 +20,6 @@ public class LoginUserEntity {
     public static LoginUserEntity toLoginUserEntity(Map<String, Object> mapData) {
         LoginUserEntity loginUserEntity = new LoginUserEntity();
         loginUserEntity.userId = ConvertUtils.getInteger(mapData.get("userId"));
-        loginUserEntity.password = ConvertUtils.getString(mapData.get("password"));
-        loginUserEntity.studentSex = ConvertUtils.getInteger(mapData.get("studentSex"));
         return loginUserEntity;
     }
 }

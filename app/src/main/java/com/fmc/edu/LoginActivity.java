@@ -70,10 +70,10 @@ public class LoginActivity extends Activity {
 
     private void autoLogin() {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        if (null == loginUserEntity) {
+        if (null == loginUserEntity || StringUtils.isEmptyOrNull(loginUserEntity.cellphone) || StringUtils.isEmptyOrNull(loginUserEntity.password)) {
             return;
         }
-        doLogin(btnLogin, loginUserEntity.cellphone, loginUserEntity.password);
+        doAutoLogin(loginUserEntity.cellphone, loginUserEntity.password);
     }
 
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class LoginActivity extends Activity {
         mProgressControl.showWindow(view);
         String url = mHostUrl + "profile/requestLogin";
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userAccount", editCellphone.getText().toString());
+        params.put("userAccount", cellphone);
         params.put("password", StringUtils.MD5(cellphone, password));
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
@@ -155,35 +155,58 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void afterLogin(Object data) {
+    private void doAutoLogin(String cellphone, String password) {
+        if (StringUtils.isEmptyOrNull(cellphone) && ValidationUtils.isMobilePhone(cellphone)) {
+            ToastToolUtils.showLong("请输入有效的电话号码");
+            return;
+        }
+        if (StringUtils.isEmptyOrNull(password)) {
+            ToastToolUtils.showLong("请输入密码");
+            return;
+        }
+        if (password.length() < 6 || password.length() > 16) {
+            ToastToolUtils.showLong("有效的密码是6-16位的数字或者字符");
+            return;
+        }
+        String url = mHostUrl + "profile/requestLogin";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userAccount", cellphone);
+        params.put("password", StringUtils.MD5(cellphone, password));
+        MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                afterLogin(data);
+            }
+        });
+    }
+
+    private void afterLogin(Map<String, Object> data) {
         if (StringUtils.isEmptyOrNull(data)) {
             return;
         }
-        Map<String, Object> mapData = (Map<String, Object>) data;
-        if (!ConvertUtils.getBoolean(mapData.get("isSuccess"))) {
-            AlertWindowControl alertWindowControl = new AlertWindowControl(this);
-            alertWindowControl.showWindow(btnLogin, "登录失败", ConvertUtils.getString(mapData.get("businessMsg")));
-        }
-        LoginUserEntity userEntity = LoginUserEntity.toLoginUserEntity(mapData);
+        LoginUserEntity userEntity = new LoginUserEntity();
+        userEntity.userId = ConvertUtils.getInteger(data.get("userId"));
+        userEntity.cellphone = editCellphone.getText().toString();
+        userEntity.password = editPassword.getText().toString();
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
 
-        int auditState = ConvertUtils.getInteger(mapData.get("auditState"));
+        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
+            this.finish();
             Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
             startActivity(intent);
-            this.finish();
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
+            this.finish();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-            this.finish();
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
+        this.finish();
         Intent intent = new Intent(LoginActivity.this, RelatedInfoActivity.class);
         startActivity(intent);
-        this.finish();
     }
 }
 

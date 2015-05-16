@@ -52,7 +52,7 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         if (null != this.mItems && isClear) {
             this.mItems.clear();
         }
-        this.mItems = items;
+        this.mItems.addAll(items);
     }
 
     @Override

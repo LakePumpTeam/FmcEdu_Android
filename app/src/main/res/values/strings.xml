@@ -9,6 +9,12 @@
     <string name="title_activity_kid_school">育儿学堂</string>
     <string name="title_activity_auditing">AuditingActivity</string>
     <string name="title_activity_wait_audit">用户审核</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_message_notice_setting">新消息通知设置</string>
+    <string name="title_activity_about">关于我们</string>
+    <string name="title_activity_teacher_info">教师信息</string>
+    <string name="title_activity_forget_password">忘记密码</string>
+    <string name="title_activity_modify_password">修改密码</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>
@@ -25,7 +31,7 @@
     <string name="hint_stu_name">学生姓名</string>
     <string name="hint_relation">与学生关系</string>
     <string name="hint_par_name">家长姓名</string>
-    <string name="hint_birthday">学生出生年月</string>
+    <string name="hint_birthday">出生年月</string>
     <string name="hint_stu_sex">学生性别</string>
     <string name="hint_address">家庭住址</string>
     <string name="hint_comment">备注信息</string>
@@ -46,12 +52,25 @@
     <string name="version_info">版本信息</string>
     <string name="about">关于我们</string>
     <string name="login_out">退出登录</string>
-    <string name="title_activity_modify_password">修改密码</string>
     <string name="old_password">原密码</string>
     <string name="btn_submit">提交</string>
-    <string name="title_activity_forget_password">忘记密码</string>
     <string name="reset_password">重置密码</string>
     <string name="cellphone">电话号码</string>
+    <string name="hint_teacher_name">教师名字</string>
+    <string name="label_province">省份：</string>
+    <string name="label_city">城市：</string>
+    <string name="label_shcool">学校：</string>
+    <string name="label_cellphone">电话号码：</string>
+    <string name="label_parent_name">家长姓名：</string>
+    <string name="label_student_name">学生姓名:</string>
+    <string name="label_relation">亲子关系：</string>
+    <string name="label_device_code">设备编号：</string>
+    <string name="label_device_card_num">设备卡号：</string>
+    <string name="label_address">地址：</string>
+    <string name="btn_close">关闭</string>
+    <string name="label_stu_sex">学生性别：</string>
+    <string name="label_birthday">学生生日：</string>
+    <string name="btn_save">保存</string>
 
 
 </resources>

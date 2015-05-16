@@ -12,6 +12,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.fmc.edu.utils.ValidationUtils;
@@ -21,7 +22,6 @@ import java.util.Map;
 
 
 public class ForgetPasswordActivity extends Activity {
-
     private Button btnReset;
     private EditText editCellphone;
     private EditText editAuthCode;
@@ -30,7 +30,6 @@ public class ForgetPasswordActivity extends Activity {
     private ValidateButtonControl validateBtnGetAuthCode;
     private ProgressControl progressControl;
     private String mHostUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +113,6 @@ public class ForgetPasswordActivity extends Activity {
         String url = mHostUrl + "profile/requestPhoneIdentify";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
-
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -126,10 +124,8 @@ public class ForgetPasswordActivity extends Activity {
     }
 
     private void doResetPasswordOnClick(View view) {
-
-        //TODO 忘记密码的接口
         progressControl.showWindow(view);
-        String url = mHostUrl + "profile/requestRegisterConfirm";
+        String url = mHostUrl + "profile/requestForgetPwd";
         Map<String, Object> params = getResetPasswordParams();
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
@@ -144,16 +140,15 @@ public class ForgetPasswordActivity extends Activity {
         data.put("cellPhone", editCellphone.getText());
         data.put("authCode", editAuthCode.getText());
         String md5Password = StringUtils.MD5(editCellphone.getText().toString(), editPassword.getText().toString());
-        String md5ConfirmPassword = StringUtils.MD5(editCellphone.getText().toString(), editConfirmPassword.getText().toString());
         data.put("password", md5Password);
-        data.put("confirmPassword", md5ConfirmPassword);
         return data;
     }
 
     private void afterResetPassword() {
-
+        ServicePreferenceUtils.clearPasswordPreference(this);
         Intent intent = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     private void CheckValidateInput() {

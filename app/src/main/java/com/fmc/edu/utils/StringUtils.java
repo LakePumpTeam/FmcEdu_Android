@@ -1,5 +1,7 @@
 package com.fmc.edu.utils;
 
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -16,6 +18,9 @@ public class StringUtils {
         }
         if ("null".equals(str)) {
             return true;
+        }
+        if(JSONObject.NULL.equals(str)){
+            return  true;
         }
         return false;
     }

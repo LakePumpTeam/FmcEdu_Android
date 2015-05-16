@@ -21,14 +21,12 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_middle" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/select_list_list"
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/select_slide_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@color/select_list_bg_color"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:textSize="@dimen/font_size_small" />
-
-
 </LinearLayout>

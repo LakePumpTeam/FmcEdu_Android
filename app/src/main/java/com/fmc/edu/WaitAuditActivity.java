@@ -1,17 +1,19 @@
 package com.fmc.edu;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.fmc.edu.adapter.SelectListControlAdapter;
 import com.fmc.edu.adapter.WaitAuditAdapter;
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +21,17 @@ import java.util.Map;
 public class WaitAuditActivity extends Activity {
 
     private TopBarControl topBar;
-    private ListView list;
+    private SlideListView list;
+
     private WaitAuditAdapter mWaitAuditAdapter;
+    private ProgressControl mProgressControl;
+    private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_audit);
+        mProgressControl = new ProgressControl(this);
         initViews();
         initViewEvents();
         initData();
@@ -33,11 +39,12 @@ public class WaitAuditActivity extends Activity {
 
     private void initViews() {
         topBar = (TopBarControl) findViewById(R.id.wait_audit_top_bar);
-        list = (ListView) findViewById(R.id.wait_audit_list);
+        list = (SlideListView) findViewById(R.id.wait_audit_slide_list);
     }
 
     private void initViewEvents() {
         topBar.setOnOperateOnClickListener(allPassOperateListener);
+       // list.setOnLoadMoreListener(onLoadMoreListener);
     }
 
     private void initData() {
@@ -48,7 +55,17 @@ public class WaitAuditActivity extends Activity {
     private TopBarControl.OnOperateOnClickListener allPassOperateListener = new TopBarControl.OnOperateOnClickListener() {
         @Override
         public void onOperateClick(View v) {
-//TODO 批量审核调用接口
+            mProgressControl.showWindow(topBar);
+            LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(WaitAuditActivity.this);
+            Map<String, Object> params = new HashMap<>();
+            params.put("teacherId", loginUserEntity.userId);
+            params.put("allPass", 1);
+            MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    WaitAuditActivity.this.finish();
+                }
+            });
         }
     };
 
@@ -57,5 +74,4 @@ public class WaitAuditActivity extends Activity {
         //TODO 获取待审核列表
         return null;
     }
-
 }

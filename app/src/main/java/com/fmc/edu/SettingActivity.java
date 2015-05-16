@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 
 public class SettingActivity extends Activity {
@@ -56,7 +58,8 @@ public class SettingActivity extends Activity {
     private View.OnClickListener txtAboutOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 关于
+            Intent intent = new Intent(SettingActivity.this, AboutActivity.class);
+            startActivity(intent);
         }
     };
     private View.OnClickListener txtModifyPasswordOnClickListener = new View.OnClickListener() {
@@ -70,7 +73,8 @@ public class SettingActivity extends Activity {
     private View.OnClickListener txtNewMsgNoticeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 新消息通知设置
+            Intent intent = new Intent(SettingActivity.this, MessageNoticeSettingActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -78,7 +82,8 @@ public class SettingActivity extends Activity {
     private View.OnClickListener txtVersionOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 版本信息
+            String version = AppConfigUtils.getVersion();
+            ToastToolUtils.showLong("当前版本:" + version);
         }
     };
 

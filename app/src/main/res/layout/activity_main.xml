@@ -20,7 +20,6 @@
         android:layout_height="160dp"
         android:layout_below="@+id/main_top_bar"
         android:background="@mipmap/main_bg"
-
         android:gravity="center"
         android:orientation="vertical">
 
@@ -35,7 +34,7 @@
             android:id="@+id/main_txt_teacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin_small"
+            android:layout_marginTop="@dimen/activity_margin_middle"
             android:text="李老师"
             android:textColor="@color/activity_font_color"
             android:textSize="@dimen/font_size_middle" />
@@ -44,6 +43,7 @@
             android:id="@+id/main_txt_class_grade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_middle"
             android:text="3年级2班"
             android:textColor="@color/activity_font_color"
             android:textSize="@dimen/font_size_middle" />

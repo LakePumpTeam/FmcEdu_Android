@@ -1,6 +1,7 @@
 package com.fmc.edu.http;
 
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.PopupWindow;
@@ -15,6 +16,9 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.koushikdutta.ion.future.ResponseFuture;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -36,10 +40,28 @@ public class MyIon {
             return withB.asString(Charset.forName("utf8"));
         }
         for (String key : params.keySet()) {
-            String value = params.get(key).toString();
-            withB.setBodyParameter(key, Base64.encodeToString(value.getBytes(), Base64.DEFAULT));
+            Object value = params.get(key);
+            try {
+                byte[] bytes = getBytesFromObject(value);
+                withB.setBodyParameter(key, Base64.encodeToString(bytes, Base64.DEFAULT));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return withB.asString(Charset.forName("utf8"));
+    }
+
+    public static byte[] getBytesFromObject(Object obj) throws Exception {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof Integer || obj instanceof String || obj instanceof SpannableStringBuilder) {
+            return obj.toString().getBytes();
+        }
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        ObjectOutputStream oo = new ObjectOutputStream(bo);
+        oo.writeObject(obj);
+        return bo.toByteArray();
     }
 
     public static void httpPost(Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
@@ -48,17 +70,28 @@ public class MyIon {
                     .setCallback(new FMCMapFutureCallback() {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                            progressControl.dismiss();
-                            if (!HttpTools.isRequestSuccessfully(e, result)) {
+                            if (null != progressControl) {
+                                progressControl.dismiss();
+                            }
+
+                            if (!HttpTools.isRequestSuccessfully(e, result))
+
+                            {
                                 ToastToolUtils.showLong(result.get("msg").toString());
                                 return;
                             }
-                            if (StringUtils.isEmptyOrNull(result.get("data"))) {
+
+                            if (StringUtils.isEmptyOrNull(result.get("data")))
+
+                            {
                                 ToastToolUtils.showLong("服务器出错");
                                 return;
                             }
+
                             Map<String, Object> mapData = (Map<String, Object>) result.get("data");
-                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0)
+
+                            {
                                 ToastToolUtils.showLong(ConvertUtils.getString(mapData.get("businessMsg")));
                                 return;
                             }
@@ -67,7 +100,9 @@ public class MyIon {
                         }
                     });
         } catch (NetWorkUnAvailableException e) {
-            progressControl.dismiss();
+            if (null != progressControl) {
+                progressControl.dismiss();
+            }
             e.printStackTrace();
         }
     }
