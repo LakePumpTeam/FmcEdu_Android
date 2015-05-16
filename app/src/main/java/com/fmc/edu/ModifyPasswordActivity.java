@@ -56,6 +56,10 @@ public class ModifyPasswordActivity extends Activity {
         public void onClick(View v) {
             String password = editPassword.getText().toString();
             String confirmPassword = editConfirmPassword.getText().toString();
+            if(password.length()<6 || password.length()>16 ){
+                ToastToolUtils.showLong("请输入6-16位的密码");
+                return;
+            }
             if (!password.equals(confirmPassword)) {
                 ToastToolUtils.showLong("两次密码输入不一致");
                 return;
@@ -89,8 +93,8 @@ public class ModifyPasswordActivity extends Activity {
 
     private void afterModifyPassword() {
         ServicePreferenceUtils.clearPasswordPreference(this);
+        this.finish();
         Intent intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
-        this.finish();
     }
 }

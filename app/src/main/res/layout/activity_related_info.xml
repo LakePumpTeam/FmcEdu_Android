@@ -143,14 +143,6 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
-            <EditText
-                android:id="@+id/related_info_edit_comment"
-                style="@style/EditTextStyle"
-                android:hint="@string/hint_comment"
-                android:paddingLeft="@dimen/activity_padding" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

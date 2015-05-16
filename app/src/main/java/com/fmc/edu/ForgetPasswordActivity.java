@@ -146,9 +146,9 @@ public class ForgetPasswordActivity extends Activity {
 
     private void afterResetPassword() {
         ServicePreferenceUtils.clearPasswordPreference(this);
+        this.finish();
         Intent intent = new Intent(ForgetPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
-        this.finish();
     }
 
     private void CheckValidateInput() {

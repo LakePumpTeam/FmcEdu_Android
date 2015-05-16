@@ -117,16 +117,17 @@ public class MainActivity extends Activity {
     }
 
     private void afterInitData(Map<String, Object> initData) {
-        mImageLoader.displayImage(initData.get("imgurl").toString(), circleImgHeadPhoto);
-        menuSchoolDynamic.setHasDynamic(true);
-        menuGradeDynamic.setHasDynamic(true);
-        menuSyllabusDynamic.setHasDynamic(true);
-        menuParenting.setHasDynamic(true);
-        menuKidsSchool.setHasDynamic(true);
-        menuCampus.setHasDynamic(true);
-        menuLocation.setHasDynamic(true);
-        menuAudit.setHasDynamic(true);
-        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
+//        mImageLoader.displayImage(initData.get("imgurl").toString(), circleImgHeadPhoto);
+        menuSchoolDynamic.setHasDynamic(false);
+        menuGradeDynamic.setHasDynamic(false);
+        menuSyllabusDynamic.setHasDynamic(false);
+        menuParenting.setHasDynamic(false);
+        menuKidsSchool.setHasDynamic(false);
+        menuCampus.setHasDynamic(false);
+        menuLocation.setHasDynamic(false);
+        menuAudit.setHasDynamic(false);
+//        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
+        txtTeacher.setText("李老师");
         txtTeacher.setTag(ConvertUtils.getString(initData.get("teacherId")));
         txtClassGrade.setText(ConvertUtils.getString(initData.get("className")));
         mUserRole = ConvertUtils.getInteger(initData.get("userRole"));
@@ -204,9 +205,9 @@ public class MainActivity extends Activity {
             if (mUserRole == 1) {
                 return;
             }
-            LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
             Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
-            intent.putExtra("teacherId", loginUserEntity.userId);
+            intent.putExtra("teacherId", v.getTag().toString());
+            startActivity(intent);
         }
     };
 
@@ -224,25 +225,39 @@ public class MainActivity extends Activity {
             int clickId = v.getId();
             switch (clickId) {
                 case R.id.main_menu_school_dynamic:
-                    gotoDetailPage(v, SchoolDynamicActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, SchoolDynamicActivity.class);
+                    }
                     break;
                 case R.id.main_menu_grade_dynamic:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, RegisterActivity.class);
+                    }
                     break;
                 case R.id.main_menu_syllabus_dynamic:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, RegisterActivity.class);
+                    }
                     break;
                 case R.id.main_menu_parenting:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, RegisterActivity.class);
+                    }
                     break;
                 case R.id.main_menu_kid_school:
-                    gotoDetailPage(v, KidSchoolActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, KidSchoolActivity.class);
+                    }
                     break;
                 case R.id.main_menu_campus:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, RegisterActivity.class);
+                    }
                     break;
                 case R.id.main_menu_location:
-                    gotoDetailPage(v, RegisterActivity.class);
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDetailPage(v, RegisterActivity.class);
+                    }
                     break;
                 case R.id.main_menu_audit:
                     gotoDetailPage(v, WaitAuditActivity.class);

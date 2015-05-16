@@ -35,7 +35,6 @@ import java.util.Map;
 public class RelatedInfoActivity extends Activity {
     private Button btnSubmitAudit;
     private EditText editAddress;
-    private EditText editComment;
     private EditText editBraceletCardNum;
     private EditText editBraceletNumber;
     private EditText editParName;
@@ -82,7 +81,6 @@ public class RelatedInfoActivity extends Activity {
         btnSubmitAudit = (Button) findViewById(R.id.related_info_btn_submit_audit);
         editAddress = (EditText) findViewById(R.id.related_info_edit_address);
         txtBirthday = (TextView) findViewById(R.id.related_info_txt_birthday);
-        editComment = (EditText) findViewById(R.id.related_info_edit_comment);
         editBraceletCardNum = (EditText) findViewById(R.id.related_info_edit_device_card_num);
         editBraceletNumber = (EditText) findViewById(R.id.related_info_edit_device_code);
         editParName = (EditText) findViewById(R.id.related_info_edit_par_name);
@@ -114,8 +112,8 @@ public class RelatedInfoActivity extends Activity {
         }
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", loginUserEntity.userId);
-        MyIon.httpPost(this, mHostUrl + "", params, mProgressControl, new MyIon.AfterCallBack() {
+        params.put("parentId", loginUserEntity.userId);
+        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 mOldData = data;
@@ -273,7 +271,7 @@ public class RelatedInfoActivity extends Activity {
 
     private Map<String, Object> getParams() {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("cellphone", mCellphone);
+        params.put("cellPhone", mCellphone);
         params.put("provId", String.valueOf(txtProvince.getTag()));
         params.put("cityId", String.valueOf(txtCity.getTag()));
         params.put("schoolId", String.valueOf(txtSchool.getTag()));
@@ -341,7 +339,6 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void clearSelectInfo() {
-
         if (mCurrentOperateType == OperateType.Province) {
             clearTextView(txtCity);
             clearTextView(txtSchool);
@@ -424,7 +421,7 @@ public class RelatedInfoActivity extends Activity {
         @Override
         public void onItemSelected(CommonEntity obj, View view) {
             TextView textView = (TextView) view;
-            if (textView.getTag() == obj.getId()) {
+            if (view.getTag().equals(obj.getId())) {
                 return;
             }
             textView.setText(obj.getFullName());

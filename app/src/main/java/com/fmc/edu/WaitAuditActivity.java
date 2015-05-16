@@ -11,6 +11,7 @@ import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class WaitAuditActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_audit);
         mProgressControl = new ProgressControl(this);
+        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvents();
         initData();
@@ -63,7 +65,6 @@ public class WaitAuditActivity extends Activity {
             MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
-                    WaitAuditActivity.this.finish();
                 }
             });
         }

@@ -44,7 +44,7 @@ public class TeacherInfoActivity extends Activity {
         mIsModify = getIntent().getBooleanExtra("isModify", false);
         initViews();
         initViewEvent();
-        initPageData();
+       // initPageData();
     }
 
     private void initViews() {

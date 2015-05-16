@@ -150,6 +150,7 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")));
                 afterLogin(data);
             }
         });
@@ -181,16 +182,8 @@ public class LoginActivity extends Activity {
     }
 
     private void afterLogin(Map<String, Object> data) {
-        if (StringUtils.isEmptyOrNull(data)) {
-            return;
-        }
-        LoginUserEntity userEntity = new LoginUserEntity();
-        userEntity.userId = ConvertUtils.getInteger(data.get("userId"));
-        userEntity.cellphone = editCellphone.getText().toString();
-        userEntity.password = editPassword.getText().toString();
-        ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
-
-        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
+//        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
+        int auditState = 1;
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
             this.finish();
             Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
@@ -207,6 +200,14 @@ public class LoginActivity extends Activity {
         this.finish();
         Intent intent = new Intent(LoginActivity.this, RelatedInfoActivity.class);
         startActivity(intent);
+    }
+
+    private void saveLocalLoginInfo(int userId) {
+        LoginUserEntity userEntity = new LoginUserEntity();
+        userEntity.userId = userId;
+        userEntity.cellphone = editCellphone.getText().toString();
+        userEntity.password = editPassword.getText().toString();
+        ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }
 
