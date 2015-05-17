@@ -44,6 +44,7 @@ public class TeacherInfoActivity extends Activity {
         mIsModify = getIntent().getBooleanExtra("isModify", false);
         initViews();
         initViewEvent();
+        bindEnable();
        // initPageData();
     }
 
@@ -55,6 +56,7 @@ public class TeacherInfoActivity extends Activity {
         editRecord = (EditText) findViewById(R.id.teacher_info_edit_record);
         rgSex = (RadioGroup) findViewById(R.id.teacher_info_rg_sex);
         txtBirth = (TextView) findViewById(R.id.teacher_info_txt_birth);
+
     }
 
     private void initViewEvent() {
@@ -88,7 +90,10 @@ public class TeacherInfoActivity extends Activity {
         editName.setEnabled(true);
         editRecord.setEnabled(true);
         rgSex.setEnabled(true);
-        btnSubmit.setVisibility(View.GONE);
+        btnSubmit.setVisibility(View.VISIBLE);
+        txtBirth.setEnabled(true);
+        rgSex.getChildAt(0).setEnabled(true);
+        rgSex.getChildAt(1).setEnabled(true);
 
     }
 

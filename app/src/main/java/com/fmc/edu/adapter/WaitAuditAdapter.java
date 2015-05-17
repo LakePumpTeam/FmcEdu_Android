@@ -15,6 +15,7 @@ import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,17 +35,28 @@ public class WaitAuditAdapter extends FmcBaseAdapter<Map<String, Object>> {
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_wait_audit, null);
         }
+        WaitAuditHolder holder = new WaitAuditHolder();
         TextView txtCellphone = (TextView) convertView.findViewById(R.id.item_wait_audit_txt_cellphone);
         TextView txtParentName = (TextView) convertView.findViewById(R.id.item_wait_audit_txt_parent_name);
-        Button btnAgree = (Button) convertView.findViewById(R.id.item_wait_audit_btn_agree);
-        Button btnRefuse = (Button) convertView.findViewById(R.id.item_wait_audit_btn_refuse);
+        holder.btnAgree = (Button) convertView.findViewById(R.id.item_wait_audit_btn_agree);
+        holder.btnRefuse = (Button) convertView.findViewById(R.id.item_wait_audit_btn_refuse);
         Map<String, Object> item = mItems.get(position);
-        txtCellphone.setText(ConvertUtils.getString(item.get("cellphone")));
+        holder.item = mItems.get(position);
+        txtCellphone.setText(ConvertUtils.getString(item.get("cellPhone")));
         txtParentName.setText(ConvertUtils.getString(item.get("parentName")));
-        btnAgree.setTag(item);
-        btnRefuse.setTag(item);
-        btnAgree.setOnClickListener(btnAgreeOnClickListener);
-        btnRefuse.setOnClickListener(btnRefuseOnClickListener);
+        //TODO
+//        int auditStatus =ConvertUtils.getInteger("auditStatus");
+        int auditStatus = 0;
+        if (auditStatus == 1) {
+            holder.btnAgree.setEnabled(false);
+        }
+        if (auditStatus == 2) {
+            holder.btnRefuse.setEnabled(false);
+        }
+        holder.btnAgree.setTag(holder);
+        holder.btnRefuse.setTag(holder);
+        holder.btnAgree.setOnClickListener(btnAgreeOnClickListener);
+        holder.btnRefuse.setOnClickListener(btnRefuseOnClickListener);
         txtParentName.setOnClickListener(txtParentNameOnClickListener);
         txtParentName.setTag(item.get("userId"));
         return convertView;
@@ -70,31 +82,49 @@ public class WaitAuditAdapter extends FmcBaseAdapter<Map<String, Object>> {
     private View.OnClickListener btnAgreeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            auditParentRegister(v, (Map<String, Object>) v.getTag(), 1);
+            WaitAuditHolder holder = (WaitAuditHolder) v.getTag();
+            holder.auditStatus = 1;
+            auditParentRegister(v, holder);
         }
     };
     private View.OnClickListener btnRefuseOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            auditParentRegister(v, (Map<String, Object>) v.getTag(), 2);
+            WaitAuditHolder holder = (WaitAuditHolder) v.getTag();
+            holder.auditStatus = 2;
+            auditParentRegister(v, holder);
         }
     };
 
-    private void auditParentRegister(final View view, Map<String, Object> item, int auditState) {
+    private void auditParentRegister(final View view, final WaitAuditHolder holder) {
         ProgressControl mProgressControl = new ProgressControl(mContext);
         mProgressControl.showWindow(view);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(mContext);
         Map<String, Object> params = new HashMap<>();
         String[] parentIds = new String[1];
-        parentIds[0] = ConvertUtils.getString(item.get("parentId"));
+        parentIds[0] = ConvertUtils.getString(holder.item.get("parentId"));
         params.put("teacherId", loginUserEntity.userId);
         params.put("parentIds", parentIds);
-        params.put("setPass", auditState);
+        params.put("setPass", holder.auditStatus);
         MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                view.setEnabled(false);
+                ToastToolUtils.showLong("审核成功");
+                if (holder.auditStatus == 1) {
+                    holder.btnAgree.setEnabled(false);
+                    holder.btnRefuse.setEnabled(true);
+                } else if (holder.auditStatus == 2) {
+                    holder.btnAgree.setEnabled(true);
+                    holder.btnRefuse.setEnabled(false);
+                }
             }
         });
+    }
+
+    private class WaitAuditHolder {
+        public Map<String, Object> item;
+        public Button btnAgree;
+        public Button btnRefuse;
+        public int auditStatus;
     }
 }

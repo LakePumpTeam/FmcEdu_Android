@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
@@ -52,6 +53,8 @@ public class MainActivity extends Activity {
     private TextView txtTeacher;
     private TextView txtClassGrade;
     private TopBarControl topBar;
+    private RelativeLayout rlAudit;
+
     private ProgressControl progressControl;
     private ImageLoader mImageLoader;
     private int mUserRole;
@@ -86,6 +89,7 @@ public class MainActivity extends Activity {
         txtTeacher = (TextView) findViewById(R.id.main_txt_teacher);
         txtClassGrade = (TextView) findViewById(R.id.main_txt_class_grade);
         topBar = (TopBarControl) findViewById(R.id.main_top_bar);
+        rlAudit = (RelativeLayout) findViewById(R.id.main_menu_item_rl_audit);
     }
 
     private void initViewEvents() {
@@ -126,8 +130,8 @@ public class MainActivity extends Activity {
         menuCampus.setHasDynamic(false);
         menuLocation.setHasDynamic(false);
         menuAudit.setHasDynamic(false);
-//        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
-        txtTeacher.setText("李老师");
+        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
+//        txtTeacher.setText("李老师");
         txtTeacher.setTag(ConvertUtils.getString(initData.get("teacherId")));
         txtClassGrade.setText(ConvertUtils.getString(initData.get("className")));
         mUserRole = ConvertUtils.getInteger(initData.get("userRole"));
@@ -136,7 +140,11 @@ public class MainActivity extends Activity {
         } else {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
         }
-
+        if (mUserRole == 1) {
+            rlAudit.setVisibility(View.VISIBLE);
+        } else if (mUserRole == 2) {
+            rlAudit.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initImageLoader() {

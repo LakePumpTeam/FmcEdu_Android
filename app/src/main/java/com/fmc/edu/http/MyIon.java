@@ -5,7 +5,9 @@ import android.text.SpannableStringBuilder;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -64,7 +66,7 @@ public class MyIon {
         return bo.toByteArray();
     }
 
-    public static void httpPost(Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
+    public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
             MyIon.setUrlAndBodyParams(context, url, params)
                     .setCallback(new FMCMapFutureCallback() {
@@ -89,10 +91,9 @@ public class MyIon {
                             }
 
                             Map<String, Object> mapData = (Map<String, Object>) result.get("data");
-                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0)
-
-                            {
-                                ToastToolUtils.showLong(ConvertUtils.getString(mapData.get("businessMsg")));
+                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                                AlertWindowControl alertWindowControl = new AlertWindowControl(context);
+                                alertWindowControl.showWindow(new TextView(context), "提示", ConvertUtils.getString(mapData.get("businessMsg")));
                                 return;
                             }
 

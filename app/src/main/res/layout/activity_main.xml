@@ -79,6 +79,10 @@
                     android:id="@+id/main_view_school_down_line"
                     style="@style/HorizontalGradientDividerLineStyle"
                     android:layout_alignParentBottom="true"></View>
+
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentRight="true"></View>
             </RelativeLayout>
 
             <RelativeLayout
@@ -86,9 +90,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <View
-                    style="@style/VerticalGradientDividerLineStyle"
-                    android:layout_alignParentLeft="true"></View>
 
                 <com.fmc.edu.customcontrol.MenuItemControl
                     android:id="@+id/main_menu_grade_dynamic"
@@ -144,6 +145,10 @@
                     fmc:menuName="亲子教育" />
 
                 <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentRight="true" />
+
+                <View
                     style="@style/HorizontalGradientDividerLineStyle"
                     android:layout_alignParentBottom="true" />
             </RelativeLayout>
@@ -153,9 +158,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <View
-                    style="@style/VerticalGradientDividerLineStyle"
-                    android:layout_alignParentLeft="true" />
 
                 <com.fmc.edu.customcontrol.MenuItemControl
                     android:id="@+id/main_menu_kid_school"
@@ -209,16 +211,17 @@
                     fmc:drawableId="@mipmap/ic_location"
                     fmc:menuName="智能定位" />
 
+                <View
+                    style="@style/VerticalGradientDividerLineStyle"
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/main_menu_item_rl_audit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <View
-                    style="@style/VerticalGradientDividerLineStyle"
-                    android:layout_alignParentLeft="true" />
 
                 <com.fmc.edu.customcontrol.MenuItemControl
                     android:id="@+id/main_menu_audit"

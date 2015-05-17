@@ -37,6 +37,7 @@
         android:clickable="true"
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_padding"
+        android:background="@drawable/shape_text_corner"
         android:textColor="@color/popup_window_alert_btn_font_color"
         android:textSize="@dimen/font_size_middle"
         android:text="确定" />
