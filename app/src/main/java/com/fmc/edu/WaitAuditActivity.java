@@ -75,9 +75,7 @@ public class WaitAuditActivity extends Activity {
     private void initWaitList() {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(WaitAuditActivity.this);
         Map<String, Object> params = new HashMap<>();
-        //TODO
-//        params.put("teacherId", loginUserEntity.userId);
-        params.put("teacherId", 1);
+        params.put("teacherId", loginUserEntity.userId);
         MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

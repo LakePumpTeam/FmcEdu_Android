@@ -99,12 +99,10 @@ public class WaitAuditAdapter extends FmcBaseAdapter<Map<String, Object>> {
         mProgressControl.showWindow(view);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(mContext);
         Map<String, Object> params = new HashMap<>();
-        String[] parentIds = new String[1];
-        parentIds[0] = ConvertUtils.getString(holder.item.get("parentId"));
         params.put("teacherId", loginUserEntity.userId);
-        params.put("parentIds", parentIds);
+        params.put("parentIds", holder.item.get("parentId"));
         params.put("setPass", holder.auditStatus);
-        MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAudit", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showLong("审核成功");

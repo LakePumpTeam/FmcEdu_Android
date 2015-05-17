@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         android:layout_alignParentTop="true"
-        fmc:backVisible="true"
+        fmc:backVisible="false"
         fmc:operatorImageSrc="@mipmap/ic_setting"
         fmc:topTitle="@string/app_name" />
 
@@ -29,6 +29,8 @@
             android:layout_height="80dp"
             android:scaleType="fitXY"
             android:src="@mipmap/head_photo_boy" />
+
+
 
         <TextView
             android:id="@+id/main_txt_teacher"

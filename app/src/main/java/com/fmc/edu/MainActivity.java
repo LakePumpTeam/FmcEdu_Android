@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initViews();
         CrashHandler crashHandler = CrashHandler.getInstance();
-        // crashHandler.init(this);
+         crashHandler.init(this);
         progressControl = new ProgressControl(this);
         initImageLoader();
         initViewEvents();
@@ -147,9 +147,6 @@ public class MainActivity extends Activity {
         } else if (mUserRole == 2) {
             rlAudit.setVisibility(View.INVISIBLE);
         }
-        if (AppConfigUtils.isDevelopment()) {
-            rlAudit.setVisibility(View.VISIBLE);
-        }
     }
 
     private void initImageLoader() {
@@ -204,6 +201,8 @@ public class MainActivity extends Activity {
                 LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
                 intent.putExtra("teacherId", loginUserEntity.userId);
+                intent.putExtra("isModify", true);
+                startActivity(intent);
                 return;
             }
             Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -83,7 +84,8 @@ public class SettingActivity extends Activity {
         @Override
         public void onClick(View v) {
             String version = AppConfigUtils.getVersion();
-            ToastToolUtils.showLong("当前版本:" + version);
+            AlertWindowControl alertWindowControl = new AlertWindowControl(SettingActivity.this);
+            alertWindowControl.showWindow(v, "版本信息", "当前版本:" + version);
         }
     };
 

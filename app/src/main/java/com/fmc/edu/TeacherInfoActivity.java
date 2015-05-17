@@ -19,6 +19,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,11 +43,12 @@ public class TeacherInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_info);
-        mProgressControl = new ProgressControl(this);
-        mHostUrl = AppConfigUtils.getServiceHost();
-        mIsModify = getIntent().getBooleanExtra("isModify", false);
         initViews();
         initViewEvent();
+        mProgressControl = new ProgressControl(this);
+        mHostUrl = AppConfigUtils.getServiceHost();
+        mIsModify = ConvertUtils.getBoolean(getIntent().getExtras().getBoolean("isModify"));
+        mTeacherId = ConvertUtils.getString(getIntent().getExtras().get("teacherId"));
         bindEnable();
         initPageData();
     }
@@ -68,10 +70,9 @@ public class TeacherInfoActivity extends Activity {
     }
 
     private void initPageData() {
-        mTeacherId = getIntent().getStringExtra("teacherId");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("teacherId", mTeacherId);
-        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 bindViewData(data);
@@ -124,10 +125,9 @@ public class TeacherInfoActivity extends Activity {
             MyIon.httpPost(TeacherInfoActivity.this, mHostUrl + "school/requestModifyTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
-                    bindViewData(data);
+                    ToastToolUtils.showLong("修改成功");
                 }
             });
-//TODO 修改教师信息接口
         }
     };
 

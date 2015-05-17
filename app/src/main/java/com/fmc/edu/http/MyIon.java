@@ -44,7 +44,7 @@ public class MyIon {
         for (String key : params.keySet()) {
             Object value = params.get(key);
             try {
-                byte[] bytes = getBytesFromObject(value);
+                byte[] bytes = value.toString().getBytes();
                 withB.setBodyParameter(key, Base64.encodeToString(bytes, Base64.DEFAULT));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -53,18 +53,18 @@ public class MyIon {
         return withB.asString(Charset.forName("utf8"));
     }
 
-    public static byte[] getBytesFromObject(Object obj) throws Exception {
-        if (obj == null) {
-            return null;
-        }
-        if (obj instanceof Integer || obj instanceof String || obj instanceof SpannableStringBuilder) {
-            return obj.toString().getBytes();
-        }
-        ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        ObjectOutputStream oo = new ObjectOutputStream(bo);
-        oo.writeObject(obj);
-        return bo.toByteArray();
-    }
+//    public static byte[] getBytesFromObject(Object obj) throws Exception {
+//        if (obj == null) {
+//            return null;
+//        }
+//        if (obj instanceof Integer || obj instanceof String || obj instanceof SpannableStringBuilder) {
+//            return obj.toString().getBytes();
+//        }
+//        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+//        ObjectOutputStream oo = new ObjectOutputStream(bo);
+//        oo.writeObject(obj);
+//        return bo.toByteArray();
+//    }
 
     public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
