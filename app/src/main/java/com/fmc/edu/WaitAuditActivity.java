@@ -77,7 +77,7 @@ public class WaitAuditActivity extends Activity {
         Map<String, Object> params = new HashMap<>();
         //TODO
 //        params.put("teacherId", loginUserEntity.userId);
-        params.put("teacherId", 10001);
+        params.put("teacherId", 1);
         MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

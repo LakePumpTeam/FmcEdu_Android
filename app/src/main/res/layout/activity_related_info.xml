@@ -109,6 +109,16 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
+            <TextView
+                android:id="@+id/related_info_txt_birthday"
+                style="@style/EditTextStyle"
+                android:clickable="true"
+                android:hint="@string/hint_birthday"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
             <EditText
                 android:id="@+id/related_info_edit_device_code"
                 style="@style/EditTextStyle"
@@ -125,15 +135,6 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
-
-            <TextView
-                android:id="@+id/related_info_txt_birthday"
-                style="@style/EditTextStyle"
-                android:clickable="true"
-                android:hint="@string/hint_birthday"
-                android:paddingLeft="@dimen/activity_padding" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
                 android:id="@+id/related_info_edit_address"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class TeacherInfoActivity extends Activity {
     private ProgressControl mProgressControl;
     private String mHostUrl;
     private boolean mIsModify;
+    private String mTeacherId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class TeacherInfoActivity extends Activity {
         initViews();
         initViewEvent();
         bindEnable();
-       // initPageData();
+        initPageData();
     }
 
     private void initViews() {
@@ -65,11 +68,10 @@ public class TeacherInfoActivity extends Activity {
     }
 
     private void initPageData() {
-        String teacherId = getIntent().getStringExtra("teacherId");
+        mTeacherId = getIntent().getStringExtra("teacherId");
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("teacherId", teacherId);
-        //TODO 配置路径
-        MyIon.httpPost(this, mHostUrl + "", params, mProgressControl, new MyIon.AfterCallBack() {
+        params.put("teacherId", mTeacherId);
+        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 bindViewData(data);
@@ -78,7 +80,16 @@ public class TeacherInfoActivity extends Activity {
     }
 
     private void bindViewData(Map<String, Object> data) {
-        //TODO 绑定初始值
+        editCourse.setText(ConvertUtils.getString(data.get("course")));
+        editCellphone.setText(ConvertUtils.getString(data.get("cellPhone")));
+        editName.setText(ConvertUtils.getString(data.get("teacherName")));
+        editRecord.setText(ConvertUtils.getString(data.get("resume")));
+        txtBirth.setText(ConvertUtils.getString(data.get("teacherBirth")));
+        if (ConvertUtils.getBoolean(data.get("teacherSex"))) {
+            ((RadioButton) rgSex.getChildAt(1)).setChecked(true);
+        } else {
+            ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
+        }
     }
 
     private void bindEnable() {
@@ -101,6 +112,21 @@ public class TeacherInfoActivity extends Activity {
     private View.OnClickListener btnSubmitListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("teacherId", mTeacherId);
+            params.put("teacherName", editName.getText());
+            params.put("teacherBirth", txtBirth.getText());
+            params.put("course", editCourse.getText());
+            params.put("cellPhone", editCellphone.getText());
+            params.put("resume", editRecord.getText());
+            params.put("teacherSex", (findViewById(rgSex.getCheckedRadioButtonId()).getTag()));
+
+            MyIon.httpPost(TeacherInfoActivity.this, mHostUrl + "school/requestModifyTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    bindViewData(data);
+                }
+            });
 //TODO 修改教师信息接口
         }
     };

@@ -213,42 +213,44 @@ public class RelatedInfoActivity extends Activity {
     private void handleDropDownClick() {
         mPageIndex = 1;
         classListControl = null;
-        mProgressControl.showWindow(mSelectView);
-        requestHttp();
+        requestHttp(false);
     }
 
-    private void requestHttp() {
+    private void requestHttp(boolean isLoadMore) {
         switch (mCurrentOperateType) {
             case Province:
-                handleDropDownClick("location/requestProv");
+                handleDropDownClick("location/requestProv", isLoadMore);
                 break;
             case City:
-                if (0 == txtProvince.getTag()) {
+                if (0 == txtProvince.getTag() || StringUtils.isEmptyOrNull(txtProvince.getText())) {
                     ToastToolUtils.showLong("请先选择省份");
                     return;
                 }
-                handleDropDownClick("location/requestCities");
+                handleDropDownClick("location/requestCities", isLoadMore);
                 break;
             case School:
-                if (0 == txtCity.getTag()) {
+                if (0 == txtCity.getTag() || StringUtils.isEmptyOrNull(txtCity.getText())) {
                     ToastToolUtils.showLong("请先选择城市");
                     return;
                 }
-                handleDropDownClick("school/requestSchools");
+                handleDropDownClick("school/requestSchools", isLoadMore);
                 break;
             case Class:
-                if (0 == txtSchool.getTag()) {
+                if (0 == txtSchool.getTag() || StringUtils.isEmptyOrNull(txtSchool.getText())) {
                     ToastToolUtils.showLong("请先选择学校");
                     return;
                 }
-                handleDropDownClick("school/requestClasses");
+                handleDropDownClick("school/requestClasses", isLoadMore);
                 break;
             default:
                 break;
         }
     }
 
-    private void handleDropDownClick(String url) {
+    private void handleDropDownClick(String url, boolean isLoadMore) {
+        if (!isLoadMore) {
+            mProgressControl.showWindow(mSelectView);
+        }
         handleParams();
         MyIon.httpPost(this, mHostUrl + url, mParams, mProgressControl, new MyIon.AfterCallBack() {
             @Override
@@ -273,7 +275,7 @@ public class RelatedInfoActivity extends Activity {
         Map<String, Object> params = new HashMap<String, Object>();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         params.put("parentId", loginUserEntity.userId);
-        params.put("cellPhone", loginUserEntity.cellphone);
+        params.put("cellPhone", txtCellphone.getText());
         params.put("provId", String.valueOf(txtProvince.getTag()));
         params.put("cityId", String.valueOf(txtCity.getTag()));
         params.put("schoolId", String.valueOf(txtSchool.getTag()));
@@ -296,31 +298,31 @@ public class RelatedInfoActivity extends Activity {
         if (null == mOldData) {
             return true;
         }
-        if (!mOldData.get("provId").equals(newData.get("provId"))) {
+        if (!ConvertUtils.getString(mOldData.get("provId")).equals(newData.get("provId"))) {
             return true;
         }
-        if (!mOldData.get("cityId").equals(newData.get("cityId"))) {
+        if (!ConvertUtils.getString(mOldData.get("cityId")).equals(newData.get("cityId"))) {
             return true;
         }
-        if (!mOldData.get("schoolId").equals(newData.get("schoolId"))) {
+        if (!ConvertUtils.getString(mOldData.get("schoolId")).equals(newData.get("schoolId"))) {
             return true;
         }
-        if (!mOldData.get("classId").equals(newData.get("classId"))) {
+        if (!ConvertUtils.getString(mOldData.get("classId")).equals(newData.get("classId"))) {
             return true;
         }
-        if (!mOldData.get("teacherId").equals(newData.get("teacherId"))) {
+        if (!ConvertUtils.getString(mOldData.get("teacherId")).equals(newData.get("teacherId"))) {
             return true;
         }
-        if (!mOldData.get("studentName").equals(newData.get("studentName"))) {
+        if (!ConvertUtils.getString(mOldData.get("studentName")).equals(newData.get("studentName"))) {
             return true;
         }
-        if (!mOldData.get("studentAge").equals(newData.get("studentAge"))) {
+        if (!ConvertUtils.getString(mOldData.get("studentAge")).equals(newData.get("studentAge"))) {
             return true;
         }
-        if (!mOldData.get("parentName").equals(newData.get("parentName"))) {
+        if (!ConvertUtils.getString(mOldData.get("parentName")).equals(newData.get("parentName"))) {
             return true;
         }
-        if (!mOldData.get("relation").equals(newData.get("relation"))) {
+        if (!ConvertUtils.getString(mOldData.get("relation")).equals(newData.get("relation"))) {
             return true;
         }
         return false;
@@ -407,6 +409,9 @@ public class RelatedInfoActivity extends Activity {
                 break;
         }
         if (null == data || 0 == data.size()) {
+            if (null != classListControl) {
+                classListControl.setFooterViewFalse();
+            }
             return;
         }
         if (null == classListControl) {
@@ -439,10 +444,13 @@ public class RelatedInfoActivity extends Activity {
         @Override
         public void onLoadMore() {
             if (mIsLastPage) {
+                if (null != classListControl) {
+                    classListControl.setFooterViewFalse();
+                }
                 return;
             }
             mPageIndex++;
-            requestHttp();
+            requestHttp(true);
         }
     };
 

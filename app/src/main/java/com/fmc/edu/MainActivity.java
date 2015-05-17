@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initViews();
         CrashHandler crashHandler = CrashHandler.getInstance();
-       // crashHandler.init(this);
+        // crashHandler.init(this);
         progressControl = new ProgressControl(this);
         initImageLoader();
         initViewEvents();
@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
         String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("profileId", loginUserEntity.userId);
+        params.put("userId", loginUserEntity.userId);
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -219,7 +219,7 @@ public class MainActivity extends Activity {
                 return;
             }
             Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
-            intent.putExtra("teacherId", v.getTag().toString());
+            intent.putExtra("teacherId", ConvertUtils.getString(v.getTag()));
             startActivity(intent);
         }
     };

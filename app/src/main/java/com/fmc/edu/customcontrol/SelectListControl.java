@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.opengl.Visibility;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -140,5 +141,9 @@ public class SelectListControl extends PopupWindow {
         mFooterView.setVisibility(View.GONE);
         mSelectListControlAdapter.addAllItems(data, false);
         mSelectListControlAdapter.notifyDataSetChanged();
+    }
+
+    public void setFooterViewFalse() {
+        mFooterView.setVisibility(View.GONE);
     }
 }
