@@ -163,7 +163,7 @@ public class RegisterActivity extends Activity {
 
     private void afterNextStep() {
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
-        intent.putExtra("cellphone", editCellphone.getText().toString());
+        intent.putExtra("cellPhone", editCellphone.getText().toString());
         startActivity(intent);
     }
 

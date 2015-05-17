@@ -44,9 +44,7 @@ public class WaitAuditAdapter extends FmcBaseAdapter<Map<String, Object>> {
         holder.item = mItems.get(position);
         txtCellphone.setText(ConvertUtils.getString(item.get("cellPhone")));
         txtParentName.setText(ConvertUtils.getString(item.get("parentName")));
-        //TODO
-//        int auditStatus =ConvertUtils.getInteger("auditStatus");
-        int auditStatus = 0;
+        int auditStatus = ConvertUtils.getInteger(item.get("auditStatus"), 1);
         if (auditStatus == 1) {
             holder.btnAgree.setEnabled(false);
         }

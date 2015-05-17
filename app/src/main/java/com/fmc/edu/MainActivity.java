@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
@@ -64,6 +65,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+       // crashHandler.init(this);
         progressControl = new ProgressControl(this);
         initImageLoader();
         initViewEvents();
@@ -131,7 +134,6 @@ public class MainActivity extends Activity {
         menuLocation.setHasDynamic(false);
         menuAudit.setHasDynamic(false);
         txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
-//        txtTeacher.setText("李老师");
         txtTeacher.setTag(ConvertUtils.getString(initData.get("teacherId")));
         txtClassGrade.setText(ConvertUtils.getString(initData.get("className")));
         mUserRole = ConvertUtils.getInteger(initData.get("userRole"));
@@ -144,6 +146,9 @@ public class MainActivity extends Activity {
             rlAudit.setVisibility(View.VISIBLE);
         } else if (mUserRole == 2) {
             rlAudit.setVisibility(View.INVISIBLE);
+        }
+        if (AppConfigUtils.isDevelopment()) {
+            rlAudit.setVisibility(View.VISIBLE);
         }
     }
 

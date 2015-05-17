@@ -68,7 +68,7 @@ public class RelatedInfoActivity extends Activity {
         setContentView(R.layout.activity_related_info);
         initViews();
         bindViewEvents();
-        mCellphone = getIntent().getStringExtra("cellphone");
+        mCellphone = getIntent().getStringExtra("cellPhone");
         mIsModify = getIntent().getBooleanExtra("isModify", false);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
@@ -271,7 +271,9 @@ public class RelatedInfoActivity extends Activity {
 
     private Map<String, Object> getParams() {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("cellPhone", mCellphone);
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        params.put("parentId", loginUserEntity.userId);
+        params.put("cellPhone", loginUserEntity.cellphone);
         params.put("provId", String.valueOf(txtProvince.getTag()));
         params.put("cityId", String.valueOf(txtCity.getTag()));
         params.put("schoolId", String.valueOf(txtSchool.getTag()));
@@ -530,8 +532,8 @@ public class RelatedInfoActivity extends Activity {
         MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                txtTeacher.setTag(data.get("headTeacherId").toString());
-                txtTeacher.setText(data.get("headTeacherName").toString());
+                txtTeacher.setTag(ConvertUtils.getString(data.get("headTeacherId"), ""));
+                txtTeacher.setText(ConvertUtils.getString(data.get("headTeacherName"), ""));
             }
         });
     }
