@@ -116,9 +116,11 @@ public class ForgetPasswordActivity extends Activity {
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                if (AppConfigUtils.isDevelopment()) {
-                    editAuthCode.setText(data.get("identifyCode").toString());
-                }
+//                if (AppConfigUtils.isDevelopment()) {
+//                    editAuthCode.setText(data.get("identifyCode").toString());
+//                }
+                //TODO 短信验证开启后，要关闭此处
+                editAuthCode.setText(data.get("identifyCode").toString());
             }
         });
     }
