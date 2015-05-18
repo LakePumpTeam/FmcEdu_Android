@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.fmc.edu.adapter.WaitAuditAdapter;
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
@@ -31,6 +32,8 @@ public class WaitAuditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         setContentView(R.layout.activity_wait_audit);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();

@@ -33,7 +33,7 @@
             android:id="@+id/item_school_dynamic_img1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/chrysanthemum"
+            android:src="@mipmap/main_bg"
             android:visibility="gone" />
 
 
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin_small"
-            android:src="@mipmap/chrysanthemum"
+            android:src="@mipmap/main_bg"
             android:visibility="gone" />
 
         <ImageView
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin_small"
-            android:src="@mipmap/chrysanthemum"
+            android:src="@mipmap/main_bg"
             android:visibility="gone" />
 
         <ImageView
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin_small"
-            android:src="@mipmap/chrysanthemum"
+            android:src="@mipmap/main_bg"
             android:visibility="gone" />
     </LinearLayout>
 

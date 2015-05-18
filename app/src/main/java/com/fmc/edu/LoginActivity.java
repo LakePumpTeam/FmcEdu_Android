@@ -9,23 +9,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fmc.edu.common.CrashHandler;
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.entity.UserEntity;
 import com.fmc.edu.enums.AuditStateTypeEnum;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
-import com.fmc.edu.utils.MapTokenTypeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.fmc.edu.utils.ValidationUtils;
-import com.koushikdutta.async.future.FutureCallback;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,10 +42,10 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mProgressControl = new ProgressControl(this);
-        mHostUrl = AppConfigUtils.getServiceHost();
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
+        mProgressControl = new ProgressControl(this);
+        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         bindViewEvents();
         autoLogin();
@@ -160,18 +154,6 @@ public class LoginActivity extends Activity {
     }
 
     private void doAutoLogin(String cellphone, String password) {
-        if (StringUtils.isEmptyOrNull(cellphone) && ValidationUtils.isMobilePhone(cellphone)) {
-            ToastToolUtils.showLong("请输入有效的电话号码");
-            return;
-        }
-        if (StringUtils.isEmptyOrNull(password)) {
-            ToastToolUtils.showLong("请输入密码");
-            return;
-        }
-        if (password.length() < 6 || password.length() > 16) {
-            ToastToolUtils.showLong("有效的密码是6-16位的数字或者字符");
-            return;
-        }
         String url = mHostUrl + "profile/requestLogin";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", cellphone);
@@ -185,8 +167,7 @@ public class LoginActivity extends Activity {
     }
 
     private void afterLogin(Map<String, Object> data) {
-//        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
-        int auditState = 1;
+        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
             this.finish();
             Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
@@ -194,15 +175,70 @@ public class LoginActivity extends Activity {
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
-            this.finish();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            gotoMainData();
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
-        this.finish();
-        Intent intent = new Intent(LoginActivity.this, RelatedInfoActivity.class);
-        startActivity(intent);
+        gotoRelationPage();
+    }
+
+    private void gotoMainData() {
+        mProgressControl.showWindow(btnLogin);
+        String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", loginUserEntity.userId);
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                LoginActivity.this.finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("sex", ConvertUtils.getBoolean(data.get("sex"), false));
+                bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName"), ""));
+                bundle.putString("teacherId", ConvertUtils.getString(data.get("teacherId"), ""));
+                bundle.putString("className", ConvertUtils.getString(data.get("className"), ""));
+                bundle.putInt("userRole", ConvertUtils.getInteger(data.get("userRole"), 1));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void gotoRelationPage() {
+        mProgressControl.showWindow(btnLogin);
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("parentId", loginUserEntity.userId);
+        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                LoginActivity.this.finish();
+                Intent intent = new Intent(LoginActivity.this, RelatedInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("address", ConvertUtils.getString(data.get("address"), ""));
+                bundle.putString("studentBirth", ConvertUtils.getString(data.get("studentBirth"), ""));
+                bundle.putString("braceletCardNumber", ConvertUtils.getString(data.get("braceletCardNumber"), ""));
+                bundle.putString("braceletNumber", ConvertUtils.getString(data.get("braceletNumber"), ""));
+                bundle.putString("parentName", ConvertUtils.getString(data.get("parentName"), ""));
+                bundle.putString("relation", ConvertUtils.getString(data.get("relation"), ""));
+                bundle.putString("studentName", ConvertUtils.getString(data.get("studentName"), ""));
+                bundle.putString("cellPhone", ConvertUtils.getString(data.get("cellPhone"), ""));
+                bundle.putString("classId", ConvertUtils.getString(data.get("classId"), ""));
+                bundle.putString("className", ConvertUtils.getString(data.get("className"), ""));
+                bundle.putString("cityId", ConvertUtils.getString(data.get("cityId"), ""));
+                bundle.putString("cityName", ConvertUtils.getString(data.get("cityName"), ""));
+                bundle.putString("provId", ConvertUtils.getString(data.get("provId"), ""));
+                bundle.putString("provName", ConvertUtils.getString(data.get("provName"), ""));
+                bundle.putString("schoolId", ConvertUtils.getString(data.get("schoolId"), ""));
+                bundle.putString("schoolName", ConvertUtils.getString(data.get("schoolName"), ""));
+                bundle.putString("teacherId", ConvertUtils.getString(data.get("teacherId"), ""));
+                bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName"), ""));
+                bundle.putBoolean("studentSex", ConvertUtils.getBoolean(data.get("studentSex"), false));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void saveLocalLoginInfo(int userId) {

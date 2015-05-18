@@ -2,20 +2,15 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.KidsSchoolAdapter;
-import com.fmc.edu.adapter.SchoolListItemAdapter;
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.SlideImageControl;
 import com.fmc.edu.entity.KidSchoolEntity;
-import com.fmc.edu.entity.SchoolDynamicEntity;
 import com.fmc.edu.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -32,6 +27,8 @@ public class KidSchoolActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kid_school);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initPageData();
     }
@@ -56,7 +53,7 @@ public class KidSchoolActivity extends Activity {
         ImageView imgView = new ImageView(KidSchoolActivity.this);
 
         if (StringUtils.isEmptyOrNull(bitMapObj)) {
-            imgView.setImageResource(R.mipmap.chrysanthemum);
+            imgView.setImageResource(R.mipmap.main_bg);
         } else {
             imgView.setImageBitmap((Bitmap) bitMapObj);
         }

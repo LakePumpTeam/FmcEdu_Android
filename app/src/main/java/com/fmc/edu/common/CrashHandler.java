@@ -1,9 +1,9 @@
 package com.fmc.edu.common;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Looper;
+
+import com.fmc.edu.utils.ToastToolUtils;
 
 /**
  * Created by Candy on 2015/5/17.
@@ -28,27 +28,22 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     @Override
-    public void uncaughtException(Thread thread, Throwable ex) {
-        // if (!handleException(ex) && mDefaultHandler != null) {
-        // mDefaultHandler.uncaughtException(thread, ex);
-        // } else {
-        // android.os.Process.killProcess(android.os.Process.myPid());
-        // System.exit(10);
-        // }
+    public void uncaughtException(Thread thread, final Throwable ex) {
         System.out.println("uncaughtException");
-
+//        ToastToolUtils.showLong(ex.getMessage());
         new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
-                new AlertDialog.Builder(mContext).setTitle("提示").setCancelable(false)
-                        .setMessage("程序崩溃...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
-                    }
-                })
-                        .create().show();
+                ToastToolUtils.showLong(ex.getMessage());
+//                new AlertDialog.Builder(mContext).setTitle("提示").setCancelable(false)
+//                        .setMessage("程序崩溃...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        System.exit(0);
+//                    }
+//                })
+//                        .create().show();
                 Looper.loop();
             }
         }.start();
@@ -64,15 +59,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return true;
         }
-        // new Handler(Looper.getMainLooper()).post(new Runnable() {
-        // @Override
-        // public void run() {
-        // new AlertDialog.Builder(mContext).setTitle("提示")
-        // .setMessage("程序崩溃...").setNeutralButton("我知道", null)
-        // .create().show();
-        // }
-        // });
-
         return true;
     }
 }

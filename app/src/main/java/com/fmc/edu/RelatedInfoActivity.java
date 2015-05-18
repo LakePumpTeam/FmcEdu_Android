@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
@@ -23,8 +24,6 @@ import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,26 +54,28 @@ public class RelatedInfoActivity extends Activity {
     private SelectListControl classListControl;
     private int mPageIndex;
     private int mPageSize;
-    private boolean mIsModify;
     private OperateType mCurrentOperateType;
     private boolean mIsLastPage = true;
     private View mSelectView;
-    private Map<String, Object> mOldData;
+    //private Map<String, Object> mOldData;
     private boolean mIsAudit = false;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_related_info);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
+        mBundle = getIntent().getExtras();
         initViews();
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellPhone");
-        mIsModify = getIntent().getBooleanExtra("isModify", false);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
-        initPageData();
+        bindPageData();
     }
 
     private void initViews() {
@@ -104,45 +105,32 @@ public class RelatedInfoActivity extends Activity {
         txtBirthday.setOnClickListener(txtBirthListener);
     }
 
-    private void initPageData() {
-        if (!mIsModify) {
+    private void bindPageData() {
+        if (null == mBundle) {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
             txtCellphone.setText(mCellphone);
             return;
         }
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("parentId", loginUserEntity.userId);
-        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                mOldData = data;
-                bindPageData();
-            }
-        });
-    }
 
-    private void bindPageData() {
-        editAddress.setText(ConvertUtils.getString(mOldData.get("address")));
-        txtBirthday.setText(ConvertUtils.getString(mOldData.get("studentBirth")));
-//        editComment.setText(ConvertUtils.getString(mOldData.get("cellPhone")));
-        editBraceletCardNum.setText(ConvertUtils.getString(mOldData.get("braceletCardNumber")));
-        editBraceletNumber.setText(ConvertUtils.getString(mOldData.get("braceletNumber")));
-        editParName.setText(ConvertUtils.getString(mOldData.get("parentName")));
-        editRelation.setText(ConvertUtils.getString(mOldData.get("relation")));
-        editStuName.setText(ConvertUtils.getString(mOldData.get("studentName")));
-        txtCellphone.setText(ConvertUtils.getString(mOldData.get("cellPhone")));
-        txtClass.setTag(mOldData.get("classId"));
-        txtClass.setText(ConvertUtils.getString(mOldData.get("className")));
-        txtCity.setTag(mOldData.get("cityId"));
-        txtCity.setText(ConvertUtils.getString(mOldData.get("cityName")));
-        txtProvince.setTag(mOldData.get("provId"));
-        txtProvince.setText(ConvertUtils.getString(mOldData.get("provName")));
-        txtSchool.setTag(mOldData.get("schoolId"));
-        txtSchool.setText(ConvertUtils.getString(mOldData.get("schoolName")));
-        txtTeacher.setTag(mOldData.get("teacherId"));
-        txtTeacher.setText(ConvertUtils.getString(mOldData.get("teacherName")));
-        if (ConvertUtils.getBoolean(mOldData.get("studentSex"))) {
+        editAddress.setText(mBundle.getString("address"));
+        txtBirthday.setText(mBundle.getString("studentBirth"));
+        editBraceletCardNum.setText(mBundle.getString("braceletCardNumber"));
+        editBraceletNumber.setText(mBundle.getString("braceletNumber"));
+        editParName.setText(mBundle.getString("parentName"));
+        editRelation.setText(mBundle.getString("relation"));
+        editStuName.setText(mBundle.getString("studentName"));
+        txtCellphone.setText(mBundle.getString("cellPhone"));
+        txtClass.setTag(mBundle.getString("classId"));
+        txtClass.setText(mBundle.getString("className"));
+        txtCity.setTag(mBundle.getString("cityId"));
+        txtCity.setText(mBundle.getString("cityName"));
+        txtProvince.setTag(mBundle.getString("provId"));
+        txtProvince.setText(mBundle.getString("provName"));
+        txtSchool.setTag(mBundle.getString("schoolId"));
+        txtSchool.setText(mBundle.getString("schoolName"));
+        txtTeacher.setTag(mBundle.getString("teacherId"));
+        txtTeacher.setText(mBundle.getString("teacherName"));
+        if (mBundle.getBoolean("studentSex")) {
             ((RadioButton) rgSex.getChildAt(1)).setChecked(true);
         } else {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
@@ -222,21 +210,21 @@ public class RelatedInfoActivity extends Activity {
                 handleDropDownClick("location/requestProv", isLoadMore);
                 break;
             case City:
-                if (0 == txtProvince.getTag() || StringUtils.isEmptyOrNull(txtProvince.getText())) {
+                if (0 == ConvertUtils.getInteger(txtProvince.getTag()) || StringUtils.isEmptyOrNull(txtProvince.getText())) {
                     ToastToolUtils.showLong("请先选择省份");
                     return;
                 }
                 handleDropDownClick("location/requestCities", isLoadMore);
                 break;
             case School:
-                if (0 == txtCity.getTag() || StringUtils.isEmptyOrNull(txtCity.getText())) {
+                if (0 == ConvertUtils.getInteger(txtCity.getTag()) || StringUtils.isEmptyOrNull(txtCity.getText())) {
                     ToastToolUtils.showLong("请先选择城市");
                     return;
                 }
                 handleDropDownClick("school/requestSchools", isLoadMore);
                 break;
             case Class:
-                if (0 == txtSchool.getTag() || StringUtils.isEmptyOrNull(txtSchool.getText())) {
+                if (0 == ConvertUtils.getInteger(txtSchool.getTag()) || StringUtils.isEmptyOrNull(txtSchool.getText())) {
                     ToastToolUtils.showLong("请先选择学校");
                     return;
                 }
@@ -295,34 +283,34 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private boolean isAudit(Map<String, Object> newData) {
-        if (null == mOldData) {
+        if (null == mBundle) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("provId")).equals(newData.get("provId"))) {
+        if (!mBundle.getString("provId").equals(newData.get("provId"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("cityId")).equals(newData.get("cityId"))) {
+        if (!mBundle.getString("cityId").equals(newData.get("cityId"))){
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("schoolId")).equals(newData.get("schoolId"))) {
+        if (!mBundle.getString("schoolId").equals(newData.get("schoolId"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("classId")).equals(newData.get("classId"))) {
+        if (!mBundle.getString("classId").equals(newData.get("classId"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("teacherId")).equals(newData.get("teacherId"))) {
+        if (!mBundle.getString("teacherId").equals(newData.get("teacherId"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("studentName")).equals(newData.get("studentName"))) {
+        if (!mBundle.getString("studentName").equals(newData.get("studentName"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("studentAge")).equals(newData.get("studentAge"))) {
+        if (!mBundle.getString("studentBirth").equals(newData.get("studentAge"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("parentName")).equals(newData.get("parentName"))) {
+        if (!mBundle.getString("parentName").equals(newData.get("parentName"))) {
             return true;
         }
-        if (!ConvertUtils.getString(mOldData.get("relation")).equals(newData.get("relation"))) {
+        if (!mBundle.getString("relation").equals(newData.get("relation"))) {
             return true;
         }
         return false;
@@ -526,8 +514,8 @@ public class RelatedInfoActivity extends Activity {
             ToastToolUtils.showLong("请录入与学生的关系");
             return false;
         }
-        if (StringUtils.isEmptyOrNull(txtProvince.getText())) {
-            ToastToolUtils.showLong("请选择省份");
+        if (StringUtils.isEmptyOrNull(txtBirthday.getText())) {
+            ToastToolUtils.showLong("请录入生日");
             return false;
         }
         return true;

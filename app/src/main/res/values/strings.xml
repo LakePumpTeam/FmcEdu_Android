@@ -71,6 +71,9 @@
     <string name="label_stu_sex">学生性别：</string>
     <string name="label_birthday">学生生日：</string>
     <string name="btn_save">保存</string>
+    <string name="title_activity_class_dynamic">ClassDynamicActivity</string>
+    <string name="title_activity_publish_dynamic">PublishDynamicActivity</string>
+    <string name="title_activity_dynamic_detail">DynamicDetailActivity</string>
 
 
 </resources>

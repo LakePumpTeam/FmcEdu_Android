@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.fmc.edu.entity.LoginUserEntity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Candy on 2015/5/7.
  */
@@ -18,6 +21,25 @@ public class ServicePreferenceUtils {
         editor.putString("cellphone", userEntity.cellphone);
         editor.putString("password", encryptPWD(userEntity.password));
         editor.commit();
+    }
+
+    public static void saveNoticeSettingPreference(Context context, Map<String, Boolean> setting) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConvertUtils.getString(getLoginUserByPreference(context).userId), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("shake", setting.get("shake"));
+        editor.putBoolean("ring", setting.get("ring"));
+        editor.commit();
+    }
+
+    public static Map<String, Boolean> getNoticeSettingByPreference(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConvertUtils.getString(getLoginUserByPreference(context).userId), Context.MODE_PRIVATE);
+        if (null == sharedPreferences) {
+            return null;
+        }
+        Map<String, Boolean> mapData = new HashMap<String, Boolean>();
+        mapData.put("shake", sharedPreferences.getBoolean("shake", false));
+        mapData.put("ring", sharedPreferences.getBoolean("ring", false));
+        return mapData;
     }
 
     public static void clearLoginUserPreference(Context context) {

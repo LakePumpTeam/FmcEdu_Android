@@ -1,15 +1,10 @@
 package com.fmc.edu;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.fmc.edu.adapter.SelectListControlAdapter;
-import com.fmc.edu.customcontrol.SelectListControl;
-import com.fmc.edu.customcontrol.SlideImageControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommonEntity;
 
@@ -56,4 +51,6 @@ public class TestActivity extends Activity {
         }
         return list;
     }
+
+
 }

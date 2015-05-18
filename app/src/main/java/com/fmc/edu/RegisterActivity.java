@@ -8,13 +8,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.common.MyTextWatcher;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
-import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -22,7 +20,6 @@ import com.fmc.edu.utils.ValidationUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class RegisterActivity extends Activity {
@@ -40,6 +37,8 @@ public class RegisterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmc.edu">
+    package="com.fmc.edu" >
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -32,7 +32,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/" />
@@ -49,7 +49,6 @@
             android:name="com.fmc.edu.version"
             android:value="1.0" />
 
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -65,7 +64,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -116,6 +115,18 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClassDynamicActivity"
+            android:label="@string/title_activity_class_dynamic" >
+        </activity>
+        <activity
+            android:name=".PublishDynamicActivity"
+            android:label="@string/title_activity_publish_dynamic" >
+        </activity>
+        <activity
+            android:name=".DynamicDetailActivity"
+            android:label="@string/title_activity_dynamic_detail" >
+        </activity>
     </application>
 
 </manifest>

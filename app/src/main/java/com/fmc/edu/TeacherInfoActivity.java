@@ -2,10 +2,7 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,8 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -43,6 +40,8 @@ public class TeacherInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_info);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initViewEvent();
         mProgressControl = new ProgressControl(this);

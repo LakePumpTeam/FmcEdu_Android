@@ -32,7 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_margin" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:button="@drawable/selector_check" />
     </RelativeLayout>
 
     <View style="@style/HorizontalDividerLineStyle" />
@@ -57,13 +59,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_margin" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:button="@drawable/selector_check" />
     </RelativeLayout>
 
     <View style="@style/HorizontalDividerLineStyle" />
 
     <Button
-        android:id="@+id/message_notice_setting_btn_next_step"
+        android:id="@+id/message_notice_setting_btn_save"
         style="@style/OvalButtonStyle"
         android:layout_margin="@dimen/activity_margin"
         android:text="@string/btn_save" />

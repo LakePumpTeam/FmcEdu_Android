@@ -1,10 +1,6 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.app.Application;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Candy on 2015/5/3.

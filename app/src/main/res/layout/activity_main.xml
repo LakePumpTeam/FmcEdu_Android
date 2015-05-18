@@ -221,6 +221,7 @@
             <RelativeLayout
                 android:id="@+id/main_menu_item_rl_audit"
                 android:layout_width="0dp"
+                android:visibility="invisible"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 

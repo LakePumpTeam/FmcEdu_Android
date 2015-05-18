@@ -3,24 +3,20 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.common.CrashHandler;
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.http.NetWorkUnAvailableException;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
@@ -34,7 +30,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,26 +51,31 @@ public class MainActivity extends Activity {
     private TopBarControl topBar;
     private RelativeLayout rlAudit;
 
-    private ProgressControl progressControl;
+    private ProgressControl mProgressControl;
     private ImageLoader mImageLoader;
     private int mUserRole;
+    private Bundle mBundle;
+    private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
         CrashHandler crashHandler = CrashHandler.getInstance();
-         crashHandler.init(this);
-        progressControl = new ProgressControl(this);
+        crashHandler.init(this);
+        initViews();
+        mBundle = getIntent().getExtras();
+        mProgressControl = new ProgressControl(this);
+        mHostUrl = AppConfigUtils.getServiceHost();
         initImageLoader();
         initViewEvents();
+        afterInitData();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initData();
+       // initData();
     }
 
     private void initViews() {
@@ -110,21 +110,10 @@ public class MainActivity extends Activity {
         txtTeacher.setOnClickListener(txtTeacherOnClickListener);
     }
 
-    private void initData() {
-        String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", loginUserEntity.userId);
-        MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                afterInitData(data);
-            }
-        });
-    }
-
-    private void afterInitData(Map<String, Object> initData) {
-//        mImageLoader.displayImage(initData.get("imgurl").toString(), circleImgHeadPhoto);
+    private void afterInitData() {
+        if (null == mBundle) {
+            return;
+        }
         menuSchoolDynamic.setHasDynamic(false);
         menuGradeDynamic.setHasDynamic(false);
         menuSyllabusDynamic.setHasDynamic(false);
@@ -133,11 +122,11 @@ public class MainActivity extends Activity {
         menuCampus.setHasDynamic(false);
         menuLocation.setHasDynamic(false);
         menuAudit.setHasDynamic(false);
-        txtTeacher.setText(ConvertUtils.getString(initData.get("teacherName")));
-        txtTeacher.setTag(ConvertUtils.getString(initData.get("teacherId")));
-        txtClassGrade.setText(ConvertUtils.getString(initData.get("className")));
-        mUserRole = ConvertUtils.getInteger(initData.get("userRole"));
-        if (ConvertUtils.getBoolean(initData.get("sex"))) {
+        txtTeacher.setText(mBundle.getString("teacherName"));
+        txtTeacher.setTag(mBundle.getString("teacherId"));
+        txtClassGrade.setText(mBundle.getString("className"));
+        mUserRole = mBundle.getInt("userRole");
+        if (mBundle.getBoolean("sex")) {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_boy));
         } else {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
@@ -205,9 +194,10 @@ public class MainActivity extends Activity {
                 startActivity(intent);
                 return;
             }
-            Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
-            intent.putExtra("isModify", true);
-            startActivity(intent);
+            gotoRelationPage();
+//            Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
+//            intent.putExtra("isModify", true);
+//            startActivity(intent);
         }
     };
 
@@ -286,4 +276,41 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MainActivity.this, cls);
         startActivity(intent);
     }
+
+    private void gotoRelationPage() {
+        mProgressControl.showWindow(circleImgHeadPhoto);
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("parentId", loginUserEntity.userId);
+        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                MainActivity.this.finish();
+                Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("address", ConvertUtils.getString(data.get("address"), ""));
+                bundle.putString("studentBirth", ConvertUtils.getString(data.get("studentBirth"), ""));
+                bundle.putString("braceletCardNumber", ConvertUtils.getString(data.get("braceletCardNumber"), ""));
+                bundle.putString("braceletNumber", ConvertUtils.getString(data.get("braceletNumber"), ""));
+                bundle.putString("parentName", ConvertUtils.getString(data.get("parentName"), ""));
+                bundle.putString("relation", ConvertUtils.getString(data.get("relation"), ""));
+                bundle.putString("studentName", ConvertUtils.getString(data.get("studentName"), ""));
+                bundle.putString("cellPhone", ConvertUtils.getString(data.get("cellPhone"), ""));
+                bundle.putString("classId", ConvertUtils.getString(data.get("classId"), ""));
+                bundle.putString("className", ConvertUtils.getString(data.get("className"), ""));
+                bundle.putString("cityId", ConvertUtils.getString(data.get("cityId"), ""));
+                bundle.putString("cityName", ConvertUtils.getString(data.get("cityName"), ""));
+                bundle.putString("provId", ConvertUtils.getString(data.get("provId"), ""));
+                bundle.putString("provName", ConvertUtils.getString(data.get("provName"), ""));
+                bundle.putString("schoolId", ConvertUtils.getString(data.get("schoolId"), ""));
+                bundle.putString("schoolName", ConvertUtils.getString(data.get("schoolName"), ""));
+                bundle.putString("teacherId", ConvertUtils.getString(data.get("teacherId"), ""));
+                bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName"), ""));
+                bundle.putBoolean("studentSex", ConvertUtils.getBoolean(data.get("studentSex"), false));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

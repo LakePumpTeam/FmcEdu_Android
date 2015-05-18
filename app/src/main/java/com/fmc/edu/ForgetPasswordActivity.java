@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.common.MyTextWatcher;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
@@ -37,6 +38,8 @@ public class ForgetPasswordActivity extends Activity {
         setContentView(R.layout.activity_forget_password);
         initViews();
         initViewEvents();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         progressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         if (AppConfigUtils.isDevelopment()) {

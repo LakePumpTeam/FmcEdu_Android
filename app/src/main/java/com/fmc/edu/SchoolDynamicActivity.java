@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.SchoolListItemAdapter;
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.entity.SchoolDynamicEntity;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class SchoolDynamicActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_dynamic);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initViewEvents();
         initPageData();

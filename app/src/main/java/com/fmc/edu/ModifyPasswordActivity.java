@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
@@ -34,6 +33,8 @@ public class ModifyPasswordActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_password);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);

@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
-import com.fmc.edu.utils.ToastToolUtils;
 
 
 public class SettingActivity extends Activity {
@@ -25,6 +25,8 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initViews();
         initViewEvents();
     }
