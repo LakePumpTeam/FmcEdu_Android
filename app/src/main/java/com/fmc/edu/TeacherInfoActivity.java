@@ -33,12 +33,12 @@ public class TeacherInfoActivity extends Activity {
     private TextView txtBirth;
     private ProgressControl mProgressControl;
     private String mHostUrl;
-    private boolean mIsModify;
-    private String mTeacherId;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_teacher_info);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
@@ -46,8 +46,7 @@ public class TeacherInfoActivity extends Activity {
         initViewEvent();
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
-        mIsModify = ConvertUtils.getBoolean(getIntent().getExtras().getBoolean("isModify"));
-        mTeacherId = ConvertUtils.getString(getIntent().getExtras().get("teacherId"));
+        mBundle = getIntent().getExtras();
         bindEnable();
         initPageData();
     }
@@ -60,7 +59,6 @@ public class TeacherInfoActivity extends Activity {
         editRecord = (EditText) findViewById(R.id.teacher_info_edit_record);
         rgSex = (RadioGroup) findViewById(R.id.teacher_info_rg_sex);
         txtBirth = (TextView) findViewById(R.id.teacher_info_txt_birth);
-
     }
 
     private void initViewEvent() {
@@ -69,23 +67,12 @@ public class TeacherInfoActivity extends Activity {
     }
 
     private void initPageData() {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("teacherId", mTeacherId);
-        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, null, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                bindViewData(data);
-            }
-        });
-    }
-
-    private void bindViewData(Map<String, Object> data) {
-        editCourse.setText(ConvertUtils.getString(data.get("course")));
-        editCellphone.setText(ConvertUtils.getString(data.get("cellPhone")));
-        editName.setText(ConvertUtils.getString(data.get("teacherName")));
-        editRecord.setText(ConvertUtils.getString(data.get("resume")));
-        txtBirth.setText(ConvertUtils.getString(data.get("teacherBirth")));
-        if (ConvertUtils.getBoolean(data.get("teacherSex"))) {
+        editCourse.setText(mBundle.getString("course"));
+        editCellphone.setText(mBundle.getString("cellPhone"));
+        editName.setText(mBundle.getString("teacherName"));
+        editRecord.setText(mBundle.getString("resume"));
+        txtBirth.setText(mBundle.getString("teacherBirth"));
+        if (mBundle.getBoolean("teacherSex")) {
             ((RadioButton) rgSex.getChildAt(1)).setChecked(true);
         } else {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
@@ -93,7 +80,7 @@ public class TeacherInfoActivity extends Activity {
     }
 
     private void bindEnable() {
-        if (!mIsModify) {
+        if (null == mBundle || !mBundle.getBoolean("isModify")) {
             return;
         }
         editCourse.setEnabled(true);
@@ -105,7 +92,6 @@ public class TeacherInfoActivity extends Activity {
         txtBirth.setEnabled(true);
         rgSex.getChildAt(0).setEnabled(true);
         rgSex.getChildAt(1).setEnabled(true);
-
     }
 
 
@@ -113,7 +99,7 @@ public class TeacherInfoActivity extends Activity {
         @Override
         public void onClick(View v) {
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("teacherId", mTeacherId);
+            params.put("teacherId", mBundle.getInt("teacherId"));
             params.put("teacherName", editName.getText());
             params.put("teacherBirth", txtBirth.getText());
             params.put("course", editCourse.getText());

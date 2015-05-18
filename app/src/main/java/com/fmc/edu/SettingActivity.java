@@ -24,6 +24,7 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_setting);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

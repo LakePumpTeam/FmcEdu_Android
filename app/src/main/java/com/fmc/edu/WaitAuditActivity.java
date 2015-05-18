@@ -10,6 +10,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
@@ -28,13 +29,16 @@ public class WaitAuditActivity extends Activity {
     private WaitAuditAdapter mWaitAuditAdapter;
     private ProgressControl mProgressControl;
     private String mHostUrl;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
         setContentView(R.layout.activity_wait_audit);
+        mBundle = getIntent().getExtras();
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
@@ -49,11 +53,15 @@ public class WaitAuditActivity extends Activity {
 
     private void initViewEvents() {
         topBar.setOnOperateOnClickListener(allPassOperateListener);
-        // list.setOnLoadMoreListener(onLoadMoreListener);
     }
 
     private void initData() {
-        initWaitList();
+        if (null == mBundle) {
+            return;
+        }
+        List<WaitAuditEntity> list = mBundle.getParcelableArrayList("list");
+        mWaitAuditAdapter = new WaitAuditAdapter(WaitAuditActivity.this, list);
+        slideList.setAdapter(mWaitAuditAdapter);
     }
 
     private TopBarControl.OnOperateOnClickListener allPassOperateListener = new TopBarControl.OnOperateOnClickListener() {
@@ -73,19 +81,4 @@ public class WaitAuditActivity extends Activity {
             });
         }
     };
-
-
-    private void initWaitList() {
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(WaitAuditActivity.this);
-        Map<String, Object> params = new HashMap<>();
-        params.put("teacherId", loginUserEntity.userId);
-        MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, null, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("parentsAuditList");
-                mWaitAuditAdapter = new WaitAuditAdapter(WaitAuditActivity.this, list);
-                slideList.setAdapter(mWaitAuditAdapter);
-            }
-        });
-    }
 }

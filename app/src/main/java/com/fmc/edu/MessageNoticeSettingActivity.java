@@ -22,6 +22,7 @@ public class MessageNoticeSettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_message_notice_setting);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

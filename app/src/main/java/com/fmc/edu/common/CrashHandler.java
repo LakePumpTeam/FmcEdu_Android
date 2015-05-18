@@ -1,8 +1,13 @@
 package com.fmc.edu.common;
 
+import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Looper;
+import android.util.Log;
 
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.utils.ToastToolUtils;
 
 /**
@@ -35,15 +40,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                ToastToolUtils.showLong(ex.getMessage());
-//                new AlertDialog.Builder(mContext).setTitle("提示").setCancelable(false)
-//                        .setMessage("程序崩溃...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
+//                ToastToolUtils.showLong(ex.getMessage());
+                Log.e("CrashHandler", ex.getMessage());
+                new AlertDialog.Builder(mContext).setTitle("提示").setCancelable(false)
+                        .setMessage("程序崩溃...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 //                        System.exit(0);
-//                    }
-//                })
-//                        .create().show();
+                        FmcApplication.exit(mContext);
+
+                    }
+                })
+                        .create().show();
                 Looper.loop();
             }
         }.start();

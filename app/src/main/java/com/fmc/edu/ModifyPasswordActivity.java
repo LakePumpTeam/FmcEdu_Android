@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class ModifyPasswordActivity extends Activity {
     private Button btnSubmit;
+
     private EditText editOldPassword;
     private EditText editPassword;
     private EditText editConfirmPassword;
@@ -32,6 +33,7 @@ public class ModifyPasswordActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_modify_password);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

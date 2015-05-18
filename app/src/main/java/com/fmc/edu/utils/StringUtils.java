@@ -13,14 +13,14 @@ public class StringUtils {
         if (null == str) {
             return true;
         }
-        if ("".equals(str)) {
+        if ("".equals(str.toString())) {
             return true;
         }
-        if ("null".equals(str)) {
+        if ("null".equals(str.toString())) {
             return true;
         }
-        if(JSONObject.NULL.equals(str)){
-            return  true;
+        if (JSONObject.NULL.equals(str)) {
+            return true;
         }
         return false;
     }

@@ -11,6 +11,7 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_about);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

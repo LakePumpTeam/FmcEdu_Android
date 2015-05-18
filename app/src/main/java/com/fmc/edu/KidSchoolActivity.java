@@ -26,6 +26,7 @@ public class KidSchoolActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_kid_school);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

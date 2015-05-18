@@ -3,19 +3,23 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fmc.edu.adapter.WaitAuditAdapter;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -30,7 +34,9 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -61,6 +67,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FmcApplication.addActivity(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
         initViews();
@@ -75,7 +82,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-       // initData();
     }
 
     private void initViews() {
@@ -188,16 +194,10 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             if (mUserRole == 1) {
                 LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
-                Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
-                intent.putExtra("teacherId", loginUserEntity.userId);
-                intent.putExtra("isModify", true);
-                startActivity(intent);
+                gotoTeacherPage(loginUserEntity.userId, true);
                 return;
             }
             gotoRelationPage();
-//            Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
-//            intent.putExtra("isModify", true);
-//            startActivity(intent);
         }
     };
 
@@ -207,11 +207,10 @@ public class MainActivity extends Activity {
             if (mUserRole == 1) {
                 return;
             }
-            Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
-            intent.putExtra("teacherId", ConvertUtils.getString(v.getTag()));
-            startActivity(intent);
+            gotoTeacherPage(ConvertUtils.getInteger(v.getTag()), false);
         }
     };
+
 
     private TopBarControl.OnOperateOnClickListener settingOperatorOnClickListener = new TopBarControl.OnOperateOnClickListener() {
         @Override
@@ -220,6 +219,7 @@ public class MainActivity extends Activity {
             startActivity(intent);
         }
     };
+
     private View.OnClickListener menuItemOnClickListener = new View.OnClickListener() {
         //TODO  每一个Item绑定自己的Class
         @Override
@@ -262,7 +262,7 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case R.id.main_menu_audit:
-                    gotoDetailPage(v, WaitAuditActivity.class);
+                    gotoWaitAuditPage();
                     break;
                 default:
                     break;
@@ -277,6 +277,29 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    private void gotoTeacherPage(final int teacherId, final boolean isModify) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("teacherId", teacherId);
+        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("teacherId", teacherId);
+                bundle.putString("course", ConvertUtils.getString(data.get("course")));
+                bundle.putString("cellPhone", ConvertUtils.getString(data.get("cellPhone")));
+                bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName")));
+                bundle.putString("resume", ConvertUtils.getString(data.get("resume")));
+                bundle.putString("teacherBirth", ConvertUtils.getString(data.get("teacherBirth")));
+                bundle.putBoolean("teacherSex", ConvertUtils.getBoolean(data.get("teacherSex")));
+                bundle.putBoolean("isModify", isModify);
+                Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+    }
+
     private void gotoRelationPage() {
         mProgressControl.showWindow(circleImgHeadPhoto);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
@@ -285,7 +308,6 @@ public class MainActivity extends Activity {
         MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                MainActivity.this.finish();
                 Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("address", ConvertUtils.getString(data.get("address"), ""));
@@ -304,6 +326,8 @@ public class MainActivity extends Activity {
                 bundle.putString("provName", ConvertUtils.getString(data.get("provName"), ""));
                 bundle.putString("schoolId", ConvertUtils.getString(data.get("schoolId"), ""));
                 bundle.putString("schoolName", ConvertUtils.getString(data.get("schoolName"), ""));
+                bundle.putString("studentId", ConvertUtils.getString(data.get("studentId"), "0"));
+                bundle.putString("addressId", ConvertUtils.getString(data.get("addressId"), "0"));
                 bundle.putString("teacherId", ConvertUtils.getString(data.get("teacherId"), ""));
                 bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName"), ""));
                 bundle.putBoolean("studentSex", ConvertUtils.getBoolean(data.get("studentSex"), false));
@@ -313,4 +337,35 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void gotoWaitAuditPage() {
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
+        Map<String, Object> params = new HashMap<>();
+        params.put("teacherId", loginUserEntity.userId);
+        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<WaitAuditEntity> list = ToWaitAuditEntity((List<Map<String, Object>>) data.get("parentsAuditList"));
+                menuAudit.setHasDynamic(false);
+                Intent intent = new Intent(MainActivity.this, WaitAuditActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private List<WaitAuditEntity> ToWaitAuditEntity(List<Map<String, Object>> data) {
+        List<WaitAuditEntity> list = new ArrayList<WaitAuditEntity>();
+        for (int i = 0; i < data.size(); i++) {
+            WaitAuditEntity waitAuditItem = new WaitAuditEntity();
+            Map<String, Object> item = data.get(i);
+            waitAuditItem.parentId = ConvertUtils.getInteger(item.get("parentId"));
+            waitAuditItem.cellphone = ConvertUtils.getString(item.get("cellPhone"));
+            waitAuditItem.parentName = ConvertUtils.getString(item.get("parentName"));
+            waitAuditItem.auditStatus = ConvertUtils.getInteger(item.get("auditStatus"), 1);
+            list.add(waitAuditItem);
+        }
+        return list;
+    }
 }

@@ -57,13 +57,13 @@ public class RelatedInfoActivity extends Activity {
     private OperateType mCurrentOperateType;
     private boolean mIsLastPage = true;
     private View mSelectView;
-    //private Map<String, Object> mOldData;
     private boolean mIsAudit = false;
     private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_related_info);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
@@ -106,19 +106,21 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void bindPageData() {
-        if (null == mBundle) {
+        if (null == mBundle || mBundle.getBoolean("isRegister", false)) {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
             txtCellphone.setText(mCellphone);
             return;
         }
 
         editAddress.setText(mBundle.getString("address"));
+        editAddress.setTag(mBundle.getString("addressId"));
         txtBirthday.setText(mBundle.getString("studentBirth"));
         editBraceletCardNum.setText(mBundle.getString("braceletCardNumber"));
         editBraceletNumber.setText(mBundle.getString("braceletNumber"));
         editParName.setText(mBundle.getString("parentName"));
         editRelation.setText(mBundle.getString("relation"));
         editStuName.setText(mBundle.getString("studentName"));
+        editStuName.setTag(mBundle.getString("studentId"));
         txtCellphone.setText(mBundle.getString("cellPhone"));
         txtClass.setTag(mBundle.getString("classId"));
         txtClass.setText(mBundle.getString("className"));
@@ -270,11 +272,13 @@ public class RelatedInfoActivity extends Activity {
         params.put("classId", String.valueOf(txtClass.getTag()));
         params.put("teacherId", String.valueOf(txtTeacher.getTag()));
         params.put("studentName", editStuName.getText().toString());
+        params.put("studentId",editStuName.getTag());
         params.put("studentSex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString());
         params.put("studentAge", txtBirthday.getText().toString());
         params.put("parentName", editParName.getText().toString());
         params.put("relation", editRelation.getText().toString());
         params.put("address", editAddress.getText().toString());
+        params.put("addressId",editAddress.getTag().toString());
         params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
         params.put("braceletNumber", editBraceletNumber.getText().toString());
         mIsAudit = isAudit(params);
@@ -283,34 +287,34 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private boolean isAudit(Map<String, Object> newData) {
-        if (null == mBundle) {
+        if (null == mBundle || mBundle.getBoolean("isRegister", false)) {
             return true;
         }
-        if (!mBundle.getString("provId").equals(newData.get("provId"))) {
+        if (!newData.get("provId").equals(mBundle.getString("provId"))) {
             return true;
         }
-        if (!mBundle.getString("cityId").equals(newData.get("cityId"))){
+        if (!newData.get("cityId").equals(mBundle.getString("cityId"))) {
             return true;
         }
-        if (!mBundle.getString("schoolId").equals(newData.get("schoolId"))) {
+        if (!newData.get("schoolId").equals(mBundle.getString("schoolId"))) {
             return true;
         }
-        if (!mBundle.getString("classId").equals(newData.get("classId"))) {
+        if (!newData.get("classId").equals(mBundle.getString("classId"))) {
             return true;
         }
-        if (!mBundle.getString("teacherId").equals(newData.get("teacherId"))) {
+        if (!newData.get("teacherId").equals(mBundle.getString("teacherId"))) {
             return true;
         }
-        if (!mBundle.getString("studentName").equals(newData.get("studentName"))) {
+        if (!newData.get("studentName").equals(mBundle.getString("studentName"))) {
             return true;
         }
-        if (!mBundle.getString("studentBirth").equals(newData.get("studentAge"))) {
+        if (!newData.get("studentAge").equals(mBundle.getString("studentBirth"))) {
             return true;
         }
-        if (!mBundle.getString("parentName").equals(newData.get("parentName"))) {
+        if (!newData.get("parentName").equals(mBundle.getString("parentName"))) {
             return true;
         }
-        if (!mBundle.getString("relation").equals(newData.get("relation"))) {
+        if (!newData.get("relation").equals(mBundle.getString("relation"))) {
             return true;
         }
         return false;
@@ -416,7 +420,7 @@ public class RelatedInfoActivity extends Activity {
         @Override
         public void onItemSelected(CommonEntity obj, View view) {
             TextView textView = (TextView) view;
-            if (view.getTag().equals(obj.getId())) {
+            if (obj.getId().equals(view.getTag())) {
                 return;
             }
             textView.setText(obj.getFullName());

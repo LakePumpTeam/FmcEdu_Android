@@ -13,6 +13,7 @@ public class ClassDynamicActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_class_dynamic);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);

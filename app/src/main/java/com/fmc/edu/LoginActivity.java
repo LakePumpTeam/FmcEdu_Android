@@ -41,6 +41,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_login);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
@@ -234,6 +235,8 @@ public class LoginActivity extends Activity {
                 bundle.putString("schoolName", ConvertUtils.getString(data.get("schoolName"), ""));
                 bundle.putString("teacherId", ConvertUtils.getString(data.get("teacherId"), ""));
                 bundle.putString("teacherName", ConvertUtils.getString(data.get("teacherName"), ""));
+                bundle.putString("studentId", ConvertUtils.getString(data.get("studentId"), "0"));
+                bundle.putString("addressId", ConvertUtils.getString(data.get("addressId"), "0"));
                 bundle.putBoolean("studentSex", ConvertUtils.getBoolean(data.get("studentSex"), false));
                 intent.putExtras(bundle);
                 startActivity(intent);

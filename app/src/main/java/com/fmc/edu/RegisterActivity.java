@@ -36,6 +36,7 @@ public class RegisterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_register);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
@@ -166,6 +167,7 @@ public class RegisterActivity extends Activity {
         this.finish();
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
         intent.putExtra("cellPhone", editCellphone.getText().toString());
+        intent.putExtra("isRegister",true);
         startActivity(intent);
     }
 

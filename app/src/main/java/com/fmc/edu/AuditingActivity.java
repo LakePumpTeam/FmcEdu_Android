@@ -17,6 +17,7 @@ public class AuditingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FmcApplication.addActivity(this);
         setContentView(R.layout.activity_auditing);
         initViews();
         initViewEvent();
