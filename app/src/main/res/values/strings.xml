@@ -15,6 +15,9 @@
     <string name="title_activity_teacher_info">教师信息</string>
     <string name="title_activity_forget_password">忘记密码</string>
     <string name="title_activity_modify_password">修改密码</string>
+    <string name="title_activity_class_dynamic">班级动态</string>
+    <string name="title_activity_publish_dynamic">发布动态</string>
+    <string name="title_activity_dynamic_detail">详情</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>
@@ -71,9 +74,8 @@
     <string name="label_stu_sex">学生性别：</string>
     <string name="label_birthday">学生生日：</string>
     <string name="btn_save">保存</string>
-    <string name="title_activity_class_dynamic">ClassDynamicActivity</string>
-    <string name="title_activity_publish_dynamic">PublishDynamicActivity</string>
-    <string name="title_activity_dynamic_detail">DynamicDetailActivity</string>
+    <string name="send">发送</string>
+    <string name="edit_content">编辑内容</string>
 
 
 </resources>

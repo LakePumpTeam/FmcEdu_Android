@@ -1,12 +1,78 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.fmc.edu.PublishDynamicActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/edit_text_bg_color"
+    android:orientation="vertical">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/public_dynamic_top_bar_send"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:layout_alignParentTop="true"
+        fmc:backVisible="false"
+        fmc:operatorText="@string/send"
+        fmc:topTitle="@string/title_activity_publish_dynamic" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/public_dynamic_edit_content"
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:gravity="top"
+        android:hint="@string/edit_content"
+        android:padding="@dimen/activity_padding_middle"
+        android:singleLine="false" />
+
+    <GridView
+        android:background="@color/edit_text_bg_color"
+        android:id="@+id/public_dynamic_grid_picture"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:numColumns="4" />
+
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin_middle" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_layout_bg_color"
+
+        android:padding="@dimen/activity_padding">
+
+        <TextView
+            android:id="@+id/public_dynamic_add_picture"
+            style="@style/TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableLeft="@mipmap/ic_add_picture"
+            android:drawablePadding="@dimen/activity_padding_middle"
+            android:text="点击添加图片"
+            android:textSize="@dimen/font_size_middle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/send_msg_1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:src="@mipmap/send_msg_2" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+</LinearLayout>
