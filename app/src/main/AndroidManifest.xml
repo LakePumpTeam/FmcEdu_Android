@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmc.edu" >
+    package="com.fmc.edu">
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -23,7 +23,8 @@
     <!-- 允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!--<uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>-->
+    <!-- <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/> -->
+
 
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -33,7 +34,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/" />
@@ -65,7 +66,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -118,16 +119,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ClassDynamicActivity"
-            android:label="@string/title_activity_class_dynamic" >
-        </activity>
+            android:label="@string/title_activity_class_dynamic" />
         <activity
             android:name=".PublishDynamicActivity"
-            android:label="@string/title_activity_publish_dynamic" >
-        </activity>
+            android:label="@string/title_activity_publish_dynamic"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DynamicDetailActivity"
-            android:label="@string/title_activity_dynamic_detail" >
-        </activity>
+            android:label="@string/title_activity_dynamic_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MultiPictureActivity"
+            android:label="@string/title_activity_multi_picture"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

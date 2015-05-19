@@ -67,7 +67,7 @@ public class TopBarControl extends LinearLayout {
     private void initData() {
         txtTitle.setText(topTitle);
         llBack.setVisibility(backVisible ? VISIBLE : GONE);
-        if (StringUtils.isEmptyOrNull(operatorText) && operatorImageSrc == 0) {
+        if ((null == operatorText || "".equals(operatorText)) && operatorImageSrc == 0) {
             llOperate.setVisibility(GONE);
             return;
         }
@@ -81,6 +81,10 @@ public class TopBarControl extends LinearLayout {
         llOperateImage.setVisibility(GONE);
         llOperateText.setVisibility(VISIBLE);
         txtOperate.setText(operatorText);
+    }
+
+    public void setTopBarText(String topTitle) {
+        txtOperate.setText(topTitle);
     }
 
     private void bindControlEvent() {

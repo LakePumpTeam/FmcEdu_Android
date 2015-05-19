@@ -19,7 +19,7 @@ public class StringUtils {
         if ("null".equals(str.toString())) {
             return true;
         }
-        if (JSONObject.NULL ==str) {
+        if(JSONObject.NULL == str){
             return true;
         }
         return false;

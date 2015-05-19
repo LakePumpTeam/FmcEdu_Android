@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //TODO 发送新动态
+            gotoSendDynamic();
         }
     };
 
@@ -297,7 +297,6 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void gotoRelationPage() {
@@ -367,5 +366,11 @@ public class MainActivity extends Activity {
             list.add(waitAuditItem);
         }
         return list;
+    }
+
+    private void gotoSendDynamic() {
+        Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
+        startActivity(intent);
+
     }
 }

@@ -76,6 +76,7 @@
     <string name="btn_save">保存</string>
     <string name="send">发送</string>
     <string name="edit_content">编辑内容</string>
+    <string name="title_activity_multi_picture">MultiPictureActivity</string>
 
 
 </resources>

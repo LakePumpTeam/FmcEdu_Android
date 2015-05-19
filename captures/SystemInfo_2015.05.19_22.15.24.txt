@@ -1,0 +1,34 @@
+Applications Memory Usage (kB):
+Uptime: 37911305 Realtime: 61121051
+
+** MEMINFO in pid 6547 [com.fmc.edu] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap        0        0        0        0     8823     8823    15752
+  Dalvik Heap     6390     6156        0        0    18263    16709     1554
+ Dalvik Other      494      388        0        0                           
+        Stack      112      112        0        0                           
+    Other dev     4520     4424        4        0                           
+     .so mmap      649      328       52        0                           
+    .apk mmap       89        0       24        0                           
+    .ttf mmap      362        0      252        0                           
+    .dex mmap     2040        0     2036        0                           
+    code mmap      561        0       48        0                           
+   image mmap      993      832        0        0                           
+   Other mmap       20        4        0        0                           
+      Unknown     5529     5420        0        0                           
+        TOTAL    21759    17664     2416        0    27086    25532    17306
+ 
+ Objects
+               Views:      103         ViewRootImpl:        1
+         AppContexts:        4           Activities:        2
+              Assets:        5        AssetManagers:        5
+       Local Binders:       10        Proxy Binders:       18
+    Death Recipients:        1
+     OpenSSL Sockets:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 
