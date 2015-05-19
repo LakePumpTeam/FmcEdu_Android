@@ -78,16 +78,17 @@ public class LoginActivity extends Activity {
         @Override
         public void onClick(View v) {
             String cellphone = editCellphone.getText().toString();
-            String password = editPassword.getText().toString();
-            if (StringUtils.isEmptyOrNull(cellphone)) {
-                ToastToolUtils.showLong("请输入账号");
-                return;
-            }
-            if (StringUtils.isEmptyOrNull(password)) {
-                ToastToolUtils.showLong("请输入密码");
-                return;
-            }
-            doLogin(v, cellphone, password);
+
+            throw new NullPointerException("tt");
+//            if (StringUtils.isEmptyOrNull(cellphone)) {
+//                ToastToolUtils.showLong("请输入账号");
+//                return;
+//            }
+//            if (StringUtils.isEmptyOrNull(password)) {
+//                ToastToolUtils.showLong("请输入密码");
+//                return;
+//            }
+//            doLogin(v, cellphone, password);
         }
     };
 

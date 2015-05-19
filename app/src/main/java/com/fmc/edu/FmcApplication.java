@@ -1,9 +1,7 @@
 package com.fmc.edu;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +24,17 @@ public class FmcApplication extends Application {
         list.add(activity);
     }
 
-    public static void exit(Context context) {
+    public static void exit() {
+        clearAllActiviy();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public static void clearAllActiviy(){
         for (Activity activity : list) {
-            if (activity != null && activity.isFinishing()) {
+            if (activity != null && !activity.isFinishing()) {
                 activity.finish();
             }
         }
-        ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        activityMgr.killBackgroundProcesses(context.getPackageName());
-        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public static FmcApplication getApplication() {
