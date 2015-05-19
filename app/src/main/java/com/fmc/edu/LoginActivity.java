@@ -77,18 +77,17 @@ public class LoginActivity extends Activity {
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String cellphone = editCellphone.getText().toString();
-
-            throw new NullPointerException("tt");
-//            if (StringUtils.isEmptyOrNull(cellphone)) {
-//                ToastToolUtils.showLong("请输入账号");
-//                return;
-//            }
-//            if (StringUtils.isEmptyOrNull(password)) {
-//                ToastToolUtils.showLong("请输入密码");
-//                return;
-//            }
-//            doLogin(v, cellphone, password);
+            String cellphone = ConvertUtils.getString(editCellphone.getText());
+            String password = ConvertUtils.getString(editPassword.getText());
+            if (StringUtils.isEmptyOrNull(cellphone)) {
+                ToastToolUtils.showLong("请输入账号");
+                return;
+            }
+            if (StringUtils.isEmptyOrNull(password)) {
+                ToastToolUtils.showLong("请输入密码");
+                return;
+            }
+            doLogin(v, cellphone, password);
         }
     };
 
