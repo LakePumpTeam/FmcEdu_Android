@@ -59,7 +59,7 @@
         android:fastScrollEnabled="true"
         android:horizontalSpacing="5dp"
         android:background="#fff"
-        android:numColumns="3"
+        android:numColumns="2"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp" />
 

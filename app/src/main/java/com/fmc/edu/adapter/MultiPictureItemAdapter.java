@@ -3,18 +3,15 @@ package com.fmc.edu.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.fmc.edu.R;
-import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -125,7 +122,6 @@ public class MultiPictureItemAdapter extends BaseAdapter {
 
             ImageItemEntity item = mList.get(position);
             holder.imageSelectItemSrc.setImageBitmap(item.imageBitMap);
-//            holder.imageSelectItemCheckSelect.setChecked(item.isCheck);
             if (item.isCheck) {
                 holder.imageSelectItemFrameCover.setVisibility(View.VISIBLE);
                 holder.imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_checked));
@@ -137,23 +133,21 @@ public class MultiPictureItemAdapter extends BaseAdapter {
                     new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            DisplayMetrics dm = new DisplayMetrics();
+                            ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
+                            ViewGroup.LayoutParams params = holder.imageSelectItemSrc.getLayoutParams();
+                            params.height = dm.widthPixels / 2 - 10;
+                            holder.imageSelectItemSrc.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                             super.onLoadingComplete(imageUri, view, loadedImage);
                         }
 
                         @Override
                         public void onLoadingStarted(String imageUri, View view) {
-                            DisplayMetrics dm = new DisplayMetrics();
-                            ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
-                            ViewGroup.LayoutParams params = holder.imageSelectItemSrc.getLayoutParams();
-                            params.height = dm.widthPixels / 3 - 10;
-                            holder.imageSelectItemSrc.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             super.onLoadingStarted(imageUri, view);
                         }
                     });
             convertView.setTag(holder);
-            // convertView.setOnClickListener(OnItemClickListener);
         } catch (Exception e) {
-            Log.e("tttt", "---------------------**************---------------------");
         }
         return convertView;
     }

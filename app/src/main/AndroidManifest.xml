@@ -128,10 +128,6 @@
             android:name=".DynamicDetailActivity"
             android:label="@string/title_activity_dynamic_detail"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".MultiPictureActivity"
-            android:label="@string/title_activity_multi_picture"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@
         android:id="@+id/publish_dynamic_grid_picture"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:horizontalSpacing="5dp"
         android:background="@color/edit_text_bg_color"
         android:numColumns="4" />
 

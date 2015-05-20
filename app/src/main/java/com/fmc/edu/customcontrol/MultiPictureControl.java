@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +21,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
-import com.fmc.edu.adapter.ImageSelectItemAdapter;
 import com.fmc.edu.adapter.MultiPictureItemAdapter;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -52,16 +49,20 @@ public class MultiPictureControl extends PopupWindow {
     private TextView txtOk;
     private ImageLoader mImageLoader;
     private OnSelectedListener mOnSelectedListener;
-
-    public MultiPictureItemAdapter mAdapter;
+    private MultiPictureItemAdapter mAdapter;
+    private List<ImageItemEntity> mSelectedList;
+    private int mMaxCount = 4;
 
     public interface OnSelectedListener {
 
-        public void onSelected(List<ImageItemEntity> selectedImageList);
+        void onSelected(List<ImageItemEntity> selectedImageList);
     }
-    public MultiPictureControl(Context context) {
+
+    public MultiPictureControl(Context context, int maxCount, List<ImageItemEntity> selectedList) {
         super(context, null);
         this.mContext = context;
+        this.mMaxCount = maxCount;
+        this.mSelectedList = selectedList;
         mDisplayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         initPopWindow();
@@ -89,11 +90,13 @@ public class MultiPictureControl extends PopupWindow {
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_multi_picture, null);
         grid = (GridView) view.findViewById(R.id.multi_picture_grid);
+        grid.setSelector(new ColorDrawable(Color.TRANSPARENT));
         llBack = (LinearLayout) view.findViewById(R.id.multi_picture_ll_back);
         txtSelected = (TextView) view.findViewById(R.id.multi_picture_txt_selected);
         txtOk = (TextView) view.findViewById(R.id.multi_picture_txt_ok);
+
         txtOk.setOnClickListener(btnOKOnClickListener);
-        llBack.setOnClickListener((View.OnClickListener) llBackOnClickListener);
+        llBack.setOnClickListener(llBackOnClickListener);
         linearLayout.addView(view);
         this.setContentView(linearLayout);
     }
@@ -115,14 +118,13 @@ public class MultiPictureControl extends PopupWindow {
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .build();//构建完成
+
             ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(mContext)
                     .defaultDisplayImageOptions(options)
                     .threadPoolSize(3)
                     .diskCacheFileCount(100)
                     .diskCacheExtraOptions(480, 800, null)
                     .denyCacheImageMultipleSizesInMemory()
-                    .memoryCache(new LruMemoryCache(2 * 1024 * 1024)) //可以通过自己的内存缓存实现
-                    .memoryCacheSize(50 * 1024 * 1024)  // 内存缓存的最大值
                     .memoryCacheSizePercentage(50) // defaultF
                     .diskCache(new UnlimitedDiscCache(cacheDir))
                     .memoryCache(new WeakMemoryCache());// 图片加载好后渐入的动画时间  ;// max width, max height，即保存的每个缓存文件的最大长宽
@@ -176,6 +178,9 @@ public class MultiPictureControl extends PopupWindow {
                     int dataColumnIndex = imagecursor
                             .getColumnIndex(MediaStore.Images.Media.DATA);
                     item.imageURL = imagecursor.getString(dataColumnIndex);
+                    if (isSelected(item.imageURL)) {
+                        item.isCheck = true;
+                    }
                     galleryList.add(item);
                 }
             }
@@ -184,6 +189,18 @@ public class MultiPictureControl extends PopupWindow {
         }
         Collections.reverse(galleryList);
         return galleryList;
+    }
+
+    private boolean isSelected(String imgUrl) {
+        if (null == mSelectedList || mSelectedList.size() == 0) {
+            return false;
+        }
+        for (int i = 0; i < mSelectedList.size(); i++) {
+            if (mSelectedList.get(i).imageURL.equals(imgUrl)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void initPageDataSource() {
@@ -200,24 +217,25 @@ public class MultiPictureControl extends PopupWindow {
             if (imageItemEntity.isCheck) {
                 mAdapter.setCheck(position, false, view);
                 selectCount--;
-                String titleText = selectCount > 0 ? selectCount + "/4" : "0/4";
+                String titleText = (selectCount > 0 ? selectCount + "/" : "0/") + mMaxCount;
                 txtSelected.setText(titleText);
                 return;
             }
-            if (selectCount >= 4) {
-                ToastToolUtils.showLong("最多选择4张图片");
+            if (selectCount >= mMaxCount) {
+                String msg = "最多选择" + mMaxCount + "张图片";
+                ToastToolUtils.showLong(msg);
                 return;
             }
             mAdapter.setCheck(position, true, view);
             selectCount++;
-            String titleText = selectCount > 0 ? selectCount + "/4" : "0/4";
+            String titleText = (selectCount > 0 ? selectCount + "/" : "0/") + mMaxCount;
             txtSelected.setText(titleText);
         }
     };
 
-    private AdapterView.OnItemClickListener llBackOnClickListener = new AdapterView.OnItemClickListener() {
+    private View.OnClickListener llBackOnClickListener = new View.OnClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onClick(View v) {
             MultiPictureControl.this.dismiss();
         }
     };
@@ -228,6 +246,7 @@ public class MultiPictureControl extends PopupWindow {
             if (null == mOnSelectedListener) {
                 return;
             }
+            MultiPictureControl.this.dismiss();
             mOnSelectedListener.onSelected(mAdapter.getSelectedList());
         }
     };
