@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -22,25 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Candy on 2015/5/19.
+ * Created by Candy on 2015/5/20.
  */
-public class ImageSelectItemAdapter extends BaseAdapter {
+public class MultiPictureItemAdapter extends BaseAdapter {
     private Context mContext;
     private List<ImageItemEntity> mList;
     private ImageLoader mImageLoader;
 
-    private OnAfterSelectedListener mOnAfterSelectedListener;
-
-    public interface OnAfterSelectedListener {
-        void onAfterSelected(int selectedCount);
-
-    }
-
-    public void setOnAfterSelectedListener(OnAfterSelectedListener onAfterSelectedListener) {
-        this.mOnAfterSelectedListener = onAfterSelectedListener;
-    }
-
-    public ImageSelectItemAdapter(Context context, ImageLoader imageLoader) {
+    public MultiPictureItemAdapter(Context context, ImageLoader imageLoader) {
         this.mContext = context;
         this.mImageLoader = imageLoader;
     }
@@ -72,8 +62,17 @@ public class ImageSelectItemAdapter extends BaseAdapter {
         return list.size();
     }
 
-    public void setCheck(int position, boolean isCheck) {
+    public void setCheck(int position, boolean isCheck, View view) {
         mList.get(position).isCheck = isCheck;
+        ImageView imageSelectItemImgSelect = (ImageView) view.findViewById(R.id.image_select_item_img_select);
+        FrameLayout imageSelectItemFrameCover = (FrameLayout) view.findViewById(R.id.image_select_item_frame_cover);
+        if (isCheck) {
+            imageSelectItemFrameCover.setVisibility(View.VISIBLE);
+            imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_checked));
+        } else {
+            imageSelectItemFrameCover.setVisibility(View.GONE);
+            imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_unchecked));
+        }
     }
 
     public void setSelectList(List<ImageItemEntity> selectedList) {
@@ -111,29 +110,28 @@ public class ImageSelectItemAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (null == mList) {
-            return null;
-        }
-
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.image_select_item, null);
         }
         try {
             final ImageSelectItemHolder holder = new ImageSelectItemHolder();
-         //   holder.imageSelectItemCheckSelect = (CheckBox) convertView.findViewById(R.id.image_select_item_check_select);
+            holder.imageSelectItemImgSelect = (ImageView) convertView.findViewById(R.id.image_select_item_img_select);
             holder.imageSelectItemFrameCover = (FrameLayout) convertView.findViewById(R.id.image_select_item_frame_cover);
             holder.imageSelectItemSrc = (ImageView) convertView.findViewById(R.id.image_select_item_src);
             holder.position = position;
 
             ImageItemEntity item = mList.get(position);
             holder.imageSelectItemSrc.setImageBitmap(item.imageBitMap);
-            holder.imageSelectItemCheckSelect.setChecked(item.isCheck);
+//            holder.imageSelectItemCheckSelect.setChecked(item.isCheck);
             if (item.isCheck) {
                 holder.imageSelectItemFrameCover.setVisibility(View.VISIBLE);
+                holder.imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_checked));
             } else {
                 holder.imageSelectItemFrameCover.setVisibility(View.GONE);
+                holder.imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_unchecked));
             }
             mImageLoader.displayImage("file://" + item.imageURL, holder.imageSelectItemSrc,
                     new SimpleImageLoadingListener() {
@@ -153,37 +151,15 @@ public class ImageSelectItemAdapter extends BaseAdapter {
                         }
                     });
             convertView.setTag(holder);
-           // convertView.setOnClickListener(OnItemClickListener);
+            // convertView.setOnClickListener(OnItemClickListener);
         } catch (Exception e) {
             Log.e("tttt", "---------------------**************---------------------");
         }
         return convertView;
     }
 
-    private View.OnClickListener OnItemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ImageSelectItemHolder holder = (ImageSelectItemHolder) v.getTag();
-            if (holder.imageSelectItemCheckSelect.isChecked()) {
-                holder.imageSelectItemCheckSelect.setChecked(false);
-                holder.imageSelectItemFrameCover.setVisibility(View.GONE);
-                mList.get(holder.position).isCheck = false;
-            } else {
-                if (getSelectedCount() >= 4) {
-                    return;
-                }
-                holder.imageSelectItemCheckSelect.setChecked(true);
-                holder.imageSelectItemFrameCover.setVisibility(View.VISIBLE);
-                mList.get(holder.position).isCheck = true;
-            }
-            if (null != mOnAfterSelectedListener) {
-                mOnAfterSelectedListener.onAfterSelected(getSelectedCount());
-            }
-        }
-    };
-
     private class ImageSelectItemHolder {
-        CheckBox imageSelectItemCheckSelect;
+        ImageView imageSelectItemImgSelect;
         FrameLayout imageSelectItemFrameCover;
         ImageView imageSelectItemSrc;
         int position;

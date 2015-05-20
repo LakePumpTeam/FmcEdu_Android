@@ -5,19 +5,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.ImageSelectItemAdapter;
+import com.fmc.edu.adapter.MultiPictureItemAdapter;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
@@ -27,7 +33,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
@@ -36,65 +41,62 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Candy on 2015/5/19.
+ * Created by Candy on 2015/5/20.
  */
-public class ImageSelectListControl extends GridView {
+public class MultiPictureControl extends PopupWindow {
     private Context mContext;
+    private DisplayMetrics mDisplayMetrics;
+    private GridView grid;
+    private LinearLayout llBack;
+    private TextView txtSelected;
+    private TextView txtOk;
     private ImageLoader mImageLoader;
-    public ImageSelectItemAdapter mAdapter;
-    private static final int SHOW_NUM_COLUMNS = 3;
+    private OnSelectedListener mOnSelectedListener;
 
-    private OnAfterSelectedListener mOnAfterSelectedListener;
+    public MultiPictureItemAdapter mAdapter;
 
-    public interface OnAfterSelectedListener {
-        void onAfterSelected(int selectedCount);
+    public interface OnSelectedListener {
 
+        public void onSelected(List<ImageItemEntity> selectedImageList);
     }
-
-    public void setOnAfterSelectedListener(OnAfterSelectedListener onAfterSelectedListener) {
-        this.mOnAfterSelectedListener = onAfterSelectedListener;
-    }
-
-    public ImageSelectListControl(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public MultiPictureControl(Context context) {
+        super(context, null);
         this.mContext = context;
-        initContent();
+        mDisplayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+        initPopWindow();
+        initContentView();
         initImageLoader();
+        initPageDataSource();
         initImages();
-        bindGridViewSource();
-       // this.setOnScrollListener(new PauseOnScrollListener(mImageLoader, false, true));
     }
 
-    private OnItemClickListener onItemClickListener = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ToastToolUtils.showLong("test");
-        }
-    };
-
-    private void initContent() {
-        this.setNumColumns(SHOW_NUM_COLUMNS);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setLayoutParams(layoutParams);
-        this.setHorizontalSpacing(5);
-        this.setVerticalSpacing(5);
-        this.setBackgroundColor(Color.WHITE);
-        this.setFastScrollEnabled(true);
-        this.setStretchMode(STRETCH_COLUMN_WIDTH);
+    private void initPopWindow() {
+        this.setWidth(mDisplayMetrics.widthPixels);
+        this.setHeight(mDisplayMetrics.heightPixels);
+        this.setFocusable(true);
+        this.setOutsideTouchable(true);
+        this.setTouchable(true);
+        ColorDrawable dw = new ColorDrawable(-000000);
+        this.setBackgroundDrawable(dw);
     }
 
-    private void bindGridViewSource() {
-        mAdapter = new ImageSelectItemAdapter(mContext, mImageLoader);
-        this.setAdapter(mAdapter);
-        this.setOnItemClickListener(onItemClickListener);
-        //mAdapter.setOnAfterSelectedListener(onAfterSelectedListener);
+    private void initContentView() {
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
+        linearLayout.setLayoutParams(params);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.control_multi_picture, null);
+        grid = (GridView) view.findViewById(R.id.multi_picture_grid);
+        llBack = (LinearLayout) view.findViewById(R.id.multi_picture_ll_back);
+        txtSelected = (TextView) view.findViewById(R.id.multi_picture_txt_selected);
+        txtOk = (TextView) view.findViewById(R.id.multi_picture_txt_ok);
+        txtOk.setOnClickListener(btnOKOnClickListener);
+        llBack.setOnClickListener((View.OnClickListener) llBackOnClickListener);
+        linearLayout.addView(view);
+        this.setContentView(linearLayout);
     }
-
-
-    public void setSelectedList(List<ImageItemEntity> list) {
-
-    }
-
 
     private void initImageLoader() {
         try {
@@ -121,7 +123,7 @@ public class ImageSelectListControl extends GridView {
                     .denyCacheImageMultipleSizesInMemory()
                     .memoryCache(new LruMemoryCache(2 * 1024 * 1024)) //可以通过自己的内存缓存实现
                     .memoryCacheSize(50 * 1024 * 1024)  // 内存缓存的最大值
-                    .memoryCacheSizePercentage(13) // defaultF
+                    .memoryCacheSizePercentage(50) // defaultF
                     .diskCache(new UnlimitedDiscCache(cacheDir))
                     .memoryCache(new WeakMemoryCache());// 图片加载好后渐入的动画时间  ;// max width, max height，即保存的每个缓存文件的最大长宽
 
@@ -151,7 +153,6 @@ public class ImageSelectListControl extends GridView {
                 }
             }.start();
         } catch (Exception e) {
-            Log.e("initImages", "*******************---------------****************");
         }
 
     }
@@ -185,9 +186,57 @@ public class ImageSelectListControl extends GridView {
         return galleryList;
     }
 
-    public void clearCache() {
+    private void initPageDataSource() {
+        mAdapter = new MultiPictureItemAdapter(mContext, mImageLoader);
+        grid.setAdapter(mAdapter);
+        grid.setOnItemClickListener(gridOnItemClickListener);
+    }
 
-        mImageLoader.clearMemoryCache();
-        mImageLoader.clearDiskCache();
+    private AdapterView.OnItemClickListener gridOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ImageItemEntity imageItemEntity = (ImageItemEntity) mAdapter.getItem(position);
+            int selectCount = mAdapter.getSelectedCount();
+            if (imageItemEntity.isCheck) {
+                mAdapter.setCheck(position, false, view);
+                selectCount--;
+                String titleText = selectCount > 0 ? selectCount + "/4" : "0/4";
+                txtSelected.setText(titleText);
+                return;
+            }
+            if (selectCount >= 4) {
+                ToastToolUtils.showLong("最多选择4张图片");
+                return;
+            }
+            mAdapter.setCheck(position, true, view);
+            selectCount++;
+            String titleText = selectCount > 0 ? selectCount + "/4" : "0/4";
+            txtSelected.setText(titleText);
+        }
+    };
+
+    private AdapterView.OnItemClickListener llBackOnClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            MultiPictureControl.this.dismiss();
+        }
+    };
+
+    private View.OnClickListener btnOKOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (null == mOnSelectedListener) {
+                return;
+            }
+            mOnSelectedListener.onSelected(mAdapter.getSelectedList());
+        }
+    };
+
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.mOnSelectedListener = onSelectedListener;
+    }
+
+    public void showWindow(View parentView) {
+        this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
     }
 }

@@ -45,7 +45,7 @@
         android:padding="@dimen/activity_padding">
 
         <TextView
-            android:id="@+id/publish_dynamic_add_picture"
+            android:id="@+id/publish_dynamic_txt_add_picture"
             style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

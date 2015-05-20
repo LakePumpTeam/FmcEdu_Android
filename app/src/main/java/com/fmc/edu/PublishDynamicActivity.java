@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.common.CrashHandler;
+import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -17,7 +18,7 @@ public class PublishDynamicActivity extends Activity {
     private TopBarControl topBarSend;
     private EditText editContent;
     private GridView gridPicture;
-    private TextView addPicture;
+    private TextView txtAddPicture;
 
     private final static int REQUEST_CODE = 1;
 
@@ -35,12 +36,12 @@ public class PublishDynamicActivity extends Activity {
         topBarSend = (TopBarControl) findViewById(R.id.publish_dynamic_top_bar_send);
         editContent = (EditText) findViewById(R.id.publish_dynamic_edit_content);
         gridPicture = (GridView) findViewById(R.id.publish_dynamic_grid_picture);
-        addPicture = (TextView) findViewById(R.id.publish_dynamic_add_picture);
+        txtAddPicture = (TextView) findViewById(R.id.publish_dynamic_txt_add_picture);
     }
 
     private void initViewEvent() {
         topBarSend.setOnOperateOnClickListener(sendListener);
-        addPicture.setOnClickListener(addPictureClickListener);
+        txtAddPicture.setOnClickListener(addPictureClickListener);
 
     }
 
@@ -54,8 +55,11 @@ public class PublishDynamicActivity extends Activity {
     private View.OnClickListener addPictureClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
+//            Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
+//            startActivityForResult(intent, REQUEST_CODE);
+            MultiPictureControl multiPictureControl = new MultiPictureControl(PublishDynamicActivity.this);
+            multiPictureControl.showWindow(txtAddPicture);
+
         }
     };
 

@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 /**
@@ -18,7 +20,6 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         this.mContext = context;
         this.mItems = items;
     }
-
     @Override
     public int getCount() {
         if (null == mItems) {
