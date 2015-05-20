@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.utils.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -40,9 +41,17 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeItem(int position) {
+        if (null == mItems) {
+            return;
+        }
+        mItems.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        if(null == mItems){
+        if (null == mItems) {
             return 0;
         }
         return mItems.size();
@@ -50,10 +59,33 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if(null == mItems){
+        if (null == mItems) {
             return null;
         }
         return mItems.get(position);
+    }
+
+    public boolean isHavePicture(int position) {
+        if (null == mItems) {
+            return false;
+        }
+        if (mItems.size() < position) {
+            return false;
+        }
+        if (StringUtils.isEmptyOrNull(mItems.get(position).imageURL)) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getImageUrl(int position) {
+        if (null == mItems) {
+            return "";
+        }
+        if (null == mItems.get(position)) {
+            return "";
+        }
+        return mItems.get(position).imageURL;
     }
 
     @Override

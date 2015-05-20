@@ -3,6 +3,9 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.app.Application;
 
+import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.utils.ServicePreferenceUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +16,16 @@ public class FmcApplication extends Application {
 
     private static FmcApplication application;
     private static List<Activity> list = new ArrayList<Activity>();
+    public LoginUserEntity mLoginUserEntity;
 
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
+    }
+
+    public static LoginUserEntity getLoginUser() {
+        return ServicePreferenceUtils.getLoginUserByPreference(application);
     }
 
     public static void addActivity(Activity activity) {
@@ -29,7 +37,7 @@ public class FmcApplication extends Application {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public static void clearAllActiviy(){
+    public static void clearAllActiviy() {
         for (Activity activity : list) {
             if (activity != null && !activity.isFinishing()) {
                 activity.finish();

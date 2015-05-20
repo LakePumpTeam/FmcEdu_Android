@@ -45,7 +45,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/activity_margin"
-            android:text="0/4"
             android:textColor="@color/activity_top_bar_font_color"
             android:textSize="@dimen/font_size_large" />
     </RelativeLayout>

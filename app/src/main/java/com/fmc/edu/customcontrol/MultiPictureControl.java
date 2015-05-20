@@ -103,17 +103,16 @@ public class MultiPictureControl extends PopupWindow {
 
     private void initImageLoader() {
         try {
-            String CACHE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cache";
+            String CACHE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "imageLoader/cache";
             new File(CACHE_DIR).mkdirs();
 
             File cacheDir = StorageUtils.getOwnCacheDirectory(mContext, CACHE_DIR);
-
             DisplayImageOptions options;
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(R.mipmap.ic_launcher)
                     .showImageForEmptyUri(R.mipmap.ic_launcher)
                     .showImageOnFail(R.mipmap.ic_launcher)
-                    .cacheOnDisk(true)
+                    .cacheOnDisk(false)
                     .cacheInMemory(false)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
                     .bitmapConfig(Bitmap.Config.RGB_565)
@@ -123,11 +122,11 @@ public class MultiPictureControl extends PopupWindow {
                     .defaultDisplayImageOptions(options)
                     .threadPoolSize(3)
                     .diskCacheFileCount(100)
-                    .diskCacheExtraOptions(480, 800, null)
+                    .diskCacheExtraOptions(480, 400, null)
                     .denyCacheImageMultipleSizesInMemory()
-                    .memoryCacheSizePercentage(50) // defaultF
+                    .memoryCacheSizePercentage(75) // defaultF
                     .diskCache(new UnlimitedDiscCache(cacheDir))
-                    .memoryCache(new WeakMemoryCache());// 图片加载好后渐入的动画时间  ;// max width, max height，即保存的每个缓存文件的最大长宽
+                    .memoryCache(new WeakMemoryCache());
 
             ImageLoaderConfiguration config = builder.build();
             mImageLoader = ImageLoader.getInstance();
@@ -204,6 +203,8 @@ public class MultiPictureControl extends PopupWindow {
     }
 
     private void initPageDataSource() {
+        String selectedMsg = (null == mSelectedList ? 0 : mSelectedList.size()) + "/" + mMaxCount;
+        txtSelected.setText(selectedMsg);
         mAdapter = new MultiPictureItemAdapter(mContext, mImageLoader);
         grid.setAdapter(mAdapter);
         grid.setOnItemClickListener(gridOnItemClickListener);
@@ -236,6 +237,7 @@ public class MultiPictureControl extends PopupWindow {
     private View.OnClickListener llBackOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            clearCache();
             MultiPictureControl.this.dismiss();
         }
     };
@@ -247,12 +249,18 @@ public class MultiPictureControl extends PopupWindow {
                 return;
             }
             MultiPictureControl.this.dismiss();
+            clearCache();
             mOnSelectedListener.onSelected(mAdapter.getSelectedList());
         }
     };
 
     public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
         this.mOnSelectedListener = onSelectedListener;
+    }
+
+    private void clearCache() {
+        mImageLoader.clearMemoryCache();
+        mImageLoader.clearDiskCache();
     }
 
     public void showWindow(View parentView) {

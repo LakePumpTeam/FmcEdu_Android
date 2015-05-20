@@ -46,7 +46,7 @@
             android:value="10" />
         <meta-data
             android:name="com.fmc.edu.two"
-            android:value="false" />
+            android:value="true" />
         <meta-data
             android:name="com.fmc.edu.version"
             android:value="1.0" />

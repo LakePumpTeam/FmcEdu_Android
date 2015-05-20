@@ -58,7 +58,6 @@ public class MainActivity extends Activity {
     private RelativeLayout rlAudit;
 
     private ProgressControl mProgressControl;
-    private ImageLoader mImageLoader;
     private int mUserRole;
     private Bundle mBundle;
     private String mHostUrl;
@@ -74,7 +73,6 @@ public class MainActivity extends Activity {
         mBundle = getIntent().getExtras();
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
-        initImageLoader();
         initViewEvents();
         afterInitData();
     }
@@ -144,44 +142,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void initImageLoader() {
-        try {
-            String CACHE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cache";
-            new File(CACHE_DIR).mkdirs();
-            File cacheDir = StorageUtils.getOwnCacheDirectory(this, CACHE_DIR);
-
-            DisplayImageOptions options;
-            options = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.mipmap.ic_launcher)
-                    .showImageForEmptyUri(R.mipmap.ic_launcher)
-                    .showImageOnFail(R.mipmap.ic_launcher)
-                    .cacheOnDisk(true)
-                    .cacheInMemory(false)
-                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
-                    .bitmapConfig(Bitmap.Config.RGB_565)
-                    .build();//构建完成
-
-            ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this)
-                    .defaultDisplayImageOptions(options)
-                    .threadPoolSize(3)
-                    .diskCacheFileCount(100)
-                    .diskCacheExtraOptions(100, 100, null)
-                    .denyCacheImageMultipleSizesInMemory()
-                    .memoryCache(new LruMemoryCache(2 * 1024 * 1024)) //可以通过自己的内存缓存实现
-                    .memoryCacheSize(2 * 1024 * 1024)  // 内存缓存的最大值
-                    .memoryCacheSizePercentage(13) // defaultF
-                    .diskCache(new UnlimitedDiscCache(cacheDir))
-                    .memoryCache(new WeakMemoryCache());// 图片加载好后渐入的动画时间  ;// max width, max height，即保存的每个缓存文件的最大长宽
-
-            ImageLoaderConfiguration config = builder.build();
-            mImageLoader = ImageLoader.getInstance();
-            mImageLoader.init(config);
-
-        } catch (Exception e) {
-
-        }
-    }
-
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -232,9 +192,7 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case R.id.main_menu_grade_dynamic:
-                    if (AppConfigUtils.isDevelopTwo()) {
-                        gotoDetailPage(v, RegisterActivity.class);
-                    }
+                    gotoClassDynamic();
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
@@ -354,6 +312,16 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void gotoSendDynamic() {
+        Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoClassDynamic() {
+        Intent intent = new Intent(MainActivity.this, ClassDynamicActivity.class);
+        startActivity(intent);
+    }
+
     private List<WaitAuditEntity> ToWaitAuditEntity(List<Map<String, Object>> data) {
         List<WaitAuditEntity> list = new ArrayList<WaitAuditEntity>();
         for (int i = 0; i < data.size(); i++) {
@@ -366,11 +334,5 @@ public class MainActivity extends Activity {
             list.add(waitAuditItem);
         }
         return list;
-    }
-
-    private void gotoSendDynamic() {
-        Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
-        startActivity(intent);
-
     }
 }

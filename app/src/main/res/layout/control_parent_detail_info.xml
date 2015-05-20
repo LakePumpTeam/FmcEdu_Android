@@ -2,25 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/select_list_ll_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         android:background="@color/activity_login_bg_color"
-        android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_padding_middle">
 
         <TextView
             android:id="@+id/select_list_txt_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/parent_detail_info_txt_closed"
+            android:gravity="center"
             android:text="家长详细信息"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_middle" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/parent_detail_info_txt_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:clickable="true"
+            android:text="关闭"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_size_middle" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,12 +51,13 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_cellphone" />
 
                 <TextView
                     android:id="@+id/parent_detail_info_txt_cellphone"
-                    style="@style/EditTextStyle"
+                    style="@style/TextStyle"
                     android:drawablePadding="@dimen/activity_padding_middle" />
 
             </LinearLayout>
@@ -55,6 +70,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_parent_name" />
 
@@ -73,6 +89,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_student_name" />
 
@@ -91,6 +108,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_relation" />
 
@@ -109,6 +127,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_stu_sex" />
 
@@ -127,6 +146,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_birthday" />
 
@@ -145,6 +165,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_device_code" />
 
@@ -163,6 +184,7 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_device_card_num" />
 
@@ -181,23 +203,17 @@
 
                 <TextView
                     style="@style/EditTextStyle"
+                    android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_address" />
 
                 <TextView
                     android:id="@+id/parent_detail_info_txt_address"
                     style="@style/EditTextStyle"
-                    android:drawablePadding="@dimen/activity_padding_middle"
-                    android:hint="@string/label_teacher" />
+                    android:drawablePadding="@dimen/activity_padding_middle" />
             </LinearLayout>
 
             <View style="@style/HorizontalDividerLineStyle" />
-
-            <Button
-                android:id="@+id/parent_detail_info_btn_close"
-                style="@style/OvalButtonStyle"
-                android:layout_margin="@dimen/activity_margin"
-                android:text="@string/btn_close" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

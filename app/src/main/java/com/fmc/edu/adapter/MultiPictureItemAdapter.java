@@ -137,7 +137,7 @@ public class MultiPictureItemAdapter extends BaseAdapter {
                             ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
                             ViewGroup.LayoutParams params = holder.imageSelectItemSrc.getLayoutParams();
                             params.height = dm.widthPixels / 2 - 10;
-                            holder.imageSelectItemSrc.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                            holder.imageSelectItemSrc.setScaleType(ImageView.ScaleType.FIT_XY);
                             super.onLoadingComplete(imageUri, view, loadedImage);
                         }
 

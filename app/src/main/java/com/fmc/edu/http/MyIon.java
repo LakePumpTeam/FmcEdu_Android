@@ -53,19 +53,6 @@ public class MyIon {
         return withB.asString(Charset.forName("utf8"));
     }
 
-//    public static byte[] getBytesFromObject(Object obj) throws Exception {
-//        if (obj == null) {
-//            return null;
-//        }
-//        if (obj instanceof Integer || obj instanceof String || obj instanceof SpannableStringBuilder) {
-//            return obj.toString().getBytes();
-//        }
-//        ByteArrayOutputStream bo = new ByteArrayOutputStream();
-//        ObjectOutputStream oo = new ObjectOutputStream(bo);
-//        oo.writeObject(obj);
-//        return bo.toByteArray();
-//    }
-
     public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
             MyIon.setUrlAndBodyParams(context, url, params)

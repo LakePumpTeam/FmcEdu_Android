@@ -18,11 +18,12 @@ import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.Map;
 
+import static com.fmc.edu.R.id.parent_detail_info_txt_closed;
+
 /**
  * Created by Candy on 2015/5/16.
  */
 public class ParentDetailInfoControl extends PopupWindow {
-    private Button btnClose;
     private TextView txtCellphone;
     private TextView txtParentName;
     private TextView txtStudentName;
@@ -32,13 +33,15 @@ public class ParentDetailInfoControl extends PopupWindow {
     private TextView txtDeviceCode;
     private TextView txtDeviceCardNum;
     private TextView txtAddress;
+    private TextView txtClosed;
 
 
     private Context mContext;
     private DisplayMetrics mDisplayMetrics;
     private Map<String, Object> mData;
 
-    public ParentDetailInfoControl(Context context, Map<String, Object> data) {
+    public
+    ParentDetailInfoControl(Context context, Map<String, Object> data) {
         super(context, null);
         mDisplayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
@@ -79,8 +82,8 @@ public class ParentDetailInfoControl extends PopupWindow {
         txtDeviceCode = (TextView) view.findViewById(R.id.parent_detail_info_txt_device_code);
         txtDeviceCardNum = (TextView) view.findViewById(R.id.parent_detail_info_txt_device_card_num);
         txtAddress = (TextView) view.findViewById(R.id.parent_detail_info_txt_address);
-        btnClose = (Button) view.findViewById(R.id.parent_detail_info_btn_close);
-        btnClose.setOnClickListener(txtCancelOnClickListener);
+        txtClosed = (TextView) view.findViewById(parent_detail_info_txt_closed);
+        txtClosed.setOnClickListener(txtCancelOnClickListener);
         linearLayout.addView(view);
         this.setContentView(linearLayout);
     }
