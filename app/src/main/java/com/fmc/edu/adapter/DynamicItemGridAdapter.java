@@ -12,40 +12,23 @@ import android.widget.ImageView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.utils.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.List;
 
 /**
- * Created by Candy on 2015-05-20.
+ * Created by Candy on 2015/5/21.
  */
-public class PublishDynamicGridAdapter extends BaseAdapter {
+public class DynamicItemGridAdapter extends BaseAdapter {
     private Context mContext;
     private List<ImageItemEntity> mItems;
     private ImageLoader mImageLoader;
 
-    public PublishDynamicGridAdapter(Context context, List<ImageItemEntity> items, ImageLoader imageLoader) {
-        mItems = items;
+    public DynamicItemGridAdapter(Context context, List<ImageItemEntity> items, ImageLoader imageLoader) {
         mContext = context;
+        mItems = items;
         mImageLoader = imageLoader;
-    }
-
-    public List<ImageItemEntity> getItems() {
-        return mItems;
-    }
-
-    public void addAll(List<ImageItemEntity> list) {
-        mItems = list;
-        notifyDataSetChanged();
-    }
-
-    public void removeItem(int position) {
-        if (null == mItems) {
-            return;
-        }
-        mItems.remove(position);
     }
 
     @Override
@@ -64,29 +47,6 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
         return mItems.get(position);
     }
 
-    public boolean isHavePicture(int position) {
-        if (null == mItems) {
-            return false;
-        }
-        if (mItems.size() < position) {
-            return false;
-        }
-        if (StringUtils.isEmptyOrNull(mItems.get(position).imageURL)) {
-            return false;
-        }
-        return true;
-    }
-
-    public String getImageUrl(int position) {
-        if (null == mItems) {
-            return "";
-        }
-        if (null == mItems.get(position)) {
-            return "";
-        }
-        return mItems.get(position).imageURL;
-    }
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -94,15 +54,16 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (null == mItems || 0 == mItems.size()) {
+        if (null == mItems) {
             return convertView;
         }
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_publish_dynamic_grid, null);
         }
+        ImageItemEntity imageItemEntity = mItems.get(position);
         final ImageView imageView = (ImageView) convertView.findViewById(R.id.item_publish_dynamic_img);
-        final ImageItemEntity item = mItems.get(position);
-        mImageLoader.displayImage("file://" + item.imageURL, imageView,
+        convertView.setTag(imageItemEntity.bigImageURL);
+        mImageLoader.displayImage("file://" + imageItemEntity.imageURL, imageView,
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

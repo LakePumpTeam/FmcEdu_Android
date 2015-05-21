@@ -157,10 +157,13 @@ public class PublishDynamicActivity extends Activity {
 
         }
     };
+
+
     private AdapterView.OnItemLongClickListener gridOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             mAdapter.removeItem(position);
+            gridPicture.recomputeViewAttributes(view);
             return false;
         }
     };

@@ -2,6 +2,7 @@ package com.fmc.edu.customcontrol;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -24,6 +25,7 @@ public class ImageShowControl extends PopupWindow {
 
     private ImageView imgBigPicture;
     private ImageView imgClosed;
+
     public ImageShowControl(Context context) {
         super(context, null);
         this.mContext = context;
@@ -52,14 +54,19 @@ public class ImageShowControl extends PopupWindow {
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_image_show, null);
         imgBigPicture = (ImageView) view.findViewById(R.id.image_show_img_big_picture);
-        imgClosed= (ImageView) view.findViewById(R.id.image_show_img_closed);
+        imgClosed = (ImageView) view.findViewById(R.id.image_show_img_closed);
         imgClosed.setOnClickListener(imgCloseOnClickListener);
         linearLayout.addView(view);
         this.setContentView(linearLayout);
     }
 
-    public void showWindow(View parentView,Drawable drawable) {
+    public void showWindow(View parentView, Drawable drawable) {
         imgBigPicture.setImageDrawable(drawable);
+        this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+    }
+
+    public void showWindow(View parentView, Bitmap bitmap) {
+        imgBigPicture.setImageBitmap(bitmap);
         this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
     }
 
