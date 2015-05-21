@@ -2,17 +2,14 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fmc.edu.adapter.WaitAuditAdapter;
+import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
@@ -20,20 +17,12 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
+import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -315,6 +304,23 @@ public class MainActivity extends Activity {
     private void gotoSendDynamic() {
         Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
         startActivity(intent);
+    }
+
+    private void gotoSchoolDynamic() {
+        mProgressControl.showWindow(menuSchoolDynamic);
+        String url = mHostUrl + "requestNewsList";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pageIndex", 1);
+        params.put("pageSize", Constant.PAGE_SIZE);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.SchoolDynamic));
+        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+
+            }
+        });
+
     }
 
     private void gotoClassDynamic() {

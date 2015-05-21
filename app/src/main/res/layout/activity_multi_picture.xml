@@ -1,12 +1,78 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.fmc.edu.MultiPictureActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/multi_picture_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:background="@color/activity_top_bar_color"
+        android:paddingLeft="@dimen/activity_padding_middle">
 
+        <LinearLayout
+            android:id="@+id/multi_picture_ll_back"
+            android:layout_width="@dimen/operate_icon_height"
+            android:layout_height="@dimen/operate_icon_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/operate_icon_core_width"
+                android:layout_height="@dimen/operate_icon_core_height"
+                android:scaleType="center"
+                android:src="@mipmap/ic_back" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"  />
+        <TextView
+            android:id="@+id/top_bar_txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/multi_picture_txt_selected"
+            android:layout_toRightOf="@+id/multi_picture_ll_back"
+            android:gravity="center"
+            android:text="选择图片"
+            android:textColor="@color/activity_top_bar_font_color"
+            android:textSize="@dimen/font_size_large" />
+
+        <TextView
+            android:id="@+id/multi_picture_txt_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:textColor="@color/activity_top_bar_font_color"
+            android:textSize="@dimen/font_size_large" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/multi_picture_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/multi_picture_txt_ok"
+        android:layout_below="@+id/multi_picture_top_bar"
+        android:fastScrollEnabled="true"
+        android:horizontalSpacing="5dp"
+        android:background="#fff"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
+
+    <TextView
+        android:id="@+id/multi_picture_txt_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/activity_top_bar_color"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/activity_top_bar_font_color"
+        android:textSize="@dimen/font_size_large" />
 </RelativeLayout>

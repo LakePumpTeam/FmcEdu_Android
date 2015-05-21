@@ -156,10 +156,11 @@ public class RegisterActivity extends Activity {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("cellPhone", editCellphone.getText());
         data.put("authCode", editAuthCode.getText());
-        String md5Password = StringUtils.MD5(editCellphone.getText().toString(), editPassword.getText().toString());
-        String md5ConfirmPassword = StringUtils.MD5(editCellphone.getText().toString(), editConfirmPassword.getText().toString());
+
+        long salt =System.currentTimeMillis();
+        String md5Password = StringUtils.MD5(String.valueOf(salt), editPassword.getText().toString());
         data.put("password", md5Password);
-        data.put("confirmPassword", md5ConfirmPassword);
+        data.put("salt", salt);
         return data;
     }
 

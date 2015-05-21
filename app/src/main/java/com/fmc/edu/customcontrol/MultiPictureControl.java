@@ -182,6 +182,7 @@ public class MultiPictureControl extends PopupWindow {
                     }
                     galleryList.add(item);
                 }
+                imagecursor.close();
             }
         } catch (Exception e) {
             e.printStackTrace();

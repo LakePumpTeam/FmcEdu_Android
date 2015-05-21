@@ -121,7 +121,6 @@ public class MultiPictureItemAdapter extends BaseAdapter {
             holder.position = position;
 
             ImageItemEntity item = mList.get(position);
-            holder.imageSelectItemSrc.setImageBitmap(item.imageBitMap);
             if (item.isCheck) {
                 holder.imageSelectItemFrameCover.setVisibility(View.VISIBLE);
                 holder.imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_checked));
@@ -136,7 +135,7 @@ public class MultiPictureItemAdapter extends BaseAdapter {
                             DisplayMetrics dm = new DisplayMetrics();
                             ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
                             ViewGroup.LayoutParams params = holder.imageSelectItemSrc.getLayoutParams();
-                            params.height = dm.widthPixels / 2 - 10;
+                            params.height = dm.widthPixels / 3 - 10;
                             holder.imageSelectItemSrc.setScaleType(ImageView.ScaleType.FIT_XY);
                             super.onLoadingComplete(imageUri, view, loadedImage);
                         }

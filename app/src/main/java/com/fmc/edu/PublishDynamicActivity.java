@@ -6,8 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Base64;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -15,20 +14,16 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.adapter.PublishDynamicGridAdapter;
+import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.http.FMCMapFutureCallback;
-import com.fmc.edu.http.HttpTools;
-import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
-import com.koushikdutta.async.future.FutureCallback;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -39,9 +34,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
-import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class PublishDynamicActivity extends Activity {
@@ -54,7 +48,7 @@ public class PublishDynamicActivity extends Activity {
     private String mHostUrl;
     private PublishDynamicGridAdapter mAdapter;
     private ProgressControl mProgressControl;
-    MultiPictureControl multiPictureControl;
+    private MultiPictureControl multiPictureControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,20 +88,20 @@ public class PublishDynamicActivity extends Activity {
                 ToastToolUtils.showLong("请输入内容呢");
                 return;
             }
+            //TODO 发送动态
             ToastToolUtils.showLong("发送成功");
             PublishDynamicActivity.this.finish();
-            //TODO 发送动态
 //            mProgressControl.showWindow(topBarSend);
 //
 //            String content = editContent.getText().toString();
 //            String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);
 //            try {
 //                MyIon.with(PublishDynamicActivity.this)
-//                        .load(mHostUrl + "")
-//                        .setMultipartFile("image1", mAdapter.isHavePicture(0) ? null : new File(mAdapter.getImageUrl(0)))
-//                        .setMultipartFile("image2", mAdapter.isHavePicture(1) ? null : new File(mAdapter.getImageUrl(1)))
-//                        .setMultipartFile("image3", mAdapter.isHavePicture(2) ? null : new File(mAdapter.getImageUrl(2)))
-//                        .setMultipartFile("image4", mAdapter.isHavePicture(3) ? null : new File(mAdapter.getImageUrl(3)))
+//                        .load(mHostUrl + "postClassNews")
+//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(0)))
+//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(1)))
+//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(2)))
+//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(3)))
 //                        .setMultipartParameter("content", Base64.encodeToString(content.getBytes(), Base64.DEFAULT))
 //                        .setMultipartParameter("userId", base64UserId)
 //                        .asString(Charset.forName("utf8"))
@@ -144,6 +138,7 @@ public class PublishDynamicActivity extends Activity {
 //                        });
 //
 //            } catch (Exception ex) {
+//                mProgressControl.dismiss();
 //                ToastToolUtils.showLong(ex == null ? "发送失败" : ex.getMessage());
 //            }
         }
@@ -151,37 +146,42 @@ public class PublishDynamicActivity extends Activity {
     private View.OnClickListener addPictureClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MultiPictureControl multiPictureControl = new MultiPictureControl(PublishDynamicActivity.this, 4, mAdapter.getItems());
-            multiPictureControl.showWindow(txtAddPicture);
-            multiPictureControl.setOnSelectedListener(onSelectedListener);
-
+            Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("selectedList", (ArrayList<? extends Parcelable>) mAdapter.getItems());
+            intent.putExtras(bundle);
+            startActivityForResult(intent, RequestCodeUtils.SELECTED_PICTURE);
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!(resultCode == RESULT_OK)) {
+            return;
+        }
+
+        if (requestCode == RequestCodeUtils.SELECTED_PICTURE) {
+            List<ImageItemEntity> list = data.getExtras().getParcelableArrayList("selectedList");
+            mAdapter.addAll(list);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     private AdapterView.OnItemLongClickListener gridOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             mAdapter.removeItem(position);
-            gridPicture.recomputeViewAttributes(view);
             return false;
-        }
-    };
-    private MultiPictureControl.OnSelectedListener onSelectedListener = new MultiPictureControl.OnSelectedListener() {
-        @Override
-        public void onSelected(List<ImageItemEntity> selectedImageList) {
-            mAdapter.addAll(selectedImageList);
         }
     };
 
 
     private void initImageLoader() {
         try {
-            String CACHE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cache";
-            new File(CACHE_DIR).mkdirs();
+            new File(Constant.CACHE_DIR).mkdirs();
 
-            File cacheDir = StorageUtils.getOwnCacheDirectory(PublishDynamicActivity.this, CACHE_DIR);
-
+            File cacheDir = StorageUtils.getOwnCacheDirectory(PublishDynamicActivity.this, Constant.CACHE_DIR);
             DisplayImageOptions options;
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(R.mipmap.ic_launcher)
@@ -211,4 +211,5 @@ public class PublishDynamicActivity extends Activity {
         } catch (Exception e) {
         }
     }
+
 }

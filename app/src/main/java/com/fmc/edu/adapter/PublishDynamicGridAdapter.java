@@ -46,6 +46,7 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
             return;
         }
         mItems.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override
