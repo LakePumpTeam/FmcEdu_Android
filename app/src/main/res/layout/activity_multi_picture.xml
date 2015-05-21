@@ -25,9 +25,6 @@
                 android:src="@mipmap/ic_back" />
         </LinearLayout>
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  />
         <TextView
             android:id="@+id/top_bar_txt_title"
             android:layout_width="wrap_content"

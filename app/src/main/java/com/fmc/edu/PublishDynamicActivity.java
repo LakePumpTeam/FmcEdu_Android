@@ -20,6 +20,7 @@ import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.entity.ImageLoaderUtil;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -61,7 +62,7 @@ public class PublishDynamicActivity extends Activity {
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
-        initImageLoader();
+        mImageLoader = ImageLoaderUtil.initCacheImageLoader(this);
         mAdapter = new PublishDynamicGridAdapter(PublishDynamicActivity.this, null, mImageLoader);
         gridPicture.setAdapter(mAdapter);
     }
@@ -175,41 +176,4 @@ public class PublishDynamicActivity extends Activity {
             return false;
         }
     };
-
-
-    private void initImageLoader() {
-        try {
-            new File(Constant.CACHE_DIR).mkdirs();
-
-            File cacheDir = StorageUtils.getOwnCacheDirectory(PublishDynamicActivity.this, Constant.CACHE_DIR);
-            DisplayImageOptions options;
-            options = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.mipmap.ic_launcher)
-                    .showImageForEmptyUri(R.mipmap.ic_launcher)
-                    .showImageOnFail(R.mipmap.ic_launcher)
-                    .cacheOnDisk(true)
-                    .cacheInMemory(false)
-                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
-                    .bitmapConfig(Bitmap.Config.RGB_565)
-                    .build();//构建完成
-            ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(PublishDynamicActivity.this)
-                    .defaultDisplayImageOptions(options)
-                    .threadPoolSize(3)
-                    .diskCacheFileCount(100)
-                    .diskCacheExtraOptions(200, 200, null)
-                    .denyCacheImageMultipleSizesInMemory()
-                    .memoryCache(new LruMemoryCache(2 * 1024 * 1024)) //可以通过自己的内存缓存实现
-                    .memoryCacheSize(50 * 1024 * 1024)  // 内存缓存的最大值
-                    .memoryCacheSizePercentage(50) // defaultF
-                    .diskCache(new UnlimitedDiscCache(cacheDir))
-                    .memoryCache(new WeakMemoryCache());// 图片加载好后渐入的动画时间  ;// max width, max height，即保存的每个缓存文件的最大长宽
-
-            ImageLoaderConfiguration config = builder.build();
-            mImageLoader = ImageLoader.getInstance();
-            mImageLoader.init(config);
-
-        } catch (Exception e) {
-        }
-    }
-
 }

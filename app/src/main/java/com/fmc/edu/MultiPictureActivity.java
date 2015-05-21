@@ -149,8 +149,8 @@ public class MultiPictureActivity extends Activity {
                     ImageItemEntity item = new ImageItemEntity();
                     int dataColumnIndex = cursor
                             .getColumnIndex(MediaStore.Images.Media.DATA);
-                    item.imageURL = cursor.getString(dataColumnIndex);
-                    if (isSelected(item.imageURL)) {
+                    item.thumbUrl = cursor.getString(dataColumnIndex);
+                    if (isSelected(item.thumbUrl)) {
                         item.isCheck = true;
                     }
                     galleryList.add(item);
@@ -167,7 +167,7 @@ public class MultiPictureActivity extends Activity {
             return false;
         }
         for (int i = 0; i < mSelectedList.size(); i++) {
-            if (mSelectedList.get(i).imageURL.equals(imgUrl)) {
+            if (mSelectedList.get(i).thumbUrl.equals(imgUrl)) {
                 return true;
             }
         }

@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
         if (null == loginUserEntity || StringUtils.isEmptyOrNull(loginUserEntity.cellphone) || StringUtils.isEmptyOrNull(loginUserEntity.password)) {
             return;
         }
-        doAutoLogin(loginUserEntity.cellphone, loginUserEntity.password);
+        getLoginSalt(loginUserEntity.cellphone, loginUserEntity.password);
     }
 
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
@@ -141,27 +141,33 @@ public class LoginActivity extends Activity {
             return;
         }
         mProgressControl.showWindow(view);
-        String url = mHostUrl + "profile/requestLogin";
+        getLoginSalt(cellphone, password);
+    }
+
+    private void getLoginSalt(final String cellPhone, final String password) {
+        String url = mHostUrl + "profile/requestSalt";
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userAccount", cellphone);
-        params.put("password", StringUtils.MD5(cellphone, password));
+        params.put("cellPhone", cellPhone);
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")));
-                afterLogin(data);
+                loginRequestHttp(cellPhone, password, ConvertUtils.getString(data.get("salt"), ""));
             }
         });
     }
 
-    private void doAutoLogin(String cellphone, String password) {
+    ;
+
+
+    private void loginRequestHttp(final String cellphone, final String password, String salt) {
         String url = mHostUrl + "profile/requestLogin";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", cellphone);
-        params.put("password", StringUtils.MD5(cellphone, password));
+        params.put("password", StringUtils.MD5(salt, password));
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password);
                 afterLogin(data);
             }
         });
@@ -244,11 +250,11 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveLocalLoginInfo(int userId) {
+    private void saveLocalLoginInfo(int userId, String cellPhone, String password) {
         LoginUserEntity userEntity = new LoginUserEntity();
         userEntity.userId = userId;
-        userEntity.cellphone = editCellphone.getText().toString();
-        userEntity.password = editPassword.getText().toString();
+        userEntity.cellphone = cellPhone;
+        userEntity.password = password;
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

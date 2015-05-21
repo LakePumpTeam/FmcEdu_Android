@@ -15,7 +15,9 @@ import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.SchoolDynamicEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -177,14 +179,16 @@ public class MainActivity extends Activity {
             switch (clickId) {
                 case R.id.main_menu_school_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
-                        gotoDetailPage(v, SchoolDynamicActivity.class);
+                        gotoDynamicList(DynamicTypeEnum.SchoolDynamic);
                     }
                     break;
                 case R.id.main_menu_grade_dynamic:
+                    gotoDynamicList(DynamicTypeEnum.ClassDynamic);
                     gotoClassDynamic();
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
+
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
@@ -306,21 +310,39 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void gotoSchoolDynamic() {
-        mProgressControl.showWindow(menuSchoolDynamic);
-        String url = mHostUrl + "requestNewsList";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("pageIndex", 1);
-        params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
-        params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.SchoolDynamic));
-        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
+    private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
+        gotoDynamicActivity(new ArrayList<SchoolDynamicEntity>(), dynamicType);
+        //TODO 测试
+//        mProgressControl.showWindow(menuSchoolDynamic);
+//        String url = mHostUrl + "requestNewsList";
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("pageIndex", 1);
+//        params.put("pageSize", Constant.PAGE_SIZE);
+//        params.put("userId", FmcApplication.getLoginUser().userId);
+//        params.put("type", DynamicTypeEnum.getValue(dynamicType));
+//        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+//            @Override
+//            public void afterCallBack(Map<String, Object> data) {
+//                if (null == data.get("newsList")) {
+//                    return;
+//                }
+//                List<ImageItemEntity> list = (List<ImageItemEntity>) data.get("newsList");
+//                gotoDynamicActivity(list, dynamicType);
+//            }
+//        });
+    }
 
-            }
-        });
-
+    private void gotoDynamicActivity(List<SchoolDynamicEntity> list, DynamicTypeEnum dynamicType) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+        Intent intent;
+        if (dynamicType == DynamicTypeEnum.SchoolDynamic) {
+            intent = new Intent(MainActivity.this, SchoolDynamicActivity.class);
+        } else {
+            intent = new Intent(MainActivity.this, ClassDynamicActivity.class);
+        }
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void gotoClassDynamic() {

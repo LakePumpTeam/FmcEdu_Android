@@ -72,7 +72,7 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
         if (mItems.size() < position) {
             return false;
         }
-        if (StringUtils.isEmptyOrNull(mItems.get(position).imageURL)) {
+        if (StringUtils.isEmptyOrNull(mItems.get(position).thumbUrl)) {
             return false;
         }
         return true;
@@ -85,7 +85,7 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
         if (null == mItems.get(position)) {
             return "";
         }
-        return mItems.get(position).imageURL;
+        return mItems.get(position).thumbUrl;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PublishDynamicGridAdapter extends BaseAdapter {
         }
         final ImageView imageView = (ImageView) convertView.findViewById(R.id.item_publish_dynamic_img);
         final ImageItemEntity item = mItems.get(position);
-        mImageLoader.displayImage("file://" + item.imageURL, imageView,
+        mImageLoader.displayImage("file://" + item.thumbUrl, imageView,
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

@@ -6,19 +6,22 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.fmc.edu.adapter.SchoolListItemAdapter;
+import com.fmc.edu.adapter.DynamicItemAdapter;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.entity.SchoolDynamicEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SchoolDynamicActivity extends Activity {
 
     private ListView list;
     private RadioGroup rgSchoolDynamicTab;
-    private SchoolListItemAdapter mAdapter;
+    private DynamicItemAdapter mAdapter;
+    private List<SchoolDynamicEntity> mList;
 
 
     @Override
@@ -28,6 +31,8 @@ public class SchoolDynamicActivity extends Activity {
         setContentView(R.layout.activity_school_dynamic);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
+        mList = getIntent().getExtras().getParcelableArrayList("list");
+        mList = getDynamicList();
         initViews();
         initViewEvents();
         initPageData();
@@ -44,7 +49,7 @@ public class SchoolDynamicActivity extends Activity {
     }
 
     private void initPageData() {
-        mAdapter = new SchoolListItemAdapter(this, getDynamicList());
+        mAdapter = new DynamicItemAdapter(this, mList);
         list.setAdapter(mAdapter);
     }
 
@@ -52,9 +57,30 @@ public class SchoolDynamicActivity extends Activity {
         //TODO 调用接口 获取动态
         List<SchoolDynamicEntity> list = new ArrayList<>();
         SchoolDynamicEntity item = new SchoolDynamicEntity();
-        item.content = "test";
-        item.title = "test";
-        item.date = "2015-05-10";
+        item.newsId = 12;
+        item.content = "测试内容";
+        item.createDate = "2015-05-10";
+        List<Map<String, String>> imageUrls = new ArrayList<Map<String, String>>();
+        Map<String, String> itemUrl = new HashMap<String, String>();
+        itemUrl.put("origUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        itemUrl.put("thumbUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        imageUrls.add(itemUrl);
+
+        Map<String, String> itemUrl1 = new HashMap<String, String>();
+        itemUrl1.put("origUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        itemUrl1.put("thumbUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        imageUrls.add(itemUrl1);
+
+        Map<String, String> itemUrl2 = new HashMap<String, String>();
+        itemUrl2.put("origUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        itemUrl2.put("thumbUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        imageUrls.add(itemUrl2);
+
+        Map<String, String> itemUr3 = new HashMap<String, String>();
+        itemUr3.put("origUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        itemUr3.put("thumbUrl", "http://www.kenrockwell.com/canon/lenses/images/100mm/IMG_1906.JPG");
+        imageUrls.add(itemUr3);
+        item.imageUrls = imageUrls;
         list.add(item);
         return list;
     }

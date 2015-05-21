@@ -77,7 +77,7 @@ public class MultiPictureItemAdapter extends BaseAdapter {
             ImageItemEntity selectedItem = selectedList.get(i);
             for (int j = 0; j < mList.size(); j++) {
                 ImageItemEntity item = mList.get(j);
-                if (item.imageURL == selectedItem.imageURL) {
+                if (item.thumbUrl == selectedItem.thumbUrl) {
                     item.isCheck = true;
                 }
             }
@@ -128,7 +128,7 @@ public class MultiPictureItemAdapter extends BaseAdapter {
                 holder.imageSelectItemFrameCover.setVisibility(View.GONE);
                 holder.imageSelectItemImgSelect.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.image_unchecked));
             }
-            mImageLoader.displayImage("file://" + item.imageURL, holder.imageSelectItemSrc,
+            mImageLoader.displayImage("file://" + item.thumbUrl, holder.imageSelectItemSrc,
                     new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
