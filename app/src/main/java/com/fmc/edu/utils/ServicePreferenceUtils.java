@@ -20,6 +20,7 @@ public class ServicePreferenceUtils {
         editor.putInt("userRole", userEntity.userRole);
         editor.putString("cellphone", userEntity.cellphone);
         editor.putString("password", encryptPWD(userEntity.password));
+        editor.putString("salt", userEntity.salt);
         editor.commit();
     }
 
@@ -66,6 +67,7 @@ public class ServicePreferenceUtils {
         loginUserEntity.password = decryptPWD(sharedPreferences.getString("password", ""));
         loginUserEntity.userId = sharedPreferences.getInt("userId", 0);
         loginUserEntity.userRole = sharedPreferences.getInt("userRole", 1);
+        loginUserEntity.salt = sharedPreferences.getString("salt", "");
         return loginUserEntity;
     }
 
