@@ -25,7 +25,7 @@ public class ImageShowControl extends PopupWindow {
     private DisplayMetrics mDisplayMetrics;
 
     private ImageView imgBigPicture;
-    private ImageView imgClosed;
+//    private ImageView imgClosed;
 
     public ImageShowControl(Context context) {
         super(context, null);
@@ -54,13 +54,14 @@ public class ImageShowControl extends PopupWindow {
         linearLayout.setBackgroundColor(Color.parseColor("#ee666666"));
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_image_show, null);
         imgBigPicture = (ImageView) view.findViewById(R.id.image_show_img_big_picture);
-        imgClosed = (ImageView) view.findViewById(R.id.image_show_img_closed);
+//        imgClosed = (ImageView) view.findViewById(R.id.image_show_img_closed);
 
         ViewGroup.LayoutParams imageParms = imgBigPicture.getLayoutParams();
         imageParms.width = mDisplayMetrics.widthPixels;
         imgBigPicture.setLayoutParams(imageParms);
-        imgClosed.setOnClickListener(imgCloseOnClickListener);
+//        imgClosed.setOnClickListener(imgCloseOnClickListener);
         linearLayout.addView(view);
+        linearLayout.setOnClickListener(imgCloseOnClickListener);
         this.setContentView(linearLayout);
     }
 

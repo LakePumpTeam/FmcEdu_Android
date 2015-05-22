@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="18dp" />
 
-    <ImageView
-        android:id="@+id/image_show_img_closed"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="center|top"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_closed"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/image_show_img_closed"-->
+        <!--android:layout_width="36dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_gravity="center|top"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:src="@mipmap/ic_closed"/>-->
 
 </FrameLayout>
