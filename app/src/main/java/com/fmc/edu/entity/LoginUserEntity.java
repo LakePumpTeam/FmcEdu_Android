@@ -13,6 +13,7 @@ public class LoginUserEntity {
     public int userRole;
     public String cellphone;
     public String password;
+    public String salt;
     public String userCardNum;
     public int studentSex;
     public int repayState;

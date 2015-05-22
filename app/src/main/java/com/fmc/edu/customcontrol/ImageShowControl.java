@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -48,13 +49,16 @@ public class ImageShowControl extends PopupWindow {
     private void initContentView() {
         LinearLayout linearLayout = new LinearLayout(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
-//        linearLayout.setPadding(40, 30, 40, 30);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
+        linearLayout.setBackgroundColor(Color.parseColor("#ee666666"));
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_image_show, null);
         imgBigPicture = (ImageView) view.findViewById(R.id.image_show_img_big_picture);
         imgClosed = (ImageView) view.findViewById(R.id.image_show_img_closed);
+
+        ViewGroup.LayoutParams imageParms = imgBigPicture.getLayoutParams();
+        imageParms.width = mDisplayMetrics.widthPixels;
+        imgBigPicture.setLayoutParams(imageParms);
         imgClosed.setOnClickListener(imgCloseOnClickListener);
         linearLayout.addView(view);
         this.setContentView(linearLayout);

@@ -28,9 +28,10 @@
     <GridView
         android:id="@+id/publish_dynamic_grid_picture"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:horizontalSpacing="5dp"
+        android:layout_height="wrap_content"
         android:background="@color/edit_text_bg_color"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@android:color/transparent"
         android:numColumns="4" />
 
 

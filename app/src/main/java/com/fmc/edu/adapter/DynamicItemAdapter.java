@@ -1,13 +1,16 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.ImageLoaderUtil;
 import com.fmc.edu.entity.SchoolDynamicEntity;
@@ -38,6 +41,7 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
         txtDate.setText(item.createDate);
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, getImageList(item), ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
+        gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclik);
         return convertView;
     }
@@ -47,11 +51,22 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
         List<Map<String, String>> urlList = schoolDynamicEntity.imageUrls;
         for (int i = 0; i < urlList.size(); i++) {
             ImageItemEntity imageItemEntity = new ImageItemEntity();
-            imageItemEntity.thumbUrl = urlList.get(i).get("origUrl");
+            imageItemEntity.thumbUrl = urlList.get(i).get("thumbUrl");
+            imageItemEntity.origUrl =  urlList.get(i).get("origUrl");
             list.add(imageItemEntity);
         }
         return list;
     }
+
+    private AdapterView.OnItemClickListener gridOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ImageItemEntity imageItemEntity = (ImageItemEntity) parent.getAdapter().getItem(position);
+            Bitmap bitmap = ImageLoaderUtil.initCacheImageLoader(mContext).loadImageSync(imageItemEntity.origUrl);
+            ImageShowControl imageShowControl = new ImageShowControl(mContext);
+            imageShowControl.showWindow(view, bitmap);
+        }
+    };
 
     private View.OnClickListener txtReadAllOnclik = new View.OnClickListener() {
         @Override

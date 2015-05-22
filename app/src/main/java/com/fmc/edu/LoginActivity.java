@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
         if (null == loginUserEntity || StringUtils.isEmptyOrNull(loginUserEntity.cellphone) || StringUtils.isEmptyOrNull(loginUserEntity.password)) {
             return;
         }
-        getLoginSalt(loginUserEntity.cellphone, loginUserEntity.password);
+        loginRequestHttp(loginUserEntity.cellphone, loginUserEntity.password,loginUserEntity.salt);
     }
 
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
     ;
 
 
-    private void loginRequestHttp(final String cellphone, final String password, String salt) {
+    private void loginRequestHttp(final String cellphone, final String password, final String salt) {
         String url = mHostUrl + "profile/requestLogin";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", cellphone);
@@ -167,7 +167,7 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password);
+                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password,salt);
                 afterLogin(data);
             }
         });
@@ -250,11 +250,12 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveLocalLoginInfo(int userId, String cellPhone, String password) {
+    private void saveLocalLoginInfo(int userId, String cellPhone, String password,String salt) {
         LoginUserEntity userEntity = new LoginUserEntity();
         userEntity.userId = userId;
         userEntity.cellphone = cellPhone;
         userEntity.password = password;
+        userEntity.salt = salt;
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

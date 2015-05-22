@@ -29,7 +29,7 @@ public class ImageLoaderUtil {
                 .showImageOnLoading(R.mipmap.ic_launcher)
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
-                .cacheOnDisk(false)
+                .cacheOnDisk(true)
                 .cacheInMemory(false)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
                 .bitmapConfig(Bitmap.Config.RGB_565)
