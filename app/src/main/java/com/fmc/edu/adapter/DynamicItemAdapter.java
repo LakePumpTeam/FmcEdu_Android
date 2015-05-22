@@ -2,6 +2,8 @@ package com.fmc.edu.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +11,21 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
+import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ImageShowControl;
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.ImageLoaderUtil;
 import com.fmc.edu.entity.SchoolDynamicEntity;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +52,7 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, getImageList(item), ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
-        txtReadAll.setOnClickListener(txtReadAllOnclik);
+        txtReadAll.setOnClickListener(txtReadAllOnclick);
         return convertView;
     }
 
@@ -52,7 +62,7 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
         for (int i = 0; i < urlList.size(); i++) {
             ImageItemEntity imageItemEntity = new ImageItemEntity();
             imageItemEntity.thumbUrl = urlList.get(i).get("thumbUrl");
-            imageItemEntity.origUrl =  urlList.get(i).get("origUrl");
+            imageItemEntity.origUrl = urlList.get(i).get("origUrl");
             list.add(imageItemEntity);
         }
         return list;
@@ -68,11 +78,48 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
         }
     };
 
-    private View.OnClickListener txtReadAllOnclik = new View.OnClickListener() {
+    private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             //查看全文的跳转
         }
     };
+
+    private void gotoDynamicDetailPage(View view, int newsId) {
+        ProgressControl progressControl = new ProgressControl(mContext);
+        progressControl.showWindow(view);
+        String url = AppConfigUtils.getServiceHost() + "requestNewsDetail";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("newsId", newsId);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(mContext, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
+                bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
+                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked")));
+                bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
+                bundle.putString("content", ConvertUtils.getString(data.get("content")));
+                bundle.putString("imageUrl", ConvertUtils.getString(data.get("imageUrl")));
+                bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
+                bundle.putParcelableArrayList("commentList", (ArrayList<? extends Parcelable>) getCommentList(list));
+            }
+        });
+    }
+
+    private List<CommentItemEntity> getCommentList(List<Map<String, Object>> commentList) {
+        List<CommentItemEntity> list = new ArrayList<CommentItemEntity>();
+        for (int i = 0; i < commentList.size(); i++) {
+            Map<String, Object> commentItem = commentList.get(i);
+            CommentItemEntity item = new CommentItemEntity();
+            item.userId = ConvertUtils.getInteger(commentItem.get("userId"));
+            item.userName = ConvertUtils.getString(commentItem.get("userName"));
+            item.comment = ConvertUtils.getString(commentItem.get("comment"));
+            list.add(item);
+        }
+        return list;
+    }
 }

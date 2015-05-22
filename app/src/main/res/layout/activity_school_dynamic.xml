@@ -19,20 +19,23 @@
 
         <RadioButton
             style="@style/TabRadioStyle"
+            android:tag="2"
             android:text="活动" />
 
         <RadioButton
             style="@style/TabRadioStyle"
+            android:tag="3"
             android:text="通知" />
 
         <RadioButton
             style="@style/TabRadioStyle"
+            android:tag="4"
             android:text="新闻" />
     </RadioGroup>
 
-    <ListView
-        android:id="@+id/school_dynamic_list"
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/school_dynamic_slide_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"/>
 </LinearLayout>
 

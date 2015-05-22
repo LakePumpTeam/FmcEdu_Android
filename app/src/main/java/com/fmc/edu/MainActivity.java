@@ -187,7 +187,7 @@ public class MainActivity extends Activity {
             switch (clickId) {
                 case R.id.main_menu_school_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
-                        gotoDynamicList(DynamicTypeEnum.SchoolDynamic);
+                        gotoDynamicList(DynamicTypeEnum.SchoolActivity);
                     }
                     break;
                 case R.id.main_menu_grade_dynamic:
@@ -334,7 +334,7 @@ public class MainActivity extends Activity {
 //                if (null == data.get("newsList")) {
 //                    return;
 //                }
-//                List<ImageItemEntity> list = (List<ImageItemEntity>) data.get("newsList");
+//                List<SchoolDynamicEntity> list = (List<SchoolDynamicEntity>) data.get("newsList");
 //                gotoDynamicActivity(list, dynamicType);
 //            }
 //        });
@@ -344,7 +344,7 @@ public class MainActivity extends Activity {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
         Intent intent;
-        if (dynamicType == DynamicTypeEnum.SchoolDynamic) {
+        if (dynamicType == DynamicTypeEnum.SchoolActivity) {
             intent = new Intent(MainActivity.this, SchoolDynamicActivity.class);
         } else {
             intent = new Intent(MainActivity.this, ClassDynamicActivity.class);
