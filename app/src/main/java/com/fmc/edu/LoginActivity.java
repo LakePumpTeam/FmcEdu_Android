@@ -68,10 +68,18 @@ public class LoginActivity extends Activity {
 
     private void autoLogin() {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        if (null == loginUserEntity || StringUtils.isEmptyOrNull(loginUserEntity.cellphone) || StringUtils.isEmptyOrNull(loginUserEntity.password)) {
+        if (null == loginUserEntity) {
             return;
         }
-        loginRequestHttp(loginUserEntity.cellphone, loginUserEntity.password,loginUserEntity.salt);
+        if (StringUtils.isEmptyOrNull(loginUserEntity.cellphone)) {
+            return;
+        }
+
+        if (StringUtils.isEmptyOrNull(loginUserEntity.password)) {
+
+            return;
+        }
+        loginRequestHttp(loginUserEntity.cellphone, loginUserEntity.password, loginUserEntity.salt);
     }
 
     private View.OnClickListener btnLoginOnClickListener = new View.OnClickListener() {
@@ -167,7 +175,7 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password,salt);
+                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt);
                 afterLogin(data);
             }
         });
@@ -250,7 +258,7 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveLocalLoginInfo(int userId, String cellPhone, String password,String salt) {
+    private void saveLocalLoginInfo(int userId, String cellPhone, String password, String salt) {
         LoginUserEntity userEntity = new LoginUserEntity();
         userEntity.userId = userId;
         userEntity.cellphone = cellPhone;

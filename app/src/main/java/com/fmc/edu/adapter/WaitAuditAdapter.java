@@ -14,9 +14,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
-import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +47,21 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
         int auditStatus = item.auditStatus;
         if (auditStatus == 1) {
             holder.btnAgree.setEnabled(false);
+            holder.btnAgree.setText("已通过");
+            holder.btnRefuse.setEnabled(true);
+            holder.btnRefuse.setText("  拒绝  ");
         }
-        if (auditStatus == 2) {
+       else if (auditStatus == 2) {
             holder.btnRefuse.setEnabled(false);
+            holder.btnRefuse.setText("已拒绝");
+            holder.btnAgree.setEnabled(true);
+            holder.btnAgree.setText("  通过  ");
+        }
+        else{
+            holder.btnRefuse.setEnabled(true);
+            holder.btnRefuse.setText("  拒绝  ");
+            holder.btnAgree.setEnabled(true);
+            holder.btnAgree.setText("  通过  ");
         }
         holder.btnAgree.setTag(holder);
         holder.btnRefuse.setTag(holder);
@@ -96,23 +106,26 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
     };
 
     private void auditParentRegister(final View view, final WaitAuditHolder holder) {
-        ProgressControl mProgressControl = new ProgressControl(mContext);
-        mProgressControl.showWindow(view);
+        // ProgressControl mProgressControl = new ProgressControl(mContext);
+        //  mProgressControl.showWindow(view);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(mContext);
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", loginUserEntity.userId);
         params.put("parentIds", holder.item.parentId);
         params.put("setPass", holder.auditStatus);
-        MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAudit", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAudit", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                ToastToolUtils.showLong("审核成功");
                 if (holder.auditStatus == 1) {
                     holder.btnAgree.setEnabled(false);
+                    holder.btnAgree.setText("已通过");
                     holder.btnRefuse.setEnabled(true);
+                    holder.btnRefuse.setText("  拒绝  ");
                 } else if (holder.auditStatus == 2) {
                     holder.btnAgree.setEnabled(true);
+                    holder.btnRefuse.setText("已拒绝");
                     holder.btnRefuse.setEnabled(false);
+                    holder.btnAgree.setText("  通过  ");
                 }
             }
         });

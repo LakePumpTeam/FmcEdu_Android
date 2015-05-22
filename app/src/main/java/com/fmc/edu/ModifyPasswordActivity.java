@@ -86,8 +86,8 @@ public class ModifyPasswordActivity extends Activity {
     private Map<String, Object> getSubmitParams() {
         Map<String, Object> data = new HashMap<String, Object>();
         LoginUserEntity loginUser = ServicePreferenceUtils.getLoginUserByPreference(this);
-        String md5OldPassword = StringUtils.MD5(loginUser.cellphone, editOldPassword.getText().toString());
-        String md5Password = StringUtils.MD5(loginUser.cellphone, editPassword.getText().toString());
+        String md5OldPassword = StringUtils.MD5(loginUser.salt, editOldPassword.getText().toString());
+        String md5Password = StringUtils.MD5(loginUser.salt, editPassword.getText().toString());
         data.put("userId",loginUser.userId);
         data.put("oldPassword", md5OldPassword);
         data.put("newPassword", md5Password);
@@ -97,6 +97,7 @@ public class ModifyPasswordActivity extends Activity {
     private void afterModifyPassword() {
         ServicePreferenceUtils.clearPasswordPreference(this);
         this.finish();
+        FmcApplication.clearAllActiviy();
         Intent intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class);
         startActivity(intent);
     }

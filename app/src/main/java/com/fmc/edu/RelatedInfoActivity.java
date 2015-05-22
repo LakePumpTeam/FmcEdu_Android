@@ -325,7 +325,7 @@ public class RelatedInfoActivity extends Activity {
             return;
         }
         if (!mIsAudit) {
-            this.finish();
+            ToastToolUtils.showLong("提交成功");
             return;
         }
 

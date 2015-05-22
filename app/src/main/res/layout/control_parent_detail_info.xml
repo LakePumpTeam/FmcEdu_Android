@@ -57,7 +57,7 @@
 
                 <TextView
                     android:id="@+id/parent_detail_info_txt_cellphone"
-                    style="@style/TextStyle"
+                    style="@style/EditTextStyle"
                     android:drawablePadding="@dimen/activity_padding_middle" />
 
             </LinearLayout>

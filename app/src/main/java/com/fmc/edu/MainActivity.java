@@ -9,13 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.SchoolDynamicEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
@@ -128,15 +126,19 @@ public class MainActivity extends Activity {
         }
         if (mUserRole == 1) {
             rlAudit.setVisibility(View.VISIBLE);
+            imgSendNewMsg.setVisibility(View.VISIBLE);
         } else if (mUserRole == 2) {
             rlAudit.setVisibility(View.INVISIBLE);
+            imgSendNewMsg.setVisibility(View.GONE);
         }
     }
 
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            gotoSendDynamic();
+            if (AppConfigUtils.isDevelopTwo()) {
+                gotoSendDynamic();
+            }
         }
     };
 
@@ -170,6 +172,12 @@ public class MainActivity extends Activity {
             startActivity(intent);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FmcApplication.clearAllActiviy();
+    }
 
     private View.OnClickListener menuItemOnClickListener = new View.OnClickListener() {
         //TODO  每一个Item绑定自己的Class

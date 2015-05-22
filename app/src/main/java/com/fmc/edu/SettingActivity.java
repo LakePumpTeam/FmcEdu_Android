@@ -51,10 +51,11 @@ public class SettingActivity extends Activity {
     private View.OnClickListener btnLoginOutOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ServicePreferenceUtils.clearLoginUserPreference(SettingActivity.this);
+            ServicePreferenceUtils.clearPasswordPreference(SettingActivity.this);
             Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
             startActivity(intent);
             SettingActivity.this.finish();
+            FmcApplication.clearAllActiviy();
         }
     };
 

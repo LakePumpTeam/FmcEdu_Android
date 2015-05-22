@@ -15,9 +15,13 @@ public class ValidationUtils {
     private static String DATE_PATTERN_2 = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))";
 
     public static boolean isMobilePhone(String phoneNo) {
-        Pattern p = Pattern.compile(PHONE_REG_PATH);
-        Matcher m = p.matcher(phoneNo);
-        return m.matches();
+        if (phoneNo.length() == 11) {
+            return true;
+        }
+        return false;
+//        Pattern p = Pattern.compile(PHONE_REG_PATH);
+//        Matcher m = p.matcher(phoneNo);
+//        return m.matches();
     }
 
     public static boolean isEmail(String email) {

@@ -13,6 +13,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -107,7 +108,7 @@ public class ForgetPasswordActivity extends Activity {
                 ToastToolUtils.showLong("两次密码输入不一致");
                 return;
             }
-            doResetPasswordOnClick(v);
+            getLoginSalt();
         }
     };
 
@@ -128,10 +129,24 @@ public class ForgetPasswordActivity extends Activity {
         });
     }
 
-    private void doResetPasswordOnClick(View view) {
-        progressControl.showWindow(view);
+    private void getLoginSalt() {
+        progressControl.showWindow(btnReset);
+        String url = mHostUrl + "profile/requestSalt";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("cellPhone",  editCellphone.getText());
+        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                doResetPasswordOnClick(ConvertUtils.getString(data.get("salt"), ""));
+            }
+        });
+    }
+
+
+    private void doResetPasswordOnClick(String salt) {
+        progressControl.showWindow(btnReset);
         String url = mHostUrl + "profile/requestForgetPwd";
-        Map<String, Object> params = getResetPasswordParams();
+        Map<String, Object> params = getResetPasswordParams(salt);
         MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -140,11 +155,11 @@ public class ForgetPasswordActivity extends Activity {
         });
     }
 
-    private Map<String, Object> getResetPasswordParams() {
+    private Map<String, Object> getResetPasswordParams(String salt) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("cellPhone", editCellphone.getText());
         data.put("authCode", editAuthCode.getText());
-        String md5Password = StringUtils.MD5(editCellphone.getText().toString(), editPassword.getText().toString());
+        String md5Password = StringUtils.MD5(salt, editPassword.getText().toString());
         data.put("password", md5Password);
         return data;
     }
