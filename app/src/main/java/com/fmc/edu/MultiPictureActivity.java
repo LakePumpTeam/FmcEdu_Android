@@ -31,6 +31,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class MultiPictureActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.mContext = this;
         setContentView(R.layout.activity_multi_picture);
-        mSelectedList = getIntent().getExtras().getParcelableArrayList("selectedList");
+        mSelectedList = (List<ImageItemEntity>) getIntent().getExtras().getSerializable("selectedList");
         initView();
         initViewEvents();
         initImageLoader();
@@ -219,7 +220,7 @@ public class MultiPictureActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("selectedList", (ArrayList<? extends Parcelable>) mAdapter.getSelectedList());
+            bundle.putSerializable("selectedList", (Serializable) mAdapter.getSelectedList());
             intent.putExtras(bundle);
             setResult(RESULT_OK, intent);
             clearCache();

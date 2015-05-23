@@ -1,7 +1,7 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -11,15 +11,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.fmc.edu.ClassDynamicActivity;
+import com.fmc.edu.DynamicDetailActivity;
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
-import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.entity.ImageLoaderUtil;
-import com.fmc.edu.entity.SchoolDynamicEntity;
+import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -32,64 +33,68 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/5/10.
  */
-public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
-    public DynamicItemAdapter(Context context, List<SchoolDynamicEntity> items) {
+public class DynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
+    public DynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (null == mItems) {
+            return convertView;
+        }
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_dynamic_list, null);
         }
+        TextView txtTitle = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_title);
         TextView txtContent = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_content);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_date);
         TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_read_all);
+        TextView txtComment = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_dynamic_list_grid_picture);
-        SchoolDynamicEntity item = mItems.get(position);
+        DynamicItemEntity item = mItems.get(position);
+        txtTitle.setText(item.subject);
         txtContent.setText(item.content);
         txtDate.setText(item.createDate);
-        DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, getImageList(item), ImageLoaderUtil.initCacheImageLoader(mContext));
+        txtReadAll.setTag(item.newsId);
+        DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclick);
+        txtComment.setTag(item.newsId);
+        txtComment.setOnClickListener(txtCommentOnClickListener);
         return convertView;
     }
 
-    private List<ImageItemEntity> getImageList(SchoolDynamicEntity schoolDynamicEntity) {
-        List<ImageItemEntity> list = new ArrayList<ImageItemEntity>();
-        List<Map<String, String>> urlList = schoolDynamicEntity.imageUrls;
-        for (int i = 0; i < urlList.size(); i++) {
-            ImageItemEntity imageItemEntity = new ImageItemEntity();
-            imageItemEntity.thumbUrl = urlList.get(i).get("thumbUrl");
-            imageItemEntity.origUrl = urlList.get(i).get("origUrl");
-            list.add(imageItemEntity);
+    private View.OnClickListener txtCommentOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mContext.getClass() == ClassDynamicActivity.class) {
+                ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(v.getTag(), 0));
+            }
         }
-        return list;
-    }
+    };
 
     private AdapterView.OnItemClickListener gridOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ImageItemEntity imageItemEntity = (ImageItemEntity) parent.getAdapter().getItem(position);
-            Bitmap bitmap = ImageLoaderUtil.initCacheImageLoader(mContext).loadImageSync(imageItemEntity.origUrl);
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, bitmap);
+            imageShowControl.showWindow(view, imageItemEntity.origUrl);
         }
     };
 
     private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            //查看全文的跳转
+            gotoDynamicDetailPage(v, ConvertUtils.getInteger(v.getTag()));
         }
     };
 
     private void gotoDynamicDetailPage(View view, int newsId) {
         ProgressControl progressControl = new ProgressControl(mContext);
         progressControl.showWindow(view);
-        String url = AppConfigUtils.getServiceHost() + "requestNewsDetail";
+        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", newsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
@@ -99,13 +104,18 @@ public class DynamicItemAdapter extends FmcBaseAdapter<SchoolDynamicEntity> {
                 Bundle bundle = new Bundle();
                 bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
                 bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
-                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked")));
+                bundle.putInt("type", ConvertUtils.getInteger(data.get("type")));
+                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
                 bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
                 bundle.putString("content", ConvertUtils.getString(data.get("content")));
-                bundle.putString("imageUrl", ConvertUtils.getString(data.get("imageUrl")));
+                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrl")));
                 bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
                 bundle.putParcelableArrayList("commentList", (ArrayList<? extends Parcelable>) getCommentList(list));
+
+                Intent intent = new Intent(mContext, DynamicDetailActivity.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
     }

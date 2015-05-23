@@ -9,13 +9,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.entity.SchoolDynamicEntity;
+import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -23,6 +25,7 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -191,12 +194,12 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case R.id.main_menu_grade_dynamic:
-                    gotoDynamicList(DynamicTypeEnum.ClassDynamic);
-                    gotoClassDynamic();
+                    if (AppConfigUtils.isDevelopTwo()) {
+                        gotoDynamicList(DynamicTypeEnum.ClassDynamic);
+                    }
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
-
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
@@ -319,35 +322,31 @@ public class MainActivity extends Activity {
     }
 
     private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
-        gotoDynamicActivity(new ArrayList<SchoolDynamicEntity>(), dynamicType);
-        //TODO 测试
-//        mProgressControl.showWindow(menuSchoolDynamic);
-//        String url = mHostUrl + "requestNewsList";
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("pageIndex", 1);
-//        params.put("pageSize", Constant.PAGE_SIZE);
-//        params.put("userId", FmcApplication.getLoginUser().userId);
-//        params.put("type", DynamicTypeEnum.getValue(dynamicType));
-//        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
-//            @Override
-//            public void afterCallBack(Map<String, Object> data) {
-//                if (null == data.get("newsList")) {
-//                    return;
-//                }
-//                List<SchoolDynamicEntity> list = (List<SchoolDynamicEntity>) data.get("newsList");
-//                gotoDynamicActivity(list, dynamicType);
-//            }
-//        });
+        mProgressControl.showWindow(menuSchoolDynamic);
+        String url = mHostUrl + "news/requestNewsList";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pageIndex", 1);
+        params.put("pageSize", Constant.PAGE_SIZE);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("type", DynamicTypeEnum.getValue(dynamicType));
+        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
+                gotoDynamicActivity(DynamicItemEntity.toDynamicItemEntity(list), dynamicType, ConvertUtils.getBoolean(data.get("isLastPage")));
+            }
+        });
     }
 
-    private void gotoDynamicActivity(List<SchoolDynamicEntity> list, DynamicTypeEnum dynamicType) {
+    private void gotoDynamicActivity(List<DynamicItemEntity> list, DynamicTypeEnum dynamicType, boolean isLastPage) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
-        Intent intent;
+        bundle.putSerializable("list", (Serializable) list);
+        bundle.putBoolean("isLastPage", isLastPage);
+        Intent intent = new Intent();
         if (dynamicType == DynamicTypeEnum.SchoolActivity) {
-            intent = new Intent(MainActivity.this, SchoolDynamicActivity.class);
+            intent.setClass(MainActivity.this, SchoolDynamicActivity.class);
         } else {
-            intent = new Intent(MainActivity.this, ClassDynamicActivity.class);
+            intent.setClass(MainActivity.this, ClassDynamicActivity.class);
         }
         intent.putExtras(bundle);
         startActivity(intent);
@@ -371,4 +370,19 @@ public class MainActivity extends Activity {
         }
         return list;
     }
+
+//    private List<DynamicItemEntity> toDynamicItemEntity(List<Map<String, Object>> data) {
+//        List<DynamicItemEntity> list = new ArrayList<DynamicItemEntity>();
+//        for (int i = 0; i < data.size(); i++) {
+//            DynamicItemEntity dynamicItem = new DynamicItemEntity();
+//            Map<String, Object> item = data.get(i);
+//            dynamicItem.newsId = ConvertUtils.getInteger(item.get("newsId"));
+//            dynamicItem.subject = ConvertUtils.getString(item.get("subject"));
+//            dynamicItem.content = ConvertUtils.getString(item.get("content"));
+//            dynamicItem.createDate = ConvertUtils.getString(item.get("createDate"));
+//            dynamicItem.imageUrls = ImageItemEntity.initImageItemEntity(ConvertUtils.getList(item.get("imageUrls")));
+//            list.add(dynamicItem);
+//        }
+//        return list;
+//    }
 }

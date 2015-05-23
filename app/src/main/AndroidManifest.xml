@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmc.edu" >
+    package="com.fmc.edu">
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -34,10 +34,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <meta-data
             android:name="com.fmc.edu.service_host"
-            android:value="http://182.92.98.174/" />
+            android:value="http://182.92.98.174/dev/" />
         <meta-data
             android:name="com.fmc.edu.is_development"
             android:value="false" />
@@ -66,11 +66,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -80,7 +80,7 @@
         <activity
             android:name=".SchoolDynamicActivity"
             android:label="@string/title_activity_school_dynamic"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".KidSchoolActivity"
             android:label="@string/title_activity_kid_school"
@@ -130,8 +130,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MultiPictureActivity"
-            android:label="@string/title_activity_multi_picture" >
-        </activity>
+            android:label="@string/title_activity_multi_picture"></activity>
     </application>
 
 </manifest>

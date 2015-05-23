@@ -2,7 +2,6 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,27 +13,19 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.adapter.PublishDynamicGridAdapter;
-import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.entity.ImageLoaderUtil;
+import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +140,7 @@ public class PublishDynamicActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("selectedList", (ArrayList<? extends Parcelable>) mAdapter.getItems());
+            bundle.putSerializable("selectedList", (Serializable) mAdapter.getItems());
             intent.putExtras(bundle);
             startActivityForResult(intent, RequestCodeUtils.SELECTED_PICTURE);
         }
@@ -162,7 +153,7 @@ public class PublishDynamicActivity extends Activity {
         }
 
         if (requestCode == RequestCodeUtils.SELECTED_PICTURE) {
-            List<ImageItemEntity> list = data.getExtras().getParcelableArrayList("selectedList");
+            List<ImageItemEntity> list = (List<ImageItemEntity>) data.getExtras().getSerializable("selectedList");
             mAdapter.addAll(list);
         }
 

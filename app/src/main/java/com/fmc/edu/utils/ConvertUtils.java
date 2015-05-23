@@ -123,6 +123,13 @@ public class ConvertUtils {
         return (List<Map<String, Object>>) obj;
     }
 
+    public static ArrayList<String> getStringList(Object obj) {
+        if (null == obj || "null" == obj) {
+            return new ArrayList<String>();
+        }
+        return (ArrayList<String>) obj;
+    }
+
     public static java.util.Date getDate(Object str, java.util.Date defaultValue) {
         if (str == null || "null".equals(str)) {
             return defaultValue;

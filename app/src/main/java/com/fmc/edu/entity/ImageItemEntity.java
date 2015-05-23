@@ -3,39 +3,31 @@ package com.fmc.edu.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Candy on 2015/5/19.
  */
-public class ImageItemEntity implements Parcelable {
-    public String  thumbUrl;
+public class ImageItemEntity implements Serializable {
+    public String thumbUrl;
     public String origUrl;
     public boolean isCheck;
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString( thumbUrl);
-        dest.writeString(origUrl);
-        dest.writeInt(isCheck ? 1 : 0);
-    }
-
-    public static final Parcelable.Creator<ImageItemEntity> CREATOR = new Creator<ImageItemEntity>() {
-        @Override
-        public ImageItemEntity createFromParcel(Parcel source) {
+    public static List<ImageItemEntity> initImageItemEntity(List<Map<String, Object>> imageUrls) {
+        List<ImageItemEntity> list = new ArrayList<ImageItemEntity>();
+        for (int i = 0; i < imageUrls.size(); i++) {
+            Map<String, Object> imageItem = imageUrls.get(i);
             ImageItemEntity imageItemEntity = new ImageItemEntity();
-            imageItemEntity. thumbUrl = source.readString();
-            imageItemEntity.origUrl = source.readString();
-            imageItemEntity.isCheck = source.readInt() == 1 ? true : false;
-            return imageItemEntity;
+            imageItemEntity.origUrl = AppConfigUtils.getServiceHost() + ConvertUtils.getString(imageItem.get("origUrl"));
+            imageItemEntity.thumbUrl = AppConfigUtils.getServiceHost() + ConvertUtils.getString(imageItem.get("thumbUrl"));
+            list.add(imageItemEntity);
         }
-
-        @Override
-        public ImageItemEntity[] newArray(int size) {
-            return new ImageItemEntity[size];
-        }
-    };
+        return list;
+    }
 }

@@ -17,7 +17,7 @@
     <string name="title_activity_modify_password">修改密码</string>
     <string name="title_activity_class_dynamic">班级动态</string>
     <string name="title_activity_publish_dynamic">发布动态</string>
-    <string name="title_activity_dynamic_detail">详情</string>
+    <string name="title_activity_dynamic_detail">校园活动</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.MultiPictureItemAdapter;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.entity.ImageLoaderUtil;
+import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

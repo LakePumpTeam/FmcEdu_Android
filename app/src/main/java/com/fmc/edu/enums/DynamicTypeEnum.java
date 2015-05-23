@@ -4,7 +4,7 @@ package com.fmc.edu.enums;
  * Created by Candy on 2015/5/21.
  */
 public enum DynamicTypeEnum {
-  KidSchool(1),  SchoolActivity(2), SchoolNotice(3), SchoolNews(4), ClassDynamic(5);
+    KidSchool(1), SchoolActivity(2), SchoolNotice(3), SchoolNews(4), ClassDynamic(5);
 
     private int value;
 
@@ -27,5 +27,23 @@ public enum DynamicTypeEnum {
             default:
                 return 2;
         }
+    }
+
+    public static DynamicTypeEnum getEnumValue(int value) {
+        switch (value) {
+            case 1:
+                return KidSchool;
+            case 2:
+                return SchoolActivity;
+            case 3:
+                return SchoolNotice;
+            case 4:
+                return SchoolNews;
+            case 5:
+                return ClassDynamic;
+            default:
+                return SchoolActivity;
+        }
+
     }
 }

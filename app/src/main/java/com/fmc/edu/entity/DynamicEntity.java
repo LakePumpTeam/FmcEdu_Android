@@ -32,21 +32,21 @@ public class DynamicEntity implements Parcelable {
         dest.writeList(imageUrls);
     }
 
-    public static final Parcelable.Creator<SchoolDynamicEntity> CREATOR = new Parcelable.Creator<SchoolDynamicEntity>() {
+    public static final Parcelable.Creator<DynamicEntity> CREATOR = new Parcelable.Creator<DynamicEntity>() {
         @Override
-        public SchoolDynamicEntity createFromParcel(Parcel source) {
-            SchoolDynamicEntity schoolDynamicEntity = new SchoolDynamicEntity();
-            schoolDynamicEntity.newsId = source.readInt();
-            schoolDynamicEntity.subject = source.readString();
-            schoolDynamicEntity.content = source.readString();
-            schoolDynamicEntity.createDate = source.readString();
-            source.readList(schoolDynamicEntity.imageUrls, ClassLoader.getSystemClassLoader());
-            return schoolDynamicEntity;
+        public DynamicEntity createFromParcel(Parcel source) {
+            DynamicEntity dynamicEntity = new DynamicEntity();
+            dynamicEntity.newsId = source.readInt();
+            dynamicEntity.subject = source.readString();
+            dynamicEntity.content = source.readString();
+            dynamicEntity.createDate = source.readString();
+            source.readList(dynamicEntity.imageUrls, ClassLoader.getSystemClassLoader());
+            return dynamicEntity;
         }
 
         @Override
-        public SchoolDynamicEntity[] newArray(int size) {
-            return new SchoolDynamicEntity[size];
+        public DynamicEntity[] newArray(int size) {
+            return new DynamicEntity[size];
         }
     };
 }

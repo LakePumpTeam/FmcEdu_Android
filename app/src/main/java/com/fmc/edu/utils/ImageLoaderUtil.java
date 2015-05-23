@@ -1,4 +1,4 @@
-package com.fmc.edu.entity;
+package com.fmc.edu.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

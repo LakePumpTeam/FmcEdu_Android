@@ -20,6 +20,7 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         this.mContext = context;
         this.mItems = items;
     }
+
     @Override
     public int getCount() {
         if (null == mItems) {
@@ -36,6 +37,11 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         return mItems.get(position);
     }
 
+    public void clearItems() {
+        mItems.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -43,10 +49,12 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
 
     public void addItem(T item) {
         this.mItems.add(item);
+        notifyDataSetChanged();
     }
 
     public void addItem(int position, T item) {
         this.mItems.add(position, item);
+        notifyDataSetChanged();
     }
 
     public void addAllItems(List<T> items, boolean isClear) {
@@ -54,6 +62,7 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
             this.mItems.clear();
         }
         this.mItems.addAll(items);
+        notifyDataSetChanged();
     }
 
     @Override

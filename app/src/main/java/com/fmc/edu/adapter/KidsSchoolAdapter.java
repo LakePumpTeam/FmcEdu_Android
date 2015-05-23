@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.KidSchoolEntity;
-import com.fmc.edu.entity.SchoolDynamicEntity;
 
 import java.util.List;
 
