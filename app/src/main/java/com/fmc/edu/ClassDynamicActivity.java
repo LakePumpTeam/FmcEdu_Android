@@ -67,6 +67,7 @@ public class ClassDynamicActivity extends Activity {
     }
 
     private void initPageData() {
+        mPageIndex = 1;
         mAdapter = new DynamicItemAdapter(this, mList);
         slideListView.setAdapter(mAdapter);
     }
@@ -85,18 +86,18 @@ public class ClassDynamicActivity extends Activity {
                 return;
             }
             mPageIndex++;
-            getDynamicData(false);
+            getDynamicData();
         }
     };
 
-    private void getDynamicData(boolean isShowProgress) {
+    private void getDynamicData() {
         String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
-        MyIon.httpPost(ClassDynamicActivity.this, url, params, isShowProgress ? mProgressControl : null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(ClassDynamicActivity.this, url, params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {

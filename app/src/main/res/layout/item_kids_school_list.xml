@@ -5,13 +5,13 @@
     android:layout_marginTop="@dimen/activity_margin_middle"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/activity_padding_middle"
-    android:paddingRight="@dimen/activity_padding_middle">
+    android:padding="@dimen/activity_padding_middle">
 
     <ImageView
         android:id="@+id/item_kids_school_img_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
         android:src="@mipmap/main_bg" />
 
     <LinearLayout
@@ -48,8 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="2015-05-07"
-
                 android:textColor="@color/dynamic_content_color"
                 android:textSize="@dimen/font_size_small" />
 

@@ -210,7 +210,7 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.main_menu_kid_school:
                     if (AppConfigUtils.isDevelopTwo()) {
-                        gotoDetailPage(v, KidSchoolActivity.class);
+                        gotoDynamicList(DynamicTypeEnum.KidSchool);
                     }
                     break;
                 case R.id.main_menu_campus:
@@ -345,6 +345,8 @@ public class MainActivity extends Activity {
         Intent intent = new Intent();
         if (dynamicType == DynamicTypeEnum.SchoolActivity) {
             intent.setClass(MainActivity.this, SchoolDynamicActivity.class);
+        } else if (dynamicType == DynamicTypeEnum.KidSchool) {
+            intent.setClass(MainActivity.this, KidSchoolActivity.class);
         } else {
             intent.setClass(MainActivity.this, ClassDynamicActivity.class);
         }

@@ -33,10 +33,10 @@
             android:layout_height="0dp"
             android:layout_weight="3">
 
-            <ListView
+            <com.fmc.edu.customcontrol.SlideListView
                 android:id="@+id/kid_school_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </LinearLayout>
