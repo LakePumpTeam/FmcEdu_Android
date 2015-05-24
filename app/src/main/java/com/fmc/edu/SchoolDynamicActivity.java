@@ -6,18 +6,16 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.fmc.edu.adapter.DynamicItemAdapter;
+import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
-import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +25,7 @@ public class SchoolDynamicActivity extends Activity {
 
     private SlideListView slideListView;
     private RadioGroup rgSchoolDynamicTab;
-    private DynamicItemAdapter mAdapter;
+    private SchoolDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
     private ProgressControl mProgressControl;
     private int mPageIndex = 1;
@@ -65,7 +63,7 @@ public class SchoolDynamicActivity extends Activity {
     }
 
     private void initPageData() {
-        mAdapter = new DynamicItemAdapter(this, mList);
+        mAdapter = new SchoolDynamicItemAdapter(this, mList);
         slideListView.setAdapter(mAdapter);
     }
 

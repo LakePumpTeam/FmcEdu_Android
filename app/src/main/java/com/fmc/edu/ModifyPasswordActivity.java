@@ -59,7 +59,7 @@ public class ModifyPasswordActivity extends Activity {
         public void onClick(View v) {
             String password = editPassword.getText().toString();
             String confirmPassword = editConfirmPassword.getText().toString();
-            if(password.length()<6 || password.length()>16 ){
+            if (password.length() < 6 || password.length() > 16) {
                 ToastToolUtils.showLong("请输入6-16位的密码");
                 return;
             }
@@ -88,7 +88,7 @@ public class ModifyPasswordActivity extends Activity {
         LoginUserEntity loginUser = ServicePreferenceUtils.getLoginUserByPreference(this);
         String md5OldPassword = StringUtils.MD5(loginUser.salt, editOldPassword.getText().toString());
         String md5Password = StringUtils.MD5(loginUser.salt, editPassword.getText().toString());
-        data.put("userId",loginUser.userId);
+        data.put("userId", loginUser.userId);
         data.put("oldPassword", md5OldPassword);
         data.put("newPassword", md5Password);
         return data;

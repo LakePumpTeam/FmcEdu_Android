@@ -159,13 +159,11 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                loginRequestHttp(cellPhone, password, ConvertUtils.getString(data.get("salt"), ""));
+                String salt = ConvertUtils.getString(data.get("salt"), "");
+                loginRequestHttp(cellPhone, password, salt);
             }
         });
     }
-
-    ;
-
 
     private void loginRequestHttp(final String cellphone, final String password, final String salt) {
         String url = mHostUrl + "profile/requestLogin";
@@ -173,12 +171,13 @@ public class LoginActivity extends Activity {
         params.put("userAccount", cellphone);
         params.put("password", StringUtils.MD5(salt, password));
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt);
-                afterLogin(data);
-            }
-        });
+                    @Override
+                    public void afterCallBack(Map<String, Object> data) {
+                        saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt);
+                        afterLogin(data);
+                    }
+                }
+        );
     }
 
     private void afterLogin(Map<String, Object> data) {

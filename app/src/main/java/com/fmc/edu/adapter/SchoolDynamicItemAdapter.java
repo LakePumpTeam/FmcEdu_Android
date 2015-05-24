@@ -19,6 +19,7 @@ import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.http.MyIon;
@@ -33,8 +34,8 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/5/10.
  */
-public class DynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
-    public DynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
+public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
+    public SchoolDynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
     }
 
@@ -44,25 +45,23 @@ public class DynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
             return convertView;
         }
         if (null == convertView) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_dynamic_list, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_school_dynamic_list, null);
         }
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_title);
-        TextView txtContent = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_content);
-        TextView txtDate = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_date);
-        TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_read_all);
-        TextView txtComment = (TextView) convertView.findViewById(R.id.item_dynamic_list_txt_comment);
-        GridView gridView = (GridView) convertView.findViewById(R.id.item_dynamic_list_grid_picture);
+        TextView txtTitle = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_title);
+        TextView txtContent = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_content);
+        TextView txtDate = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_date);
+        TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_read_all);
+        GridView gridView = (GridView) convertView.findViewById(R.id.item_school_dynamic_list_grid_picture);
         DynamicItemEntity item = mItems.get(position);
-        txtTitle.setText(item.subject);
+
         txtContent.setText(item.content);
         txtDate.setText(item.createDate);
         txtReadAll.setTag(item.newsId);
+        txtTitle.setText(item.subject);
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclick);
-        txtComment.setTag(item.newsId);
-        txtComment.setOnClickListener(txtCommentOnClickListener);
         return convertView;
     }
 
@@ -78,11 +77,20 @@ public class DynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     private AdapterView.OnItemClickListener gridOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ImageItemEntity imageItemEntity = (ImageItemEntity) parent.getAdapter().getItem(position);
+            List<ImageItemEntity> imageList = ((DynamicItemGridAdapter) parent.getAdapter()).getItems();
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, imageItemEntity.origUrl);
+            imageShowControl.showWindow(view, getOrigUrl(imageList));
+//            imageShowControl.showWindow(view, new ArrayList<String>());
         }
     };
+
+    private List<String> getOrigUrl(List<ImageItemEntity> list) {
+        List<String> origUrls = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            origUrls.add(list.get(i).origUrl);
+        }
+        return origUrls;
+    }
 
     private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
         @Override

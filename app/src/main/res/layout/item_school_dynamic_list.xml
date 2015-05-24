@@ -9,26 +9,24 @@
     android:paddingRight="@dimen/activity_padding_middle">
 
     <TextView
-        android:id="@+id/item_dynamic_list_txt_title"
+        android:id="@+id/item_school_dynamic_list_txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
         android:singleLine="true"
         android:textColor="@color/dynamic_title_color"
         android:textSize="@dimen/font_size_middle" />
 
     <TextView
-        android:id="@+id/item_dynamic_list_txt_content"
+        android:id="@+id/item_school_dynamic_list_txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="@dimen/activity_margin_small"
         android:maxLength="300"
         android:textColor="@color/dynamic_content_color"
         android:textSize="@dimen/font_size_small" />
 
     <GridView
-        android:id="@+id/item_dynamic_list_grid_picture"
+        android:id="@+id/item_school_dynamic_list_grid_picture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_small"
@@ -44,7 +42,7 @@
         android:layout_marginTop="@dimen/activity_margin_middle">
 
         <TextView
-            android:id="@+id/item_dynamic_list_txt_date"
+            android:id="@+id/item_school_dynamic_list_txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -52,25 +50,14 @@
             android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:id="@+id/item_dynamic_list_txt_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin_middle"
-            android:layout_toLeftOf="@+id/item_dynamic_list_txt_read_all"
-            android:clickable="true"
-            android:text="0"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/item_dynamic_list_txt_read_all"
+            android:id="@+id/item_school_dynamic_list_txt_read_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:text="查看全文>>"
             android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
+            android:textSize="@dimen/font_size_small"
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

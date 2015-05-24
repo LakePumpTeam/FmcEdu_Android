@@ -18,6 +18,8 @@ import android.widget.PopupWindow;
 import com.fmc.edu.R;
 import com.fmc.edu.utils.ImageLoaderUtil;
 
+import java.util.List;
+
 /**
  * Created by Candy on 2015-05-19.
  */
@@ -25,8 +27,7 @@ public class ImageShowControl extends PopupWindow {
     private Context mContext;
     private DisplayMetrics mDisplayMetrics;
 
-    private ImageView imgBigPicture;
-//    private ImageView imgClosed;
+    private SlideImageControl imgBigPicture;
 
     public ImageShowControl(Context context) {
         super(context, null);
@@ -53,26 +54,18 @@ public class ImageShowControl extends PopupWindow {
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setBackgroundColor(Color.parseColor("#ff333333"));
-        imgBigPicture = new ImageView(mContext);
-        ViewGroup.LayoutParams imageParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        imgBigPicture.setLayoutParams(imageParams);
+//        View view = LayoutInflater.from(mContext).inflate(R.layout.control_image_show, null);
+        imgBigPicture = new SlideImageControl(mContext, null);
+//        (SlideImageControl) view.findViewById(R.id.image_show_img_big_picture);
+        LinearLayout.LayoutParams slideImgParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imgBigPicture.setLayoutParams(slideImgParams);
         linearLayout.addView(imgBigPicture);
         linearLayout.setOnClickListener(imgCloseOnClickListener);
         this.setContentView(linearLayout);
     }
 
-    public void showWindow(View parentView, Drawable drawable) {
-        imgBigPicture.setImageDrawable(drawable);
-        this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-    }
-
-    public void showWindow(View parentView, Bitmap bitmap) {
-        imgBigPicture.setImageBitmap(bitmap);
-        this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-    }
-
-    public void showWindow(View parentView, String url) {
-        ImageLoaderUtil.initCacheImageLoader(mContext).displayImage(url, imgBigPicture);
+    public void showWindow(View parentView, List<String> url) {
+        imgBigPicture.setPageData(url);
         this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
     }
 

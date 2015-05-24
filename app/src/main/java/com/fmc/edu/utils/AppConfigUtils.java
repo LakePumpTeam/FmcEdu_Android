@@ -17,6 +17,7 @@ public class AppConfigUtils {
     private static String IS_DEVELOPMENT = "com.fmc.edu.is_development";
     private static String PAGE_SIZE = "com.fmc.edu.page_size";
     private static String DEVELOPER_TWO = "com.fmc.edu.two";
+    private static String DEVELOPER_THREE = "com.fmc.edu.three";
     private static String VERSION = "com.fmc.edu.version";
 
     private static Map<String, Object> configCacheMap = new HashMap<String, Object>(10);
@@ -32,6 +33,10 @@ public class AppConfigUtils {
 
     public static boolean isDevelopTwo() {
         return ConvertUtils.getBoolean(getValue(DEVELOPER_TWO, true));
+    }
+
+    public static boolean isDevelopThree() {
+        return ConvertUtils.getBoolean(getValue(DEVELOPER_THREE, true));
     }
 
     public static String getVersion() {

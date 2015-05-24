@@ -25,7 +25,6 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!-- <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/> -->
 
-
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
@@ -48,6 +47,9 @@
             android:name="com.fmc.edu.two"
             android:value="true" />
         <meta-data
+            android:name="com.fmc.edu.three"
+            android:value="false" />
+        <meta-data
             android:name="com.fmc.edu.version"
             android:value="1.0" />
 
@@ -68,9 +70,9 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -80,7 +82,7 @@
         <activity
             android:name=".SchoolDynamicActivity"
             android:label="@string/title_activity_school_dynamic"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".KidSchoolActivity"
             android:label="@string/title_activity_kid_school"
@@ -119,7 +121,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ClassDynamicActivity"
-            android:label="@string/title_activity_class_dynamic" />
+            android:label="@string/title_activity_class_dynamic"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PublishDynamicActivity"
             android:label="@string/title_activity_publish_dynamic"
@@ -130,7 +133,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MultiPictureActivity"
-            android:label="@string/title_activity_multi_picture"></activity>
+            android:label="@string/title_activity_multi_picture"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

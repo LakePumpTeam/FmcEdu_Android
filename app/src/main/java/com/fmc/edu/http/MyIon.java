@@ -1,5 +1,6 @@
 package com.fmc.edu.http;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.util.Base64;
@@ -21,6 +22,8 @@ import com.koushikdutta.ion.future.ResponseFuture;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -28,15 +31,15 @@ import java.util.Map;
  * Created by Candy on 2015/5/3.
  */
 public class MyIon {
-    public static com.koushikdutta.ion.builder.LoadBuilder<com.koushikdutta.ion.builder.Builders.Any.B> with(Context context) throws NetWorkUnAvailableException {
+    public static com.koushikdutta.ion.builder.LoadBuilder<com.koushikdutta.ion.builder.Builders.Any.B> with(Context context) throws NetworkErrorException {
         if (!NetworkUtils.isNetworkConnected(context)) {
             ToastToolUtils.showLong("网络不可用");
-            throw new NetWorkUnAvailableException("网络不可用");
+            throw new NetworkErrorException("网络不可用");
         }
         return Ion.with(context);
     }
 
-    public static ResponseFuture<String> setUrlAndBodyParams(Context context, String url, Map<String, Object> params) throws NetWorkUnAvailableException {
+    public static ResponseFuture<String> setUrlAndBodyParams(Context context, String url, Map<String, Object> params) throws Exception {
         Builders.Any.B withB = MyIon.with(context).load(url);
         if (null == params) {
             return withB.asString(Charset.forName("utf8"));
@@ -91,6 +94,8 @@ public class MyIon {
             if (null != progressControl) {
                 progressControl.dismiss();
             }
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

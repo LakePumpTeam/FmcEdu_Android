@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,20 +15,32 @@ import android.widget.TextView;
 
 import com.fmc.edu.adapter.PublishDynamicGridAdapter;
 import com.fmc.edu.common.CrashHandler;
+import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.http.FMCMapFutureCallback;
+import com.fmc.edu.http.HttpTools;
+import com.fmc.edu.http.MyIconB;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ImageFactoryUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
+import com.koushikdutta.ion.builder.Builders;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.File;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class PublishDynamicActivity extends Activity {
@@ -80,59 +93,54 @@ public class PublishDynamicActivity extends Activity {
                 ToastToolUtils.showLong("请输入内容呢");
                 return;
             }
-            //TODO 发送动态
-            ToastToolUtils.showLong("发送成功");
-            PublishDynamicActivity.this.finish();
-//            mProgressControl.showWindow(topBarSend);
-//
-//            String content = editContent.getText().toString();
-//            String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);
-//            try {
-//                MyIon.with(PublishDynamicActivity.this)
-//                        .load(mHostUrl + "postClassNews")
-//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(0)))
-//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(1)))
-//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(2)))
-//                        .setMultipartFile("images", ImageFactoryUtils.getThumbnailImage(mAdapter.getImageUrl(3)))
-//                        .setMultipartParameter("content", Base64.encodeToString(content.getBytes(), Base64.DEFAULT))
-//                        .setMultipartParameter("userId", base64UserId)
-//                        .asString(Charset.forName("utf8"))
-//                        .setCallback(new FMCMapFutureCallback() {
-//                            @Override
-//                            public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-//                                if (null != mProgressControl) {
-//                                    mProgressControl.dismiss();
-//                                }
-//
-//                                if (!HttpTools.isRequestSuccessfully(e, result))
-//
-//                                {
-//                                    ToastToolUtils.showLong(result.get("msg").toString());
-//                                    return;
-//                                }
-//
-//                                if (StringUtils.isEmptyOrNull(result.get("data")))
-//
-//                                {
-//                                    ToastToolUtils.showLong("服务器出错");
-//                                    return;
-//                                }
-//
-//                                Map<String, Object> mapData = (Map<String, Object>) result.get("data");
-//                                if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
-//                                    AlertWindowControl alertWindowControl = new AlertWindowControl(PublishDynamicActivity.this);
-//                                    alertWindowControl.showWindow(new TextView(PublishDynamicActivity.this), "提示", ConvertUtils.getString(mapData.get("businessMsg")));
-//                                    return;
-//                                }
-//                                ToastToolUtils.showLong("发送成功");
-//                                PublishDynamicActivity.this.finish();
-//                            }
-//                        });
-//
-//            } catch (Exception ex) {
-//                mProgressControl.dismiss();
-//                ToastToolUtils.showLong(ex == null ? "发送失败" : ex.getMessage());
-//            }
+            mProgressControl.showWindow(topBarSend);
+
+            String content = editContent.getText().toString();
+            String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);
+            try {
+                Builders.Any.B withB = MyIon.with(PublishDynamicActivity.this)
+                        .load(mHostUrl + "news/postClassNews");
+                withB.setMultipartParameter("content", Base64.encodeToString(content.getBytes(), Base64.DEFAULT))
+                        .setMultipartParameter("userId", base64UserId);
+
+                for (int i = 1; i < mAdapter.getCount() + 1; i++) {
+                    String url = mAdapter.getImageUrl(i - 1);
+                    if (StringUtils.isEmptyOrNull(url)) {
+                        continue;
+                    }
+
+                    withB.setMultipartFile("imgs", new File(ImageFactoryUtils.getThumbnailImage(url)));
+                }
+                withB.asString(Charset.forName("utf8"))
+                        .setCallback(new FMCMapFutureCallback() {
+                            @Override
+                            public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                                mProgressControl.dismiss();
+                                if (!HttpTools.isRequestSuccessfully(e, result)) {
+                                    ToastToolUtils.showLong(result.get("msg").toString());
+                                    return;
+                                }
+
+                                if (StringUtils.isEmptyOrNull(result.get("data"))) {
+                                    ToastToolUtils.showLong("服务器出错");
+                                    return;
+                                }
+
+                                Map<String, Object> mapData = (Map<String, Object>) result.get("data");
+                                if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                                    AlertWindowControl alertWindowControl = new AlertWindowControl(PublishDynamicActivity.this);
+                                    alertWindowControl.showWindow(new TextView(PublishDynamicActivity.this), "提示", ConvertUtils.getString(mapData.get("businessMsg")));
+                                    return;
+                                }
+                                ToastToolUtils.showLong("发送成功");
+                                PublishDynamicActivity.this.finish();
+                            }
+                        });
+
+            } catch (Exception ex) {
+                mProgressControl.dismiss();
+                ToastToolUtils.showLong(ex == null ? "发送失败" : ex.getMessage());
+            }
         }
     };
     private View.OnClickListener addPictureClickListener = new View.OnClickListener() {

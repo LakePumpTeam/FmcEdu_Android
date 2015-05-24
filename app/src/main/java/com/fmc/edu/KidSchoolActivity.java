@@ -1,18 +1,16 @@
 package com.fmc.edu;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.fmc.edu.adapter.KidsSchoolAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
+import com.fmc.edu.customcontrol.AutoSlidePictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.customcontrol.SlideImageControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.KidSchoolEntity;
@@ -21,7 +19,6 @@ import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
-import com.fmc.edu.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +30,7 @@ public class KidSchoolActivity extends Activity {
 
     private KidsSchoolAdapter mAdapter;
     private SlideListView list;
-    private SlideImageControl slideImg;
+    private AutoSlidePictureControl slideImg;
     private List<DynamicItemEntity> mList;
     private ProgressControl mProgressControl;
     private String mHostUrl;
@@ -60,7 +57,7 @@ public class KidSchoolActivity extends Activity {
 
     private void initViews() {
         list = (SlideListView) findViewById(R.id.kid_school_list);
-        slideImg = (SlideImageControl) findViewById(R.id.kid_school_slide_img);
+        slideImg = (AutoSlidePictureControl) findViewById(R.id.kid_school_slide_img);
     }
 
     private void initViewEvent() {
@@ -82,13 +79,19 @@ public class KidSchoolActivity extends Activity {
                     return;
                 }
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("slideList");
-                for (int i = 0; i < list.size(); i++) {
-                    Map<String, Object> item = list.get(i);
-                    String imgUrl = mHostUrl + ConvertUtils.getString(item.get("imageUrl"));
-                    slideImg.addItem(createImageView(imgUrl));
-                }
+                slideImg.setPageData(getPictureUrls(list));
             }
         });
+    }
+
+    private List<String> getPictureUrls(List<Map<String, Object>> list) {
+        List<String> pictureUrls = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> item = list.get(i);
+            String imgUrl = mHostUrl + ConvertUtils.getString(item.get("imageUrl"));
+            pictureUrls.add(imgUrl);
+        }
+        return pictureUrls;
     }
 
     private SlideListView.OnLoadMoreListener slideLoadedMoreListener = new SlideListView.OnLoadMoreListener() {

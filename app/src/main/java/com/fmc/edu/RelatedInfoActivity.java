@@ -263,8 +263,10 @@ public class RelatedInfoActivity extends Activity {
 
     private Map<String, Object> getParams() {
         Map<String, Object> params = new HashMap<String, Object>();
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        params.put("parentId", loginUserEntity.userId);
+        if (null != mBundle && !mBundle.getBoolean("isRegister", false)) {
+            LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+            params.put("parentId", loginUserEntity.userId);
+        }
         params.put("cellPhone", txtCellphone.getText());
         params.put("provId", String.valueOf(txtProvince.getTag()));
         params.put("cityId", String.valueOf(txtCity.getTag()));
@@ -272,13 +274,13 @@ public class RelatedInfoActivity extends Activity {
         params.put("classId", String.valueOf(txtClass.getTag()));
         params.put("teacherId", String.valueOf(txtTeacher.getTag()));
         params.put("studentName", editStuName.getText().toString());
-        params.put("studentId",editStuName.getTag());
+        params.put("studentId", editStuName.getTag());
         params.put("studentSex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString());
         params.put("studentAge", txtBirthday.getText().toString());
         params.put("parentName", editParName.getText().toString());
         params.put("relation", editRelation.getText().toString());
         params.put("address", editAddress.getText().toString());
-        params.put("addressId",editAddress.getTag().toString());
+        params.put("addressId", editAddress.getTag().toString());
         params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
         params.put("braceletNumber", editBraceletNumber.getText().toString());
         mIsAudit = isAudit(params);

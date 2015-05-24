@@ -136,6 +136,8 @@ public class MainActivity extends Activity {
         }
     }
 
+//    private void checkNewDynamic
+
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -183,7 +185,6 @@ public class MainActivity extends Activity {
     }
 
     private View.OnClickListener menuItemOnClickListener = new View.OnClickListener() {
-        //TODO  每一个Item绑定自己的Class
         @Override
         public void onClick(View v) {
             int clickId = v.getId();
@@ -199,12 +200,12 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case R.id.main_menu_syllabus_dynamic:
-                    if (AppConfigUtils.isDevelopTwo()) {
+                    if (AppConfigUtils.isDevelopThree()) {
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
                 case R.id.main_menu_parenting:
-                    if (AppConfigUtils.isDevelopTwo()) {
+                    if (AppConfigUtils.isDevelopThree()) {
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
@@ -214,12 +215,12 @@ public class MainActivity extends Activity {
                     }
                     break;
                 case R.id.main_menu_campus:
-                    if (AppConfigUtils.isDevelopTwo()) {
+                    if (AppConfigUtils.isDevelopThree()) {
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
                 case R.id.main_menu_location:
-                    if (AppConfigUtils.isDevelopTwo()) {
+                    if (AppConfigUtils.isDevelopThree()) {
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;

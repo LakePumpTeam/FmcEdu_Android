@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/activity_margin_middle"
+    android:background="@color/edit_text_bg_color"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_padding_middle"
+    android:paddingRight="@dimen/activity_padding_middle">
+
+    <TextView
+        android:id="@+id/item_class_dynamic_list_txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:maxLines="5"
+        android:textColor="@color/dynamic_title_color"
+        android:textSize="@dimen/font_size_small" />
+
+    <TextView
+        android:id="@+id/item_class_dynamic_list_txt_all_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:textColor="@color/dynamic_title_color"
+        android:textSize="@dimen/font_size_small"
+        android:visibility="gone" />
+
+    <GridView
+        android:id="@+id/item_class_dynamic_list_grid_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_margin_small"
+        android:layout_marginTop="@dimen/activity_margin_middle">
+
+        <TextView
+            android:id="@+id/item_class_dynamic_list_txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/dynamic_content_color"
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:id="@+id/item_class_dynamic_list_txt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_toLeftOf="@+id/item_class_dynamic_list_txt_read_all"
+            android:clickable="true"
+            android:drawableLeft="@mipmap/ic_comment"
+            android:drawablePadding="@dimen/activity_padding_middle"
+            android:textColor="@color/dynamic_content_color"
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:id="@+id/item_class_dynamic_list_txt_read_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:text="查看全文>>"
+            android:textColor="@color/dynamic_content_color"
+            android:textSize="@dimen/font_size_small" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/item_class_dynamic_list_ll_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

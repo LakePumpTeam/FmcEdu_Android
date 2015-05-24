@@ -27,9 +27,15 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone">
 
+        <View
+            android:id="@+id/line1"
+            style="@style/HorizontalDividerLineStyle"
+            android:layout_alignParentTop="true" />
+
         <EditText
             android:id="@+id/class_dynamic_edit_comment"
             style="@style/EditTextStyle"
+            android:layout_below="@+id/line1"
             android:hint="请输入内容" />
 
         <Button

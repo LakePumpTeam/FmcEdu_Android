@@ -16,7 +16,6 @@ import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
-import com.fmc.edu.entity.KidSchoolEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -44,26 +43,17 @@ public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         TextView txtTitle = (TextView) convertView.findViewById(R.id.item_kids_school_txt_title);
         TextView txtContent = (TextView) convertView.findViewById(R.id.item_kids_school_txt_content);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_kids_school_txt_date);
-        TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_kids_school_txt_read_all);
+        TextView txtLikeCount = (TextView) convertView.findViewById(R.id.item_kids_school_txt_like_count);
 
         DynamicItemEntity item = mItems.get(position);
         txtTitle.setText(item.subject);
         txtContent.setText(item.content);
         txtDate.setText(item.createDate);
-        txtReadAll.setTag(item.newsId);
-        txtReadAll.setOnClickListener(txtReadAllOnclickListener);
+        txtLikeCount.setText(ConvertUtils.getString(item.likeCount, "0"));
         String imgUrl = null != item.imageUrls && item.imageUrls.size() > 0 ? item.imageUrls.get(0).origUrl : "";
         ImageLoaderUtil.initCacheImageLoader(mContext).displayImage(imgUrl, imgPhoto);
         return convertView;
     }
-
-    private View.OnClickListener txtReadAllOnclickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            gotoDynamicDetailPage(v, ConvertUtils.getInteger(v.getTag()));
-        }
-    };
-
     private void gotoDynamicDetailPage(View view, int newsId) {
         ProgressControl progressControl = new ProgressControl(mContext);
         progressControl.showWindow(view);

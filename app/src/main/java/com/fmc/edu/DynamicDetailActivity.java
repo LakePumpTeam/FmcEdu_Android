@@ -7,19 +7,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fmc.edu.adapter.DynamicCommentDetailAdapter;
-import com.fmc.edu.adapter.DynamicItemAdapter;
 import com.fmc.edu.adapter.SinglePictureAdapter;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class DynamicDetailActivity extends Activity {

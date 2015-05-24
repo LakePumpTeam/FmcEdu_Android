@@ -3,6 +3,7 @@ package com.fmc.edu.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.io.Serializable;
@@ -15,6 +16,9 @@ import java.util.Map;
  */
 public class DynamicItemEntity implements Serializable {
     public int newsId;
+    public int likeCount;
+    public int commentCount;
+    public DynamicTypeEnum type;
     public String subject;
     public String content;
     public String createDate;
@@ -30,6 +34,9 @@ public class DynamicItemEntity implements Serializable {
             dynamicItem.content = ConvertUtils.getString(item.get("content"));
             dynamicItem.createDate = ConvertUtils.getString(item.get("createDate"));
             dynamicItem.imageUrls = ImageItemEntity.initImageItemEntity(ConvertUtils.getList(item.get("imageUrls")));
+            dynamicItem.likeCount = ConvertUtils.getInteger(item.get("like"), 0);
+            dynamicItem.commentCount = ConvertUtils.getInteger(item.get("commentCount"), 0);
+            dynamicItem.type = DynamicTypeEnum.getEnumValue(ConvertUtils.getInteger(item.get("type"), 0));
             list.add(dynamicItem);
         }
         return list;

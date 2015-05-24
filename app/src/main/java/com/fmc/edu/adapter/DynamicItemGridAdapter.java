@@ -39,6 +39,11 @@ public class DynamicItemGridAdapter extends BaseAdapter {
         return mItems.size();
     }
 
+    public List<ImageItemEntity> getItems() {
+        return mItems;
+
+    }
+
     @Override
     public Object getItem(int position) {
         if (null == mItems) {
@@ -62,7 +67,7 @@ public class DynamicItemGridAdapter extends BaseAdapter {
         }
         ImageItemEntity imageItemEntity = mItems.get(position);
         final ImageView imageView = (ImageView) convertView.findViewById(R.id.item_publish_dynamic_img);
-        convertView.setTag(imageItemEntity.origUrl);
+        convertView.setTag(mItems);
         mImageLoader.displayImage(imageItemEntity.thumbUrl, imageView,
                 new SimpleImageLoadingListener() {
                     @Override

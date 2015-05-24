@@ -62,7 +62,7 @@ public class ImageLoaderUtil {
                 .showImageForEmptyUri(R.mipmap.pic_defalut_long)
                 .showImageOnFail(R.mipmap.pic_defalut_long)
                 .cacheOnDisk(true)
-                .cacheInMemory(false)
+                .cacheInMemory(true)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以如何的编码方式显示
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();//构建完成

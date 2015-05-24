@@ -2,6 +2,7 @@ package com.fmc.edu.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,9 +18,9 @@ import java.util.List;
  */
 public class ViewPagerAdapter extends PagerAdapter {
     private Context mContext;
-    private List<String> mImgUrls;
+    private List<ImageView> mImgUrls;
 
-    public ViewPagerAdapter(Context context, List<String> imgUrls) {
+    public ViewPagerAdapter(Context context, List<ImageView> imgUrls) {
         mContext = context;
         mImgUrls = imgUrls;
     }
@@ -36,13 +37,17 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(mContext);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        ImageLoader imageLoader = ImageLoaderUtil.initCacheImageLoader(mContext);
-        imageLoader.displayImage(mImgUrls.get(position), imageView, new SimpleImageLoadingListener() {
-        });
-        container.addView(imageView);
-        return imageView;
+        container.addView(mImgUrls.get(position % mImgUrls.size()));
+        return mImgUrls.get(position % mImgUrls.size());
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView(mImgUrls.get(position % mImgUrls.size()));
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

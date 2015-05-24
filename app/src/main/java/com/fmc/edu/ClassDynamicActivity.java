@@ -7,7 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.fmc.edu.adapter.DynamicItemAdapter;
+import com.fmc.edu.adapter.ClassDynamicItemAdapter;
+import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -17,6 +18,7 @@ import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,7 @@ public class ClassDynamicActivity extends Activity {
     private ProgressControl mProgressControl;
     private String mHostUrl;
     private int mNewsId;
-    private DynamicItemAdapter mAdapter;
+    private ClassDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
@@ -68,7 +70,7 @@ public class ClassDynamicActivity extends Activity {
 
     private void initPageData() {
         mPageIndex = 1;
-        mAdapter = new DynamicItemAdapter(this, mList);
+        mAdapter = new ClassDynamicItemAdapter(this, mList);
         slideListView.setAdapter(mAdapter);
     }
 
@@ -127,6 +129,7 @@ public class ClassDynamicActivity extends Activity {
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                ToastToolUtils.showShort("评论成功");
                 rlComment.setVisibility(View.GONE);
             }
         });
