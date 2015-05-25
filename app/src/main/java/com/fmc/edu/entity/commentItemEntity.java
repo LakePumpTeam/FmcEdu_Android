@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Candy on 2015/5/22.
+ * Created by Candy on 2015/5/25.
  */
 public class CommentItemEntity implements Serializable {
     public int userId;
     public String userName;
     public String comment;
 
-    public  static  List<CommentItemEntity> toCommentEntityList(List<Map<String, Object>> commentList) {
+    public static List<CommentItemEntity> toCommentEntityList(List<Map<String, Object>> commentList) {
         List<CommentItemEntity> list = new ArrayList<CommentItemEntity>();
         for (int i = 0; i < commentList.size(); i++) {
             Map<String, Object> commentItem = commentList.get(i);
@@ -27,5 +27,4 @@ public class CommentItemEntity implements Serializable {
         }
         return list;
     }
-
 }

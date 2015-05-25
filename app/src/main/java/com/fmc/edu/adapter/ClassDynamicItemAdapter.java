@@ -1,16 +1,21 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.ClassDynamicActivity;
 import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.ImageShowControl;
+import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ConvertUtils;
@@ -42,6 +47,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_read_all);
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
+        LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
 
         DynamicItemEntity item = mItems.get(position);
         holder.txtAllContent = txtAllContent;
@@ -54,6 +60,13 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
         txtDate.setText(item.createDate);
 
+        List<CommentItemEntity> commentList = item.commentList;
+        for (int i = 0; i < commentList.size(); i++) {
+            String userName = commentList.get(i).userName + ":";
+            String comment = commentList.get(i).comment;
+            TextView textView = createText(userName, comment);
+            commentView.addView(textView);
+        }
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
@@ -61,6 +74,18 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtComment.setOnClickListener(txtCommentOnClickListener);
         return convertView;
     }
+
+    private TextView createText(String userName, String comment) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(userName + comment);
+        TextView textView = new TextView(mContext);
+        ForegroundColorSpan userNameSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.text_parent_name_font_color));
+        ForegroundColorSpan commentSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.dynamic_title_color));
+        builder.setSpan(userNameSpan, 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(commentSpan, userName.length(), userName.length() + comment.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(builder);
+        return textView;
+    }
+
 
     private View.OnClickListener txtCommentOnClickListener = new View.OnClickListener() {
         @Override

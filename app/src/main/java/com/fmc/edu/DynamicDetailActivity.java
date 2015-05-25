@@ -59,11 +59,11 @@ public class DynamicDetailActivity extends Activity {
     private TopBarControl.OnOperateOnClickListener topOnOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
         @Override
         public void onOperateClick(View v) {
-            String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
+            String url = AppConfigUtils.getServiceHost() + "news/likeNews";
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("newsId", mBundle.getInt("newsId"));
             params.put("userId", FmcApplication.getLoginUser().userId);
-            params.put("isLiked", !ConvertUtils.getBoolean(topBar.getTag()));
+            params.put("isLike", !ConvertUtils.getBoolean(topBar.getTag()));
             MyIon.httpPost(DynamicDetailActivity.this, url, params, null, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
@@ -88,7 +88,7 @@ public class DynamicDetailActivity extends Activity {
         txtContent.setText(mBundle.getString("content"));
         txtDate.setText(mBundle.getString("createDate"));
         bindPicture(mBundle.getStringArrayList("imageUrl"));
-        // List<CommentItemEntity> commentList = (List<CommentItemEntity>) mBundle.getSerializable("commentList");
+        // List<CommentItemEntity1> commentList = (List<CommentItemEntity1>) mBundle.getSerializable("commentList");
 //        bindCommentList(commentList);
     }
 
@@ -124,7 +124,7 @@ public class DynamicDetailActivity extends Activity {
         gridPicture.setAdapter(singlePictureAdapter);
     }
 
-//    private void bindCommentList(List<CommentItemEntity> list) {
+//    private void bindCommentList(List<CommentItemEntity1> list) {
 //        DynamicCommentDetailAdapter dynamicItemAdapter = new DynamicCommentDetailAdapter(this, list);
 //        listComment.setAdapter(dynamicItemAdapter);
 //    }

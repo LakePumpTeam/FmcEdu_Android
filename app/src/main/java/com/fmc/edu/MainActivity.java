@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
         mHostUrl = AppConfigUtils.getServiceHost();
         initViewEvents();
         afterInitData();
+        initNewDynamic();
     }
 
     @Override
@@ -110,14 +111,6 @@ public class MainActivity extends Activity {
         if (null == mBundle) {
             return;
         }
-        menuSchoolDynamic.setHasDynamic(false);
-        menuGradeDynamic.setHasDynamic(false);
-        menuSyllabusDynamic.setHasDynamic(false);
-        menuParenting.setHasDynamic(false);
-        menuKidsSchool.setHasDynamic(false);
-        menuCampus.setHasDynamic(false);
-        menuLocation.setHasDynamic(false);
-        menuAudit.setHasDynamic(false);
         txtTeacher.setText(mBundle.getString("teacherName"));
         txtTeacher.setTag(mBundle.getString("teacherId"));
         txtClassGrade.setText(mBundle.getString("className"));
@@ -136,7 +129,23 @@ public class MainActivity extends Activity {
         }
     }
 
-//    private void checkNewDynamic
+    private void initNewDynamic() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(this, mHostUrl + "news/checkNewNews", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                menuSchoolDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("schoolNews"),false));
+                menuGradeDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("classNews"),false));
+                menuSyllabusDynamic.setHasDynamic(false);
+                menuParenting.setHasDynamic(ConvertUtils.getBoolean(data.get("pcdNews"),false));
+                menuKidsSchool.setHasDynamic(ConvertUtils.getBoolean(data.get("parentingClassNews"),false));
+                menuCampus.setHasDynamic(ConvertUtils.getBoolean(data.get("bbsNews"),false));
+                menuLocation.setHasDynamic(false);
+                menuAudit.setHasDynamic(false);
+            }
+        });
+    }
 
     private View.OnClickListener imgSendNewMsgOnClick = new View.OnClickListener() {
         @Override
@@ -191,11 +200,13 @@ public class MainActivity extends Activity {
             switch (clickId) {
                 case R.id.main_menu_school_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
+                        menuSchoolDynamic.setHasDynamic(false);
                         gotoDynamicList(DynamicTypeEnum.SchoolActivity);
                     }
                     break;
                 case R.id.main_menu_grade_dynamic:
                     if (AppConfigUtils.isDevelopTwo()) {
+                        menuGradeDynamic.setHasDynamic(false);
                         gotoDynamicList(DynamicTypeEnum.ClassDynamic);
                     }
                     break;
@@ -206,16 +217,19 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.main_menu_parenting:
                     if (AppConfigUtils.isDevelopThree()) {
+                        menuParenting.setHasDynamic(false);
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
                 case R.id.main_menu_kid_school:
                     if (AppConfigUtils.isDevelopTwo()) {
+                        menuKidsSchool.setHasDynamic(false);
                         gotoDynamicList(DynamicTypeEnum.KidSchool);
                     }
                     break;
                 case R.id.main_menu_campus:
                     if (AppConfigUtils.isDevelopThree()) {
+                        menuCampus.setHasDynamic(false);
                         gotoDetailPage(v, RegisterActivity.class);
                     }
                     break;
@@ -352,11 +366,6 @@ public class MainActivity extends Activity {
             intent.setClass(MainActivity.this, ClassDynamicActivity.class);
         }
         intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    private void gotoClassDynamic() {
-        Intent intent = new Intent(MainActivity.this, ClassDynamicActivity.class);
         startActivity(intent);
     }
 

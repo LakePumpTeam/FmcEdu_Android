@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/activity_margin_small"
         android:maxLines="5"
         android:textColor="@color/dynamic_title_color"
-        android:textSize="@dimen/font_size_small" />
+        android:textSize="@dimen/font_size_middle" />
 
     <TextView
         android:id="@+id/item_class_dynamic_list_txt_all_content"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_small"
         android:textColor="@color/dynamic_title_color"
-        android:textSize="@dimen/font_size_small"
+        android:textSize="@dimen/font_size_middle"
         android:visibility="gone" />
 
     <GridView
@@ -77,10 +77,5 @@
         android:id="@+id/item_class_dynamic_list_ll_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:orientation="vertical" />
 </LinearLayout>

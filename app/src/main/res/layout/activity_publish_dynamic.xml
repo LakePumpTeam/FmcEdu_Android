@@ -21,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:gravity="top"
+        android:lineSpacingExtra="2dp"
+        android:textSize="@dimen/font_size_middle"
         android:hint="@string/edit_content"
         android:maxLength="100"
         android:padding="@dimen/activity_padding_middle"

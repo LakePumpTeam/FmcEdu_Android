@@ -12,8 +12,7 @@
         android:id="@+id/auto_slide_picture_dots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/activity_margin_middle"
-        android:layout_marginRight="@dimen/activity_margin_middle"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/activity_margin_small"
         android:orientation="horizontal" />
 </FrameLayout>

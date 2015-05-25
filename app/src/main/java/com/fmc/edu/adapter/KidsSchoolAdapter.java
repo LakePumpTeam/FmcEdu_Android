@@ -46,7 +46,6 @@ public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         String imgUrl = null != item.imageUrls && item.imageUrls.size() > 0 ? item.imageUrls.get(0).origUrl : "";
         ImageLoaderUtil.initCacheImageLoader(mContext).displayImage(imgUrl, imgPhoto);
         imgPhoto.setOnClickListener(imgPhotoOnClickListener);
-
         return convertView;
     }
 

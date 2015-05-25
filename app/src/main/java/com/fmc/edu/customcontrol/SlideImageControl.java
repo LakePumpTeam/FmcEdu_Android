@@ -71,7 +71,6 @@ public class SlideImageControl extends LinearLayout {
 
     private List<ImageView> createImageView(List<String> pictureUrls) {
         List<ImageView> list = new ArrayList<ImageView>();
-        ImageLoader imageLoader = ImageLoaderUtil.initTitleImageLoader(mContext);
         for (int i = 0; i < pictureUrls.size(); i++) {
             ImageView imgView = new ImageView(mContext);
             ViewPager.LayoutParams param = new ViewPager.LayoutParams();
@@ -79,7 +78,7 @@ public class SlideImageControl extends LinearLayout {
             param.height = ViewPager.LayoutParams.WRAP_CONTENT;
             imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imgView.setLayoutParams(param);
-            imageLoader.displayImage(pictureUrls.get(i), imgView);
+            ImageLoaderUtil.initTitleImageLoader(mContext).displayImage(pictureUrls.get(i), imgView);
             imgView.setOnClickListener(imgViewClickListener);
             list.add(imgView);
         }

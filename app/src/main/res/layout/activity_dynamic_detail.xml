@@ -2,7 +2,7 @@
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@color/activity_bg_color_write"
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
@@ -18,40 +18,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
+        android:paddingLeft="@dimen/activity_padding_middle"
+        android:paddingRight="@dimen/activity_padding_middle"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/dynamic_detail_txt_title"
-            style="@style/EditTextStyle"
-            android:layout_marginTop="@dimen/activity_margin_middle"
-            android:textSize="@dimen/font_size_large" />
-
-        <TextView
-            android:id="@+id/dynamic_detail_txt_content"
-            style="@style/EditTextStyle"
+            style="@style/TextStyle"
             android:layout_marginTop="@dimen/activity_margin_middle"
             android:textSize="@dimen/font_size_large" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_padding_small"
-            android:paddingRight="@dimen/activity_padding_small">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/dynamic_detail_txt_detail_type"
                 style="@style/TextStyle"
+                android:textColor="@color/edit_text_hint_font_color"
                 android:textSize="@dimen/font_size_small" />
 
             <TextView
                 android:id="@+id/dynamic_detail_txt_date"
                 style="@style/TextStyle"
                 android:layout_alignParentRight="true"
-                android:paddingLeft="@dimen/activity_padding_small"
+                android:textColor="@color/edit_text_hint_font_color"
                 android:textSize="@dimen/font_size_small" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/dynamic_detail_txt_content"
+            style="@style/TextStyle"
+            android:layout_marginTop="@dimen/activity_margin_middle"
+            android:textColor="@color/annotation_txt_font_color"
+            android:textSize="@dimen/font_size_middle" />
         <GridView
             android:id="@+id/dynamic_detail_grid_picture"
             android:layout_width="match_parent"

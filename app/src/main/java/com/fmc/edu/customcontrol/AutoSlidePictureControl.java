@@ -134,12 +134,17 @@ public class AutoSlidePictureControl extends LinearLayout {
             linearParams.setMargins(3, 0, 3, 0);
             RelativeLayout relativeLayout = new RelativeLayout(getContext());
             ImageView image = new ImageView(getContext());
+//            ViewGroup.LayoutParams imgParmam = image.getLayoutParams();
+//            imgParmam.height=15;
+//            imgParmam.width=15;
+//            image.setScaleType(ImageView.ScaleType.FIT_XY);
+//            image.setLayoutParams(imgParmam);
             if (i == position) {
                 image.setBackgroundResource(R.mipmap.select);
             } else {
                 image.setBackgroundResource(R.mipmap.unselect);
             }
-            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(15,15);
             relativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             relativeLayout.addView(image, relativeParams);
             dotsLayout.addView(relativeLayout, linearParams);

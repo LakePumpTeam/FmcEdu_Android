@@ -3,6 +3,7 @@
     <color name="activity_login_bg_color">#00bbbb</color>
     <color name="activity_login_hint_color">#ddd</color>
     <color name="activity_bg_color">#F0FCFC</color>
+    <color name="activity_bg_color_write">#fff</color>
     <color name="activity_top_bar_color">#01BABC</color>
     <color name="activity_top_bar_font_color">#fff</color>
     <color name="activity_font_color">#fff</color>

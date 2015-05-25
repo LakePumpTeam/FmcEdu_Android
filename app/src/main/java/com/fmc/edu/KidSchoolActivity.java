@@ -12,6 +12,7 @@ import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.AutoSlidePictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -19,6 +20,7 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,36 +125,31 @@ public class KidSchoolActivity extends Activity {
 
 
     private void gotoDynamicDetailPage(View view, int newsId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("type", DynamicTypeEnum.getValue(DynamicTypeEnum.KidSchool));
-        Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-//        mProgressControl.showWindow(view);
-//        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("newsId", newsId);
-//        params.put("userId", FmcApplication.getLoginUser().userId);
-//        MyIon.httpPost(KidSchoolActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
-//            @Override
-//            public void afterCallBack(Map<String, Object> data) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
-//                bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
-//                bundle.putInt("type", ConvertUtils.getInteger(data.get("type")));
-//                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
-//                bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
-//                bundle.putString("content", ConvertUtils.getString(data.get("content")));
-//                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrl")));
-//                bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
-//                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
-//                bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));
-//
-//                Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//            }
-//        });
+        mProgressControl.showWindow(view);
+        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("newsId", newsId);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(KidSchoolActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
+                bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
+                bundle.putInt("type", DynamicTypeEnum.getValue(DynamicTypeEnum.KidSchool));
+                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
+                bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
+                bundle.putString("content", ConvertUtils.getString(data.get("content")));
+                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imgs")));
+                bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
+                bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));
+
+                Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
 

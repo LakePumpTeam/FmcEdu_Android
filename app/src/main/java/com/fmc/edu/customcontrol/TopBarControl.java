@@ -83,11 +83,7 @@ public class TopBarControl extends LinearLayout {
     }
 
     public void setTopBarText(String topTitle) {
-        if (StringUtils.isEmptyOrNull(topTitle)) {
-            llOperateText.setVisibility(GONE);
-            return;
-        }
-        txtOperate.setText(topTitle);
+        txtTitle.setText(topTitle);
     }
 
     public void setTopOperateTextVisible(boolean isVisible) {

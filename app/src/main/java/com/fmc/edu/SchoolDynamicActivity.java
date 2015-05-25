@@ -15,6 +15,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -70,9 +71,13 @@ public class SchoolDynamicActivity extends Activity {
     private AdapterView.OnItemClickListener listOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            gotoDynamicDetailPage(view,mList.get(position).newsId);
+            if (mCurrentTag == DynamicTypeEnum.getValue(DynamicTypeEnum.SchoolNotice)) {
+                return;
+            }
+            gotoDynamicDetailPage(view, mList.get(position).newsId);
         }
     };
+
     private void initPageData() {
         mAdapter = new SchoolDynamicItemAdapter(this, mList);
         slideListView.setAdapter(mAdapter);
@@ -117,17 +122,17 @@ public class SchoolDynamicActivity extends Activity {
                 bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
                 bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
                 bundle.putString("content", ConvertUtils.getString(data.get("content")));
-                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrl")));
+                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imgs")));
                 bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
                 bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));
-
                 Intent intent = new Intent(SchoolDynamicActivity.this, DynamicDetailActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
     }
+
     private void getDynamicData(boolean isShowProgress) {
         String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
