@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.fmc.edu.FmcApplication;
-import com.fmc.edu.utils.ToastToolUtils;
 
 /**
  * Created by Candy on 2015/5/17.
@@ -40,7 +39,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Looper.prepare();
                 Log.e("CrashHandler", ex.getMessage());
                 new AlertDialog.Builder(mContext).setTitle("提示").setCancelable(false)
-                        .setMessage("对不起，\n    服务器出问题了,bye...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
+                        .setMessage("对不起，\n    我好像出问题了,bye...").setNeutralButton("我知道", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FmcApplication.exit();

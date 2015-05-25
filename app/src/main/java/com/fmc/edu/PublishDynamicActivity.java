@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,12 +21,11 @@ import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
-import com.fmc.edu.http.MyIconB;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageFactoryUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -37,8 +35,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +81,40 @@ public class PublishDynamicActivity extends Activity {
         txtAddPicture.setOnClickListener(addPictureClickListener);
         gridPicture.setOnItemLongClickListener(gridOnItemLongClickListener);
     }
+
+    private View.OnClickListener addPictureClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("selectedList", (Serializable) mAdapter.getItems());
+            intent.putExtras(bundle);
+            startActivityForResult(intent, RequestCodeUtils.SELECTED_PICTURE);
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!(resultCode == RESULT_OK)) {
+            return;
+        }
+
+        if (requestCode == RequestCodeUtils.SELECTED_PICTURE) {
+            List<ImageItemEntity> list = (List<ImageItemEntity>) data.getExtras().getSerializable("selectedList");
+            mAdapter.addAll(list);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private AdapterView.OnItemLongClickListener gridOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            mAdapter.removeItem(position);
+            return false;
+        }
+    };
+
 
     private TopBarControl.OnOperateOnClickListener sendListener = new TopBarControl.OnOperateOnClickListener() {
         @Override
@@ -143,36 +173,5 @@ public class PublishDynamicActivity extends Activity {
             }
         }
     };
-    private View.OnClickListener addPictureClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(PublishDynamicActivity.this, MultiPictureActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("selectedList", (Serializable) mAdapter.getItems());
-            intent.putExtras(bundle);
-            startActivityForResult(intent, RequestCodeUtils.SELECTED_PICTURE);
-        }
-    };
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!(resultCode == RESULT_OK)) {
-            return;
-        }
-
-        if (requestCode == RequestCodeUtils.SELECTED_PICTURE) {
-            List<ImageItemEntity> list = (List<ImageItemEntity>) data.getExtras().getSerializable("selectedList");
-            mAdapter.addAll(list);
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private AdapterView.OnItemLongClickListener gridOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            mAdapter.removeItem(position);
-            return false;
-        }
-    };
 }

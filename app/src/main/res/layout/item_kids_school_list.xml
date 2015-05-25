@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/activity_margin_middle"
     android:gravity="center"
+    android:background="@drawable/selector_list_item_bg"
     android:orientation="horizontal"
     android:padding="@dimen/activity_padding_middle">
 
@@ -57,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:clickable="true"
-                android:drawableLeft="@mipmap/ic_like"
+                android:drawableLeft="@mipmap/ic_like_un_select"
                 android:drawablePadding="@dimen/activity_padding_small"
                 android:text="0"
                 android:textColor="@color/dynamic_content_color"

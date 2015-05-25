@@ -52,4 +52,6 @@
     <color name="dynamic_title_color">#555</color>
     <color name="dynamic_content_color">#999</color>
 
+    <color name="list_item_press_color">#ccc</color>
+    <color name="list_item_nor_color">#fff</color>
 </resources>

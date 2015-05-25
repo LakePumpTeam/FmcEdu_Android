@@ -1,10 +1,10 @@
 package com.fmc.edu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 
 import com.fmc.edu.adapter.KidsSchoolAdapter;
 import com.fmc.edu.common.Constant;
@@ -13,12 +13,11 @@ import com.fmc.edu.customcontrol.AutoSlidePictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
-import com.fmc.edu.entity.KidSchoolEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
-import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +35,7 @@ public class KidSchoolActivity extends Activity {
     private String mHostUrl;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
+    private List<Map<String, Object>> mSlidePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,8 @@ public class KidSchoolActivity extends Activity {
 
     private void initViewEvent() {
         list.setOnLoadMoreListener(slideLoadedMoreListener);
+        slideImg.setOnSelectedListener(slideImgOnSelectedListener);
+        list.setOnItemClickListener(listOnItemClickListener);
     }
 
     private void initPageData() {
@@ -78,16 +80,16 @@ public class KidSchoolActivity extends Activity {
                 if (null == data.get("slideList")) {
                     return;
                 }
-                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("slideList");
-                slideImg.setPageData(getPictureUrls(list));
+                mSlidePicture = (List<Map<String, Object>>) data.get("slideList");
+                slideImg.setPageData(getPictureUrls());
             }
         });
     }
 
-    private List<String> getPictureUrls(List<Map<String, Object>> list) {
+    private List<String> getPictureUrls() {
         List<String> pictureUrls = new ArrayList<String>();
-        for (int i = 0; i < list.size(); i++) {
-            Map<String, Object> item = list.get(i);
+        for (int i = 0; i < mSlidePicture.size(); i++) {
+            Map<String, Object> item = mSlidePicture.get(i);
             String imgUrl = mHostUrl + ConvertUtils.getString(item.get("imageUrl"));
             pictureUrls.add(imgUrl);
         }
@@ -104,6 +106,55 @@ public class KidSchoolActivity extends Activity {
             getDynamicData();
         }
     };
+
+    private AutoSlidePictureControl.OnSelectedListener slideImgOnSelectedListener = new AutoSlidePictureControl.OnSelectedListener() {
+        @Override
+        public void onSelected(int position) {
+            ToastToolUtils.showLong(position + "");
+        }
+    };
+
+    private AdapterView.OnItemClickListener listOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            gotoDynamicDetailPage(view, mList.get(position).newsId);
+        }
+    };
+
+
+    private void gotoDynamicDetailPage(View view, int newsId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", DynamicTypeEnum.getValue(DynamicTypeEnum.KidSchool));
+        Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+//        mProgressControl.showWindow(view);
+//        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("newsId", newsId);
+//        params.put("userId", FmcApplication.getLoginUser().userId);
+//        MyIon.httpPost(KidSchoolActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+//            @Override
+//            public void afterCallBack(Map<String, Object> data) {
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
+//                bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
+//                bundle.putInt("type", ConvertUtils.getInteger(data.get("type")));
+//                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
+//                bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
+//                bundle.putString("content", ConvertUtils.getString(data.get("content")));
+//                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrl")));
+//                bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
+//                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
+//                bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));
+//
+//                Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
+    }
+
 
     private void getDynamicData() {
         String url = mHostUrl + "news/requestNewsList";
@@ -132,26 +183,4 @@ public class KidSchoolActivity extends Activity {
         mAdapter.addAllItems(list, false);
     }
 
-
-    private ImageView createImageView(String url) {
-        ImageView imgView = new ImageView(KidSchoolActivity.this);
-        ViewPager.LayoutParams param = new ViewPager.LayoutParams();
-        param.width = ViewPager.LayoutParams.MATCH_PARENT;
-        param.height = ViewPager.LayoutParams.MATCH_PARENT;
-        imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imgView.setLayoutParams(param);
-        ImageLoaderUtil.initTitleImageLoader(this).displayImage(url, imgView);
-        return imgView;
-    }
-
-    private List<KidSchoolEntity> getDynamicList() {
-        //TODO 调用接口获取数据
-        List<KidSchoolEntity> list = new ArrayList<>();
-        KidSchoolEntity item = new KidSchoolEntity();
-        item.content = "测试呃逆荣";
-        item.title = "测试标题";
-        item.date = "2015-05-10";
-        list.add(item);
-        return list;
-    }
 }

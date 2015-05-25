@@ -3,7 +3,6 @@ package com.fmc.edu.customcontrol;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +83,29 @@ public class TopBarControl extends LinearLayout {
     }
 
     public void setTopBarText(String topTitle) {
+        if (StringUtils.isEmptyOrNull(topTitle)) {
+            llOperateText.setVisibility(GONE);
+            return;
+        }
         txtOperate.setText(topTitle);
+    }
+
+    public void setTopOperateTextVisible(boolean isVisible) {
+        llOperateText.setVisibility(isVisible ? VISIBLE : GONE);
+    }
+
+    public void setTopOperateImgVisible(boolean isVisible) {
+        llOperateImage.setVisibility(isVisible ? VISIBLE : GONE);
+    }
+
+    public void setOperateEnable(boolean isEnable){
+        llOperateImage.setEnabled(isEnable);
+        llOperateText.setEnabled(isEnable);
+    }
+
+    public void setTopBarOperateImg(int imgId) {
+        imgOperate.setImageDrawable(getResources().getDrawable(imgId));
+        llOperateImage.setVisibility(VISIBLE);
     }
 
     private void bindControlEvent() {

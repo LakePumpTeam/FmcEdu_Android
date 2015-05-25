@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
-        fmc:operatorImageSrc="@mipmap/ic_search"
         fmc:topTitle="@string/title_activity_kid_school" />
 
     <LinearLayout

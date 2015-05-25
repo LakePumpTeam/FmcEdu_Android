@@ -1,9 +1,6 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +9,15 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.ClassDynamicActivity;
-import com.fmc.edu.DynamicDetailActivity;
-import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.ImageShowControl;
-import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Candy on 2015/5/24.
@@ -64,7 +53,6 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtAllContent.setText(item.content);
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
         txtDate.setText(item.createDate);
-        txtAllContent.setText(item.subject);
 
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);

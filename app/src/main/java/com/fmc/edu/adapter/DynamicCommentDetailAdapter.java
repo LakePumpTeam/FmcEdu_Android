@@ -10,7 +10,6 @@ import com.fmc.edu.R;
 import com.fmc.edu.entity.CommentItemEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Candy on 2015/5/23.

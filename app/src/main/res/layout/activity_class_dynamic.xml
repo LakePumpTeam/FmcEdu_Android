@@ -24,6 +24,7 @@
         android:id="@+id/class_dynamic_rl_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#eee"
         android:layout_alignParentBottom="true"
         android:visibility="gone">
 
@@ -35,13 +36,17 @@
         <EditText
             android:id="@+id/class_dynamic_edit_comment"
             style="@style/EditTextStyle"
+            android:layout_margin="@dimen/activity_margin_middle"
             android:layout_below="@+id/line1"
+            android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
+            android:background="#fff"
             android:hint="请输入内容" />
 
         <Button
             android:id="@+id/class_dynamic_btn_comment"
             style="@style/ValidateButtonStyle"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_margin_middle"
             android:layout_centerVertical="true"
             android:text="发表评论" />
     </RelativeLayout>

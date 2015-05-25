@@ -2,19 +2,21 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fmc.edu.adapter.DynamicCommentDetailAdapter;
 import com.fmc.edu.adapter.SinglePictureAdapter;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DynamicDetailActivity extends Activity {
@@ -24,7 +26,8 @@ public class DynamicDetailActivity extends Activity {
     private TextView txtDetailType;
     private TextView txtDate;
     private GridView gridPicture;
-    private ListView listComment;
+    //    private ListView listComment;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,9 @@ public class DynamicDetailActivity extends Activity {
         setContentView(R.layout.activity_dynamic_detail);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
+        mBundle = getIntent().getExtras();
         initViews();
+        initViewEvent();
         initPageData();
     }
 
@@ -44,36 +49,64 @@ public class DynamicDetailActivity extends Activity {
         txtContent = (TextView) findViewById(R.id.dynamic_detail_txt_content);
         txtDate = (TextView) findViewById(R.id.dynamic_detail_txt_date);
         gridPicture = (GridView) findViewById(R.id.dynamic_detail_grid_picture);
-        listComment = (ListView) findViewById(R.id.dynamic_detail_list_comment);
+//        listComment = (ListView) findViewById(R.id.dynamic_detail_list_comment);
     }
+
+    private void initViewEvent() {
+        topBar.setOnOperateOnClickListener(topOnOperateOnClickListener);
+    }
+
+    private TopBarControl.OnOperateOnClickListener topOnOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onOperateClick(View v) {
+            String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("newsId", mBundle.getInt("newsId"));
+            params.put("userId", FmcApplication.getLoginUser().userId);
+            params.put("isLiked", !ConvertUtils.getBoolean(topBar.getTag()));
+            MyIon.httpPost(DynamicDetailActivity.this, url, params, null, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    if (ConvertUtils.getBoolean(topBar.getTag())) {
+                        topBar.setTag(false);
+                        topBar.setTopBarOperateImg(R.mipmap.btn_like_un_select);
+                    } else {
+                        topBar.setTag(true);
+                        topBar.setTopBarOperateImg(R.mipmap.btn_like_selected);
+                    }
+                }
+            });
+        }
+    };
 
     private void initPageData() {
-        Bundle bundle = getIntent().getExtras();
-        if (null == bundle) {
+        if (null == mBundle) {
             return;
         }
-        bindDynamicType(bundle.getInt("type"));
-        txtTitle.setText(bundle.getString("subject"));
-        txtContent.setText(bundle.getString("content"));
-        txtDate.setText(bundle.getString("createDate"));
-        bindPicture(bundle.getStringArrayList("imageUrl"));
-        List<CommentItemEntity> commentList = bundle.getParcelableArrayList("commentList");
-        bindCommentList(commentList);
+        bindDynamicType(mBundle.getInt("type"), mBundle.getBoolean("liked"));
+        txtTitle.setText(mBundle.getString("subject"));
+        txtContent.setText(mBundle.getString("content"));
+        txtDate.setText(mBundle.getString("createDate"));
+        bindPicture(mBundle.getStringArrayList("imageUrl"));
+        // List<CommentItemEntity> commentList = (List<CommentItemEntity>) mBundle.getSerializable("commentList");
+//        bindCommentList(commentList);
     }
 
-    private void bindDynamicType(int dynamicType) {
+    private void bindDynamicType(int dynamicType, boolean liked) {
         switch (DynamicTypeEnum.getEnumValue(dynamicType)) {
             case SchoolActivity:
+                topBar.setTopOperateImgVisible(false);
                 setTitleAndDetailType("校园活动");
                 break;
             case SchoolNews:
+                topBar.setTopOperateImgVisible(false);
                 setTitleAndDetailType("校园新闻");
                 break;
-            case SchoolNotice:
-                setTitleAndDetailType("校园通知");
-                break;
-            case ClassDynamic:
-                setTitleAndDetailType("班级动态");
+            case KidSchool:
+                topBar.setTag(liked);
+                topBar.setTopBarOperateImg(liked ? R.mipmap.btn_like_selected : R.mipmap.btn_like_un_select);
+                topBar.setTopOperateImgVisible(true);
+                setTitleAndDetailType("育儿学堂");
                 break;
             default:
                 setTitleAndDetailType("校园活动");
@@ -91,8 +124,8 @@ public class DynamicDetailActivity extends Activity {
         gridPicture.setAdapter(singlePictureAdapter);
     }
 
-    private void bindCommentList(List<CommentItemEntity> list) {
-        DynamicCommentDetailAdapter dynamicItemAdapter = new DynamicCommentDetailAdapter(this, list);
-        listComment.setAdapter(dynamicItemAdapter);
-    }
+//    private void bindCommentList(List<CommentItemEntity> list) {
+//        DynamicCommentDetailAdapter dynamicItemAdapter = new DynamicCommentDetailAdapter(this, list);
+//        listComment.setAdapter(dynamicItemAdapter);
+//    }
 }

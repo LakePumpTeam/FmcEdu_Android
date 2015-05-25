@@ -6,11 +6,8 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,7 +15,6 @@ import android.widget.RelativeLayout;
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.ViewPagerAdapter;
 import com.fmc.edu.utils.ImageLoaderUtil;
-import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +32,19 @@ public class AutoSlidePictureControl extends LinearLayout {
     private ViewPager mViewPager;
     private LinearLayout dotsLayout;
     private Context mContext;
+
+    private OnSelectedListener mOnSelectedListener;
+
+    public interface OnSelectedListener {
+        void onSelected(int position);
+    }
+
     public AutoSlidePictureControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initControlViews();
     }
+
 
     private void initControlViews() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_auto_slide_picture, null);
@@ -57,6 +61,9 @@ public class AutoSlidePictureControl extends LinearLayout {
         onStartPlay();
     }
 
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.mOnSelectedListener = onSelectedListener;
+    }
 
     private List<ImageView> createImageView(List<String> pictureUrls) {
         List<ImageView> list = new ArrayList<ImageView>();
@@ -77,7 +84,11 @@ public class AutoSlidePictureControl extends LinearLayout {
     private OnClickListener imgViewClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            ToastToolUtils.showLong("test");
+
+            if (null == mOnSelectedListener) {
+                return;
+            }
+            mOnSelectedListener.onSelected(currentItem);
         }
     };
 

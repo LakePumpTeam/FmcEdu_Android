@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/activity_margin_middle"
-    android:background="@color/edit_text_bg_color"
+    android:background="@drawable/selector_list_item_bg"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_padding_middle"
     android:paddingRight="@dimen/activity_padding_middle">

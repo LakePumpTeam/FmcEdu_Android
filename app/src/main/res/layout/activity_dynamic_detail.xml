@@ -9,7 +9,9 @@
         android:id="@+id/dynamic_detail_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
+        android:tag="false"
         fmc:backVisible="true"
+        fmc:operatorImageSrc="@mipmap/btn_like_un_select"
         fmc:topTitle="@string/title_activity_dynamic_detail" />
 
     <LinearLayout
@@ -23,6 +25,7 @@
             style="@style/EditTextStyle"
             android:layout_marginTop="@dimen/activity_margin_middle"
             android:textSize="@dimen/font_size_large" />
+
         <TextView
             android:id="@+id/dynamic_detail_txt_content"
             style="@style/EditTextStyle"
@@ -60,6 +63,7 @@
         android:id="@+id/dynamic_detail_list_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
         android:background="#fff"
-        android:layout_marginTop="@dimen/activity_margin" />
+        android:visibility="gone" />
 </LinearLayout>
