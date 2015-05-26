@@ -2,17 +2,20 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.fmc.edu.adapter.SinglePictureAdapter;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ImageLoaderUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +28,8 @@ public class DynamicDetailActivity extends Activity {
     private TextView txtContent;
     private TextView txtDetailType;
     private TextView txtDate;
-    private GridView gridPicture;
+    private LinearLayout llPicture;
+    //    private GridView gridPicture;
     //    private ListView listComment;
     private Bundle mBundle;
 
@@ -48,7 +52,7 @@ public class DynamicDetailActivity extends Activity {
         txtTitle = (TextView) findViewById(R.id.dynamic_detail_txt_title);
         txtContent = (TextView) findViewById(R.id.dynamic_detail_txt_content);
         txtDate = (TextView) findViewById(R.id.dynamic_detail_txt_date);
-        gridPicture = (GridView) findViewById(R.id.dynamic_detail_grid_picture);
+        llPicture = (LinearLayout) findViewById(R.id.dynamic_detail_ll_picture);
 //        listComment = (ListView) findViewById(R.id.dynamic_detail_list_comment);
     }
 
@@ -120,8 +124,19 @@ public class DynamicDetailActivity extends Activity {
     }
 
     private void bindPicture(ArrayList<String> imageUrls) {
-        SinglePictureAdapter singlePictureAdapter = new SinglePictureAdapter(this, imageUrls);
-        gridPicture.setAdapter(singlePictureAdapter);
+        for (int i = 0; i < imageUrls.size(); i++) {
+            ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_single_picture, null);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int screenWidth = displayMetrics.widthPixels - 20;
+            imageView.setMaxWidth(screenWidth);
+            imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
+            ImageLoaderUtil.initCacheImageLoader(this).displayImage(AppConfigUtils.getServiceHost() + imageUrls.get(i), imageView);
+            llPicture.addView(imageView);
+        }
+//        SinglePictureAdapter singlePictureAdapter = new SinglePictureAdapter(this, imageUrls);
+//        gridPicture.setAdapter(singlePictureAdapter);
     }
 
 //    private void bindCommentList(List<CommentItemEntity1> list) {

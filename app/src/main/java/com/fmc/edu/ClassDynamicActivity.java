@@ -130,7 +130,7 @@ public class ClassDynamicActivity extends Activity {
         mProgressControl.showWindow(btnComment);
         String url = mHostUrl + "news/postComment";
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(" newsId", mNewsId);
+        params.put("newsId", mNewsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("content", editComment.getText());
         MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {

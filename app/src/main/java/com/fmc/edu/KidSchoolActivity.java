@@ -140,7 +140,7 @@ public class KidSchoolActivity extends Activity {
                 bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
                 bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
                 bundle.putString("content", ConvertUtils.getString(data.get("content")));
-                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imgs")));
+                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrls")));
                 bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
                 bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));

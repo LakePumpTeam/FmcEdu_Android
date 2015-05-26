@@ -14,57 +14,71 @@
         fmc:operatorImageSrc="@mipmap/btn_like_un_select"
         fmc:topTitle="@string/title_activity_dynamic_detail" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:paddingLeft="@dimen/activity_padding_middle"
-        android:paddingRight="@dimen/activity_padding_middle"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/dynamic_detail_txt_title"
-            style="@style/TextStyle"
-            android:layout_marginTop="@dimen/activity_margin_middle"
-            android:textSize="@dimen/font_size_large" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/dynamic_detail_txt_detail_type"
-                style="@style/TextStyle"
-                android:textColor="@color/edit_text_hint_font_color"
-                android:textSize="@dimen/font_size_small" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_padding_middle"
+                android:paddingRight="@dimen/activity_padding_middle">
 
-            <TextView
-                android:id="@+id/dynamic_detail_txt_date"
-                style="@style/TextStyle"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/edit_text_hint_font_color"
-                android:textSize="@dimen/font_size_small" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/dynamic_detail_txt_title"
+                    style="@style/TextStyle"
+                    android:layout_marginTop="@dimen/activity_margin_middle"
+                    android:textSize="@dimen/font_size_large" />
 
-        <TextView
-            android:id="@+id/dynamic_detail_txt_content"
-            style="@style/TextStyle"
-            android:layout_marginTop="@dimen/activity_margin_middle"
-            android:textColor="@color/annotation_txt_font_color"
-            android:textSize="@dimen/font_size_middle" />
-        <GridView
-            android:id="@+id/dynamic_detail_grid_picture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="1" />
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-    <ListView
-        android:id="@+id/dynamic_detail_list_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="#fff"
-        android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/dynamic_detail_txt_detail_type"
+                        style="@style/TextStyle"
+                        android:textColor="@color/edit_text_hint_font_color"
+                        android:textSize="@dimen/font_size_small" />
+
+                    <TextView
+                        android:id="@+id/dynamic_detail_txt_date"
+                        style="@style/TextStyle"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/edit_text_hint_font_color"
+                        android:textSize="@dimen/font_size_small" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/dynamic_detail_txt_content"
+                    style="@style/TextStyle"
+                    android:layout_marginTop="@dimen/activity_margin_middle"
+                    android:textColor="@color/annotation_txt_font_color"
+                    android:textSize="@dimen/font_size_middle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dynamic_detail_ll_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_padding"></LinearLayout>
+
+            <ListView
+                android:id="@+id/dynamic_detail_list_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="#fff"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

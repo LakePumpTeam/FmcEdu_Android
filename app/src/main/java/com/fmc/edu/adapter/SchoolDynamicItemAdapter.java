@@ -1,23 +1,34 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.TextView;
 
+import com.fmc.edu.DynamicDetailActivity;
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.GridViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Candy on 2015/5/10.
@@ -41,7 +52,7 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         TextView txtContent = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_content);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_date);
         TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_read_all);
-        GridView gridView = (GridView) convertView.findViewById(R.id.item_school_dynamic_list_grid_picture);
+        GridViewControl gridView = (GridViewControl) convertView.findViewById(R.id.item_school_dynamic_list_grid_picture);
 
         DynamicItemEntity item = mItems.get(position);
         holder.txtAllContent = txtAllContent;
@@ -50,16 +61,19 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         txtReadAll.setTag(holder);
 
         txtContent.setText(item.content);
+        txtAllContent.setText(item.content);
         txtDate.setText(item.createDate);
-        txtReadAll.setTag(item.newsId);
         txtTitle.setText(item.subject);
 
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
+        gridView.setOnTouchInvalidPositionListener(tt);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclick);
         convertView.setBackgroundResource(item.type == DynamicTypeEnum.SchoolNotice ? R.color.list_item_nor_color : R.drawable.selector_list_item_bg);
         txtReadAll.setVisibility(item.type == DynamicTypeEnum.SchoolNotice ? View.VISIBLE : View.GONE);
+        convertView.setTag(item);
+        convertView.setOnClickListener(viewOnclickListener);
         return convertView;
     }
 
@@ -72,12 +86,59 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         }
     };
 
+    private GridViewControl.OnTouchInvalidPositionListener tt = new GridViewControl.OnTouchInvalidPositionListener() {
+        @Override
+        public boolean onTouchInvalidPosition(int motionEvent) {
+            return false;
+        }
+    };
+
+    private View.OnClickListener viewOnclickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DynamicItemEntity item = (DynamicItemEntity) v.getTag();
+            if (item.type == DynamicTypeEnum.SchoolNotice) {
+                return;
+            }
+            gotoDynamicDetailPage(v, item);
+        }
+    };
+
     private List<String> getOrigUrl(List<ImageItemEntity> list) {
         List<String> origUrls = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
             origUrls.add(list.get(i).origUrl);
         }
         return origUrls;
+    }
+
+    private void gotoDynamicDetailPage(View view, final DynamicItemEntity item) {
+        ProgressControl progressControl = new ProgressControl(mContext);
+        progressControl.showWindow(view);
+        final int type = DynamicTypeEnum.getValue(item.type);
+        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("newsId", item.newsId);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(mContext, url, params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
+                bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
+                bundle.putInt("type", type);
+                bundle.putBoolean("liked", ConvertUtils.getBoolean(data.get("liked"), false));
+                bundle.putString("subject", ConvertUtils.getString(data.get("subject")));
+                bundle.putString("content", ConvertUtils.getString(data.get("content")));
+                bundle.putStringArrayList("imageUrl", ConvertUtils.getStringList(data.get("imageUrls")));
+                bundle.putString("createDate", ConvertUtils.getString(data.get("createDate")));
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("commentList");
+                bundle.putSerializable("commentList", (Serializable) CommentItemEntity.toCommentEntityList(list));
+                Intent intent = new Intent(mContext, DynamicDetailActivity.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Candy on 2015/5/25.
+ * Created by Candy on 2015-05-26.
  */
 public class CommentItemEntity implements Serializable {
     public int userId;
@@ -16,15 +16,16 @@ public class CommentItemEntity implements Serializable {
     public String comment;
 
     public static List<CommentItemEntity> toCommentEntityList(List<Map<String, Object>> commentList) {
+
         List<CommentItemEntity> list = new ArrayList<CommentItemEntity>();
         for (int i = 0; i < commentList.size(); i++) {
             Map<String, Object> commentItem = commentList.get(i);
             CommentItemEntity item = new CommentItemEntity();
-            item.userId = ConvertUtils.getInteger(commentItem.get("userId"));
-            item.userName = ConvertUtils.getString(commentItem.get("userName"));
-            item.comment = ConvertUtils.getString(commentItem.get("comment"));
-            list.add(item);
+            item.userId = ConvertUtils.getInteger(commentItem.get("userId"), 0);
+            item.userName = ConvertUtils.getString(commentItem.get("userName"), "");
+            item.comment = ConvertUtils.getString(commentItem.get("comment"), "");
         }
         return list;
     }
+
 }

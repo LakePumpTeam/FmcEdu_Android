@@ -1,7 +1,6 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -42,10 +41,10 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_class_danamic_list, null);
         }
         ClassDynamicItemHolder holder = new ClassDynamicItemHolder();
-        TextView txtAllContent = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_all_content);
+        final TextView txtAllContent = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_all_content);
         TextView txtContent = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_content);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_date);
-        TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_read_all);
+        final TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_read_all);
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
         LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
@@ -59,6 +58,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtContent.setText(item.content);
         txtAllContent.setText(item.content);
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
+        txtComment.setTag(item.newsId);
         txtDate.setText(item.createDate);
 
         List<CommentItemEntity> commentList = item.commentList;
@@ -68,9 +68,6 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
             TextView textView = createText(userName, comment);
             commentView.addView(textView);
         }
-//        txtReadAll.setVisibility(txtAllContent.getLineCount() > 5 ? View.VISIBLE : View.GONE);
-//        MyOpenTask myOpenTask = new MyOpenTask(txtReadAll,txtAllContent);
-//        myOpenTask.execute();
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
@@ -139,37 +136,4 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         public TextView txtReadAll;
     }
 
-    private class MyOpenTask extends AsyncTask<Integer, Integer, Integer> {
-        private TextView mTxtReadAll;
-        private TextView mTxtAllContent;
-
-        public MyOpenTask(TextView textView, TextView allContentText) {
-            this.mTxtReadAll = textView;
-            mTxtAllContent = allContentText;
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        public void start() {
-            execute(0);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            return 1;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            if (mTxtAllContent.getLineCount() > 5) {
-                mTxtReadAll.setVisibility(View.VISIBLE);
-            } else {
-                mTxtReadAll.setVisibility(View.GONE);
-            }
-        }
-    }
 }

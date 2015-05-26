@@ -3,10 +3,10 @@ package com.fmc.edu.http;
 import android.util.Base64;
 
 import com.fmc.edu.utils.JsonToMapUtils;
-import com.fmc.edu.utils.JsonUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.async.future.FutureCallback;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,12 +22,15 @@ public abstract class FMCMapFutureCallback implements FutureCallback<String> {
             ToastToolUtils.showLong("服务器出问题...");
             return;
         }
+        Map<String, ?> mapResult = new HashMap<>();
         try {
             String decodeResult = new String(Base64.decode(result, Base64.DEFAULT));
-            Map<String, ?> mapResult = JsonToMapUtils.getMap(decodeResult);
-            onTranslateCompleted(e, mapResult);
+            mapResult = JsonToMapUtils.getMap(decodeResult);
+
         } catch (Exception ex) {
             ToastToolUtils.showLong("服务器数据出错！");
+            return;
         }
+        onTranslateCompleted(e, mapResult);
     }
 }
