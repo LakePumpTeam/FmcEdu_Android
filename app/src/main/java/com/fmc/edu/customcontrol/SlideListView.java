@@ -14,12 +14,16 @@ import com.fmc.edu.R;
  */
 public class SlideListView extends ListView implements AbsListView.OnScrollListener {
     private OnLoadMoreListener mOnLoadMoreListener;
+    private OnScrollPrepListener mOnScrollPrepListener;
     private Context mContext;
     private View mFooterView;
 
     public interface OnLoadMoreListener {
         void onLoadMore(View footerView);
+    }
 
+    public interface OnScrollPrepListener {
+        void onScrollPrep();
     }
 
     public SlideListView(Context context, AttributeSet attrs) {
@@ -33,11 +37,11 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (null != mOnScrollPrepListener) {
+            mOnScrollPrepListener.onScrollPrep();
+        }
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
             if (getLastVisiblePosition() == getCount() - 1) {
-                if (null == mOnLoadMoreListener) {
-                    return;
-                }
                 mOnLoadMoreListener.onLoadMore(mFooterView);
             }
         }
@@ -50,5 +54,9 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         mOnLoadMoreListener = onLoadMoreListener;
+    }
+
+    public void setOnScrollPrepListener(OnScrollPrepListener onScrollPrepListener) {
+        mOnScrollPrepListener = onScrollPrepListener;
     }
 }

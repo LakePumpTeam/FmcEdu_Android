@@ -58,14 +58,8 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclick);
-        if (item.type == DynamicTypeEnum.SchoolNotice) {
-            txtReadAll.setVisibility(View.VISIBLE);
-            convertView.setBackgroundColor(Color.WHITE);
-        } else {
-            txtReadAll.setVisibility(View.GONE);
-            convertView.setBackgroundResource(R.drawable.selector_list_item_bg);
-        }
-
+        convertView.setBackgroundResource(item.type == DynamicTypeEnum.SchoolNotice ? R.color.list_item_nor_color : R.drawable.selector_list_item_bg);
+        txtReadAll.setVisibility(item.type == DynamicTypeEnum.SchoolNotice ? View.VISIBLE : View.GONE);
         return convertView;
     }
 

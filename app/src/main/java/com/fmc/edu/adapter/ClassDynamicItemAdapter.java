@@ -1,6 +1,7 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -67,6 +68,9 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
             TextView textView = createText(userName, comment);
             commentView.addView(textView);
         }
+//        txtReadAll.setVisibility(txtAllContent.getLineCount() > 5 ? View.VISIBLE : View.GONE);
+//        MyOpenTask myOpenTask = new MyOpenTask(txtReadAll,txtAllContent);
+//        myOpenTask.execute();
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
@@ -133,6 +137,39 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         public TextView txtAllContent;
         public TextView txtContent;
         public TextView txtReadAll;
+    }
 
+    private class MyOpenTask extends AsyncTask<Integer, Integer, Integer> {
+        private TextView mTxtReadAll;
+        private TextView mTxtAllContent;
+
+        public MyOpenTask(TextView textView, TextView allContentText) {
+            this.mTxtReadAll = textView;
+            mTxtAllContent = allContentText;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        public void start() {
+            execute(0);
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            return 1;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            if (mTxtAllContent.getLineCount() > 5) {
+                mTxtReadAll.setVisibility(View.VISIBLE);
+            } else {
+                mTxtReadAll.setVisibility(View.GONE);
+            }
+        }
     }
 }

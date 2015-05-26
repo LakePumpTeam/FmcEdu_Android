@@ -54,9 +54,7 @@ public class ImageShowControl extends PopupWindow {
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setBackgroundColor(Color.parseColor("#ff333333"));
-//        View view = LayoutInflater.from(mContext).inflate(R.layout.control_image_show, null);
         imgBigPicture = new SlideImageControl(mContext, null);
-//        (SlideImageControl) view.findViewById(R.id.image_show_img_big_picture);
         LinearLayout.LayoutParams slideImgParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imgBigPicture.setLayoutParams(slideImgParams);
         linearLayout.addView(imgBigPicture);

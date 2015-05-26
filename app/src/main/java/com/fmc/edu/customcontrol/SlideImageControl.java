@@ -47,6 +47,11 @@ public class SlideImageControl extends LinearLayout {
     private ViewPager mViewPager;
     private LinearLayout dotsLayout;
     private Context mContext;
+    private OnSlideItemClickListener mOnSlideItemClickListener;
+
+    private interface OnSlideItemClickListener {
+        void onSlideItemClick();
+    }
 
     public SlideImageControl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -69,6 +74,10 @@ public class SlideImageControl extends LinearLayout {
         refreshDotsLayout(0);
     }
 
+    public void setOnSlideItemClickListener(OnSlideItemClickListener onSlideItemClickListener) {
+        mOnSlideItemClickListener = onSlideItemClickListener;
+    }
+
     private List<ImageView> createImageView(List<String> pictureUrls) {
         List<ImageView> list = new ArrayList<ImageView>();
         for (int i = 0; i < pictureUrls.size(); i++) {
@@ -88,7 +97,10 @@ public class SlideImageControl extends LinearLayout {
     private OnClickListener imgViewClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            ToastToolUtils.showLong("test");
+            if(null == mOnSlideItemClickListener){
+                return;
+           }
+            mOnSlideItemClickListener.onSlideItemClick();
         }
     };
 

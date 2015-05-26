@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
-import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -66,6 +65,7 @@ public class ClassDynamicActivity extends Activity {
     private void initViewEvent() {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
+        slideListView.setOnScrollPrepListener(slideOnScrollPrepListener);
     }
 
     private void initPageData() {
@@ -89,6 +89,13 @@ public class ClassDynamicActivity extends Activity {
             }
             mPageIndex++;
             getDynamicData();
+        }
+    };
+
+    private SlideListView.OnScrollPrepListener slideOnScrollPrepListener = new SlideListView.OnScrollPrepListener() {
+        @Override
+        public void onScrollPrep() {
+            rlComment.setVisibility(View.GONE);
         }
     };
 

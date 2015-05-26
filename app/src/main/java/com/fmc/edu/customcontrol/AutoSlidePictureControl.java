@@ -134,11 +134,6 @@ public class AutoSlidePictureControl extends LinearLayout {
             linearParams.setMargins(3, 0, 3, 0);
             RelativeLayout relativeLayout = new RelativeLayout(getContext());
             ImageView image = new ImageView(getContext());
-//            ViewGroup.LayoutParams imgParmam = image.getLayoutParams();
-//            imgParmam.height=15;
-//            imgParmam.width=15;
-//            image.setScaleType(ImageView.ScaleType.FIT_XY);
-//            image.setLayoutParams(imgParmam);
             if (i == position) {
                 image.setBackgroundResource(R.mipmap.select);
             } else {
