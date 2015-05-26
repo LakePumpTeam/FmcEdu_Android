@@ -49,7 +49,7 @@ public class SlideImageControl extends LinearLayout {
     private Context mContext;
     private OnSlideItemClickListener mOnSlideItemClickListener;
 
-    private interface OnSlideItemClickListener {
+    public interface OnSlideItemClickListener {
         void onSlideItemClick();
     }
 

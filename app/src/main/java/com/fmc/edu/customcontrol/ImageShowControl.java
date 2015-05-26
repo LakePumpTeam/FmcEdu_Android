@@ -58,7 +58,7 @@ public class ImageShowControl extends PopupWindow {
         LinearLayout.LayoutParams slideImgParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imgBigPicture.setLayoutParams(slideImgParams);
         linearLayout.addView(imgBigPicture);
-        linearLayout.setOnClickListener(imgCloseOnClickListener);
+        imgBigPicture.setOnSlideItemClickListener(onSlideItemClickListener);
         this.setContentView(linearLayout);
     }
 
@@ -67,9 +67,9 @@ public class ImageShowControl extends PopupWindow {
         this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
     }
 
-    private View.OnClickListener imgCloseOnClickListener = new View.OnClickListener() {
+    private SlideImageControl.OnSlideItemClickListener onSlideItemClickListener=new SlideImageControl.OnSlideItemClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onSlideItemClick() {
             ImageShowControl.this.dismiss();
         }
     };
