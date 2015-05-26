@@ -14,15 +14,19 @@ import android.widget.TextView;
 
 import com.fmc.edu.ClassDynamicActivity;
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.CollapsibleTextViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.entity.CommentItemEntity;
+import com.fmc.edu.entity.CommonEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Candy on 2015/5/24.
@@ -30,6 +34,15 @@ import java.util.List;
 public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     public ClassDynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
+    }
+
+    public void addComment(CommentItemEntity commentItemEntity, int positon) {
+        if (null == mItems.get(positon).commentList) {
+            mItems.get(positon).commentList = new ArrayList<CommentItemEntity>();
+        }
+
+        mItems.get(positon).commentList.add(commentItemEntity);
+        mItems.get(positon).commentCount++;
     }
 
     @Override
@@ -48,22 +61,28 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
         LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
+//        CollapsibleTextViewControl collTxtContent = (CollapsibleTextViewControl) convertView.findViewById(R.id.item_class_dynamic_list_coll_txt_content);
 
         DynamicItemEntity item = mItems.get(position);
         holder.txtAllContent = txtAllContent;
         holder.txtContent = txtContent;
         holder.txtReadAll = txtReadAll;
         txtReadAll.setTag(holder);
-
         txtContent.setText(item.content);
+//        collTxtContent.setTextContent(item.content);
         txtAllContent.setText(item.content);
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
-        txtComment.setTag(item.newsId);
         txtDate.setText(item.createDate);
 
+        Map<String, Object> commentItem = new HashMap<String, Object>();
+        commentItem.put("newsId", item.newsId);
+        commentItem.put("position", position);
+        txtComment.setTag(commentItem);
+
         List<CommentItemEntity> commentList = item.commentList;
+        commentView.removeAllViews();
         for (int i = 0; i < commentList.size(); i++) {
-            String userName = commentList.get(i).userName + ":";
+            String userName = commentList.get(i).userName + "：";
             String comment = commentList.get(i).comment;
             TextView textView = createText(userName, comment);
             commentView.addView(textView);
@@ -92,7 +111,8 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         @Override
         public void onClick(View v) {
             if (mContext.getClass() == ClassDynamicActivity.class) {
-                ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(v.getTag(), 0));
+                Map<String, Object> commentItem = (Map<String, Object>) v.getTag();
+                ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(commentItem.get("newsId"), 0), ConvertUtils.getInteger(commentItem.get("position"), 0));
             }
         }
     };

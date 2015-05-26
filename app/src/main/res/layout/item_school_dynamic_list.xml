@@ -14,13 +14,12 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:textColor="@color/dynamic_title_color"
-        android:textSize="@dimen/font_size_middle" />
+        android:textSize="@dimen/font_size_middle_title" />
 
     <TextView
         android:id="@+id/item_school_dynamic_list_txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
         android:maxLines="5"
         android:textColor="@color/dynamic_content_color"
         android:textSize="@dimen/font_size_middle" />
@@ -29,7 +28,6 @@
         android:id="@+id/item_school_dynamic_list_txt_all_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
         android:textColor="@color/dynamic_content_color"
         android:textSize="@dimen/font_size_middle"
         android:visibility="gone" />

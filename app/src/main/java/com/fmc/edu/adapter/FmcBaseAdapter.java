@@ -29,6 +29,7 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         return mItems.size();
     }
 
+
     @Override
     public Object getItem(int position) {
         if (null == mItems) {

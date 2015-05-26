@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_intelligent_location" />
+
+</RelativeLayout>

@@ -12,7 +12,9 @@ import com.fmc.edu.common.Constant;
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
@@ -32,6 +34,7 @@ public class ClassDynamicActivity extends Activity {
     private ProgressControl mProgressControl;
     private String mHostUrl;
     private int mNewsId;
+    private int mPositon;
     private ClassDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
     private int mPageIndex = 1;
@@ -137,13 +140,21 @@ public class ClassDynamicActivity extends Activity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showShort("评论成功");
+                CommentItemEntity commentItemEntity = new CommentItemEntity();
+                LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+                commentItemEntity.userName = loginUserEntity.userName;
+                commentItemEntity.userId = loginUserEntity.userId;
+                commentItemEntity.comment = editComment.getText().toString();
+                mAdapter.addComment(commentItemEntity, mPositon);
+                editComment.setText("");
                 rlComment.setVisibility(View.GONE);
             }
         });
     }
 
-    public void setCommentVisible(int newsId) {
+    public void setCommentVisible(int newsId, int position) {
         mNewsId = newsId;
+        mPositon = position;
         rlComment.setVisibility(View.VISIBLE);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class LoginUserEntity {
     public int userId;
+    public String userName;
     public int auditState;
     public int userRole;
     public String cellphone;

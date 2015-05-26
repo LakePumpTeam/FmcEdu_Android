@@ -18,6 +18,12 @@
     <string name="title_activity_class_dynamic">班级动态</string>
     <string name="title_activity_publish_dynamic">发布动态</string>
     <string name="title_activity_dynamic_detail">校园活动</string>
+    <string name="title_activity_multi_picture">MultiPictureActivity</string>
+    <string name="title_activity_parenting_edu">亲子教育</string>
+    <string name="title_activity_task_detail">任务详情</string>
+    <string name="title_activity_add_task">添加新任务</string>
+    <string name="title_activity_intelligent_location">智能定位</string>
+    <string name="title_activity_bracelet_introduce">手环介绍</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>
@@ -76,7 +82,7 @@
     <string name="btn_save">保存</string>
     <string name="send">发送</string>
     <string name="edit_content">编辑内容</string>
-    <string name="title_activity_multi_picture">MultiPictureActivity</string>
-
+    <string name="desc_shrinkup">收起</string>
+    <string name="desc_spread">显示更多</string>
 
 </resources>

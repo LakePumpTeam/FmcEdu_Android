@@ -53,7 +53,6 @@ public class DynamicDetailActivity extends Activity {
         txtContent = (TextView) findViewById(R.id.dynamic_detail_txt_content);
         txtDate = (TextView) findViewById(R.id.dynamic_detail_txt_date);
         llPicture = (LinearLayout) findViewById(R.id.dynamic_detail_ll_picture);
-//        listComment = (ListView) findViewById(R.id.dynamic_detail_list_comment);
     }
 
     private void initViewEvent() {
@@ -92,8 +91,6 @@ public class DynamicDetailActivity extends Activity {
         txtContent.setText(mBundle.getString("content"));
         txtDate.setText(mBundle.getString("createDate"));
         bindPicture(mBundle.getStringArrayList("imageUrl"));
-        // List<CommentItemEntity1> commentList = (List<CommentItemEntity1>) mBundle.getSerializable("commentList");
-//        bindCommentList(commentList);
     }
 
     private void bindDynamicType(int dynamicType, boolean liked) {
@@ -135,12 +132,5 @@ public class DynamicDetailActivity extends Activity {
             ImageLoaderUtil.initCacheImageLoader(this).displayImage(AppConfigUtils.getServiceHost() + imageUrls.get(i), imageView);
             llPicture.addView(imageView);
         }
-//        SinglePictureAdapter singlePictureAdapter = new SinglePictureAdapter(this, imageUrls);
-//        gridPicture.setAdapter(singlePictureAdapter);
     }
-
-//    private void bindCommentList(List<CommentItemEntity1> list) {
-//        DynamicCommentDetailAdapter dynamicItemAdapter = new DynamicCommentDetailAdapter(this, list);
-//        listComment.setAdapter(dynamicItemAdapter);
-//    }
 }

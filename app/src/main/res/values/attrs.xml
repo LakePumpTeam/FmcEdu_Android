@@ -13,4 +13,9 @@
         <attr name="menuName" format="string|reference" />
         <attr name="drawableId" format="reference"></attr>
     </declare-styleable>
+    <declare-styleable name="CollapsibleTextViewControl">
+        <attr name="isShowAll" format="boolean" />
+        <attr name="spread" format="string|reference" />
+        <attr name="packUp" format="string|reference" />
+    </declare-styleable>
 </resources>

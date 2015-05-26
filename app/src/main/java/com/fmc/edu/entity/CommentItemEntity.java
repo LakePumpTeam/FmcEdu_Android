@@ -24,6 +24,7 @@ public class CommentItemEntity implements Serializable {
             item.userId = ConvertUtils.getInteger(commentItem.get("userId"), 0);
             item.userName = ConvertUtils.getString(commentItem.get("userName"), "");
             item.comment = ConvertUtils.getString(commentItem.get("comment"), "");
+            list.add(item);
         }
         return list;
     }

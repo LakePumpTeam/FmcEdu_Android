@@ -173,7 +173,7 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
                     @Override
                     public void afterCallBack(Map<String, Object> data) {
-                        saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt);
+                        saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt, ConvertUtils.getString(data.get("userName")));
                         afterLogin(data);
                     }
                 }
@@ -257,12 +257,13 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveLocalLoginInfo(int userId, String cellPhone, String password, String salt) {
+    private void saveLocalLoginInfo(int userId, String cellPhone, String password, String salt, String userName) {
         LoginUserEntity userEntity = new LoginUserEntity();
         userEntity.userId = userId;
         userEntity.cellphone = cellPhone;
         userEntity.password = password;
         userEntity.salt = salt;
+        userEntity.userName = userName;
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }
