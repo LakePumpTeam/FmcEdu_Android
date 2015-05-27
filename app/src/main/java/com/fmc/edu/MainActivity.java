@@ -21,6 +21,7 @@ import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.io.Serializable;
@@ -131,12 +132,12 @@ public class MainActivity extends Activity {
         MyIon.httpPost(this, mHostUrl + "news/checkNewNews", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                menuSchoolDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("schoolNews"),false));
-                menuGradeDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("classNews"),false));
+                menuSchoolDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("schoolNews"), false));
+                menuGradeDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("classNews"), false));
                 menuSyllabusDynamic.setHasDynamic(false);
-                menuParenting.setHasDynamic(ConvertUtils.getBoolean(data.get("pcdNews"),false));
-                menuKidsSchool.setHasDynamic(ConvertUtils.getBoolean(data.get("parentingClassNews"),false));
-                menuCampus.setHasDynamic(ConvertUtils.getBoolean(data.get("bbsNews"),false));
+                menuParenting.setHasDynamic(ConvertUtils.getBoolean(data.get("pcdNews"), false));
+                menuKidsSchool.setHasDynamic(ConvertUtils.getBoolean(data.get("parentingClassNews"), false));
+                menuCampus.setHasDynamic(ConvertUtils.getBoolean(data.get("bbsNews"), false));
                 menuLocation.setHasDynamic(false);
                 menuAudit.setHasDynamic(false);
             }
@@ -213,13 +214,13 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopThree()) {
-                        gotoDetailPage(v, RegisterActivity.class);
+                        gotoDetailPage(v, SyllabusActivity.class);
                     }
                     break;
                 case R.id.main_menu_parenting:
                     if (AppConfigUtils.isDevelopThree()) {
                         menuParenting.setHasDynamic(false);
-                        gotoDetailPage(v, RegisterActivity.class);
+                        gotoDetailPage(v, TaskListActivity.class);
                     }
                     break;
                 case R.id.main_menu_kid_school:
@@ -231,12 +232,12 @@ public class MainActivity extends Activity {
                 case R.id.main_menu_campus:
                     if (AppConfigUtils.isDevelopThree()) {
                         menuCampus.setHasDynamic(false);
-                        gotoDetailPage(v, RegisterActivity.class);
+                        gotoDetailPage(v, CampusActivity.class);
                     }
                     break;
                 case R.id.main_menu_location:
                     if (AppConfigUtils.isDevelopThree()) {
-                        gotoDetailPage(v, RegisterActivity.class);
+                        gotoDetailPage(v, IntelligentLocationActivity.class);
                     }
                     break;
                 case R.id.main_menu_audit:
@@ -334,7 +335,7 @@ public class MainActivity extends Activity {
 
     private void gotoSendDynamic() {
         Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, RequestCodeUtils.PUBLISH_CLASS_DYNAMIC);
     }
 
     private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
@@ -384,18 +385,16 @@ public class MainActivity extends Activity {
         return list;
     }
 
-//    private List<DynamicItemEntity> toDynamicItemEntity(List<Map<String, Object>> data) {
-//        List<DynamicItemEntity> list = new ArrayList<DynamicItemEntity>();
-//        for (int i = 0; i < data.size(); i++) {
-//            DynamicItemEntity dynamicItem = new DynamicItemEntity();
-//            Map<String, Object> item = data.get(i);
-//            dynamicItem.newsId = ConvertUtils.getInteger(item.get("newsId"));
-//            dynamicItem.subject = ConvertUtils.getString(item.get("subject"));
-//            dynamicItem.content = ConvertUtils.getString(item.get("content"));
-//            dynamicItem.createDate = ConvertUtils.getString(item.get("createDate"));
-//            dynamicItem.imageUrls = ImageItemEntity.initImageItemEntity(ConvertUtils.getList(item.get("imageUrls")));
-//            list.add(dynamicItem);
-//        }
-//        return list;
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == RequestCodeUtils.PUBLISH_CLASS_DYNAMIC) {
+            menuGradeDynamic.setHasDynamic(true);
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

@@ -156,6 +156,14 @@
             android:name=".BraceletIntroduceActivity"
             android:label="@string/title_activity_bracelet_introduce" >
         </activity>
+        <activity
+            android:name=".SyllabusActivity"
+            android:label="@string/title_activity_syllabus" >
+        </activity>
+        <activity
+            android:name=".CampusActivity"
+            android:label="@string/title_activity_campus" >
+        </activity>
     </application>
 
 </manifest>

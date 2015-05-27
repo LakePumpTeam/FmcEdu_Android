@@ -165,6 +165,7 @@ public class PublishDynamicActivity extends Activity {
                                     return;
                                 }
                                 ToastToolUtils.showLong("发送成功");
+                                setResult(RESULT_OK);
                                 PublishDynamicActivity.this.finish();
                             }
                         });

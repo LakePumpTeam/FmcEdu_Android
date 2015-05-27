@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/task_list_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
@@ -37,6 +38,7 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/task_list_btn_add_task"
             style="@style/OvalButtonStyle"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/activity_margin_middle"
@@ -45,6 +47,7 @@
             android:text="添加新任务" />
 
         <com.fmc.edu.customcontrol.SlideListView
+            android:id="@+id/task_list_slide_task_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

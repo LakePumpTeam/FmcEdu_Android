@@ -84,5 +84,7 @@
     <string name="edit_content">编辑内容</string>
     <string name="desc_shrinkup">收起</string>
     <string name="desc_spread">显示更多</string>
+    <string name="title_activity_syllabus">SyllabusActivity</string>
+    <string name="title_activity_campus">CampusActivity</string>
 
 </resources>
