@@ -61,7 +61,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
         LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
-//        CollapsibleTextViewControl collTxtContent = (CollapsibleTextViewControl) convertView.findViewById(R.id.item_class_dynamic_list_coll_txt_content);
+        CollapsibleTextViewControl collTxtContent = (CollapsibleTextViewControl) convertView.findViewById(R.id.item_class_dynamic_list_coll_txt_content);
 
         DynamicItemEntity item = mItems.get(position);
         holder.txtAllContent = txtAllContent;
@@ -69,7 +69,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         holder.txtReadAll = txtReadAll;
         txtReadAll.setTag(holder);
         txtContent.setText(item.content);
-//        collTxtContent.setTextContent(item.content);
+        collTxtContent.setTextContent(item.content,position);
         txtAllContent.setText(item.content);
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
         txtDate.setText(item.createDate);

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4.0dip"
         android:gravity="center_vertical"
+        android:tag="false"
         android:textColor="@color/dynamic_class_dynamic_color"
         android:textSize="@dimen/font_size_middle" />
 
