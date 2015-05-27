@@ -9,12 +9,13 @@
     android:paddingLeft="@dimen/activity_padding_middle"
     android:paddingRight="@dimen/activity_padding_middle">
 
-    <com.fmc.edu.customcontrol.CollapsibleTextViewControl
-        android:id="@+id/item_class_dynamic_list_coll_txt_content"
+    <com.fmc.edu.customcontrol.ExpandableTextViewControl
+        android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        fmc:isShowAll="true" />
-
+        android:orientation="vertical"
+        android:visibility="gone"
+        fmc:maxCollapsedLines="4"/>
 
     <TextView
         android:id="@+id/item_class_dynamic_list_txt_content"
