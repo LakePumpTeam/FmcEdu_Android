@@ -17,5 +17,6 @@
         <attr name="isExpand" format="boolean" />
         <attr name="expand" format="string|reference" />
         <attr name="collapse" format="string|reference" />
+        <attr name="maxCollapseLines" format="integer|reference" />
     </declare-styleable>
 </resources>

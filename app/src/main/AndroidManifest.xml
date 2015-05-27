@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmc.edu" >
+    package="com.fmc.edu">
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -34,7 +34,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/dev/" />
@@ -49,7 +49,7 @@
             android:value="true" />
         <meta-data
             android:name="com.fmc.edu.three"
-            android:value="false" />
+            android:value="true" />
         <meta-data
             android:name="com.fmc.edu.version"
             android:value="1.0" />
@@ -69,7 +69,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -138,32 +138,32 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TaskListActivity"
-            android:label="@string/title_activity_parenting_edu" >
-        </activity>
+            android:label="@string/title_activity_parenting_edu"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".TaskDetailActivity"
-            android:label="@string/title_activity_task_detail" >
-        </activity>
+            android:label="@string/title_activity_task_detail"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".AddTaskActivity"
-            android:label="@string/title_activity_add_task" >
-        </activity>
+            android:label="@string/title_activity_add_task"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".IntelligentLocationActivity"
-            android:label="@string/title_activity_intelligent_location" >
-        </activity>
+            android:label="@string/title_activity_intelligent_location"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".BraceletIntroduceActivity"
-            android:label="@string/title_activity_bracelet_introduce" >
-        </activity>
+            android:label="@string/title_activity_bracelet_introduce"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SyllabusActivity"
-            android:label="@string/title_activity_syllabus" >
-        </activity>
+            android:label="@string/title_activity_syllabus"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".CampusActivity"
-            android:label="@string/title_activity_campus" >
-        </activity>
+            android:label="@string/title_activity_campus"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

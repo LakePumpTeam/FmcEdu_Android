@@ -1,5 +1,7 @@
 package com.fmc.edu.entity;
 
+import com.fmc.edu.utils.ConvertUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,11 @@ public class TaskEntity implements Serializable {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> item = list.get(i);
             TaskEntity taskItem = new TaskEntity();
+            taskItem.taskId = ConvertUtils.getInteger(item.get("taskId"), 0);
+            taskItem.subject = ConvertUtils.getString(item.get("subject"));
+            taskItem.ManagerName = ConvertUtils.getString(item.get("managerName"));
+            taskItem.date = ConvertUtils.getString(item.get("date"));
+            taskItem.status = ConvertUtils.getBoolean(item.get("status"), false);
             taskList.add(taskItem);
         }
 

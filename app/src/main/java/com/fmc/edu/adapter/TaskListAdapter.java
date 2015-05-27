@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
@@ -26,13 +26,13 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_task_list, null);
         }
 
-        CheckBox ckStatus = (CheckBox) convertView.findViewById(R.id.item_task_list_ck_status);
+        ImageView imgStatus = (ImageView) convertView.findViewById(R.id.item_task_list_img_status);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.item_task_list_txt_title);
         TextView txtManager = (TextView) convertView.findViewById(R.id.item_task_list_txt_manager);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_task_list_txt_date);
 
         TaskEntity taskEntity = mItems.get(position);
-        ckStatus.setChecked(taskEntity.status);
+        imgStatus.setImageResource(taskEntity.status ? R.mipmap.ic_finish : R.mipmap.ic_un_finish);
         txtTitle.setText(taskEntity.subject);
         txtManager.setText("负责人:" + taskEntity.ManagerName);
         txtDate.setText("完成时间：" + taskEntity.date);

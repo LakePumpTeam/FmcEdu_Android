@@ -15,14 +15,11 @@ import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.utils.StringUtils;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 /**
  * Created by Candy on 2015-05-27.
  */
 public class ExpandableTextViewControl extends LinearLayout {
-
-    private static final String TAG = ExpandableTextView.class.getSimpleName();
 
     private static final int DEFAULT_MAX_LINES = 3;
     private static final String DEFAULT_EXPAND_STR = "全文";
@@ -102,9 +99,9 @@ public class ExpandableTextViewControl extends LinearLayout {
     }
 
     private void init(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, com.ms.square.android.expandabletextview.R.styleable.ExpandableTextView);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ExpandableTextViewControl);
         mIsExpand = typedArray.getBoolean(R.styleable.ExpandableTextViewControl_isExpand, false);
-        mMaxCollapsedLines = typedArray.getInt(R.styleable.ExpandableTextView_maxCollapsedLines, DEFAULT_MAX_LINES);
+        mMaxCollapsedLines = typedArray.getInt(R.styleable.ExpandableTextViewControl_maxCollapseLines, DEFAULT_MAX_LINES);
         mExpandStr = typedArray.getString(R.styleable.ExpandableTextViewControl_expand);
         mCollapseStr = typedArray.getString(R.styleable.ExpandableTextViewControl_collapse);
         mExpandStr = StringUtils.isEmptyOrNull(mExpandStr) ? DEFAULT_EXPAND_STR : mExpandStr;

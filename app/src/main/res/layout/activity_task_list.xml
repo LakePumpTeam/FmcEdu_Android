@@ -49,6 +49,7 @@
         <com.fmc.edu.customcontrol.SlideListView
             android:id="@+id/task_list_slide_task_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_margin" />
     </LinearLayout>
 </LinearLayout>

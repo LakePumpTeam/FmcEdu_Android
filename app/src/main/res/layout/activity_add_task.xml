@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,5 +11,65 @@
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_add_task" />
 
+    <TextView
+        android:id="@+id/add_task_manager"
+        style="@style/DropDownShortTextViewStyle"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:drawableLeft="@mipmap/ic_manager"
+        android:hint="@string/hint_task_manager"
+        android:tag="0" />
 
-</RelativeLayout>
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <TextView
+        android:id="@+id/add_task_finish_time"
+        style="@style/DropDownShortTextViewStyle"
+        android:drawableLeft="@mipmap/ic_time"
+        android:hint="设置任务时间"
+        android:tag="0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/activity_margin_middle"
+        android:background="@color/activity_bg_color_write"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_edit_border"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_padding_middle">
+
+            <EditText
+                android:id="@+id/add_task_edit_subject"
+                style="@style/EditTextStyle"
+                android:background="@color/activity_bg_color"
+                android:hint="@string/hint_task_subject"
+                android:textSize="@dimen/font_size_middle" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/add_task_edit_content"
+                style="@style/EditTextStyle"
+                android:layout_height="200dp"
+                android:background="@color/activity_bg_color"
+                android:gravity="top"
+                android:hint="@string/hint_task_content"
+                android:paddingTop="@dimen/activity_padding_middle"
+                android:singleLine="false"
+                android:textSize="@dimen/font_size_middle" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_task_btn_submit"
+            style="@style/OvalButtonStyleBorder"
+            android:layout_margin="@dimen/activity_margin"
+            android:text="@string/btn_login" />
+    </LinearLayout>
+
+</LinearLayout>

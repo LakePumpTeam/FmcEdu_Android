@@ -16,6 +16,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -220,7 +221,7 @@ public class MainActivity extends Activity {
                 case R.id.main_menu_parenting:
                     if (AppConfigUtils.isDevelopThree()) {
                         menuParenting.setHasDynamic(false);
-                        gotoDetailPage(v, TaskListActivity.class);
+                        gotoTaskListActivity();
                     }
                     break;
                 case R.id.main_menu_kid_school:
@@ -369,6 +370,32 @@ public class MainActivity extends Activity {
         }
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private void gotoTaskListActivity() {
+        List<Map<String, Object>> list = getInitData();
+        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+    private List<Map<String, Object>> getInitData() {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("taskId", i);
+            item.put("subject", "大宝最理念的年龄");
+            item.put("managerName", "李四");
+            item.put("managerId", i);
+            item.put("date", "2015-05-27");
+            item.put("status", false);
+            list.add(item);
+        }
+        return list;
     }
 
     private List<WaitAuditEntity> ToWaitAuditEntity(List<Map<String, Object>> data) {

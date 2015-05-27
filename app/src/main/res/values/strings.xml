@@ -86,5 +86,8 @@
     <string name="desc_spread">显示更多</string>
     <string name="title_activity_syllabus">SyllabusActivity</string>
     <string name="title_activity_campus">CampusActivity</string>
+    <string name="hint_task_manager">选择任务负责人</string>
+    <string name="hint_task_subject">请输入任务标题</string>
+    <string name="hint_task_content">请输入任务描述</string>
 
 </resources>

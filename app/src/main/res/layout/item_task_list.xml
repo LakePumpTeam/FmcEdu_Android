@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_list_item_bg"
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_padding_middle">
 
-    <CheckBox
-        android:id="@+id/item_task_list_ck_status"
+    <ImageView
+        android:id="@+id/item_task_list_img_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_check_finish"
-        android:button="@null"
-        android:enabled="false" />
+        android:layout_gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_middle"
+        android:layout_marginRight="@dimen/activity_margin_middle"
         android:orientation="vertical">
 
         <TextView
@@ -28,6 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_small"
             android:orientation="horizontal">
 
             <TextView
