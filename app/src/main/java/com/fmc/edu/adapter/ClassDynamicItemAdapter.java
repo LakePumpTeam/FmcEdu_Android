@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.fmc.edu.ClassDynamicActivity;
 import com.fmc.edu.R;
-import com.fmc.edu.customcontrol.ExpandableTextViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
@@ -32,11 +30,11 @@ import java.util.Map;
  * Created by Candy on 2015/5/24.
  */
 public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
-    private final SparseBooleanArray mCollapsedStatus;
+//    private final SparseBooleanArray mCollapsedStatus;
 
     public ClassDynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
-        mCollapsedStatus = new SparseBooleanArray();
+//        mCollapsedStatus = new SparseBooleanArray();
     }
 
     public void addComment(CommentItemEntity commentItemEntity, int positon) {
@@ -64,7 +62,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
         LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
-        ExpandableTextViewControl expand_text_view = (ExpandableTextViewControl) convertView.findViewById(R.id.expand_text_view);
+//        ExpandableTextViewControl expand_text_view = (ExpandableTextViewControl) convertView.findViewById(R.id.expand_text_view);
 
 
         DynamicItemEntity item = mItems.get(position);
@@ -74,7 +72,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtReadAll.setTag(holder);
         txtContent.setText(item.content);
         txtAllContent.setText(item.content);
-        expand_text_view.setText(item.content, mCollapsedStatus, position);
+//        expand_text_view.setText(item.content, mCollapsedStatus, position);
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
         txtDate.setText(item.createDate);
 

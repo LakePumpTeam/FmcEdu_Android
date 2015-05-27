@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 
 import com.fmc.edu.adapter.KidsSchoolAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.AutoSlidePictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
@@ -18,7 +17,7 @@ import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
-import com.fmc.edu.utils.ToastToolUtils;
+import com.fmc.edu.utils.RequestCodeUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,8 +43,6 @@ public class KidSchoolActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_kid_school);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
@@ -109,10 +106,12 @@ public class KidSchoolActivity extends Activity {
         }
     };
 
+
     private AutoSlidePictureControl.OnSelectedListener slideImgOnSelectedListener = new AutoSlidePictureControl.OnSelectedListener() {
         @Override
         public void onSelected(int position) {
-            ToastToolUtils.showLong(position + "");
+            Map<String, Object> item = mSlidePicture.get(position);
+            gotoDynamicDetailPage(slideImg, ConvertUtils.getInteger(item.get("newsId"), 0));
         }
     };
 
@@ -147,11 +146,24 @@ public class KidSchoolActivity extends Activity {
 
                 Intent intent = new Intent(KidSchoolActivity.this, DynamicDetailActivity.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, RequestCodeUtils.KID_SCHOOL_DETAIL);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == RequestCodeUtils.KID_SCHOOL_DETAIL) {
+            int newsId = data.getIntExtra("newsId", 0);
+            int like = data.getIntExtra("like", 0);
+            mAdapter.updateLikeByNewsId(newsId, like);
+        }
+
+    }
 
     private void getDynamicData() {
         String url = mHostUrl + "news/requestNewsList";

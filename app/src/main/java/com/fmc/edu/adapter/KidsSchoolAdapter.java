@@ -13,8 +13,8 @@ import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +23,15 @@ import java.util.List;
 public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     public KidsSchoolAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
+    }
+
+    public void updateLikeByNewsId(int newsId, int like) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).newsId == newsId) {
+                mItems.get(i).likeCount = like;
+                notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -50,24 +59,17 @@ public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     }
 
 
-
     private View.OnClickListener imgPhotoOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             List<ImageItemEntity> imageList = (List<ImageItemEntity>) v.getTag();
+            List<String> bigPictureUrl = ImageItemEntity.getOrigUrlList(imageList);
+            if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
+                ToastToolUtils.showLong("无有效图片");
+                return;
+            }
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(v, getOrigUrl(imageList));
+            imageShowControl.showWindow(v, bigPictureUrl);
         }
     };
-
-    private List<String> getOrigUrl(List<ImageItemEntity> list) {
-        List<String> origUrls = new ArrayList<String>();
-        for (int i = 0; i < list.size(); i++) {
-            origUrls.add(list.get(i).origUrl);
-        }
-        return origUrls;
-    }
-
-
-
 }

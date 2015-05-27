@@ -1,6 +1,7 @@
 package com.fmc.edu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -29,8 +29,7 @@ public class DynamicDetailActivity extends Activity {
     private TextView txtDetailType;
     private TextView txtDate;
     private LinearLayout llPicture;
-    //    private GridView gridPicture;
-    //    private ListView listComment;
+    private int mLike = 0;
     private Bundle mBundle;
 
     @Override
@@ -38,8 +37,6 @@ public class DynamicDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_dynamic_detail);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mBundle = getIntent().getExtras();
         initViews();
         initViewEvent();
@@ -59,7 +56,13 @@ public class DynamicDetailActivity extends Activity {
         topBar.setOnOperateOnClickListener(topOnOperateOnClickListener);
     }
 
+
     private TopBarControl.OnOperateOnClickListener topOnOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+            backKidSchoolList();
+        }
+
         @Override
         public void onOperateClick(View v) {
             String url = AppConfigUtils.getServiceHost() + "news/likeNews";
@@ -71,9 +74,11 @@ public class DynamicDetailActivity extends Activity {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     if (ConvertUtils.getBoolean(topBar.getTag())) {
+                        mLike--;
                         topBar.setTag(false);
                         topBar.setTopBarOperateImg(R.mipmap.btn_like_un_select);
                     } else {
+                        mLike++;
                         topBar.setTag(true);
                         topBar.setTopBarOperateImg(R.mipmap.btn_like_selected);
                     }
@@ -82,11 +87,29 @@ public class DynamicDetailActivity extends Activity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        backKidSchoolList();
+    }
+
+    private void backKidSchoolList() {
+        if (DynamicTypeEnum.getEnumValue(mBundle.getInt("type", 2)) != DynamicTypeEnum.KidSchool) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("newsId", mBundle.getInt("newsId"));
+        intent.putExtra("like", mLike);
+        setResult(RESULT_OK, intent);
+
+    }
+
     private void initPageData() {
         if (null == mBundle) {
             return;
         }
         bindDynamicType(mBundle.getInt("type"), mBundle.getBoolean("liked"));
+        mLike = mBundle.getInt("like", 0);
         txtTitle.setText(mBundle.getString("subject"));
         txtContent.setText(mBundle.getString("content"));
         txtDate.setText(mBundle.getString("createDate"));

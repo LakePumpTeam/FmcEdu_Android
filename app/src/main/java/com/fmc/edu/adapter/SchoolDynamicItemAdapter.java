@@ -23,9 +23,9 @@ import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +67,7 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
 
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
-        gridView.setOnTouchInvalidPositionListener(tt);
+        gridView.setOnTouchInvalidPositionListener(onTouchInvalidPositionListener);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtReadAll.setOnClickListener(txtReadAllOnclick);
         convertView.setBackgroundResource(item.type == DynamicTypeEnum.SchoolNotice ? R.color.list_item_nor_color : R.drawable.selector_list_item_bg);
@@ -81,12 +81,17 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             List<ImageItemEntity> imageList = ((DynamicItemGridAdapter) parent.getAdapter()).getItems();
+            List<String> bigPictureUrl = ImageItemEntity.getOrigUrlList(imageList);
+            if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
+                ToastToolUtils.showLong("无有效图片");
+                return;
+            }
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, getOrigUrl(imageList));
+            imageShowControl.showWindow(view, bigPictureUrl);
         }
     };
 
-    private GridViewControl.OnTouchInvalidPositionListener tt = new GridViewControl.OnTouchInvalidPositionListener() {
+    private GridViewControl.OnTouchInvalidPositionListener onTouchInvalidPositionListener = new GridViewControl.OnTouchInvalidPositionListener() {
         @Override
         public boolean onTouchInvalidPosition(int motionEvent) {
             return false;
@@ -104,13 +109,21 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         }
     };
 
-    private List<String> getOrigUrl(List<ImageItemEntity> list) {
-        List<String> origUrls = new ArrayList<String>();
-        for (int i = 0; i < list.size(); i++) {
-            origUrls.add(list.get(i).origUrl);
+    private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SchoolDynamicItemHolder holder = (SchoolDynamicItemHolder) v.getTag();
+            if (holder.txtAllContent.getVisibility() == View.VISIBLE) {
+                holder.txtAllContent.setVisibility(View.GONE);
+                holder.txtContent.setVisibility(View.VISIBLE);
+                holder.txtReadAll.setText("查看全文>>");
+            } else {
+                holder.txtAllContent.setVisibility(View.VISIBLE);
+                holder.txtContent.setVisibility(View.GONE);
+                holder.txtReadAll.setText("收起>>");
+            }
         }
-        return origUrls;
-    }
+    };
 
     private void gotoDynamicDetailPage(View view, final DynamicItemEntity item) {
         ProgressControl progressControl = new ProgressControl(mContext);
@@ -140,22 +153,6 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
             }
         });
     }
-
-    private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SchoolDynamicItemHolder holder = (SchoolDynamicItemHolder) v.getTag();
-            if (holder.txtAllContent.getVisibility() == View.VISIBLE) {
-                holder.txtAllContent.setVisibility(View.GONE);
-                holder.txtContent.setVisibility(View.VISIBLE);
-                holder.txtReadAll.setText("查看全文>>");
-            } else {
-                holder.txtAllContent.setVisibility(View.VISIBLE);
-                holder.txtContent.setVisibility(View.GONE);
-                holder.txtReadAll.setText("收起>>");
-            }
-        }
-    };
 
     private class SchoolDynamicItemHolder {
         public TextView txtAllContent;

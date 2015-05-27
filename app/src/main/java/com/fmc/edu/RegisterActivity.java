@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.common.MyTextWatcher;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.ValidateButtonControl;
@@ -38,8 +37,6 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_register);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);

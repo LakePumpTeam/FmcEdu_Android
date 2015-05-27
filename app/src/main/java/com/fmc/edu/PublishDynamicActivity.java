@@ -13,7 +13,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.fmc.edu.adapter.PublishDynamicGridAdapter;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -55,8 +54,6 @@ public class PublishDynamicActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         setContentView(R.layout.activity_publish_dynamic);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
@@ -117,6 +114,11 @@ public class PublishDynamicActivity extends Activity {
 
 
     private TopBarControl.OnOperateOnClickListener sendListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+
+        }
+
         @Override
         public void onOperateClick(View v) {
             if (StringUtils.isEmptyOrNull(editContent.getText())) {

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -24,8 +23,6 @@ public class MessageNoticeSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_message_notice_setting);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         initViews();
         initViewEvent();
         initPageData();

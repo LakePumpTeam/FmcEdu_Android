@@ -65,8 +65,6 @@ public class RelatedInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_related_info);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mBundle = getIntent().getExtras();
         initViews();
         bindViewEvents();

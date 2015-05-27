@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
-import com.fmc.edu.utils.StringUtils;
 
 public class TopBarControl extends LinearLayout {
     private Context mContext;
@@ -30,6 +29,8 @@ public class TopBarControl extends LinearLayout {
     private OnOperateOnClickListener mOnOperateOnClickListener;
 
     public interface OnOperateOnClickListener {
+        void onBackClick(View view);
+
         void onOperateClick(View v);
     }
 
@@ -94,7 +95,7 @@ public class TopBarControl extends LinearLayout {
         llOperateImage.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
-    public void setOperateEnable(boolean isEnable){
+    public void setOperateEnable(boolean isEnable) {
         llOperateImage.setEnabled(isEnable);
         llOperateText.setEnabled(isEnable);
     }
@@ -116,9 +117,13 @@ public class TopBarControl extends LinearLayout {
     private OnClickListener llBackOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (llBack.getVisibility() == VISIBLE) {
-                ((Activity) mContext).finish();
+            if (llBack.getVisibility() != VISIBLE) {
+                return;
             }
+            if (null != mOnOperateOnClickListener) {
+                mOnOperateOnClickListener.onBackClick(v);
+            }
+            ((Activity) mContext).finish();
         }
     };
 

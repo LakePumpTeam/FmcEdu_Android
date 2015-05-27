@@ -8,7 +8,6 @@ import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
@@ -38,8 +37,6 @@ public class SchoolDynamicActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_school_dynamic);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();

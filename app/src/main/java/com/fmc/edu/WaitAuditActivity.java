@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.fmc.edu.adapter.WaitAuditAdapter;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
@@ -35,8 +34,6 @@ public class WaitAuditActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         setContentView(R.layout.activity_wait_audit);
         mBundle = getIntent().getExtras();
         mProgressControl = new ProgressControl(this);
@@ -65,6 +62,11 @@ public class WaitAuditActivity extends Activity {
     }
 
     private TopBarControl.OnOperateOnClickListener allPassOperateListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+
+        }
+
         @Override
         public void onOperateClick(View v) {
             mProgressControl.showWindow(topBar);

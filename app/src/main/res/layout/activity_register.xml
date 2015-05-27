@@ -35,7 +35,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/activity_margin_middle"
-            fmc:repeatSendTime="5"
+            fmc:repeatSendTime="60"
             android:enabled="false"
             android:text="@string/get_auth_code" />
     </RelativeLayout>

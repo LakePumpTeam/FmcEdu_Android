@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 
@@ -21,8 +20,6 @@ public class AuditingActivity extends Activity {
         setContentView(R.layout.activity_auditing);
         initViews();
         initViewEvent();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
     }
 
     private void initViews() {

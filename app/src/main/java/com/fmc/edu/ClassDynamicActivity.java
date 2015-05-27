@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
@@ -46,8 +45,6 @@ public class ClassDynamicActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_class_dynamic);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();

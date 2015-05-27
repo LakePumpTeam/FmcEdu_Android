@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.entity.LoginUserEntity;
@@ -43,8 +42,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_login);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
@@ -67,6 +64,7 @@ public class LoginActivity extends Activity {
     }
 
     private void autoLogin() {
+
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         if (null == loginUserEntity) {
             return;

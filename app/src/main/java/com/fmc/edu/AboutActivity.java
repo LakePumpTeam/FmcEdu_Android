@@ -3,8 +3,6 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.fmc.edu.common.CrashHandler;
-
 
 public class AboutActivity extends Activity {
 
@@ -13,8 +11,7 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_about);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+
     }
 
 }

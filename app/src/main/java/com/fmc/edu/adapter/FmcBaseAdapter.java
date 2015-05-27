@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.util.List;
 
 /**
@@ -57,6 +55,7 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         this.mItems.add(position, item);
         notifyDataSetChanged();
     }
+
 
     public void addAllItems(List<T> items, boolean isClear) {
         if (null != this.mItems && isClear) {

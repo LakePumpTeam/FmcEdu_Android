@@ -11,11 +11,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
-import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.Calendar;
@@ -40,8 +38,6 @@ public class TeacherInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_teacher_info);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         initViews();
         initViewEvent();
         mProgressControl = new ProgressControl(this);

@@ -10,14 +10,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.ImageItemEntity;
-import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
@@ -59,8 +57,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FmcApplication.addActivity(this);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         initViews();
         mBundle = getIntent().getExtras();
         mProgressControl = new ProgressControl(this);
@@ -180,6 +176,11 @@ public class MainActivity extends Activity {
 
 
     private TopBarControl.OnOperateOnClickListener settingOperatorOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+
+        }
+
         @Override
         public void onOperateClick(View v) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);

@@ -3,6 +3,7 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.app.Application;
 
+import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
@@ -30,6 +31,8 @@ public class FmcApplication extends Application {
 
     public static void addActivity(Activity activity) {
         list.add(activity);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(activity);
     }
 
     public static void exit() {

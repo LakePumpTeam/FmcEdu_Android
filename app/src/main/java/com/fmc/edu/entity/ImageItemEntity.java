@@ -1,8 +1,5 @@
 package com.fmc.edu.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 
@@ -29,5 +26,13 @@ public class ImageItemEntity implements Serializable {
             list.add(imageItemEntity);
         }
         return list;
+    }
+
+    public static List<String> getOrigUrlList(List<ImageItemEntity> list) {
+        List<String> origUrls = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            origUrls.add(list.get(i).origUrl);
+        }
+        return origUrls;
     }
 }

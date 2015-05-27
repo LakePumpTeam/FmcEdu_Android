@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
@@ -35,8 +34,6 @@ public class ModifyPasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_modify_password);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
         initViews();
         initViewEvents();
         progressControl = new ProgressControl(this);
