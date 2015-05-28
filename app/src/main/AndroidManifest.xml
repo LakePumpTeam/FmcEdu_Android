@@ -142,31 +142,31 @@
         <activity
             android:name=".TaskListActivity"
             android:label="@string/title_activity_parenting_edu"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TaskDetailActivity"
             android:label="@string/title_activity_task_detail"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddTaskActivity"
             android:label="@string/title_activity_add_task"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".IntelligentLocationActivity"
             android:label="@string/title_activity_intelligent_location"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BraceletIntroduceActivity"
             android:label="@string/title_activity_bracelet_introduce"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SyllabusActivity"
             android:label="@string/title_activity_syllabus"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CampusActivity"
             android:label="@string/title_activity_campus"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

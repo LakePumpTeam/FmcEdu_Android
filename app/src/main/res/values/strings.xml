@@ -73,7 +73,7 @@
     <string name="label_shcool">学校：</string>
     <string name="label_cellphone">电话号码：</string>
     <string name="label_parent_name">家长姓名：</string>
-    <string name="label_student_name">学生姓名:</string>
+    <string name="label_student_name">学生姓名：</string>
     <string name="label_relation">亲子关系：</string>
     <string name="label_device_code">设备编号：</string>
     <string name="label_device_card_num">设备卡号：</string>

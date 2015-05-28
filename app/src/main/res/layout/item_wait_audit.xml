@@ -35,7 +35,7 @@
         android:layout_below="@+id/item_wait_audit_txt_label_cellphone"
         android:layout_marginLeft="@dimen/activity_margin_middle"
         android:layout_marginTop="@dimen/activity_margin_small"
-        android:text="请求:"
+        android:text="家长:"
         android:textColor="@color/text_parent_name_label_font_color"
         android:textSize="@dimen/font_size_middle" />
 
