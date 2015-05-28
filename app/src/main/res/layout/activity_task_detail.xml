@@ -6,9 +6,107 @@
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/task_detail_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_task_detail" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/task_detail_top_bar"
+        android:layout_above="@+id/task_detail_rl_comment">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/task_detail_txt_subject"
+                style="@style/TextStyle"
+                android:layout_marginLeft="@dimen/activity_margin_middle"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_margin_middle"
+                android:textSize="@dimen/font_size_middle_title" />
+
+            <RelativeLayout
+                android:id="@+id/task_detail_rl_manager_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_detail_txt_subject"
+                android:layout_marginLeft="@dimen/activity_margin_middle"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_margin_middle"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_task_list_txt_manager"
+                    style="@style/TextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_toLeftOf="@+id/item_task_list_txt_date"
+                    android:drawableLeft="@mipmap/ic_manager_logo"
+                    android:textColor="@color/edit_text_hint_font_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/item_task_list_txt_date"
+                    style="@style/TextStyle"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@mipmap/ic_date_logo"
+                    android:textColor="@color/edit_text_hint_font_color"
+                    android:textSize="@dimen/font_size_small" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/task_detail_txt_content"
+                style="@style/TextStyle"
+                android:layout_below="@+id/task_detail_rl_manager_date"
+                android:layout_marginLeft="@dimen/activity_margin_middle"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_margin_middle"
+                android:textColor="@color/annotation_txt_font_color"
+                android:textSize="@dimen/font_size_middle" />
+
+            <ListView
+                android:id="@+id/task_detail_list_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/task_detail_txt_content"
+                android:layout_marginLeft="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_margin" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/task_detail_rl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#eee"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <View
+            android:id="@+id/line1"
+            style="@style/HorizontalDividerLineStyle"
+            android:layout_alignParentTop="true" />
+
+        <EditText
+            android:id="@+id/task_detail_edit_comment"
+            style="@style/EditTextStyle"
+            android:layout_below="@+id/line1"
+            android:layout_margin="@dimen/activity_margin_middle"
+            android:layout_toLeftOf="@+id/task_detail_btn_comment"
+            android:background="#fff"
+            android:hint="请输入内容" />
+
+        <Button
+            android:id="@+id/task_detail_btn_comment"
+            style="@style/ValidateButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:text="发表评论" />
+    </RelativeLayout>
 </RelativeLayout>

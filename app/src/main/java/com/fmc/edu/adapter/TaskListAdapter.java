@@ -35,7 +35,7 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
         imgStatus.setImageResource(taskEntity.status ? R.mipmap.ic_finish : R.mipmap.ic_un_finish);
         txtTitle.setText(taskEntity.subject);
         txtManager.setText("负责人:" + taskEntity.ManagerName);
-        txtDate.setText("完成时间：" + taskEntity.date);
+        txtDate.setText(taskEntity.date);
         return convertView;
 
     }

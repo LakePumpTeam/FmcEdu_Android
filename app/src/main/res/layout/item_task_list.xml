@@ -36,6 +36,9 @@
             <TextView
                 android:id="@+id/item_task_list_txt_manager"
                 style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_toLeftOf="@+id/item_task_list_txt_date"
                 android:textColor="@color/edit_text_hint_font_color"
                 android:textSize="@dimen/font_size_small" />
 

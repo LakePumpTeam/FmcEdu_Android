@@ -13,6 +13,7 @@ import com.fmc.edu.adapter.TaskListAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.RequestCodeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +77,7 @@ public class TaskListActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(TaskListActivity.this, TaskDetailActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, RequestCodeUtils.ADD_TASK);
         }
     };
 
@@ -118,10 +119,18 @@ public class TaskListActivity extends Activity {
 
     private void loadMoreData() {
         boolean status = ConvertUtils.getBoolean(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), false);
-        List<Map<String, Object>> list = getInitData(status);
-
         mAdapter.addAllItems(TaskEntity.toTaskEntityList(getInitData(status)), false);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == RequestCodeUtils.ADD_TASK) {
+            TaskEntity taskEntity = (TaskEntity) data.getSerializableExtra("task");
+            mAdapter.addItem(0, taskEntity);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

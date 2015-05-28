@@ -6,13 +6,14 @@
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/add_task_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_add_task" />
 
     <TextView
-        android:id="@+id/add_task_manager"
+        android:id="@+id/add_task_txt_manager"
         style="@style/DropDownShortTextViewStyle"
         android:layout_marginTop="@dimen/activity_margin"
         android:drawableLeft="@mipmap/ic_manager"
@@ -22,13 +23,13 @@
     <View style="@style/HorizontalDividerLineStyle" />
 
     <TextView
-        android:id="@+id/add_task_finish_time"
+        android:id="@+id/add_task_txt_finish_time"
         style="@style/DropDownShortTextViewStyle"
         android:drawableLeft="@mipmap/ic_time"
         android:hint="设置任务时间"
         android:tag="0" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/activity_margin_middle"
@@ -38,7 +39,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/add_task_btn_submit"
             android:background="@drawable/shape_edit_border"
             android:orientation="vertical"
             android:padding="@dimen/activity_padding_middle">
@@ -55,7 +57,7 @@
             <EditText
                 android:id="@+id/add_task_edit_content"
                 style="@style/EditTextStyle"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:background="@color/activity_bg_color"
                 android:gravity="top"
                 android:hint="@string/hint_task_content"
@@ -68,8 +70,13 @@
         <Button
             android:id="@+id/add_task_btn_submit"
             style="@style/OvalButtonStyleBorder"
-            android:layout_margin="@dimen/activity_margin"
-            android:text="@string/btn_login" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:paddingLeft="@dimen/activity_padding_large"
+            android:paddingRight="@dimen/activity_padding_large"
+            android:text="确认添加新任务" />
+    </RelativeLayout>
 
 </LinearLayout>
