@@ -23,4 +23,6 @@ public class CommonEntity {
     public String getFullName() {
         return mFullName;
     }
+
+
 }

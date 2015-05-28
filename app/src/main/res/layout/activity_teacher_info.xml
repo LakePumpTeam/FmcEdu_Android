@@ -98,6 +98,7 @@
                 android:paddingLeft="@dimen/activity_padding"
                 android:enabled="false"
                 android:hint="@string/cellphone"
+                android:maxLength="11"
                 android:inputType="phone" />
 
             <View style="@style/HorizontalDividerLineStyle" />

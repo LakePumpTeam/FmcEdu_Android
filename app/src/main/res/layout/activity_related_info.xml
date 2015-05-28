@@ -62,6 +62,14 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
+                android:id="@+id/related_info_txt_relation"
+                style="@style/DropDownShortTextViewStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:hint="@string/hint_relation" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <TextView
                 android:id="@+id/related_info_txt_teacher"
                 style="@style/EditTextStyle"
                 android:drawableLeft="@mipmap/icon_required"
@@ -71,44 +79,6 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
-            <TextView
-                android:id="@+id/related_info_txt_cellphone"
-                style="@style/EditTextStyle"
-                android:clickable="true"
-                android:drawableLeft="@mipmap/icon_required"
-                android:drawablePadding="@dimen/activity_padding_middle"
-                android:enabled="false"
-                android:hint="@string/cellphone" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
-            <EditText
-                android:id="@+id/related_info_edit_par_name"
-                style="@style/EditTextStyle"
-                android:drawableLeft="@mipmap/icon_required"
-                android:drawablePadding="@dimen/activity_padding_middle"
-                android:hint="@string/hint_par_name" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
-            <EditText
-                android:id="@+id/related_info_edit_stu_name"
-                style="@style/EditTextStyle"
-                android:drawableLeft="@mipmap/icon_required"
-                android:drawablePadding="@dimen/activity_padding_middle"
-                android:tag="0"
-                android:hint="@string/hint_stu_name" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
-            <EditText
-                android:id="@+id/related_info_edit_relation"
-                style="@style/EditTextStyle"
-                android:drawableLeft="@mipmap/icon_required"
-                android:drawablePadding="@dimen/activity_padding_middle"
-                android:hint="@string/hint_relation" />
-
-            <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
                 android:id="@+id/related_info_txt_birthday"
@@ -120,6 +90,7 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,9 +100,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="@dimen/activity_padding_middle"
                     android:drawableLeft="@mipmap/icon_required"
                     android:drawablePadding="@dimen/activity_padding_middle"
+                    android:paddingLeft="@dimen/activity_padding_middle"
                     android:text="@string/hint_stu_sex"
                     android:textColor="@color/edit_text_font_color"
                     android:textSize="@dimen/font_size_small" />
@@ -169,6 +140,39 @@
 
             <View style="@style/HorizontalDividerLineStyle" />
 
+
+            <EditText
+                android:id="@+id/related_info_edit_cellphone"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:enabled="false"
+                android:hint="@string/cellphone"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/related_info_edit_par_name"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:hint="@string/hint_par_name" />
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
+            <EditText
+                android:id="@+id/related_info_edit_stu_name"
+                style="@style/EditTextStyle"
+                android:drawableLeft="@mipmap/icon_required"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:hint="@string/hint_stu_name"
+                android:tag="0" />
+
+
+            <View style="@style/HorizontalDividerLineStyle" />
+
             <EditText
                 android:id="@+id/related_info_edit_device_code"
                 style="@style/EditTextStyle"
@@ -180,6 +184,8 @@
             <EditText
                 android:id="@+id/related_info_edit_device_card_num"
                 style="@style/EditTextStyle"
+                android:inputType="phone"
+                android:maxLength="11"
                 android:hint="@string/hint_device_card_num"
                 android:paddingLeft="@dimen/activity_padding" />
 
@@ -190,8 +196,8 @@
                 android:id="@+id/related_info_edit_address"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_address"
-                android:tag="0"
-                android:paddingLeft="@dimen/activity_padding" />
+                android:paddingLeft="@dimen/activity_padding"
+                android:tag="0" />
 
 
             <View style="@style/HorizontalDividerLineStyle" />

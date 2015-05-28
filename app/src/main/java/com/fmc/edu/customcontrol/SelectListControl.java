@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.opengl.Visibility;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -132,7 +129,7 @@ public class SelectListControl extends PopupWindow {
         this.mOnLoadMoreListener = mOnLoadMoreListener;
     }
 
-    public void setOnItemClickListener(OnItemSelectedListener sourceListener) {
+    public void setOnItemSelectedListener(OnItemSelectedListener sourceListener) {
         this.mOnItemSelectedListener = sourceListener;
     }
 

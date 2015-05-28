@@ -95,6 +95,7 @@ public class MainActivity extends Activity {
         topBar.setOnOperateOnClickListener(settingOperatorOnClickListener);
 
         menuSchoolDynamic.setOnClickListener(menuItemOnClickListener);
+        menuSyllabusDynamic.setOnClickListener(menuItemOnClickListener);
         menuGradeDynamic.setOnClickListener(menuItemOnClickListener);
         menuParenting.setOnClickListener(menuItemOnClickListener);
         menuKidsSchool.setOnClickListener(menuItemOnClickListener);
@@ -149,7 +150,7 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (AppConfigUtils.isDevelopTwo()) {
-                gotoSendDynamic();
+                gotoSendDynamicActivity();
             }
         }
     };
@@ -159,10 +160,10 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             if (mUserRole == 1) {
                 LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
-                gotoTeacherPage(loginUserEntity.userId, true);
+                gotoTeacherActivity(loginUserEntity.userId, true);
                 return;
             }
-            gotoRelationPage();
+            gotoRelationActivity();
         }
     };
 
@@ -172,7 +173,7 @@ public class MainActivity extends Activity {
             if (mUserRole == 1) {
                 return;
             }
-            gotoTeacherPage(ConvertUtils.getInteger(v.getTag()), false);
+            gotoTeacherActivity(ConvertUtils.getInteger(v.getTag()), false);
         }
     };
 
@@ -215,7 +216,8 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopThree()) {
-                        gotoDetailPage(v, SyllabusActivity.class);
+                        menuSyllabusDynamic.setHasDynamic(false);
+                        gotoSyllabusActivity();
                     }
                     break;
                 case R.id.main_menu_parenting:
@@ -233,16 +235,17 @@ public class MainActivity extends Activity {
                 case R.id.main_menu_campus:
                     if (AppConfigUtils.isDevelopThree()) {
                         menuCampus.setHasDynamic(false);
-                        gotoDetailPage(v, CampusActivity.class);
+                        gotoCampusActivity();
                     }
                     break;
                 case R.id.main_menu_location:
                     if (AppConfigUtils.isDevelopThree()) {
-                        gotoDetailPage(v, IntelligentLocationActivity.class);
+                        menuLocation.setHasDynamic(false);
+                        gotoLocationActivity();
                     }
                     break;
                 case R.id.main_menu_audit:
-                    gotoWaitAuditPage();
+                    gotoWaitAuditActivity();
                     break;
                 default:
                     break;
@@ -250,14 +253,83 @@ public class MainActivity extends Activity {
         }
     };
 
-    private void gotoDetailPage(View view, Class<?> cls) {
-        MenuItemControl menuItemControl = (MenuItemControl) view;
-        menuItemControl.setHasDynamic(false);
-        Intent intent = new Intent(MainActivity.this, cls);
+    private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
+        mProgressControl.showWindow(menuSchoolDynamic);
+        String url = mHostUrl + "news/requestNewsList";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pageIndex", 1);
+        params.put("pageSize", Constant.PAGE_SIZE);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("type", DynamicTypeEnum.getValue(dynamicType));
+        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
+                gotoDynamicActivity(DynamicItemEntity.toDynamicItemEntity(list), dynamicType, ConvertUtils.getBoolean(data.get("isLastPage")));
+            }
+        });
+    }
+
+    private void gotoDynamicActivity(List<DynamicItemEntity> list, DynamicTypeEnum dynamicType, boolean isLastPage) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) list);
+        bundle.putBoolean("isLastPage", isLastPage);
+        Intent intent = new Intent();
+        if (dynamicType == DynamicTypeEnum.SchoolActivity) {
+            intent.setClass(MainActivity.this, SchoolDynamicActivity.class);
+        } else if (dynamicType == DynamicTypeEnum.KidSchool) {
+            intent.setClass(MainActivity.this, KidSchoolActivity.class);
+        } else {
+            intent.setClass(MainActivity.this, ClassDynamicActivity.class);
+        }
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    private void gotoTeacherPage(final int teacherId, final boolean isModify) {
+    private void gotoSyllabusActivity() {
+        Intent intent = new Intent(this, SyllabusActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoTaskListActivity() {
+        List<Map<String, Object>> list = getInitData();
+        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void gotoCampusActivity() {
+        Intent intent = new Intent(this, CampusActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoLocationActivity() {
+        Intent intent = new Intent(MainActivity.this, IntelligentLocationActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoWaitAuditActivity() {
+        mProgressControl.showWindow(menuAudit);
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
+        Map<String, Object> params = new HashMap<>();
+        params.put("teacherId", loginUserEntity.userId);
+        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<WaitAuditEntity> list = WaitAuditEntity.ToWaitAuditEntity((List<Map<String, Object>>) data.get("parentsAuditList"));
+                menuAudit.setHasDynamic(false);
+                Intent intent = new Intent(MainActivity.this, WaitAuditActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void gotoTeacherActivity(final int teacherId, final boolean isModify) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("teacherId", teacherId);
         MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
@@ -279,7 +351,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void gotoRelationPage() {
+    private void gotoRelationActivity() {
         mProgressControl.showWindow(circleImgHeadPhoto);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -316,71 +388,10 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void gotoWaitAuditPage() {
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
-        Map<String, Object> params = new HashMap<>();
-        params.put("teacherId", loginUserEntity.userId);
-        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, null, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                List<WaitAuditEntity> list = ToWaitAuditEntity((List<Map<String, Object>>) data.get("parentsAuditList"));
-                menuAudit.setHasDynamic(false);
-                Intent intent = new Intent(MainActivity.this, WaitAuditActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void gotoSendDynamic() {
+    private void gotoSendDynamicActivity() {
         Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
         startActivityForResult(intent, RequestCodeUtils.PUBLISH_CLASS_DYNAMIC);
     }
-
-    private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
-        mProgressControl.showWindow(menuSchoolDynamic);
-        String url = mHostUrl + "news/requestNewsList";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("pageIndex", 1);
-        params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
-        params.put("type", DynamicTypeEnum.getValue(dynamicType));
-        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
-                gotoDynamicActivity(DynamicItemEntity.toDynamicItemEntity(list), dynamicType, ConvertUtils.getBoolean(data.get("isLastPage")));
-            }
-        });
-    }
-
-    private void gotoDynamicActivity(List<DynamicItemEntity> list, DynamicTypeEnum dynamicType, boolean isLastPage) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) list);
-        bundle.putBoolean("isLastPage", isLastPage);
-        Intent intent = new Intent();
-        if (dynamicType == DynamicTypeEnum.SchoolActivity) {
-            intent.setClass(MainActivity.this, SchoolDynamicActivity.class);
-        } else if (dynamicType == DynamicTypeEnum.KidSchool) {
-            intent.setClass(MainActivity.this, KidSchoolActivity.class);
-        } else {
-            intent.setClass(MainActivity.this, ClassDynamicActivity.class);
-        }
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    private void gotoTaskListActivity() {
-        List<Map<String, Object>> list = getInitData();
-        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
 
     private List<Map<String, Object>> getInitData() {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -394,20 +405,6 @@ public class MainActivity extends Activity {
             item.put("date", "2015-05-27");
             item.put("status", false);
             list.add(item);
-        }
-        return list;
-    }
-
-    private List<WaitAuditEntity> ToWaitAuditEntity(List<Map<String, Object>> data) {
-        List<WaitAuditEntity> list = new ArrayList<WaitAuditEntity>();
-        for (int i = 0; i < data.size(); i++) {
-            WaitAuditEntity waitAuditItem = new WaitAuditEntity();
-            Map<String, Object> item = data.get(i);
-            waitAuditItem.parentId = ConvertUtils.getInteger(item.get("parentId"));
-            waitAuditItem.cellphone = ConvertUtils.getString(item.get("cellPhone"));
-            waitAuditItem.parentName = ConvertUtils.getString(item.get("parentName"));
-            waitAuditItem.auditStatus = ConvertUtils.getInteger(item.get("auditStatus"), 1);
-            list.add(waitAuditItem);
         }
         return list;
     }

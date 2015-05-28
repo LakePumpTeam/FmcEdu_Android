@@ -35,6 +35,8 @@
             style="@style/EditTextStyle"
             android:textColorHint="@color/activity_login_hint_color"
             android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:inputType="phone"
+            android:maxLength="11"
             android:background="@drawable/shape_edit_oval_corner"
             android:hint="@string/hint_input_cellphone" />
     </LinearLayout>

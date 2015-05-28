@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/activity_margin_middle"
-        android:text="电话号码："
+        android:text="电话:"
         android:textColor="@color/text_cellphone_font_color"
         android:textSize="@dimen/font_size_middle" />
 
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/item_wait_audit_txt_label_cellphone"
-        android:text="187***885"
+        android:layout_toLeftOf="@+id/item_wait_audit_btn_agree"
         android:textColor="@color/text_cellphone_font_color"
         android:textSize="@dimen/font_size_middle" />
 
@@ -35,7 +35,7 @@
         android:layout_below="@+id/item_wait_audit_txt_label_cellphone"
         android:layout_marginLeft="@dimen/activity_margin_middle"
         android:layout_marginTop="@dimen/activity_margin_small"
-        android:text="请  求  人："
+        android:text="请求:"
         android:textColor="@color/text_parent_name_label_font_color"
         android:textSize="@dimen/font_size_middle" />
 
@@ -47,7 +47,6 @@
         android:layout_marginTop="@dimen/activity_margin_small"
         android:layout_toRightOf="@id/item_wait_audit_txt_label_parent_name"
         android:layout_toLeftOf="@+id/item_wait_audit_btn_agree"
-        android:text="张三"
         android:textColor="@color/text_parent_name_font_color"
         android:textSize="@dimen/font_size_middle" />
 

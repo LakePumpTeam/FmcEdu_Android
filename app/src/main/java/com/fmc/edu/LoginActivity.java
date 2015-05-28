@@ -36,6 +36,7 @@ public class LoginActivity extends Activity {
     private int REQUEST_CODE_REGISTER = 1;
     private ProgressControl mProgressControl;
     private String mHostUrl;
+    private PromptWindowControl promptWindowControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class LoginActivity extends Activity {
         }
 
         if (StringUtils.isEmptyOrNull(loginUserEntity.password)) {
-
+            editCellphone.setText(loginUserEntity.cellphone);
             return;
         }
         loginRequestHttp(loginUserEntity.cellphone, loginUserEntity.password, loginUserEntity.salt);
@@ -100,7 +101,7 @@ public class LoginActivity extends Activity {
     private View.OnClickListener txtForgetPasswordOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            PromptWindowControl promptWindowControl = new PromptWindowControl(LoginActivity.this);
+            promptWindowControl = new PromptWindowControl(LoginActivity.this);
             promptWindowControl.setOnOperateOnClickListener(operateOnClickListener);
             promptWindowControl.showWindow(v, "忘记密码?", "你可以通过注册手机重置密码", "重置密码");
         }
@@ -109,7 +110,11 @@ public class LoginActivity extends Activity {
     private OnOperateOnClickListener operateOnClickListener = new OnOperateOnClickListener() {
         @Override
         public void onOperateOnClick() {
+            if (null != promptWindowControl) {
+                promptWindowControl.dismiss();
+            }
             Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+            intent.putExtra("cellPhone", editCellphone.getText());
             startActivity(intent);
         }
     };

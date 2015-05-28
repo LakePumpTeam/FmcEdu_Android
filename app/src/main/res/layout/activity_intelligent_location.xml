@@ -16,23 +16,26 @@
         android:layout_marginTop="@dimen/activity_margin" />
 
     <TextView
-        android:id="@+id/add_task_txt_manager"
+        android:id="@+id/intelligent_location_txt_surrounding"
         style="@style/DropDownShortTextViewStyle"
-
-        android:drawableLeft="@mipmap/ic_manager"
-        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableLeft="@mipmap/ic_surrounding"
+        android:drawablePadding="@dimen/activity_padding"
         android:drawableRight="@mipmap/ic_arrow_right"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="周边环境"
         android:textSize="@dimen/font_size_middle" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
     <TextView
-        android:id="@+id/add_task_txt_location"
+        android:id="@+id/intelligent_location_txt_location"
         style="@style/DropDownShortTextViewStyle"
-        android:drawableLeft="@mipmap/ic_location"
-        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableLeft="@mipmap/ic_location_small"
         android:drawableRight="@mipmap/ic_arrow_right"
+        android:drawablePadding="@dimen/activity_padding"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="定位"
         android:textSize="@dimen/font_size_middle" />
 
@@ -43,11 +46,13 @@
         android:layout_marginTop="@dimen/activity_margin" />
 
     <TextView
-        android:id="@+id/add_task_txt_bracelet_introduce"
+        android:id="@+id/intelligent_location_txt_introduce"
         style="@style/DropDownShortTextViewStyle"
-        android:drawableLeft="@mipmap/ic_time"
-        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableLeft="@mipmap/ic_bracelet_intr"
+        android:drawablePadding="@dimen/activity_padding"
         android:drawableRight="@mipmap/ic_arrow_right"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="手环介绍"
         android:textSize="@dimen/font_size_middle" />
 

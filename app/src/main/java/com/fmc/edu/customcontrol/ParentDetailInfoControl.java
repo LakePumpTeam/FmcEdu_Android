@@ -8,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -30,8 +29,6 @@ public class ParentDetailInfoControl extends PopupWindow {
     private TextView txtRelation;
     private TextView txtSex;
     private TextView txtBirth;
-    private TextView txtDeviceCode;
-    private TextView txtDeviceCardNum;
     private TextView txtAddress;
     private TextView txtClosed;
 
@@ -79,8 +76,6 @@ public class ParentDetailInfoControl extends PopupWindow {
         txtRelation = (TextView) view.findViewById(R.id.parent_detail_info_txt_relation);
         txtSex = (TextView) view.findViewById(R.id.parent_detail_info_txt_sex);
         txtBirth = (TextView) view.findViewById(R.id.parent_detail_info_txt_birth);
-        txtDeviceCode = (TextView) view.findViewById(R.id.parent_detail_info_txt_device_code);
-        txtDeviceCardNum = (TextView) view.findViewById(R.id.parent_detail_info_txt_device_card_num);
         txtAddress = (TextView) view.findViewById(R.id.parent_detail_info_txt_address);
         txtClosed = (TextView) view.findViewById(parent_detail_info_txt_closed);
         txtClosed.setOnClickListener(txtCancelOnClickListener);
@@ -94,8 +89,6 @@ public class ParentDetailInfoControl extends PopupWindow {
         txtStudentName.setText(ConvertUtils.getString(mData.get("studentName")));
         txtBirth.setText(ConvertUtils.getString(mData.get("studentBirth")));
         txtRelation.setText(ConvertUtils.getString(mData.get("relation")));
-        txtDeviceCode.setText(ConvertUtils.getString(mData.get("braceletNumber"), ""));
-        txtDeviceCardNum.setText(ConvertUtils.getString(mData.get("braceletCardNumber"), ""));
         txtAddress.setText(ConvertUtils.getString(mData.get("relation")));
         if (ConvertUtils.getBoolean("studentSex")) {
             txtSex.setText("男");

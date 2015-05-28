@@ -24,6 +24,8 @@
     <string name="title_activity_add_task">添加新任务</string>
     <string name="title_activity_intelligent_location">智能定位</string>
     <string name="title_activity_bracelet_introduce">手环介绍</string>
+    <string name="title_activity_syllabus">课程表</string>
+    <string name="title_activity_campus">校园吧</string>
 
     <string name="btn_submit_audit">提交审核</string>
     <string name="btn_login">登录</string>
@@ -84,10 +86,10 @@
     <string name="edit_content">编辑内容</string>
     <string name="desc_shrinkup">收起</string>
     <string name="desc_spread">显示更多</string>
-    <string name="title_activity_syllabus">SyllabusActivity</string>
-    <string name="title_activity_campus">CampusActivity</string>
+
     <string name="hint_task_manager">选择任务负责人</string>
     <string name="hint_task_subject">请输入任务标题</string>
     <string name="hint_task_content">请输入任务描述</string>
+    <string name="btn_ok">确定</string>
 
 </resources>

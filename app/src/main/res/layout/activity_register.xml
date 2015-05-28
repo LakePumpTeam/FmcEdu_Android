@@ -27,6 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/register_validate_btn_get_auth_code"
             android:hint="@string/hint_input_cellphone"
+            android:maxLength="11"
             android:inputType="phone" />
 
         <com.fmc.edu.customcontrol.ValidateButtonControl
@@ -57,7 +58,6 @@
         android:id="@+id/register_edit_password"
         style="@style/EditTextStyle"
         android:layout_alignParentLeft="true"
-        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
         android:hint="@string/hint_input_password"
         android:inputType="textPassword"
         android:maxLength="16" />
@@ -69,7 +69,6 @@
         android:id="@+id/register_edit_confirm_password"
         style="@style/EditTextStyle"
         android:layout_alignParentLeft="true"
-        android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
         android:hint="@string/hint_confirm_password"
         android:inputType="textPassword"
         android:maxLength="16" />

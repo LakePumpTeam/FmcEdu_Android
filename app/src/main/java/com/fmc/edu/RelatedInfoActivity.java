@@ -13,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
@@ -37,16 +36,16 @@ public class RelatedInfoActivity extends Activity {
     private EditText editBraceletCardNum;
     private EditText editBraceletNumber;
     private EditText editParName;
-    private EditText editRelation;
     private EditText editStuName;
+    private EditText editCellphone;
     private RadioGroup rgSex;
     private TextView txtBirthday;
     private TextView txtClass;
     private TextView txtCity;
     private TextView txtProvince;
+    private TextView txtRelation;
     private TextView txtSchool;
     private TextView txtTeacher;
-    private TextView txtCellphone;
     private String mCellphone;
     private ProgressControl mProgressControl;
     private String mHostUrl;
@@ -83,13 +82,13 @@ public class RelatedInfoActivity extends Activity {
         editBraceletCardNum = (EditText) findViewById(R.id.related_info_edit_device_card_num);
         editBraceletNumber = (EditText) findViewById(R.id.related_info_edit_device_code);
         editParName = (EditText) findViewById(R.id.related_info_edit_par_name);
-        editRelation = (EditText) findViewById(R.id.related_info_edit_relation);
         editStuName = (EditText) findViewById(R.id.related_info_edit_stu_name);
-        txtCellphone = (TextView) findViewById(R.id.related_info_txt_cellphone);
+        editCellphone = (EditText) findViewById(R.id.related_info_edit_cellphone);
         rgSex = (RadioGroup) findViewById(R.id.related_info_rg_sex);
         txtClass = (TextView) findViewById(R.id.related_info_txt_class);
         txtCity = (TextView) findViewById(R.id.related_info_txt_city);
         txtProvince = (TextView) findViewById(R.id.related_info_txt_province);
+        txtRelation = (TextView) findViewById(R.id.related_info_txt_relation);
         txtSchool = (TextView) findViewById(R.id.related_info_txt_school);
         txtTeacher = (TextView) findViewById(R.id.related_info_txt_teacher);
     }
@@ -99,6 +98,7 @@ public class RelatedInfoActivity extends Activity {
         txtClass.setOnClickListener(txtClassOnClickListener);
         txtCity.setOnClickListener(txtCityOnClickListener);
         txtProvince.setOnClickListener(txtProvinceOnClickListener);
+        txtRelation.setOnClickListener(txtRelationOnClickListener);
         txtSchool.setOnClickListener(txtSchoolOnClickListener);
         txtBirthday.setOnClickListener(txtBirthListener);
     }
@@ -106,20 +106,21 @@ public class RelatedInfoActivity extends Activity {
     private void bindPageData() {
         if (null == mBundle || mBundle.getBoolean("isRegister", false)) {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
-            txtCellphone.setText(mCellphone);
+            editCellphone.setText(mCellphone);
+            editCellphone.setEnabled(false);
             return;
         }
-
+        editCellphone.setEnabled(true);
         editAddress.setText(mBundle.getString("address"));
         editAddress.setTag(mBundle.getString("addressId"));
         txtBirthday.setText(mBundle.getString("studentBirth"));
         editBraceletCardNum.setText(mBundle.getString("braceletCardNumber"));
         editBraceletNumber.setText(mBundle.getString("braceletNumber"));
         editParName.setText(mBundle.getString("parentName"));
-        editRelation.setText(mBundle.getString("relation"));
+        txtRelation.setText(mBundle.getString("relation"));
         editStuName.setText(mBundle.getString("studentName"));
         editStuName.setTag(mBundle.getString("studentId"));
-        txtCellphone.setText(mBundle.getString("cellPhone"));
+        editCellphone.setText(mBundle.getString("cellPhone"));
         txtClass.setTag(mBundle.getString("classId"));
         txtClass.setText(mBundle.getString("className"));
         txtCity.setTag(mBundle.getString("cityId"));
@@ -171,6 +172,22 @@ public class RelatedInfoActivity extends Activity {
             handleDropDownClick();
         }
     };
+
+    private View.OnClickListener txtRelationOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SelectListControl relationListControl = new SelectListControl(RelatedInfoActivity.this, getRelationList(), true, "亲子关系", v);
+            relationListControl.setOnItemSelectedListener(relationItemListener);
+            relationListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
+        }
+    };
+    private SelectListControl.OnItemSelectedListener relationItemListener = new SelectListControl.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(CommonEntity obj, View view) {
+            txtRelation.setText(obj.getFullName());
+        }
+    };
+
 
     private View.OnClickListener btnSubmitAuditOnClickListener = new View.OnClickListener() {
         @Override
@@ -265,7 +282,7 @@ public class RelatedInfoActivity extends Activity {
             LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
             params.put("parentId", loginUserEntity.userId);
         }
-        params.put("cellPhone", txtCellphone.getText());
+        params.put("cellPhone", editCellphone.getText());
         params.put("provId", String.valueOf(txtProvince.getTag()));
         params.put("cityId", String.valueOf(txtCity.getTag()));
         params.put("schoolId", String.valueOf(txtSchool.getTag()));
@@ -276,7 +293,7 @@ public class RelatedInfoActivity extends Activity {
         params.put("studentSex", (findViewById(rgSex.getCheckedRadioButtonId())).getTag().toString());
         params.put("studentAge", txtBirthday.getText().toString());
         params.put("parentName", editParName.getText().toString());
-        params.put("relation", editRelation.getText().toString());
+        params.put("relation", txtRelation.getText().toString());
         params.put("address", editAddress.getText().toString());
         params.put("addressId", editAddress.getTag().toString());
         params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
@@ -315,6 +332,9 @@ public class RelatedInfoActivity extends Activity {
             return true;
         }
         if (!newData.get("relation").equals(mBundle.getString("relation"))) {
+            return true;
+        }
+        if (!newData.get("cellPhone").equals(mBundle.getString("cellPhone"))) {
             return true;
         }
         return false;
@@ -408,7 +428,7 @@ public class RelatedInfoActivity extends Activity {
         }
         if (null == classListControl) {
             classListControl = new SelectListControl(RelatedInfoActivity.this, data, mIsLastPage, title, view);
-            classListControl.setOnItemClickListener(selectedItemListener);
+            classListControl.setOnItemSelectedListener(selectedItemListener);
             classListControl.setOnLoadMoreListener(onLoadMoreListener);
             classListControl.showAtLocation(view, Gravity.CENTER, 0, 0);
         } else {
@@ -514,7 +534,7 @@ public class RelatedInfoActivity extends Activity {
             ToastToolUtils.showLong("请输入学生姓名");
             return false;
         }
-        if (StringUtils.isEmptyOrNull(editRelation.getText())) {
+        if (StringUtils.isEmptyOrNull(txtRelation.getText())) {
             ToastToolUtils.showLong("请录入与学生的关系");
             return false;
         }
@@ -536,6 +556,18 @@ public class RelatedInfoActivity extends Activity {
                 txtTeacher.setText(ConvertUtils.getString(data.get("headTeacherName"), ""));
             }
         });
+    }
+
+    private List<CommonEntity> getRelationList() {
+        List<CommonEntity> list = new ArrayList<CommonEntity>();
+        list.add(new CommonEntity("1", "爸爸"));
+        list.add(new CommonEntity("2", "妈妈"));
+        list.add(new CommonEntity("3", "爷爷"));
+        list.add(new CommonEntity("4", "奶奶"));
+        list.add(new CommonEntity("5", "姥爷"));
+        list.add(new CommonEntity("6", "姥姥"));
+        list.add(new CommonEntity("7", "其他"));
+        return list;
     }
 
     enum OperateType {

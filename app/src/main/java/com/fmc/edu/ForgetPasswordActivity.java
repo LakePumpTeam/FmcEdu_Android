@@ -40,6 +40,7 @@ public class ForgetPasswordActivity extends Activity {
         initViewEvents();
         progressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
+        editCellphone.setText(ConvertUtils.getString(getIntent().getExtras().get("cellPhone"), ""));
         if (AppConfigUtils.isDevelopment()) {
             initTestData();
         }

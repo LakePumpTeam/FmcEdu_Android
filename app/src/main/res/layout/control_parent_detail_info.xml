@@ -167,44 +167,6 @@
                     style="@style/EditTextStyle"
                     android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/activity_padding_middle"
-                    android:hint="@string/label_device_code" />
-
-                <TextView
-                    android:id="@+id/parent_detail_info_txt_device_code"
-                    style="@style/EditTextStyle"
-                    android:drawablePadding="@dimen/activity_padding_middle" />
-
-            </LinearLayout>
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/EditTextStyle"
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="@dimen/activity_padding_middle"
-                    android:hint="@string/label_device_card_num" />
-
-                <TextView
-                    android:id="@+id/parent_detail_info_txt_device_card_num"
-                    style="@style/EditTextStyle"
-                    android:drawablePadding="@dimen/activity_padding_middle" />
-
-            </LinearLayout>
-
-            <View style="@style/HorizontalDividerLineStyle" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/EditTextStyle"
-                    android:layout_width="wrap_content"
-                    android:drawablePadding="@dimen/activity_padding_middle"
                     android:hint="@string/label_address" />
 
                 <TextView
