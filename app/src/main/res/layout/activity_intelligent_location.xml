@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,4 +11,46 @@
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_intelligent_location" />
 
-</RelativeLayout>
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <TextView
+        android:id="@+id/add_task_txt_manager"
+        style="@style/DropDownShortTextViewStyle"
+
+        android:drawableLeft="@mipmap/ic_manager"
+        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:text="周边环境"
+        android:textSize="@dimen/font_size_middle" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <TextView
+        android:id="@+id/add_task_txt_location"
+        style="@style/DropDownShortTextViewStyle"
+        android:drawableLeft="@mipmap/ic_location"
+        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:text="定位"
+        android:textSize="@dimen/font_size_middle" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <View
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_marginTop="@dimen/activity_margin" />
+
+    <TextView
+        android:id="@+id/add_task_txt_bracelet_introduce"
+        style="@style/DropDownShortTextViewStyle"
+        android:drawableLeft="@mipmap/ic_time"
+        android:drawablePadding="@dimen/activity_margin_middle"
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:text="手环介绍"
+        android:textSize="@dimen/font_size_middle" />
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+</LinearLayout>

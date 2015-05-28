@@ -17,6 +17,7 @@
         style="@style/DropDownShortTextViewStyle"
         android:layout_marginTop="@dimen/activity_margin"
         android:drawableLeft="@mipmap/ic_manager"
+        android:drawableRight="@mipmap/ic_arrow_right"
         android:hint="@string/hint_task_manager"
         android:tag="0" />
 
@@ -26,8 +27,8 @@
         android:id="@+id/add_task_txt_finish_time"
         style="@style/DropDownShortTextViewStyle"
         android:drawableLeft="@mipmap/ic_time"
-        android:hint="设置任务时间"
-        android:tag="0" />
+        android:drawableRight="@mipmap/ic_arrow_right"
+        android:hint="设置任务时间"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
