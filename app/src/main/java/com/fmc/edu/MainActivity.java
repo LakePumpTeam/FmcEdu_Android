@@ -19,6 +19,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
+import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -114,15 +115,16 @@ public class MainActivity extends Activity {
         txtTeacher.setTag(mBundle.getString("teacherId"));
         txtClassGrade.setText(mBundle.getString("className"));
         mUserRole = mBundle.getInt("userRole");
+        ServicePreferenceUtils.saveSexPreference(this, mBundle.getBoolean("sex"));
         if (mBundle.getBoolean("sex")) {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_boy));
         } else {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
         }
-        if (mUserRole == 1) {
+        if (mUserRole == UserRoleEnum.getValue(UserRoleEnum.Teacher)) {
             rlAudit.setVisibility(View.VISIBLE);
             imgSendNewMsg.setVisibility(View.VISIBLE);
-        } else if (mUserRole == 2) {
+        } else if (mUserRole == UserRoleEnum.getValue(UserRoleEnum.Parent)) {
             rlAudit.setVisibility(View.INVISIBLE);
             imgSendNewMsg.setVisibility(View.GONE);
         }
@@ -292,12 +294,25 @@ public class MainActivity extends Activity {
     }
 
     private void gotoTaskListActivity() {
-        List<Map<String, Object>> list = getInitData();
-        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
-        intent.putExtras(bundle);
-        startActivity(intent);
+        mProgressControl.showWindow(menuParenting);
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", FmcApplication.getLoginUser().userId);
+        param.put("pageIndex", 1);
+        param.put("pageSize", Constant.PAGE_SIZE);
+        param.put("filter", "");
+        param.put("type", 1);
+        MyIon.httpPost(this, mHostUrl + "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("taskList");
+
+                Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void gotoCampusActivity() {

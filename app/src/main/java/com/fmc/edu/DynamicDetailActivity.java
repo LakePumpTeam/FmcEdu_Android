@@ -89,8 +89,8 @@ public class DynamicDetailActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         backKidSchoolList();
+        this.finish();
     }
 
     private void backKidSchoolList() {

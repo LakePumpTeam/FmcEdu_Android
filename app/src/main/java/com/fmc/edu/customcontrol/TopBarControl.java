@@ -91,6 +91,12 @@ public class TopBarControl extends LinearLayout {
         llOperateText.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
+    public void setOperatorText(String operatorText) {
+        txtOperate.setText(operatorText);
+        llOperateText.setVisibility(VISIBLE);
+        llOperateImage.setVisibility(GONE);
+    }
+
     public void setTopOperateImgVisible(boolean isVisible) {
         llOperateImage.setVisibility(isVisible ? VISIBLE : GONE);
     }

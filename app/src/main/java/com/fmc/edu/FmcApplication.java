@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.fmc.edu.common.CrashHandler;
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
@@ -18,6 +19,7 @@ public class FmcApplication extends Application {
     private static FmcApplication application;
     private static List<Activity> list = new ArrayList<Activity>();
     public LoginUserEntity mLoginUserEntity;
+    public static ProgressControl mProgressControl;
 
     @Override
     public void onCreate() {

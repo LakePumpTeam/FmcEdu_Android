@@ -14,10 +14,13 @@ import android.widget.RelativeLayout;
 
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.ViewPagerAdapter;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Candy on 2015-05-22.
  */
 public class AutoSlidePictureControl extends LinearLayout {
-    private List<String> mImageUrls;
+    private List<Map<String, Object>> mImageUrls;
     private int currentItem; //当前页面
     private ScheduledExecutorService scheduledExecutorService;
     private ViewPager mViewPager;
@@ -36,7 +39,7 @@ public class AutoSlidePictureControl extends LinearLayout {
     private OnSelectedListener mOnSelectedListener;
 
     public interface OnSelectedListener {
-        void onSelected(int position);
+        void onSelected(int newsId);
     }
 
     public AutoSlidePictureControl(Context context, AttributeSet attrs) {
@@ -53,7 +56,7 @@ public class AutoSlidePictureControl extends LinearLayout {
         this.addView(view);
     }
 
-    public void setPageData(List<String> imageUrls) {
+    public void setPageData(List<Map<String, Object>> imageUrls) {
         mImageUrls = imageUrls;
         ViewPagerAdapter adapter = new ViewPagerAdapter(mContext, createImageView(imageUrls));
         mViewPager.setAdapter(adapter);
@@ -65,16 +68,19 @@ public class AutoSlidePictureControl extends LinearLayout {
         this.mOnSelectedListener = onSelectedListener;
     }
 
-    private List<ImageView> createImageView(List<String> pictureUrls) {
+    private List<ImageView> createImageView(List<Map<String, Object>> pictureUrls) {
         List<ImageView> list = new ArrayList<ImageView>();
         for (int i = 0; i < pictureUrls.size(); i++) {
+            Map<String, Object> item = pictureUrls.get(i);
             ImageView imgView = new ImageView(mContext);
             ViewPager.LayoutParams param = new ViewPager.LayoutParams();
             param.width = ViewPager.LayoutParams.MATCH_PARENT;
             param.height = ViewPager.LayoutParams.MATCH_PARENT;
             imgView.setScaleType(ImageView.ScaleType.FIT_XY);
             imgView.setLayoutParams(param);
-            ImageLoaderUtil.initTitleImageLoader(mContext).displayImage(pictureUrls.get(i), imgView);
+            imgView.setTag(item.get("newsId"));
+            String url = AppConfigUtils.getServiceHost() + ConvertUtils.getString(item.get("imageUrl"));
+            ImageLoaderUtil.initTitleImageLoader(mContext).displayImage(url, imgView);
             imgView.setOnClickListener(imgViewClickListener);
             list.add(imgView);
         }
@@ -88,7 +94,7 @@ public class AutoSlidePictureControl extends LinearLayout {
             if (null == mOnSelectedListener) {
                 return;
             }
-            mOnSelectedListener.onSelected(currentItem);
+            mOnSelectedListener.onSelected(ConvertUtils.getInteger(v.getTag(), 0));
         }
     };
 
@@ -139,7 +145,7 @@ public class AutoSlidePictureControl extends LinearLayout {
             } else {
                 image.setBackgroundResource(R.mipmap.unselect);
             }
-            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(15,15);
+            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(15, 15);
             relativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             relativeLayout.addView(image, relativeParams);
             dotsLayout.addView(relativeLayout, linearParams);

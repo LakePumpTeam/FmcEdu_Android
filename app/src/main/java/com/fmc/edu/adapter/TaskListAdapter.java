@@ -7,10 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.TaskEntity;
+import com.fmc.edu.enums.UserRoleEnum;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Candy on 2015-05-27.
@@ -20,8 +28,17 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
         super(context, items);
     }
 
+    public void removeItem(int position) {
+        mItems.remove(position);
+        notifyDataSetChanged();
+    }
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (null == mItems || 0 == mItems.size()) {
+            return convertView;
+        }
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_task_list, null);
         }
@@ -32,11 +49,45 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_task_list_txt_date);
 
         TaskEntity taskEntity = mItems.get(position);
-        imgStatus.setImageResource(taskEntity.status ? R.mipmap.ic_finish : R.mipmap.ic_un_finish);
+        if (taskEntity.status == 1) {
+            imgStatus.setEnabled(false);
+            imgStatus.setImageResource(R.mipmap.ic_finish);
+        } else {
+            if (taskEntity.userRole == UserRoleEnum.Parent) {
+                imgStatus.setEnabled(false);
+                imgStatus.setImageResource(R.mipmap.ic_un_finish);
+            } else {
+                imgStatus.setImageResource(R.mipmap.ic_un_finish);
+                imgStatus.setEnabled(true);
+            }
+
+        }
+
         txtTitle.setText(taskEntity.subject);
-        txtManager.setText("负责人:" + taskEntity.ManagerName);
-        txtDate.setText(taskEntity.date);
+        txtManager.setText("学生:" + taskEntity.studentName);
+        txtDate.setText("完成日期:" + taskEntity.deadline);
+        imgStatus.setTag(position);
+        imgStatus.setOnClickListener(imgDeleteOnClickListener);
         return convertView;
 
     }
+
+    private View.OnClickListener imgDeleteOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            final int position = (int) v.getTag();
+            TaskEntity taskEntity = mItems.get(position);
+            Map<String, Object> param = new HashMap<>();
+            param.put("taskId", taskEntity.taskId);
+            param.put("userId", FmcApplication.getLoginUser().userId);
+            MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "task/deleteTask", param, new ProgressControl(mContext), new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    ToastToolUtils.showLong("删除成功！");
+                    removeItem(position);
+                }
+            });
+        }
+    };
 }

@@ -61,6 +61,9 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
         if (null != this.mItems && isClear) {
             this.mItems.clear();
         }
+        if (null == items) {
+            return;
+        }
         this.mItems.addAll(items);
         notifyDataSetChanged();
     }

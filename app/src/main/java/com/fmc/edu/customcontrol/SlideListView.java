@@ -31,8 +31,8 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         mContext = context;
         setOnScrollListener(this);
         mFooterView = LayoutInflater.from(mContext).inflate(R.layout.listview_footer_view, null);
-        mFooterView.setVisibility(GONE);
         addFooterView(mFooterView);
+        setFooterViewVisible(false);
     }
 
     @Override
@@ -42,7 +42,9 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         }
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
             if (getLastVisiblePosition() == getCount() - 1) {
-                mOnLoadMoreListener.onLoadMore(mFooterView);
+                if (null != mOnLoadMoreListener) {
+                    mOnLoadMoreListener.onLoadMore(mFooterView);
+                }
             }
         }
     }
@@ -58,5 +60,18 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
 
     public void setOnScrollPrepListener(OnScrollPrepListener onScrollPrepListener) {
         mOnScrollPrepListener = onScrollPrepListener;
+    }
+
+    public void setFooterViewVisible(boolean isVisible) {
+        if (null == mFooterView) {
+            return;
+        }
+        if (isVisible) {
+            mFooterView.setVisibility(View.VISIBLE);
+//            mFooterView.setPadding(0, 0, 0, 0);
+        } else {
+            mFooterView.setVisibility(View.GONE);
+//            mFooterView.setPadding(0, mFooterView.getHeight(), 0, 0);
+        }
     }
 }

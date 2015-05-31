@@ -31,6 +31,7 @@ public class SchoolDynamicActivity extends Activity {
     private String mHostUrl;
     private int mCurrentTag = 2;
     private boolean mIsLastPage;
+    private View mFooterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +83,10 @@ public class SchoolDynamicActivity extends Activity {
                 return;
             }
             mPageIndex++;
+            slideListView.setFooterViewVisible(true);
             getDynamicData(false);
         }
     };
-
-
 
 
     private void getDynamicData(boolean isShowProgress) {
@@ -114,5 +114,6 @@ public class SchoolDynamicActivity extends Activity {
             return;
         }
         mAdapter.addAllItems(list, false);
+        slideListView.setFooterViewVisible(false);
     }
 }

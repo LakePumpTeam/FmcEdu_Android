@@ -17,7 +17,12 @@
         <item name="android:background">@drawable/selector_btn_oval_corner_border</item>
     </style>
 
-    <style name="DropDownShortTextViewStyle">
+    <style name="DropDownShortTextViewStyle" parent="ClickTextViewStyle">
+
+        <item name="android:drawableRight">@mipmap/ic_arrow_down</item>
+    </style>
+
+    <style name="ClickTextViewStyle">
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">match_parent</item>
@@ -31,7 +36,6 @@
         <item name="android:textSize">@dimen/font_size_small</item>
         <item name="android:textColorHint">@color/edit_text_hint_font_color</item>
         <item name="android:textColor">@color/edit_text_font_color</item>
-        <item name="android:drawableRight">@mipmap/ic_arrow_down</item>
     </style>
 
     <style name="HorizontalDividerLineStyle">
@@ -90,6 +94,15 @@
         <item name="android:textSize">@dimen/font_size_small</item>
     </style>
 
+
+    <style name="TitleTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_font_color</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+    </style>
+
+
     <style name="ValidateButtonStyle" parent="OvalButtonStyle">
         <item name="android:textSize">@dimen/font_size_small</item>
         <item name="android:layout_width">90dp</item>
@@ -97,5 +110,6 @@
         <item name="android:paddingTop">@dimen/activity_padding_middle</item>
         <item name="android:paddingBottom">@dimen/activity_padding_middle</item>
     </style>
+
 
 </resources>

@@ -12,6 +12,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.AuditStateTypeEnum;
+import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -176,7 +177,7 @@ public class LoginActivity extends Activity {
         MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
                     @Override
                     public void afterCallBack(Map<String, Object> data) {
-                        saveLocalLoginInfo(ConvertUtils.getInteger(data.get("userId")), cellphone, password, salt, ConvertUtils.getString(data.get("userName")));
+                        saveLocalLoginInfo(cellphone, password, salt, data);
                         afterLogin(data);
                     }
                 }
@@ -260,13 +261,14 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveLocalLoginInfo(int userId, String cellPhone, String password, String salt, String userName) {
+    private void saveLocalLoginInfo(String cellPhone, String password, String salt, Map<String, Object> userData) {
         LoginUserEntity userEntity = new LoginUserEntity();
-        userEntity.userId = userId;
+        userEntity.userId = ConvertUtils.getInteger(userData.get("userId"));
         userEntity.cellphone = cellPhone;
         userEntity.password = password;
         userEntity.salt = salt;
-        userEntity.userName = userName;
+        userEntity.userRole = UserRoleEnum.getEnumValue( ConvertUtils.getInteger(userData.get("userRole")));
+        userEntity.userName = ConvertUtils.getString(userData.get("userName"));
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

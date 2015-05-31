@@ -13,23 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/dynamic_title_color"
-        android:textSize="@dimen/font_size_middle_title" />
+        android:textSize="@dimen/font_size_middle" />
 
     <TextView
         android:id="@+id/item_school_dynamic_list_txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="5"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/dynamic_content_color"
-        android:textSize="@dimen/font_size_middle" />
+        android:textSize="@dimen/font_size_small" />
 
     <TextView
         android:id="@+id/item_school_dynamic_list_txt_all_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/dynamic_content_color"
-        android:textSize="@dimen/font_size_middle"
+        android:textSize="@dimen/font_size_small"
         android:visibility="gone" />
 
     <com.fmc.edu.customcontrol.GridViewControl

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.enums.UserRoleEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,19 @@ public class ServicePreferenceUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("userId", userEntity.userId);
-        editor.putInt("userRole", userEntity.userRole);
+        editor.putInt("userRole", UserRoleEnum.getValue(userEntity.userRole));
         editor.putString("cellphone", userEntity.cellphone);
         editor.putString("password", encryptPWD(userEntity.password));
         editor.putString("salt", userEntity.salt);
         editor.putString("userName", userEntity.userName);
+        editor.putBoolean("sex", userEntity.sex);
+        editor.commit();
+    }
+
+    public static void saveSexPreference(Context context ,boolean sex){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("sex",sex);
         editor.commit();
     }
 
@@ -67,9 +76,10 @@ public class ServicePreferenceUtils {
         loginUserEntity.cellphone = sharedPreferences.getString("cellphone", "");
         loginUserEntity.password = decryptPWD(sharedPreferences.getString("password", ""));
         loginUserEntity.userId = sharedPreferences.getInt("userId", 0);
-        loginUserEntity.userRole = sharedPreferences.getInt("userRole", 1);
+        loginUserEntity.userRole = UserRoleEnum.getEnumValue(sharedPreferences.getInt("userRole", 1));
         loginUserEntity.salt = sharedPreferences.getString("salt", "");
         loginUserEntity.userName = sharedPreferences.getString("userName", "");
+        loginUserEntity.sex = sharedPreferences.getBoolean("sex", true);
         return loginUserEntity;
     }
 

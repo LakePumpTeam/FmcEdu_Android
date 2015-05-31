@@ -18,6 +18,7 @@ import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class KidSchoolActivity extends Activity {
 
     private KidsSchoolAdapter mAdapter;
-    private SlideListView list;
+    private SlideListView slideListView;
     private AutoSlidePictureControl slideImg;
     private List<DynamicItemEntity> mList;
     private ProgressControl mProgressControl;
@@ -55,20 +56,20 @@ public class KidSchoolActivity extends Activity {
     }
 
     private void initViews() {
-        list = (SlideListView) findViewById(R.id.kid_school_list);
+        slideListView = (SlideListView) findViewById(R.id.kid_school_list);
         slideImg = (AutoSlidePictureControl) findViewById(R.id.kid_school_slide_img);
     }
 
     private void initViewEvent() {
-        list.setOnLoadMoreListener(slideLoadedMoreListener);
+        slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
         slideImg.setOnSelectedListener(slideImgOnSelectedListener);
-        list.setOnItemClickListener(listOnItemClickListener);
+        slideListView.setOnItemClickListener(listOnItemClickListener);
     }
 
     private void initPageData() {
         mPageIndex = 1;
         mAdapter = new KidsSchoolAdapter(this, mList);
-        list.setAdapter(mAdapter);
+        slideListView.setAdapter(mAdapter);
     }
 
     private void initSlidePicture() {
@@ -80,19 +81,9 @@ public class KidSchoolActivity extends Activity {
                     return;
                 }
                 mSlidePicture = (List<Map<String, Object>>) data.get("slideList");
-                slideImg.setPageData(getPictureUrls());
+                slideImg.setPageData(mSlidePicture);
             }
         });
-    }
-
-    private List<String> getPictureUrls() {
-        List<String> pictureUrls = new ArrayList<String>();
-        for (int i = 0; i < mSlidePicture.size(); i++) {
-            Map<String, Object> item = mSlidePicture.get(i);
-            String imgUrl = mHostUrl + ConvertUtils.getString(item.get("imageUrl"));
-            pictureUrls.add(imgUrl);
-        }
-        return pictureUrls;
     }
 
     private SlideListView.OnLoadMoreListener slideLoadedMoreListener = new SlideListView.OnLoadMoreListener() {
@@ -102,6 +93,7 @@ public class KidSchoolActivity extends Activity {
                 return;
             }
             mPageIndex++;
+            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };
@@ -109,9 +101,8 @@ public class KidSchoolActivity extends Activity {
 
     private AutoSlidePictureControl.OnSelectedListener slideImgOnSelectedListener = new AutoSlidePictureControl.OnSelectedListener() {
         @Override
-        public void onSelected(int position) {
-            Map<String, Object> item = mSlidePicture.get(position);
-            gotoDynamicDetailPage(slideImg, ConvertUtils.getInteger(item.get("newsId"), 0));
+        public void onSelected(int newsId) {
+            gotoDynamicDetailPage(slideImg, ConvertUtils.getInteger(newsId, 0));
         }
     };
 
@@ -133,6 +124,10 @@ public class KidSchoolActivity extends Activity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();
+                if (!data.containsKey("newsId")) {
+                    ToastToolUtils.showLong("该详情不存在");
+                    return;
+                }
                 bundle.putInt("newsId", ConvertUtils.getInteger(data.get("newsId")));
                 bundle.putInt("like", ConvertUtils.getInteger(data.get("like")));
                 bundle.putInt("type", DynamicTypeEnum.getValue(DynamicTypeEnum.KidSchool));
@@ -153,6 +148,7 @@ public class KidSchoolActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode != RESULT_OK) {
             return;
         }
@@ -190,6 +186,7 @@ public class KidSchoolActivity extends Activity {
             return;
         }
         mAdapter.addAllItems(list, false);
+        slideListView.setFooterViewVisible(false);
     }
 
 }

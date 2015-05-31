@@ -87,9 +87,10 @@
     <string name="desc_shrinkup">收起</string>
     <string name="desc_spread">显示更多</string>
 
-    <string name="hint_task_manager">选择任务负责人</string>
+    <string name="hint_task_manager">选择学生</string>
     <string name="hint_task_subject">请输入任务标题</string>
     <string name="hint_task_content">请输入任务描述</string>
     <string name="btn_ok">确定</string>
+    <string name="hint_finish_date">截止日期</string>
 
 </resources>

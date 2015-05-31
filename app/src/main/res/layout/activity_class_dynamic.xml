@@ -2,7 +2,7 @@
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@color/activity_bg_color_write"
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
@@ -17,6 +17,7 @@
         android:id="@+id/class_dynamic_slide_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/activity_bg_color_write"
         android:layout_above="@+id/class_dynamic_rl_comment"
         android:layout_below="@id/class_dynamic_top_bar" />
 

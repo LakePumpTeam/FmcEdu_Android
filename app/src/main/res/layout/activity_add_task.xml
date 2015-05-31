@@ -32,7 +32,7 @@
         android:drawableLeft="@mipmap/ic_time"
         android:drawablePadding="@dimen/activity_padding"
         android:drawableRight="@mipmap/ic_arrow_right"
-        android:hint="设置任务时间"
+        android:hint="@string/hint_finish_date"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding" />
 
@@ -57,7 +57,7 @@
                 style="@style/EditTextStyle"
                 android:background="@color/activity_bg_color"
                 android:hint="@string/hint_task_subject"
-                android:textSize="@dimen/font_size_middle" />
+                android:maxLength="15" />
 
             <View style="@style/HorizontalDividerLineStyle" />
 
@@ -68,9 +68,10 @@
                 android:background="@color/activity_bg_color"
                 android:gravity="top"
                 android:hint="@string/hint_task_content"
+                android:lineSpacingExtra="2dp"
+                android:maxLength="200"
                 android:paddingTop="@dimen/activity_padding_middle"
-                android:singleLine="false"
-                android:textSize="@dimen/font_size_middle" />
+                android:singleLine="false" />
 
         </LinearLayout>
 
@@ -81,6 +82,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_margin"
+
             android:paddingLeft="@dimen/activity_padding_large"
             android:paddingRight="@dimen/activity_padding_large"
             android:text="确认添加新任务" />

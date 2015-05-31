@@ -88,6 +88,7 @@ public class ClassDynamicActivity extends Activity {
                 return;
             }
             mPageIndex++;
+            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };
@@ -124,6 +125,7 @@ public class ClassDynamicActivity extends Activity {
             return;
         }
         mAdapter.addAllItems(list, false);
+        slideListView.setFooterViewVisible(false);
     }
 
     private void doSendComment() {

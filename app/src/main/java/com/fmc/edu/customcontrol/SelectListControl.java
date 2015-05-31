@@ -119,8 +119,9 @@ public class SelectListControl extends PopupWindow {
             if (null == mOnLoadMoreListener || mIsLastPage) {
                 return;
             }
-            footerView.setVisibility(View.VISIBLE);
-            mFooterView = footerView;
+//            footerView.setVisibility(View.VISIBLE);
+//            mFooterView = footerView;
+            listView.setFooterViewVisible(true);
             mOnLoadMoreListener.onLoadMore();
         }
     };
@@ -141,6 +142,7 @@ public class SelectListControl extends PopupWindow {
     }
 
     public void setFooterViewFalse() {
-        mFooterView.setVisibility(View.GONE);
+        listView.setFooterViewVisible(true);
+//        mFooterView.setVisibility(View.GONE);
     }
 }

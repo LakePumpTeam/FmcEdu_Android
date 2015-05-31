@@ -8,4 +8,5 @@ public class RequestCodeUtils {
     public static final int KID_SCHOOL_DETAIL = 3;
     public static final int PUBLISH_CLASS_DYNAMIC=4;
     public static final  int ADD_TASK=5;
+    public static final int TASK_DETAIL=6;
 }
