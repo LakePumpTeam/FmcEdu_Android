@@ -22,15 +22,20 @@ public abstract class FMCMapFutureCallback implements FutureCallback<String> {
             ToastToolUtils.showLong("服务器出问题...");
             return;
         }
-        Map<String, ?> mapResult = new HashMap<>();
+        if (result.contains("Service Unavailable")) {
+            ToastToolUtils.showLong("服务器崩溃了...");
+            return;
+        }
         try {
+            Map<String, ?> mapResult = new HashMap<>();
             String decodeResult = new String(Base64.decode(result, Base64.DEFAULT));
             mapResult = JsonToMapUtils.getMap(decodeResult);
+            onTranslateCompleted(e, mapResult);
 
         } catch (Exception ex) {
             ToastToolUtils.showLong("服务器数据出错！");
             return;
         }
-        onTranslateCompleted(e, mapResult);
+
     }
 }

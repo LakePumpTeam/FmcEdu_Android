@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -97,7 +98,7 @@ public class TaskDetailActivity extends Activity {
             editContent.setEnabled(true);
         }
         String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
-        topBar.setOperatorText(title);
+        topBar.setTopBarText(title);
         txtSubject.setText(mTaskEntity.title);
         txtStudent.setText(mTaskEntity.studentName);
         txtDate.setText(mTaskEntity.deadline);
@@ -155,7 +156,7 @@ public class TaskDetailActivity extends Activity {
             }
             popupDelete.setTag(item);
             popupCopy.setTag(item.comment);
-            commentPopupWindow.showAsDropDown(view);
+            commentPopupWindow.showAtLocation(view, Gravity.RIGHT, 0, 0);
             return false;
         }
     };
@@ -172,6 +173,7 @@ public class TaskDetailActivity extends Activity {
     private View.OnClickListener copyCommentOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            commentPopupWindow.dismiss();
             Object comment = v.getTag();
             if (StringUtils.isEmptyOrNull(comment)) {
                 return;
@@ -191,13 +193,13 @@ public class TaskDetailActivity extends Activity {
                 return;
             }
             Map<String, Object> param = new HashMap<>();
-            param.put("studentId", mTaskEntity.studentId);
+            param.put("userId", FmcApplication.getLoginUser().userId);
             param.put("taskId", mTaskEntity.taskId);
             param.put("comment", editComment.getText());
             MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/addComment", param, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
-                    rlComment.setVisibility(View.GONE);
+                    editComment.setText("");
                     CommentItemEntity commentItemEntity = CommentItemEntity.toCommentEntity(data);
                     mCommentAdapter.addItem(0, commentItemEntity);
                 }
@@ -217,7 +219,7 @@ public class TaskDetailActivity extends Activity {
         MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/deleteComment", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                rlComment.setVisibility(View.GONE);
+                commentPopupWindow.dismiss();
                 mCommentAdapter.removeItem(item);
             }
         });

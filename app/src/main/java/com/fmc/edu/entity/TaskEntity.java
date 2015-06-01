@@ -35,12 +35,13 @@ public class TaskEntity implements Serializable {
     }
 
     public static TaskEntity toTaskEntity(Map<String, Object> data) {
-        TaskEntity taskEntity = new TaskEntity();
+         TaskEntity taskEntity = new TaskEntity();
         taskEntity.taskId = ConvertUtils.getInteger(data.get("taskId"), 0);
-        taskEntity.title = ConvertUtils.getString(data.get("title"));
-        taskEntity.studentName = ConvertUtils.getString(data.get("studentName"));
-        taskEntity.studentId = ConvertUtils.getInteger(data.get("studentId"));
-        taskEntity.deadline = ConvertUtils.getString(data.get("deadline"));
+        taskEntity.title = ConvertUtils.getString(data.get("title"), "");
+        taskEntity.studentName = ConvertUtils.getString(data.get("studentName"), "");
+        taskEntity.content = ConvertUtils.getString(data.get("task"), "");
+        taskEntity.studentId = ConvertUtils.getInteger(data.get("studentId"), 0);
+        taskEntity.deadline = ConvertUtils.getString(data.get("deadline"), "");
         taskEntity.status = ConvertUtils.getInteger(data.get("status"), 0);
         taskEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole"), 0));
         taskEntity.commentList = CommentItemEntity.toCommentEntityList(ConvertUtils.getList(data.get("commentList")));
