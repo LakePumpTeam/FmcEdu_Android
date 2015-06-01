@@ -80,6 +80,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_small"
         android:text="@string/txt_read_agreement"
+        android:layout_marginLeft="@dimen/activity_margin_middle"
+        android:button="@drawable/selector_check_box_check"
+        android:paddingLeft="@dimen/activity_padding_middle"
         android:textColor="@color/annotation_txt_font_color"
         android:textSize="@dimen/font_size_middle" />
 

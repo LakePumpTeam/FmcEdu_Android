@@ -1,12 +1,10 @@
 package com.fmc.edu;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,14 +13,15 @@ import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.MultiSelectListControl;
 import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.MultiCommonEntity;
+import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
+import com.koushikdutta.ion.builder.Builders;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -70,28 +69,38 @@ public class AddTaskActivity extends Activity {
     private View.OnClickListener btnSubmitOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Map<String, Object> param = new HashMap<>();
-            param.put("userId", FmcApplication.getLoginUser().userId);
-            param.put("students", mSelectedStudentIds);
-            param.put("deadline", txtFinishTime.getText());
-            param.put("title", editSubject.getText());
-            param.put("task", editContent.getText());
-            MyIon.httpPost(AddTaskActivity.this, mHostUrl + "task/publishTask", param, mProgressControl, new MyIon.AfterCallBack() {
-                @Override
-                public void afterCallBack(Map<String, Object> data) {
-                    ToastToolUtils.showShort("添加成功");
-                    setResult(RESULT_OK);
-                    AddTaskActivity.this.finish();
+            try {
+                Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(mHostUrl + "task/publishTask");
+                withB.setMultipartParameter("userId", StringUtils.base64Encode(FmcApplication.getLoginUser().userId))
+                        .setMultipartParameter("deadline", StringUtils.base64Encode(txtFinishTime.getText()))
+                        .setMultipartParameter("title", StringUtils.base64Encode(editSubject.getText()))
+                        .setMultipartParameter("task", StringUtils.base64Encode(editContent.getText()));
+                for (int key : mSelectedStudentIds) {
+                    withB.setMultipartParameter("students", StringUtils.base64Encode(key));
                 }
-            });
+                withB.asString(Charset.forName("utf8"))
+                        .setCallback(new FMCMapFutureCallback() {
+                            @Override
+                            public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+                                mProgressControl.dismiss();
+                                ToastToolUtils.showShort("添加成功");
+                                setResult(RESULT_OK);
+                                AddTaskActivity.this.finish();
+                            }
+                        });
+
+            } catch (NetworkErrorException e) {
+                e.printStackTrace();
+            }
         }
     };
 
     private View.OnClickListener txtManagerOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (null != mStudentList || mStudentList.size() > 0) {
+            if (null != mStudentList && mStudentList.size() > 0) {
                 showStudentSelectList();
+                return;
             }
             getStudentList();
         }

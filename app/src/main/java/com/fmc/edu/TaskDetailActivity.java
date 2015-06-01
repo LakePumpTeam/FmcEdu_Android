@@ -2,7 +2,6 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.content.ClipboardManager;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
-import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -98,9 +96,9 @@ public class TaskDetailActivity extends Activity {
             topBar.setOperatorText("保存");
             editContent.setEnabled(true);
         }
-        String title = mTaskEntity.subject.length() > 6 ? mTaskEntity.subject.substring(0, 6) : mTaskEntity.subject;
+        String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
         topBar.setOperatorText(title);
-        txtSubject.setText(mTaskEntity.subject);
+        txtSubject.setText(mTaskEntity.title);
         txtStudent.setText(mTaskEntity.studentName);
         txtDate.setText(mTaskEntity.deadline);
         editContent.setText(mTaskEntity.content);

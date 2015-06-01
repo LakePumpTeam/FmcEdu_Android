@@ -24,6 +24,8 @@
     <color name="edit_text_bg_color">#fff</color>
     <color name="edit_text_border_color">#fff</color>
     <color name="edit_layout_bg_color">#F9F9F9</color>
+    <color name="select_item_font_color">#777</color>
+    <color name="select_item_title_font_color">#3c3c3c</color>
 
     <color name="label_import_font_color">#ff0000</color>
 

@@ -30,6 +30,7 @@
         android:id="@+id/item_school_dynamic_list_txt_all_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/dynamic_content_color"
         android:textSize="@dimen/font_size_small"
         android:visibility="gone" />

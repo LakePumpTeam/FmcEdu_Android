@@ -2,15 +2,11 @@ package com.fmc.edu.http;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.text.SpannableStringBuilder;
 import android.util.Base64;
-import android.util.Log;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.NetworkUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -19,11 +15,6 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.koushikdutta.ion.future.ResponseFuture;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -47,6 +38,10 @@ public class MyIon {
         for (String key : params.keySet()) {
             Object value = params.get(key);
             try {
+                if (StringUtils.isEmptyOrNull(value)) {
+                    withB.setBodyParameter(key, "");
+                    continue;
+                }
                 byte[] bytes = value.toString().getBytes();
                 withB.setBodyParameter(key, Base64.encodeToString(bytes, Base64.DEFAULT));
             } catch (Exception e) {

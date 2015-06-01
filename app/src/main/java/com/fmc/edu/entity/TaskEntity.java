@@ -14,7 +14,7 @@ import java.util.Map;
 public class TaskEntity implements Serializable {
     public int taskId;
     public int status;
-    public String subject;
+    public String title;
     public String studentName;
     public int studentId;
     public String deadline;
@@ -37,7 +37,7 @@ public class TaskEntity implements Serializable {
     public static TaskEntity toTaskEntity(Map<String, Object> data) {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.taskId = ConvertUtils.getInteger(data.get("taskId"), 0);
-        taskEntity.subject = ConvertUtils.getString(data.get("subject"));
+        taskEntity.title = ConvertUtils.getString(data.get("title"));
         taskEntity.studentName = ConvertUtils.getString(data.get("studentName"));
         taskEntity.studentId = ConvertUtils.getInteger(data.get("studentId"));
         taskEntity.deadline = ConvertUtils.getString(data.get("deadline"));

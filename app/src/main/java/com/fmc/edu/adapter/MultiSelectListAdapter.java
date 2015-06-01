@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
@@ -42,7 +40,7 @@ public class MultiSelectListAdapter extends FmcBaseAdapter<MultiCommonEntity> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (null == convertView) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.cotrol_multi_select_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_multi_select, null);
         }
         MultiSelectListHolder multiSelectListHolder = new MultiSelectListHolder();
         CheckBox cbCheck = (CheckBox) convertView.findViewById(R.id.multi_select_item_checked);
@@ -60,7 +58,7 @@ public class MultiSelectListAdapter extends FmcBaseAdapter<MultiCommonEntity> {
         cbCheck.setTag(position);
 
         cbCheck.setOnClickListener(ckOnCheckChangedListener);
-        convertView.setOnClickListener(viewChangedListener);
+        //convertView.setOnClickListener(viewChangedListener);
         return convertView;
     }
 
@@ -71,21 +69,19 @@ public class MultiSelectListAdapter extends FmcBaseAdapter<MultiCommonEntity> {
             updateChecked(position, ((CheckBox) v).isChecked());
         }
     };
-    private View.OnClickListener viewChangedListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            MultiSelectListHolder multiSelectListHolder = (MultiSelectListAdapter.MultiSelectListHolder) v.getTag();
-            boolean isCheck = multiSelectListHolder.checkBox.isChecked();
-            multiSelectListHolder.checkBox.setChecked(!isCheck);
-            updateChecked(multiSelectListHolder.position, !isCheck);
-        }
-    };
+//    private View.OnClickListener viewChangedListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            MultiSelectListHolder multiSelectListHolder = (MultiSelectListAdapter.MultiSelectListHolder) v.getTag();
+//            boolean isCheck = multiSelectListHolder.checkBox.isChecked();
+//            multiSelectListHolder.checkBox.setChecked(!isCheck);
+//            updateChecked(multiSelectListHolder.position, !isCheck);
+//        }
+//    };
 
     private class MultiSelectListHolder {
         public int position;
         public CheckBox checkBox;
-
-
     }
 
 }

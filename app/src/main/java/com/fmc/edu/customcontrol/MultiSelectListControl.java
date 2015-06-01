@@ -8,13 +8,13 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.MultiSelectListAdapter;
-import com.fmc.edu.entity.CommonEntity;
 import com.fmc.edu.entity.MultiCommonEntity;
 
 import java.util.List;
@@ -23,9 +23,10 @@ import java.util.List;
  * Created by Candy on 2015/5/30.
  */
 public class MultiSelectListControl extends PopupWindow {
+    private Button btnOk;
     private SlideListView listView;
     private TextView txtTitle;
-    private LinearLayout llOk;
+    private LinearLayout llClosed;
 
     private Context mContext;
     private List<MultiCommonEntity> mSourceList;
@@ -69,13 +70,15 @@ public class MultiSelectListControl extends PopupWindow {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_multi_select_list, null);
         txtTitle = (TextView) view.findViewById(R.id.multi_select_list_txt_title);
-        llOk = (LinearLayout) view.findViewById(R.id.multi_select_list_ll_ok);
+        llClosed = (LinearLayout) view.findViewById(R.id.multi_select_list_ll_closed);
         listView = (SlideListView) view.findViewById(R.id.multi_select_slide_list);
+        btnOk = (Button) view.findViewById(R.id.multi_select_btn_ok);
 
         txtTitle.setText(mTitle);
         linearLayout.addView(view);
-        llOk.setOnClickListener(llOkOnClickListener);
-        view.setMinimumHeight(mDisplayMetrics.heightPixels * 2 / 3);
+        llClosed.setOnClickListener(btnClosedOnClickListener);
+        btnOk.setOnClickListener(btnOkOnClickListener);
+        listView.setMinimumHeight(mDisplayMetrics.heightPixels * 2 / 3);
         this.setContentView(linearLayout);
         bindListView();
     }
@@ -91,7 +94,7 @@ public class MultiSelectListControl extends PopupWindow {
         }
     }
 
-    private View.OnClickListener llOkOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener btnOkOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             MultiSelectListControl.this.dismiss();
@@ -100,6 +103,14 @@ public class MultiSelectListControl extends PopupWindow {
             }
         }
     };
+
+    private View.OnClickListener btnClosedOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            MultiSelectListControl.this.dismiss();
+        }
+    };
+
 
     public void setOnAfterSelectedListener(OnAfterSelectedListener onAfterSelectedListener) {
         this.mOnAfterSelectedListener = onAfterSelectedListener;

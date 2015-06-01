@@ -9,23 +9,22 @@ import android.widget.TextView;
 
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
-import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.enums.UserRoleEnum;
-import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Candy on 2015-05-27.
  */
 public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
+    private LoginUserEntity loginUserEntity;
+
     public TaskListAdapter(Context context, List<TaskEntity> items) {
         super(context, items);
+        loginUserEntity = FmcApplication.getLoginUser();
     }
 
     public void removeItem(int position) {
@@ -53,17 +52,16 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
             imgStatus.setEnabled(false);
             imgStatus.setImageResource(R.mipmap.ic_finish);
         } else {
-            if (taskEntity.userRole == UserRoleEnum.Parent) {
+            if (loginUserEntity.userRole == UserRoleEnum.Parent) {
                 imgStatus.setEnabled(false);
                 imgStatus.setImageResource(R.mipmap.ic_un_finish);
             } else {
-                imgStatus.setImageResource(R.mipmap.ic_un_finish);
+                imgStatus.setImageResource(R.mipmap.ic_audit);
                 imgStatus.setEnabled(true);
             }
-
         }
 
-        txtTitle.setText(taskEntity.subject);
+        txtTitle.setText(taskEntity.title);
         txtManager.setText("学生:" + taskEntity.studentName);
         txtDate.setText("完成日期:" + taskEntity.deadline);
         imgStatus.setTag(position);
@@ -75,19 +73,21 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
     private View.OnClickListener imgDeleteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            final int position = (int) v.getTag();
-            TaskEntity taskEntity = mItems.get(position);
-            Map<String, Object> param = new HashMap<>();
-            param.put("taskId", taskEntity.taskId);
-            param.put("userId", FmcApplication.getLoginUser().userId);
-            MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "task/deleteTask", param, new ProgressControl(mContext), new MyIon.AfterCallBack() {
-                @Override
-                public void afterCallBack(Map<String, Object> data) {
-                    ToastToolUtils.showLong("删除成功！");
-                    removeItem(position);
-                }
-            });
+            ToastToolUtils.showShort("删除");
+//            ProgressControl progressControl = new ProgressControl(mContext);
+//            progressControl.showWindow(v);
+//            final int position = (int) v.getTag();
+//            TaskEntity taskEntity = mItems.get(position);
+//            Map<String, Object> param = new HashMap<>();
+//            param.put("taskId", taskEntity.taskId);
+//            param.put("userId", FmcApplication.getLoginUser().userId);
+//            MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "task/deleteTask", param, progressControl, new MyIon.AfterCallBack() {
+//                @Override
+//                public void afterCallBack(Map<String, Object> data) {
+//                    ToastToolUtils.showLong("删除成功！");
+//                    removeItem(position);
+//                }
+//            });
         }
     };
 }

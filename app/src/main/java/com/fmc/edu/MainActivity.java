@@ -300,7 +300,7 @@ public class MainActivity extends Activity {
         param.put("pageIndex", 1);
         param.put("pageSize", Constant.PAGE_SIZE);
         param.put("filter", "");
-        param.put("type", 1);
+        param.put("status", 0);
         MyIon.httpPost(this, mHostUrl + "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -309,6 +309,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) TaskEntity.toTaskEntityList(list));
+                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

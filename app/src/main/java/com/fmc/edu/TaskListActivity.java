@@ -13,7 +13,6 @@ import com.fmc.edu.adapter.TaskListAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
-import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.enums.UserRoleEnum;
@@ -22,8 +21,6 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +36,8 @@ public class TaskListActivity extends Activity {
     private TaskListAdapter mAdapter;
     private ProgressControl mProgressControl;
     private String mHostUrl;
+    private boolean mIsLastPage;
+
     private int mPageIndex;
 
     @Override
@@ -47,6 +46,7 @@ public class TaskListActivity extends Activity {
         FmcApplication.addActivity(this);
         setContentView(R.layout.activity_task_list);
         mBundle = getIntent().getExtras();
+        mIsLastPage = mBundle.getBoolean("isLastPage", false);
         mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
@@ -116,6 +116,9 @@ public class TaskListActivity extends Activity {
     private SlideListView.OnLoadMoreListener slideOnLoadMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
+            if (mIsLastPage) {
+                return;
+            }
             loadMoreData();
         }
     };
@@ -126,11 +129,12 @@ public class TaskListActivity extends Activity {
         param.put("pageIndex", mPageIndex);
         param.put("pageSize", Constant.PAGE_SIZE);
         param.put("filter", "");
-        param.put("type", ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 1));
+        param.put("status", ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 0));
         MyIon.httpPost(this, mHostUrl + "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("taskList");
+                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<TaskEntity> taskList = TaskEntity.toTaskEntityList(list);
                 if (mPageIndex == 1) {
                     mAdapter.addAllItems(taskList, true);

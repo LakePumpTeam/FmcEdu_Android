@@ -1,10 +1,11 @@
 package com.fmc.edu.utils;
 
+import android.util.Base64;
+
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * Created by Candy on 2015/5/3.
@@ -44,5 +45,13 @@ public class StringUtils {
             ex.printStackTrace();
         }
         return buf.toString();
+    }
+
+    public static String base64Encode(Object obj) {
+        if (StringUtils.isEmptyOrNull(obj)) {
+            return "";
+        }
+        byte[] bytes = obj.toString().getBytes();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }
