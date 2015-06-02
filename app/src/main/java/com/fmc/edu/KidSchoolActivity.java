@@ -27,13 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class KidSchoolActivity extends Activity {
+public class KidSchoolActivity extends BaseActivity {
 
     private KidsSchoolAdapter mAdapter;
     private SlideListView slideListView;
     private AutoSlidePictureControl slideImg;
     private List<DynamicItemEntity> mList;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
@@ -42,9 +41,7 @@ public class KidSchoolActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_kid_school);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_kid_school);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
@@ -115,7 +112,7 @@ public class KidSchoolActivity extends Activity {
 
 
     private void gotoDynamicDetailPage(View view, int newsId) {
-        mProgressControl.showWindow(view);
+        mProgressControl.showWindow();
         String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", newsId);

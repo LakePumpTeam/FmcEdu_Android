@@ -27,7 +27,7 @@ import java.util.Map;
 import static com.fmc.edu.customcontrol.PromptWindowControl.OnOperateOnClickListener;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
     private Button btnLogin;
     private EditText editCellphone;
     private EditText editPassword;
@@ -35,16 +35,13 @@ public class LoginActivity extends Activity {
     private TextView txtRegister;
 
     private int REQUEST_CODE_REGISTER = 1;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private PromptWindowControl promptWindowControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_login);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_login);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         bindViewEvents();
@@ -152,7 +149,7 @@ public class LoginActivity extends Activity {
             ToastToolUtils.showLong("有效的密码是6-16位的数字或者字符");
             return;
         }
-        mProgressControl.showWindow(view);
+        mProgressControl.showWindow();
         getLoginSalt(cellphone, password);
     }
 
@@ -201,7 +198,7 @@ public class LoginActivity extends Activity {
     }
 
     private void gotoMainData() {
-        mProgressControl.showWindow(btnLogin);
+        mProgressControl.showWindow();
         String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -224,7 +221,7 @@ public class LoginActivity extends Activity {
     }
 
     private void gotoRelationPage() {
-        mProgressControl.showWindow(btnLogin);
+        mProgressControl.showWindow();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("parentId", loginUserEntity.userId);
@@ -267,7 +264,7 @@ public class LoginActivity extends Activity {
         userEntity.cellphone = cellPhone;
         userEntity.password = password;
         userEntity.salt = salt;
-        userEntity.userRole = UserRoleEnum.getEnumValue( ConvertUtils.getInteger(userData.get("userRole")));
+        userEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(userData.get("userRole")));
         userEntity.userName = ConvertUtils.getString(userData.get("userName"));
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }

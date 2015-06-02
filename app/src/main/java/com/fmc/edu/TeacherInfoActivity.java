@@ -3,6 +3,7 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class TeacherInfoActivity extends Activity {
+public class TeacherInfoActivity extends BaseActivity {
     private Button btnSubmit;
     private EditText editCourse;
     private EditText editName;
@@ -29,18 +30,15 @@ public class TeacherInfoActivity extends Activity {
     private EditText editCellphone;
     private RadioGroup rgSex;
     private TextView txtBirth;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_teacher_info);
+        FmcApplication.addActivity(this, R.layout.activity_teacher_info);
         initViews();
         initViewEvent();
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         mBundle = getIntent().getExtras();
         bindEnable();

@@ -2,6 +2,8 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.app.Application;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -31,7 +33,14 @@ public class FmcApplication extends Application {
         return ServicePreferenceUtils.getLoginUserByPreference(application);
     }
 
-    public static void addActivity(Activity activity) {
+    public static void addActivity(BaseActivity activity, int layoutId) {
+        addActivity(activity);
+        View view = LayoutInflater.from(activity).inflate(layoutId, null);
+        activity.setContentView(view);
+        activity.mProgressControl = new ProgressControl(activity, view);
+    }
+
+    private static void addActivity(Activity activity) {
         list.add(activity);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(activity);

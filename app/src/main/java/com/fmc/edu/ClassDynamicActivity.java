@@ -25,12 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ClassDynamicActivity extends Activity {
+public class ClassDynamicActivity extends BaseActivity {
     private SlideListView slideListView;
     private RelativeLayout rlComment;
     private EditText editComment;
     private Button btnComment;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private int mNewsId;
     private int mPositon;
@@ -43,9 +42,7 @@ public class ClassDynamicActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_class_dynamic);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_class_dynamic);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
@@ -129,7 +126,7 @@ public class ClassDynamicActivity extends Activity {
     }
 
     private void doSendComment() {
-        mProgressControl.showWindow(btnComment);
+        mProgressControl.showWindow();
         String url = mHostUrl + "news/postComment";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", mNewsId);

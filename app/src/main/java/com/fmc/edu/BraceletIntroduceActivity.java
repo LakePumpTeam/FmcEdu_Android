@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 
 
-public class BraceletIntroduceActivity extends Activity {
+public class BraceletIntroduceActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_bracelet_introduce);
+        FmcApplication.addActivity(this, R.layout.activity_bracelet_introduce);
     }
 
 }

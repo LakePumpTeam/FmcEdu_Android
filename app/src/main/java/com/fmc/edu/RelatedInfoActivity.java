@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RelatedInfoActivity extends Activity {
+public class RelatedInfoActivity extends BaseActivity {
     private Button btnSubmitAudit;
     private EditText editAddress;
     private EditText editBraceletCardNum;
@@ -47,7 +48,6 @@ public class RelatedInfoActivity extends Activity {
     private TextView txtSchool;
     private TextView txtTeacher;
     private String mCellphone;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private Map<String, Object> mParams;
     private SelectListControl classListControl;
@@ -62,13 +62,11 @@ public class RelatedInfoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_related_info);
+        FmcApplication.addActivity(this, R.layout.activity_related_info);
         mBundle = getIntent().getExtras();
         initViews();
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellPhone");
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
@@ -254,7 +252,7 @@ public class RelatedInfoActivity extends Activity {
 
     private void handleDropDownClick(String url, boolean isLoadMore) {
         if (!isLoadMore) {
-            mProgressControl.showWindow(mSelectView);
+            mProgressControl.showWindow();
         }
         handleParams();
         MyIon.httpPost(this, mHostUrl + url, mParams, mProgressControl, new MyIon.AfterCallBack() {
@@ -266,7 +264,7 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void doSubmitAudit(View view) {
-        mProgressControl.showWindow(view);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestRegisterBaseInfo";
         MyIon.httpPost(this, url, getParams(), mProgressControl, new MyIon.AfterCallBack() {
             @Override
@@ -546,7 +544,7 @@ public class RelatedInfoActivity extends Activity {
     }
 
     private void getTeacher() {
-        mProgressControl.showWindow(txtTeacher);
+        mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<>();
         params.put("classId", txtClass.getTag());
         MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", params, mProgressControl, new MyIon.AfterCallBack() {

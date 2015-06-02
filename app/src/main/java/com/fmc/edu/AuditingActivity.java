@@ -9,15 +9,14 @@ import android.widget.Button;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 
-public class AuditingActivity extends Activity {
+public class AuditingActivity extends BaseActivity {
 
     private Button btnLoginOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_auditing);
+        FmcApplication.addActivity(this, R.layout.activity_auditing);
         initViews();
         initViewEvent();
     }

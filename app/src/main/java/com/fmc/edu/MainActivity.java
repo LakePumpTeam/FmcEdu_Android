@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private CircleImageControl circleImgHeadPhoto;
     private ImageView imgSendNewMsg;
@@ -51,7 +51,6 @@ public class MainActivity extends Activity {
     private TopBarControl topBar;
     private RelativeLayout rlAudit;
 
-    private ProgressControl mProgressControl;
     private int mUserRole;
     private Bundle mBundle;
     private String mHostUrl;
@@ -59,11 +58,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FmcApplication.addActivity(this);
+        FmcApplication.addActivity(this, R.layout.activity_main);
         initViews();
         mBundle = getIntent().getExtras();
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViewEvents();
         afterInitData();
@@ -257,7 +254,7 @@ public class MainActivity extends Activity {
     };
 
     private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
-        mProgressControl.showWindow(menuSchoolDynamic);
+        mProgressControl.showWindow();
         String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", 1);
@@ -295,7 +292,7 @@ public class MainActivity extends Activity {
     }
 
     private void gotoTaskListActivity() {
-        mProgressControl.showWindow(menuParenting);
+        mProgressControl.showWindow();
         Map<String, Object> param = new HashMap<>();
         param.put("userId", FmcApplication.getLoginUser().userId);
         param.put("pageIndex", 1);
@@ -318,7 +315,7 @@ public class MainActivity extends Activity {
     }
 
     private void gotoCampusActivity() {
-        mProgressControl.showWindow(menuCampus);
+        mProgressControl.showWindow();
         MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", null, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -340,7 +337,7 @@ public class MainActivity extends Activity {
     }
 
     private void gotoWaitAuditActivity() {
-        mProgressControl.showWindow(menuAudit);
+        mProgressControl.showWindow();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", loginUserEntity.userId);
@@ -381,7 +378,7 @@ public class MainActivity extends Activity {
     }
 
     private void gotoRelationActivity() {
-        mProgressControl.showWindow(circleImgHeadPhoto);
+        mProgressControl.showWindow();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("parentId", loginUserEntity.userId);

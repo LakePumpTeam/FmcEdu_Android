@@ -2,6 +2,7 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,13 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SchoolDynamicActivity extends Activity {
+public class SchoolDynamicActivity extends BaseActivity {
 
     private SlideListView slideListView;
     private RadioGroup rgSchoolDynamicTab;
     private SchoolDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
-    private ProgressControl mProgressControl;
     private int mPageIndex = 1;
     private String mHostUrl;
     private int mCurrentTag = 2;
@@ -36,9 +36,7 @@ public class SchoolDynamicActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_school_dynamic);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_school_dynamic);
         mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
@@ -71,7 +69,7 @@ public class SchoolDynamicActivity extends Activity {
             mPageIndex = 1;
             RadioButton radioButton = (RadioButton) findViewById(checkedId);
             mCurrentTag = ConvertUtils.getInteger(radioButton.getTag(), 2);
-            mProgressControl.showWindow(rgSchoolDynamicTab);
+            mProgressControl.showWindow();
             getDynamicData(true);
         }
     };

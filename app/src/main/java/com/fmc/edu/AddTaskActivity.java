@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -27,9 +28,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 
-public class AddTaskActivity extends Activity {
+public class AddTaskActivity extends BaseActivity {
 
     private Button btnSubmit;
     private EditText editContent;
@@ -37,16 +39,13 @@ public class AddTaskActivity extends Activity {
     private TextView txtManager;
     private TextView txtFinishTime;
     private List<Integer> mSelectedStudentIds = new ArrayList<>();
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private List<MultiCommonEntity> mStudentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_add_task);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_add_task);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
@@ -70,7 +69,7 @@ public class AddTaskActivity extends Activity {
         @Override
         public void onClick(View v) {
             try {
-                mProgressControl.showWindow(v);
+                mProgressControl.showWindow();
                 Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(mHostUrl + "task/publishTask");
                 withB.setMultipartParameter("userId", StringUtils.base64Encode(FmcApplication.getLoginUser().userId))
                         .setMultipartParameter("deadline", StringUtils.base64Encode(txtFinishTime.getText()))

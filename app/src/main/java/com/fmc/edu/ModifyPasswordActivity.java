@@ -19,24 +19,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ModifyPasswordActivity extends Activity {
+public class ModifyPasswordActivity extends BaseActivity {
     private Button btnSubmit;
 
     private EditText editOldPassword;
     private EditText editPassword;
     private EditText editConfirmPassword;
-    private ProgressControl progressControl;
     private String mHostUrl;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_modify_password);
+        FmcApplication.addActivity(this, R.layout.activity_modify_password);
         initViews();
         initViewEvents();
-        progressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
     }
 
@@ -69,10 +66,10 @@ public class ModifyPasswordActivity extends Activity {
     };
 
     private void doSubmitOnClick(View view) {
-        progressControl.showWindow(view);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestAlterPwd";
         Map<String, Object> params = getSubmitParams();
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterModifyPassword();

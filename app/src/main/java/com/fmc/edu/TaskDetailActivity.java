@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class TaskDetailActivity extends Activity {
+public class TaskDetailActivity extends BaseActivity {
     private Button btnComment;
     private EditText editComment;
     private EditText editContent;
@@ -50,16 +50,13 @@ public class TaskDetailActivity extends Activity {
     private TextView popupDelete;
     private TextView popupCopy;
     private PopupWindow commentPopupWindow;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_task_detail);
+        FmcApplication.addActivity(this, R.layout.activity_task_detail);
         mTaskEntity = (TaskEntity) getIntent().getExtras().getSerializable("taskDetail");
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();

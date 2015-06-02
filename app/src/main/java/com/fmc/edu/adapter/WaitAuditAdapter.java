@@ -74,8 +74,8 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
     private View.OnClickListener txtParentNameOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            ProgressControl mProgressControl = new ProgressControl(mContext);
-            mProgressControl.showWindow(v);
+            ProgressControl mProgressControl = new ProgressControl(mContext,v);
+            mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<>();
             params.put("parentId", v.getTag());
             MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.fmc.edu.utils.ToastToolUtils;
 
 
-public class IntelligentLocationActivity extends Activity {
+public class IntelligentLocationActivity extends BaseActivity{
 
     private TextView txtSurrounding;
     private TextView txtLocation;
@@ -20,8 +20,7 @@ public class IntelligentLocationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_intelligent_location);
+        FmcApplication.addActivity(this, R.layout.activity_intelligent_location);
         initViews();
         initViewEvent();
     }

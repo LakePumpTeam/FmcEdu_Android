@@ -12,7 +12,7 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 
-public class SettingActivity extends Activity {
+public class SettingActivity extends BaseActivity {
 
     private Button btnLoginOut;
     private TextView txtAbout;
@@ -23,8 +23,7 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_setting);
+        FmcApplication.addActivity(this, R.layout.activity_setting);
         initViews();
         initViewEvents();
     }

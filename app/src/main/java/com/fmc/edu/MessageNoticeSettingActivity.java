@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MessageNoticeSettingActivity extends Activity {
+public class MessageNoticeSettingActivity extends BaseActivity {
     private CheckBox ckShake;
     private CheckBox ckRing;
     private Button btnSave;
@@ -21,8 +21,7 @@ public class MessageNoticeSettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_message_notice_setting);
+        FmcApplication.addActivity(this, R.layout.activity_message_notice_setting);
         initViews();
         initViewEvent();
         initPageData();

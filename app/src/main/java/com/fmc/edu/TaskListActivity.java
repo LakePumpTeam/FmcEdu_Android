@@ -3,6 +3,7 @@ package com.fmc.edu;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class TaskListActivity extends Activity {
+public class TaskListActivity extends BaseActivity {
     private Button btnAddTask;
     private RadioGroup rgTab;
     private RadioButton rbUnFinish;
@@ -34,7 +35,6 @@ public class TaskListActivity extends Activity {
     private SlideListView slideTaskList;
     private Bundle mBundle;
     private TaskListAdapter mAdapter;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private boolean mIsLastPage;
 
@@ -43,11 +43,9 @@ public class TaskListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_task_list);
+        FmcApplication.addActivity(this, R.layout.activity_task_list);
         mBundle = getIntent().getExtras();
         mIsLastPage = mBundle.getBoolean("isLastPage", false);
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         rbUnFinish.setChecked(true);

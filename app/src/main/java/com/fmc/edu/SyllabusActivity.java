@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 
 
-public class SyllabusActivity extends Activity {
+public class SyllabusActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_syllabus);
+        FmcApplication.addActivity(this, R.layout.activity_syllabus);
     }
 
 

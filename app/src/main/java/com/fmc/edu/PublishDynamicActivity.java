@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PublishDynamicActivity extends Activity {
+public class PublishDynamicActivity extends BaseActivity {
     private TopBarControl topBarSend;
     private EditText editContent;
     private GridView gridPicture;
@@ -47,15 +47,12 @@ public class PublishDynamicActivity extends Activity {
     private ImageLoader mImageLoader;
     private String mHostUrl;
     private PublishDynamicGridAdapter mAdapter;
-    private ProgressControl mProgressControl;
     private MultiPictureControl multiPictureControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_publish_dynamic);
-        mProgressControl = new ProgressControl(this);
+        FmcApplication.addActivity(this, R.layout.activity_publish_dynamic);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
@@ -125,7 +122,7 @@ public class PublishDynamicActivity extends Activity {
                 ToastToolUtils.showLong("请输入内容呢");
                 return;
             }
-            mProgressControl.showWindow(topBarSend);
+            mProgressControl.showWindow();
 
             String content = editContent.getText().toString();
             String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);

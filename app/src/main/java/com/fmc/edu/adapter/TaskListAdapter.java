@@ -78,13 +78,13 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
     private View.OnClickListener imgDeleteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ProgressControl progressControl = new ProgressControl(mContext);
-            progressControl.showWindow(v);
+            ProgressControl progressControl = new ProgressControl(mContext, v);
+            progressControl.showWindow();
             final int position = (int) v.getTag();
             TaskEntity taskEntity = mItems.get(position);
             Map<String, Object> param = new HashMap<>();
             param.put("taskId", taskEntity.taskId);
-            param.put("studentId",taskEntity.studentId);
+            param.put("studentId", taskEntity.studentId);
             param.put("userId", FmcApplication.getLoginUser().userId);
             MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "task/deleteTask", param, progressControl, new MyIon.AfterCallBack() {
                 @Override

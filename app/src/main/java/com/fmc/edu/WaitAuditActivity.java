@@ -1,11 +1,9 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.fmc.edu.adapter.WaitAuditAdapter;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
@@ -20,23 +18,20 @@ import java.util.List;
 import java.util.Map;
 
 
-public class WaitAuditActivity extends Activity {
+public class WaitAuditActivity extends BaseActivity {
 
     private TopBarControl topBar;
     private SlideListView slideList;
 
     private WaitAuditAdapter mWaitAuditAdapter;
-    private ProgressControl mProgressControl;
     private String mHostUrl;
     private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_wait_audit);
+        FmcApplication.addActivity(this, R.layout.activity_wait_audit);
         mBundle = getIntent().getExtras();
-        mProgressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvents();
@@ -69,7 +64,7 @@ public class WaitAuditActivity extends Activity {
 
         @Override
         public void onOperateClick(View v) {
-            mProgressControl.showWindow(topBar);
+            mProgressControl.showWindow();
             LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(WaitAuditActivity.this);
             Map<String, Object> params = new HashMap<>();
             params.put("teacherId", loginUserEntity.userId);

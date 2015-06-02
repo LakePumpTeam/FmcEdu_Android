@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends BaseActivity {
     private Button btnNextStep;
     private CheckBox ckReadAgreement;
     private EditText editCellphone;
@@ -29,17 +29,14 @@ public class RegisterActivity extends Activity {
     private EditText editPassword;
     private EditText editConfirmPassword;
     private ValidateButtonControl validateBtnGetAuthCode;
-    private ProgressControl progressControl;
     private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_register);
+        FmcApplication.addActivity(this, R.layout.activity_register);
         initViews();
         initViewEvents();
-        progressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         if (AppConfigUtils.isDevelopment()) {
             initTestData();
@@ -119,11 +116,11 @@ public class RegisterActivity extends Activity {
     };
 
     private void getAuthCode(View view) {
-        progressControl.showWindow(view);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestPhoneIdentify";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
 //                if (AppConfigUtils.isDevelopment()) {
@@ -137,11 +134,11 @@ public class RegisterActivity extends Activity {
     }
 
     private void doNextStepOnClick(View view) {
-        progressControl.showWindow(view);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestRegisterConfirm";
         Map<String, Object> params = getNextStepParams();
 
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterNextStep();

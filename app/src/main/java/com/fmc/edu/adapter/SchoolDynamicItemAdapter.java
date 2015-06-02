@@ -126,8 +126,8 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
     };
 
     private void gotoDynamicDetailPage(View view, final DynamicItemEntity item) {
-        ProgressControl progressControl = new ProgressControl(mContext);
-        progressControl.showWindow(view);
+        ProgressControl progressControl = new ProgressControl(mContext,view);
+        progressControl.showWindow();
         final int type = DynamicTypeEnum.getValue(item.type);
         String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();

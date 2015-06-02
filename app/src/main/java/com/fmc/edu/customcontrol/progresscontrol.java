@@ -19,11 +19,13 @@ import com.fmc.edu.R;
 public class ProgressControl extends PopupWindow {
     private Context mContext;
     private DisplayMetrics mDisplayMetrics;
+    private View mParentView;
 
-    public ProgressControl(Context context) {
+    public ProgressControl(Context context, View parentView) {
         super(context, null);
         this.mContext = context;
         mDisplayMetrics = new DisplayMetrics();
+        this.mParentView = parentView;
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         initPopWindow();
         initContentView();
@@ -51,7 +53,10 @@ public class ProgressControl extends PopupWindow {
         this.setContentView(linearLayout);
     }
 
-    public void showWindow(View parentView) {
-        this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+    public void showWindow() {
+        if (this.isShowing()) {
+            return;
+        }
+        this.showAtLocation(mParentView, Gravity.CENTER, 0, 0);
     }
 }

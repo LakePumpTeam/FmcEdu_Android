@@ -3,10 +3,12 @@ package com.fmc.edu.http;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.util.Base64;
+import android.view.View;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.NetworkUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -95,7 +97,53 @@ public class MyIon {
         }
     }
 
-    public static interface AfterCallBack {
+    public static void httpPost1(final Context context, String method, Map<String, Object> params, ProgressControl progressControl, final AfterCallBack afterCallBack) {
+        try {
+            progressControl.showWindow();
+            String url = AppConfigUtils.getServiceHost() + method;
+            MyIon.setUrlAndBodyParams(context, url, params)
+                    .setCallback(new FMCMapFutureCallback(progressControl) {
+                        @Override
+                        public void onTranslateCompleted(Exception e, Map<String, ?> result) {
+
+                            if (!HttpTools.isRequestSuccessfully(e, result))
+
+                            {
+                                ToastToolUtils.showLong(result.get("msg").toString());
+                                return;
+                            }
+
+                            if (StringUtils.isEmptyOrNull(result.get("data")))
+
+                            {
+                                ToastToolUtils.showLong("服务器出错");
+                                return;
+                            }
+
+                            Map<String, Object> mapData = (Map<String, Object>) result.get("data");
+                            if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                                AlertWindowControl alertWindowControl = new AlertWindowControl(context);
+                                alertWindowControl.showWindow(new TextView(context), "提示", ConvertUtils.getString(mapData.get("businessMsg")));
+                                return;
+                            }
+
+                            afterCallBack.afterCallBack(mapData);
+                        }
+                    });
+        } catch (NetWorkUnAvailableException e) {
+            if (null != progressControl && progressControl.isShowing()) {
+                progressControl.dismiss();
+            }
+            e.printStackTrace();
+        } catch (Exception e) {
+            if (null != progressControl && progressControl.isShowing()) {
+                progressControl.dismiss();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public interface AfterCallBack {
         void afterCallBack(Map<String, Object> data);
     }
 

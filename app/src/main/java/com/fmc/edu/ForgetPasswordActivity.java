@@ -22,23 +22,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ForgetPasswordActivity extends Activity {
+public class ForgetPasswordActivity extends BaseActivity {
     private Button btnReset;
     private EditText editCellphone;
     private EditText editAuthCode;
     private EditText editPassword;
     private EditText editConfirmPassword;
     private ValidateButtonControl validateBtnGetAuthCode;
-    private ProgressControl progressControl;
     private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password);
+        FmcApplication.addActivity(this, R.layout.activity_forget_password);
         initViews();
         initViewEvents();
-        progressControl = new ProgressControl(this);
         mHostUrl = AppConfigUtils.getServiceHost();
         editCellphone.setText(ConvertUtils.getString(getIntent().getExtras().get("cellPhone"), ""));
         if (AppConfigUtils.isDevelopment()) {
@@ -76,7 +74,7 @@ public class ForgetPasswordActivity extends Activity {
         @Override
         public void onClick(View v) {
             validateBtnGetAuthCode.startCountdown();
-            getAuthCode(v);
+            getAuthCode();
         }
     };
 
@@ -110,12 +108,12 @@ public class ForgetPasswordActivity extends Activity {
         }
     };
 
-    private void getAuthCode(View view) {
-        progressControl.showWindow(view);
+    private void getAuthCode() {
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestPhoneIdentify";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 //TODO 短信验证开启后，要关闭此处
@@ -125,11 +123,11 @@ public class ForgetPasswordActivity extends Activity {
     }
 
     private void getLoginSalt() {
-        progressControl.showWindow(btnReset);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestSalt";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText());
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 doResetPasswordOnClick(ConvertUtils.getString(data.get("salt"), ""));
@@ -138,10 +136,10 @@ public class ForgetPasswordActivity extends Activity {
     }
 
     private void doResetPasswordOnClick(String salt) {
-        progressControl.showWindow(btnReset);
+        mProgressControl.showWindow();
         String url = mHostUrl + "profile/requestForgetPwd";
         Map<String, Object> params = getResetPasswordParams(salt);
-        MyIon.httpPost(this, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterResetPassword();

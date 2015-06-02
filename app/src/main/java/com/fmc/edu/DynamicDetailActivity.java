@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class DynamicDetailActivity extends Activity {
+public class DynamicDetailActivity extends BaseActivity {
     private TopBarControl topBar;
     private TextView txtTitle;
     private TextView txtContent;
@@ -35,8 +35,7 @@ public class DynamicDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FmcApplication.addActivity(this);
-        setContentView(R.layout.activity_dynamic_detail);
+        FmcApplication.addActivity(this, R.layout.activity_dynamic_detail);
         mBundle = getIntent().getExtras();
         initViews();
         initViewEvent();

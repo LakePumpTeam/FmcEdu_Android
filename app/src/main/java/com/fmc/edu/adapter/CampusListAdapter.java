@@ -100,8 +100,8 @@ public class CampusListAdapter extends FmcBaseAdapter<CampusEntity> {
     };
 
     private void gotoCampusListPage(View view, final CampusEntity item) {
-        ProgressControl progressControl = new ProgressControl(mContext);
-        progressControl.showWindow(view);
+        ProgressControl progressControl = new ProgressControl(mContext,view);
+        progressControl.showWindow();
         String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("campusId", item.campusId);
