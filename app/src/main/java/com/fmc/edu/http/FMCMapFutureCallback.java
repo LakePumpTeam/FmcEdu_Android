@@ -2,6 +2,7 @@ package com.fmc.edu.http;
 
 import android.util.Base64;
 
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.utils.JsonToMapUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.async.future.FutureCallback;
@@ -14,10 +15,20 @@ import java.util.Map;
  */
 public abstract class FMCMapFutureCallback implements FutureCallback<String> {
 
+    private ProgressControl mProgressControl;
+
+    public FMCMapFutureCallback(ProgressControl progressControl) {
+        mProgressControl = progressControl;
+    }
+
     public abstract void onTranslateCompleted(Exception e, Map<String, ?> result);
 
     @Override
     public void onCompleted(Exception e, String result) {
+        if (null != mProgressControl && mProgressControl.isShowing()) {
+            mProgressControl.dismiss();
+        }
+
         if (null != e || result.contains("403 Forbidden") || result.contains("404")) {
             ToastToolUtils.showLong("服务器出问题...");
             return;

@@ -11,5 +11,11 @@
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_campus" />
 
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/campus_slide_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="@color/activity_bg_color_write" />
 
 </LinearLayout>

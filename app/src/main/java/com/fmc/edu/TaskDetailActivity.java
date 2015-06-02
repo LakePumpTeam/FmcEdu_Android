@@ -2,14 +2,17 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.content.ClipboardManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -91,10 +94,12 @@ public class TaskDetailActivity extends Activity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         if (loginUserEntity.userRole == UserRoleEnum.Parent) {
             editContent.setEnabled(false);
-            topBar.setOperatorText(mTaskEntity.status == 1 ? "" : "完成任务");
+            topBar.setTopBarOperateImg(R.mipmap.btn_finish);
+            topBar.setEnabled(mTaskEntity.status == 0);
 
         } else if (loginUserEntity.userRole == UserRoleEnum.Teacher) {
-            topBar.setOperatorText("保存");
+            topBar.setTopBarOperateImg(R.mipmap.btn_save);
+            topBar.setEnabled(true);
             editContent.setEnabled(true);
         }
         String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
@@ -107,21 +112,32 @@ public class TaskDetailActivity extends Activity {
     }
 
     private void initPopupWindow() {
+        DisplayMetrics mDisplayMetrics;
+        mDisplayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         commentPopupWindow = new PopupWindow();
-        commentPopupWindow.setWidth(300);
-        commentPopupWindow.setHeight(300);
+        commentPopupWindow.setWidth(mDisplayMetrics.widthPixels);
+        commentPopupWindow.setHeight(mDisplayMetrics.heightPixels);
         commentPopupWindow.setFocusable(true);
         commentPopupWindow.setOutsideTouchable(true);
         commentPopupWindow.setTouchable(true);
         ColorDrawable dw = new ColorDrawable(-000000);
         commentPopupWindow.setBackgroundDrawable(dw);
 
+        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
+        linearLayout.setPadding(40, 30, 40, 30);
+        linearLayout.setLayoutParams(params);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
+
         View view = LayoutInflater.from(this).inflate(R.layout.popup_task_detail, null);
         popupDelete = (TextView) view.findViewById(R.id.popup_task_detail_delete);
         popupCopy = (TextView) view.findViewById(R.id.popup_task_detail_copy);
         popupDelete.setOnClickListener(deleteCommentOnClickListener);
         popupCopy.setOnClickListener(copyCommentOnClickListener);
-        commentPopupWindow.setContentView(view);
+        linearLayout.addView(view);
+        commentPopupWindow.setContentView(linearLayout);
     }
 
     private void bindCommentList() {
@@ -156,7 +172,7 @@ public class TaskDetailActivity extends Activity {
             }
             popupDelete.setTag(item);
             popupCopy.setTag(item.comment);
-            commentPopupWindow.showAtLocation(view, Gravity.RIGHT, 0, 0);
+            commentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             return false;
         }
     };

@@ -54,12 +54,9 @@ public class MyIon {
     public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
             MyIon.setUrlAndBodyParams(context, url, params)
-                    .setCallback(new FMCMapFutureCallback() {
+                    .setCallback(new FMCMapFutureCallback(progressControl) {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                            if (null != progressControl) {
-                                progressControl.dismiss();
-                            }
 
                             if (!HttpTools.isRequestSuccessfully(e, result))
 
@@ -86,11 +83,14 @@ public class MyIon {
                         }
                     });
         } catch (NetWorkUnAvailableException e) {
-            if (null != progressControl) {
+            if (null != progressControl && progressControl.isShowing()) {
                 progressControl.dismiss();
             }
             e.printStackTrace();
         } catch (Exception e) {
+            if (null != progressControl && progressControl.isShowing()) {
+                progressControl.dismiss();
+            }
             e.printStackTrace();
         }
     }

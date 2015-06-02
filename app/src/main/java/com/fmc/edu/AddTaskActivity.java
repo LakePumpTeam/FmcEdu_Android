@@ -70,6 +70,7 @@ public class AddTaskActivity extends Activity {
         @Override
         public void onClick(View v) {
             try {
+                mProgressControl.showWindow(v);
                 Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(mHostUrl + "task/publishTask");
                 withB.setMultipartParameter("userId", StringUtils.base64Encode(FmcApplication.getLoginUser().userId))
                         .setMultipartParameter("deadline", StringUtils.base64Encode(txtFinishTime.getText()))
@@ -79,7 +80,7 @@ public class AddTaskActivity extends Activity {
                     withB.setMultipartParameter("students", StringUtils.base64Encode(key));
                 }
                 withB.asString(Charset.forName("utf8"))
-                        .setCallback(new FMCMapFutureCallback() {
+                        .setCallback(new FMCMapFutureCallback(mProgressControl) {
                             @Override
                             public void onTranslateCompleted(Exception e, Map<String, ?> result) {
                                 mProgressControl.dismiss();

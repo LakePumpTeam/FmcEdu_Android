@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.CommentItemEntity;
+import com.fmc.edu.utils.StringUtils;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TaskDetailCommentAdapter extends FmcBaseAdapter<CommentItemEntity> 
         CommentItemEntity item = mItems.get(position);
 
         imgHeadPhoto.setImageResource(item.sex ? R.mipmap.head_photo_boy : R.mipmap.head_photo_girl);
-        txtCommentName.setText(item.userName + "(" + item.relationShip + ")");
+        txtCommentName.setText(item.userName + (StringUtils.isEmptyOrNull(item.relationShip) ? "" : "(" + item.relationShip + ")"));
         txtDate.setText(item.date);
         txtCommentContent.setText(item.comment);
         return convertView;

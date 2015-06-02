@@ -40,7 +40,7 @@ public class CommentItemEntity implements Serializable {
         commentItemEntity.userName = ConvertUtils.getString(data.get("userName"), "");
         commentItemEntity.comment = ConvertUtils.getString(data.get("comment"), "");
         commentItemEntity.sex = ConvertUtils.getBoolean(data.get("sex"), false);
-        commentItemEntity.relationShip = ConvertUtils.getString(data.get("relationShip"), "");
+        commentItemEntity.relationShip = ConvertUtils.getString(data.get("relationship"), "");
         commentItemEntity.date = ConvertUtils.getString(data.get("date"), "");
         return commentItemEntity;
     }

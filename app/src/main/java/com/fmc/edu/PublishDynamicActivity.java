@@ -144,7 +144,7 @@ public class PublishDynamicActivity extends Activity {
                     withB.setMultipartFile("imgs", new File(ImageFactoryUtils.getThumbnailImage(url)));
                 }
                 withB.asString(Charset.forName("utf8"))
-                        .setCallback(new FMCMapFutureCallback() {
+                        .setCallback(new FMCMapFutureCallback(mProgressControl) {
                             @Override
                             public void onTranslateCompleted(Exception e, Map<String, ?> result) {
                                 mProgressControl.dismiss();

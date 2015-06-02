@@ -92,9 +92,7 @@
         <ListView
             android:id="@+id/task_detail_list_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_margin_middle"
-            android:layout_marginTop="@dimen/activity_margin" />
+            android:layout_height="match_parent" />
     </LinearLayout>
     <!--</ScrollView>-->
 
