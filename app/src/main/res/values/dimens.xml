@@ -3,6 +3,7 @@
     <dimen name="activity_margin_small">4dp</dimen>
     <dimen name="activity_margin_middle">8dp</dimen>
     <dimen name="activity_margin">16dp</dimen>
+    <dimen name="activity_margin_large">35dp</dimen>
 
     <dimen name="activity_padding_small">6dp</dimen>
     <dimen name="activity_padding_middle">8dp</dimen>

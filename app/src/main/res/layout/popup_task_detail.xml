@@ -2,23 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingRight="@dimen/activity_margin_middle">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/popup_task_detail_delete"
         style="@style/ClickTextViewStyle"
-        android:drawableLeft="@mipmap/ic_manager"
-        android:drawablePadding="@dimen/activity_padding"
         android:enabled="false"
-        android:text="删除" />
+        android:paddingLeft="@dimen/activity_padding"
+        android:text="删除"
+        android:textColor="@drawable/selector_txt_enabled" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
     <TextView
         android:id="@+id/popup_task_detail_copy"
         style="@style/ClickTextViewStyle"
-        android:drawableLeft="@mipmap/ic_manager"
-        android:drawablePadding="@dimen/activity_padding"
+        android:paddingLeft="@dimen/activity_padding"
         android:text="复制" />
 </LinearLayout>

@@ -14,6 +14,7 @@ import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.CampusEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
@@ -317,8 +318,20 @@ public class MainActivity extends Activity {
     }
 
     private void gotoCampusActivity() {
-        Intent intent = new Intent(this, CampusActivity.class);
-        startActivity(intent);
+        mProgressControl.showWindow(menuCampus);
+        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", null, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<CampusEntity> list = CampusEntity.toCampusEntityList((List<Map<String, Object>>) data.get("campusList"));
+                menuAudit.setHasDynamic(false);
+                Intent intent = new Intent(MainActivity.this, CampusActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) list);
+                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void gotoLocationActivity() {

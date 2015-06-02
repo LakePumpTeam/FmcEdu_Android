@@ -1,0 +1,129 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color_write"
+    android:orientation="vertical">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/campus_detail_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_campus_detail" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_padding_middle"
+                android:paddingRight="@dimen/activity_padding_middle">
+
+                <TextView
+                    android:id="@+id/campus_detail_txt_title"
+                    style="@style/TextStyle"
+                    android:layout_marginTop="@dimen/activity_margin_middle"
+                    android:textSize="@dimen/font_size_large" />
+
+
+                <TextView
+                    android:id="@+id/campus_detail_txt_content"
+                    style="@style/TextStyle"
+                    android:layout_marginTop="@dimen/activity_margin_middle"
+                    android:textColor="@color/annotation_txt_font_color"
+                    android:textSize="@dimen/font_size_middle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/campus_detail_ll_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_padding" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_margin_middle"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/campus_detail_txt_date"
+                    style="@style/TextStyle"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/edit_text_hint_font_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/campus_detail_txt_part_in"
+                    style="@style/TextStyle"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@mipmap/ic_part_in"
+                    android:drawablePadding="@dimen/activity_padding_middle"
+                    android:text="0"
+                    android:textColor="@color/edit_text_hint_font_color"
+                    android:textSize="@dimen/font_size_small" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/activity_bg_color" />
+
+            <RadioGroup
+                android:id="@+id/campus_detail_rg_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_check_box_check"
+                    android:paddingLeft="@dimen/activity_padding"
+                    android:text="我同意作者的观点"
+                    android:textColor="@color/text_font_color" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:button="@drawable/selector_check_box_check"
+                    android:paddingLeft="@dimen/activity_padding"
+                    android:text="我不同意作者的观点"
+                    android:textColor="@color/text_font_color" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_check_box_check"
+                    android:paddingLeft="@dimen/activity_padding"
+                    android:text="我觉得无所谓"
+                    android:textColor="@color/text_font_color" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/campus_detail_btn_submit"
+                style="@style/OvalButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/activity_margin_large"
+                android:text="@string/btn_submit" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -95,7 +95,7 @@ public class TaskDetailActivity extends Activity {
         if (loginUserEntity.userRole == UserRoleEnum.Parent) {
             editContent.setEnabled(false);
             topBar.setTopBarOperateImg(R.mipmap.btn_finish);
-            topBar.setEnabled(mTaskEntity.status == 0);
+            topBar.setOperateEnable(mTaskEntity.status == 0);
 
         } else if (loginUserEntity.userRole == UserRoleEnum.Teacher) {
             topBar.setTopBarOperateImg(R.mipmap.btn_save);
@@ -196,7 +196,6 @@ public class TaskDetailActivity extends Activity {
             }
             ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             clipboardManager.setText(ConvertUtils.getString(comment, ""));
-            ToastToolUtils.showLong(clipboardManager.getText() + "");
 
         }
     };

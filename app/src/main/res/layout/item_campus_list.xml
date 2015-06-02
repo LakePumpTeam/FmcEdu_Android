@@ -11,7 +11,7 @@
         android:src="@mipmap/ic_hot" />
 
     <TextView
-        android:id="@+id/item_school_dynamic_list_txt_title"
+        android:id="@+id/item_campus_list_txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2dp"
@@ -20,7 +20,7 @@
         android:textSize="@dimen/font_size_middle" />
 
     <TextView
-        android:id="@+id/item_school_dynamic_list_txt_content"
+        android:id="@+id/item_campus_list_txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2dp"
@@ -30,7 +30,7 @@
 
 
     <com.fmc.edu.customcontrol.GridViewControl
-        android:id="@+id/item_school_dynamic_list_grid_picture"
+        android:id="@+id/item_campus_list_grid_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_small"
@@ -46,7 +46,7 @@
         android:layout_marginTop="@dimen/activity_margin_middle">
 
         <TextView
-            android:id="@+id/item_school_dynamic_list_txt_date"
+            android:id="@+id/item_campus_list_txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -54,15 +54,25 @@
             android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:id="@+id/item_school_dynamic_list_txt_read_all"
+            android:id="@+id/item_campus_list_txt_part_in_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/item_campus_list_txt_part_in"
+            android:drawableLeft="@mipmap/ic_part_in"
+            android:drawablePadding="@dimen/activity_padding_middle"
+            android:text="0"
+            android:textColor="@color/dynamic_content_color"
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:id="@+id/item_campus_list_txt_part_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:text="我要参与"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small"
-            android:visibility="gone" />
+            android:textColor="@color/btn_bg_color_sel"
+            android:textSize="@dimen/font_size_middle" />
     </RelativeLayout>
 
 </LinearLayout>

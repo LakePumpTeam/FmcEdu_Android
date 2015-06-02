@@ -87,23 +87,12 @@ public class TopBarControl extends LinearLayout {
         txtTitle.setText(topTitle);
     }
 
-    public void setTopOperateTextVisible(boolean isVisible) {
-        llOperateText.setVisibility(isVisible ? VISIBLE : GONE);
-    }
-
-    public void setOperatorText(String operatorText) {
-        txtOperate.setText(operatorText);
-        llOperateText.setVisibility(VISIBLE);
-        llOperateImage.setVisibility(GONE);
-    }
-
     public void setTopOperateImgVisible(boolean isVisible) {
         llOperateImage.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     public void setOperateEnable(boolean isEnable) {
-        llOperateImage.setEnabled(isEnable);
-        llOperateText.setEnabled(isEnable);
+        llOperate.setEnabled(isEnable);
     }
 
     public void setTopBarOperateImg(int imgId) {
