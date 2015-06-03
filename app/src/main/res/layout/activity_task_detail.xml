@@ -118,8 +118,10 @@
             android:layout_margin="@dimen/activity_margin_middle"
             android:layout_toLeftOf="@+id/task_detail_btn_comment"
             android:background="#fff"
+            android:gravity="bottom"
             android:hint="请输入内容"
-            android:maxLength="200" />
+            android:maxLength="200"
+            android:paddingBottom="@dimen/activity_padding" />
 
         <Button
             android:id="@+id/task_detail_btn_comment"

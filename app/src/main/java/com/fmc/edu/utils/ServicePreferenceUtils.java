@@ -48,8 +48,8 @@ public class ServicePreferenceUtils {
             return null;
         }
         Map<String, Boolean> mapData = new HashMap<String, Boolean>();
-        mapData.put("shake", sharedPreferences.getBoolean("shake", false));
-        mapData.put("ring", sharedPreferences.getBoolean("ring", false));
+        mapData.put("shake", sharedPreferences.getBoolean("shake", true));
+        mapData.put("ring", sharedPreferences.getBoolean("ring", true));
         return mapData;
     }
 

@@ -10,15 +10,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -111,7 +115,15 @@ public class DynamicDetailActivity extends BaseActivity {
         txtTitle.setText(mBundle.getString("subject"));
         txtContent.setText(mBundle.getString("content"));
         txtDate.setText(mBundle.getString("createDate"));
-        bindPicture(mBundle.getStringArrayList("imageUrl"));
+        bindPicture(actualImageUrl(mBundle.getStringArrayList("imageUrl")));
+    }
+
+    private List<String> actualImageUrl(List<String> sourceUrls) {
+        List<String> actualImageUrl = new ArrayList<>();
+        for (String url : sourceUrls) {
+            actualImageUrl.add(AppConfigUtils.getServiceHost() + url);
+        }
+        return actualImageUrl;
     }
 
     private void bindDynamicType(int dynamicType, boolean liked) {
@@ -141,17 +153,31 @@ public class DynamicDetailActivity extends BaseActivity {
         topBar.setTopBarText(title);
     }
 
-    private void bindPicture(ArrayList<String> imageUrls) {
-        for (int i = 0; i < imageUrls.size(); i++) {
+    private void bindPicture(List<String> imageUrls) {
+        for (String imageUrl : imageUrls) {
             ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_single_picture, null);
             DisplayMetrics displayMetrics = new DisplayMetrics();
-
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
-            ImageLoaderUtil.initCacheImageLoader(this).displayImage(AppConfigUtils.getServiceHost() + imageUrls.get(i), imageView);
+            imageView.setTag(imageUrls);
+            imageView.setOnClickListener(imageOnClickListener);
+            ImageLoaderUtil.initCacheImageLoader(this).displayImage(imageUrl, imageView);
             llPicture.addView(imageView);
         }
     }
+
+    private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            List<String> bigPictureUrl = (List<String>) v.getTag();
+            if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
+                ToastToolUtils.showLong("无有效图片");
+                return;
+            }
+            ImageShowControl imageShowControl = new ImageShowControl(DynamicDetailActivity.this);
+            imageShowControl.showWindow(v, bigPictureUrl);
+        }
+    };
 }

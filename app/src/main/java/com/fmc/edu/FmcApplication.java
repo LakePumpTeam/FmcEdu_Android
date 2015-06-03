@@ -2,6 +2,7 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 

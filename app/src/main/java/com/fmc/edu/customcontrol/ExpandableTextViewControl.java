@@ -71,12 +71,11 @@ public class ExpandableTextViewControl extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // If no change, measure and return
-        if (!mRelayout || getVisibility() == View.GONE || mIsExpand) {
+        if (!mRelayout || getVisibility() == View.GONE) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
         mRelayout = false;
-
         // Setup with optimistic case
         // i.e. Everything fits. No button needed
         mTxtOperate.setVisibility(View.GONE);
@@ -93,8 +92,7 @@ public class ExpandableTextViewControl extends LinearLayout {
         if (mCollapsed) {
             mTxtContent.setMaxLines(mMaxCollapsedLines);
         }
-        mTxtOperate.setVisibility(View.VISIBLE);
-
+        mTxtOperate.setVisibility(mIsExpand ? VISIBLE : GONE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -105,14 +103,14 @@ public class ExpandableTextViewControl extends LinearLayout {
         mExpandStr = typedArray.getString(R.styleable.ExpandableTextViewControl_expand);
         mCollapseStr = typedArray.getString(R.styleable.ExpandableTextViewControl_collapse);
         mExpandStr = StringUtils.isEmptyOrNull(mExpandStr) ? DEFAULT_EXPAND_STR : mExpandStr;
-        mCollapseStr = StringUtils.isEmptyOrNull(mExpandStr) ? DEFAULT_Collapse_STR : mCollapseStr;
+        mCollapseStr = StringUtils.isEmptyOrNull(mCollapseStr) ? DEFAULT_Collapse_STR : mCollapseStr;
         typedArray.recycle();
     }
 
     private void findViews() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_expandable_textview, null);
-        mTxtContent = (TextView) view.findViewById(R.id.desc_tv);
-        mTxtOperate = (TextView) view.findViewById(R.id.desc_op_tv);
+        mTxtContent = (TextView) view.findViewById(R.id.txt_content);
+        mTxtOperate = (TextView) view.findViewById(R.id.txt_operate);
         mTxtOperate.setText(mCollapsed ? mExpandStr : mCollapseStr);
         mTxtOperate.setOnClickListener(mTxtExpandOnClickListener);
         this.addView(view);
@@ -132,7 +130,7 @@ public class ExpandableTextViewControl extends LinearLayout {
             }
 
             if (mCollapsed) {
-                mTxtContent.setMaxLines(DEFAULT_MAX_LINES);
+                mTxtContent.setMaxLines(mMaxCollapsedLines);
             } else {
                 mTxtContent.setMaxLines(Integer.MAX_VALUE);
             }

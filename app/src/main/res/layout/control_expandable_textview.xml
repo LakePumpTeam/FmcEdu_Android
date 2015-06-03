@@ -5,23 +5,24 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/desc_tv"
+        android:id="@+id/txt_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4.0dip"
         android:gravity="center_vertical"
         android:tag="false"
         android:textColor="@color/dynamic_class_dynamic_color"
-        android:textSize="@dimen/font_size_middle" />
+        android:textSize="@dimen/font_size_small" />
 
     <TextView
-        android:id="@+id/desc_op_tv"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_operate"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4.0dip"
-        android:gravity="center"
+        android:gravity="right"
         android:singleLine="true"
         android:textColor="#ff576b95"
-        android:textSize="@dimen/font_size_middle"
+        android:layout_marginRight="@dimen/activity_margin_middle"
+        android:textSize="@dimen/font_size_small"
         android:visibility="gone" />
 </LinearLayout>

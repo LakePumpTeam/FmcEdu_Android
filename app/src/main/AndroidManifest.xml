@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmc.edu" >
+    package="com.fmc.edu"
+    android:versionCode="1"
+    android:versionName="1.0">
 
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位 -->
@@ -37,7 +42,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/dev/" />
@@ -72,7 +77,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -110,7 +115,9 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
         <activity
             android:name=".TeacherInfoActivity"
             android:label="@string/title_activity_teacher_info"
@@ -126,7 +133,8 @@
         <activity
             android:name=".ClassDynamicActivity"
             android:label="@string/title_activity_class_dynamic"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".PublishDynamicActivity"
             android:label="@string/title_activity_publish_dynamic"
@@ -169,8 +177,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CampusDetailActivity"
-            android:label="@string/title_activity_campus_detail" >
-        </activity>
+            android:label="@string/title_activity_campus_detail"></activity>
     </application>
 
 </manifest>

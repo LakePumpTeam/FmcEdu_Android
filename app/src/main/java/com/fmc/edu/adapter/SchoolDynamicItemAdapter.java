@@ -3,6 +3,7 @@ package com.fmc.edu.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.fmc.edu.DynamicDetailActivity;
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
+import com.fmc.edu.customcontrol.ExpandableTextViewControl;
 import com.fmc.edu.customcontrol.GridViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -34,8 +36,11 @@ import java.util.Map;
  * Created by Candy on 2015/5/10.
  */
 public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
+    private final SparseBooleanArray mCollapsedStatus;
+
     public SchoolDynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
         super(context, items);
+        mCollapsedStatus = new SparseBooleanArray();
     }
 
     @Override
@@ -46,22 +51,13 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_school_dynamic_list, null);
         }
-        SchoolDynamicItemHolder holder = new SchoolDynamicItemHolder();
         TextView txtTitle = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_title);
-        TextView txtAllContent = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_all_content);
-        TextView txtContent = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_content);
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_date);
-        TextView txtReadAll = (TextView) convertView.findViewById(R.id.item_school_dynamic_list_txt_read_all);
         GridViewControl gridView = (GridViewControl) convertView.findViewById(R.id.item_school_dynamic_list_grid_picture);
-
+        ExpandableTextViewControl expandableTextViewControl = (ExpandableTextViewControl) convertView.findViewById(R.id.item_school_dynamic_list_expand_text_view);
         DynamicItemEntity item = mItems.get(position);
-        holder.txtAllContent = txtAllContent;
-        holder.txtContent = txtContent;
-        holder.txtReadAll = txtReadAll;
-        txtReadAll.setTag(holder);
 
-        txtContent.setText(item.content);
-        txtAllContent.setText(item.content);
+        expandableTextViewControl.setText(item.content, mCollapsedStatus, position, item.type == DynamicTypeEnum.SchoolNotice);
         txtDate.setText(item.createDate);
         txtTitle.setText(item.subject);
 
@@ -69,9 +65,7 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnTouchInvalidPositionListener(onTouchInvalidPositionListener);
         gridView.setOnItemClickListener(gridOnItemClickListener);
-        txtReadAll.setOnClickListener(txtReadAllOnclick);
         convertView.setBackgroundResource(item.type == DynamicTypeEnum.SchoolNotice ? R.color.list_item_nor_color : R.drawable.selector_list_item_bg);
-        txtReadAll.setVisibility(item.type == DynamicTypeEnum.SchoolNotice ? View.VISIBLE : View.GONE);
         convertView.setTag(item);
         convertView.setOnClickListener(viewOnclickListener);
         return convertView;
@@ -109,30 +103,14 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         }
     };
 
-    private View.OnClickListener txtReadAllOnclick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SchoolDynamicItemHolder holder = (SchoolDynamicItemHolder) v.getTag();
-            if (holder.txtAllContent.getVisibility() == View.VISIBLE) {
-                holder.txtAllContent.setVisibility(View.GONE);
-                holder.txtContent.setVisibility(View.VISIBLE);
-                holder.txtReadAll.setText("查看全文>>");
-            } else {
-                holder.txtAllContent.setVisibility(View.VISIBLE);
-                holder.txtContent.setVisibility(View.GONE);
-                holder.txtReadAll.setText("收起>>");
-            }
-        }
-    };
-
     private void gotoDynamicDetailPage(View view, final DynamicItemEntity item) {
-        ProgressControl progressControl = new ProgressControl(mContext,view);
+        ProgressControl progressControl = new ProgressControl(mContext, view);
         progressControl.showWindow();
         final int type = DynamicTypeEnum.getValue(item.type);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", item.newsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
-        MyIon.httpPost(mContext,  "news/requestNewsDetail", params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(mContext, "news/requestNewsDetail", params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();
@@ -152,12 +130,4 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
             }
         });
     }
-
-    private class SchoolDynamicItemHolder {
-        public TextView txtAllContent;
-        public TextView txtContent;
-        public TextView txtReadAll;
-
-    }
-
 }

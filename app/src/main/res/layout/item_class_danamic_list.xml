@@ -9,31 +9,14 @@
     android:paddingLeft="@dimen/activity_padding_middle"
     android:paddingRight="@dimen/activity_padding_middle">
 
-    <!--<com.fmc.edu.customcontrol.ExpandableTextViewControl-->
-    <!--android:id="@+id/expand_text_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="gone"-->
-    <!--fmc:maxCollapsedLines="4"/>-->
-
-    <TextView
-        android:id="@+id/item_class_dynamic_list_txt_content"
+    <com.fmc.edu.customcontrol.ExpandableTextViewControl
+        android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:lineSpacingExtra="2dp"
-        android:textColor="@color/dynamic_class_dynamic_color"
-        android:textSize="@dimen/font_size_small" />
+        android:orientation="vertical"
+        fmc:isExpand="true"
+        fmc:maxCollapseLines="5" />
 
-    <TextView
-        android:id="@+id/item_class_dynamic_list_txt_all_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
-        android:textColor="@color/dynamic_class_dynamic_color"
-        android:textSize="@dimen/font_size_small"
-        android:visibility="gone" />
 
     <GridView
         android:id="@+id/item_class_dynamic_list_grid_picture"
@@ -64,22 +47,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_margin_middle"
-            android:layout_toLeftOf="@+id/item_class_dynamic_list_txt_read_all"
+            android:layout_alignParentRight="true"
             android:clickable="true"
             android:drawableLeft="@mipmap/ic_comment"
             android:drawablePadding="@dimen/activity_padding_middle"
             android:textColor="@color/dynamic_content_color"
             android:textSize="@dimen/font_size_small" />
 
-        <TextView
-            android:id="@+id/item_class_dynamic_list_txt_read_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:text="查看全文>>"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
     </RelativeLayout>
 
     <LinearLayout

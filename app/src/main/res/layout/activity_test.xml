@@ -1,16 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.fmc.edu.TestActivity">
+    android:background="#E6E6E6"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <com.fmc.edu.customcontrol.SlideListView
-        android:id="@+id/list"
+    <!--<com.fmc.edu.customcontrol.ResizeLayout-->
+        <!--android:id="@+id/login_soft_status_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent" />-->
+
+    <RelativeLayout
+        android:id="@+id/login_rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.fmc.edu.customcontrol.SlideListView>
+        android:layout_height="match_parent"
+        android:background="@color/activity_bg_color_write"
+        android:orientation="vertical">
+
+        <com.fmc.edu.customcontrol.TopBarControl
+            android:id="@+id/class_dynamic_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_top_bar_height"
+            android:layout_alignParentTop="true"
+            fmc:backVisible="true"
+            fmc:topTitle="@string/title_activity_class_dynamic" />
+
+        <com.fmc.edu.customcontrol.SlideListView
+            android:id="@+id/class_dynamic_slide_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/class_dynamic_rl_comment"
+            android:layout_below="@id/class_dynamic_top_bar"
+            android:background="@color/activity_bg_color_write" />
+
+        <RelativeLayout
+            android:id="@+id/class_dynamic_rl_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#eee">
+
+            <View
+                android:id="@+id/line1"
+                style="@style/HorizontalDividerLineStyle"
+                android:layout_alignParentTop="true" />
+
+            <EditText
+                android:id="@+id/class_dynamic_edit_comment"
+                style="@style/EditTextStyle"
+                android:layout_below="@+id/line1"
+                android:layout_margin="@dimen/activity_margin_middle"
+                android:paddingBottom="@dimen/activity_padding_middle"
+                android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
+                android:background="#fff"
+                android:gravity="bottom"
+                android:hint="请输入内容" />
+
+            <Button
+                android:id="@+id/class_dynamic_btn_comment"
+                style="@style/ValidateButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:text="发表评论" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/activity_margin_middle"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
@@ -12,28 +13,18 @@
         android:id="@+id/item_school_dynamic_list_txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:lineSpacingExtra="2dp"
+        android:singleLine="true"
         android:textColor="@color/dynamic_title_color"
         android:textSize="@dimen/font_size_middle" />
 
-    <TextView
-        android:id="@+id/item_school_dynamic_list_txt_content"
+    <com.fmc.edu.customcontrol.ExpandableTextViewControl
+        android:id="@+id/item_school_dynamic_list_expand_text_view"
+        fmc:isExpand="true"
+        fmc:maxCollapseLines="5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:lineSpacingExtra="2dp"
-        android:textColor="@color/dynamic_content_color"
-        android:textSize="@dimen/font_size_small" />
-
-    <TextView
-        android:id="@+id/item_school_dynamic_list_txt_all_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
-        android:textColor="@color/dynamic_content_color"
-        android:textSize="@dimen/font_size_small"
-        android:visibility="gone" />
+        android:orientation="vertical" />
 
     <com.fmc.edu.customcontrol.GridViewControl
         android:id="@+id/item_school_dynamic_list_grid_picture"
@@ -59,15 +50,5 @@
             android:textColor="@color/dynamic_content_color"
             android:textSize="@dimen/font_size_small" />
 
-        <TextView
-            android:id="@+id/item_school_dynamic_list_txt_read_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:text="查看全文>>"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small"
-            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

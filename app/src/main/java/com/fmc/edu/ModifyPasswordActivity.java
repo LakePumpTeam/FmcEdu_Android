@@ -57,16 +57,17 @@ public class ModifyPasswordActivity extends BaseActivity {
                 ToastToolUtils.showLong("两次密码输入不一致");
                 return;
             }
-            doSubmitOnClick(v);
+            doSubmitOnClick();
         }
     };
 
-    private void doSubmitOnClick(View view) {
+    private void doSubmitOnClick() {
         mProgressControl.showWindow();
         Map<String, Object> params = getSubmitParams();
         MyIon.httpPost(this, "profile/requestAlterPwd", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                ToastToolUtils.showLong("修改成功!");
                 afterModifyPassword();
             }
         });
