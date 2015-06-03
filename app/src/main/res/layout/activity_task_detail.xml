@@ -115,12 +115,17 @@
             android:id="@+id/task_detail_edit_comment"
             style="@style/EditTextStyle"
             android:layout_below="@+id/line1"
-            android:layout_margin="@dimen/activity_margin_middle"
+            android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_marginTop="@dimen/activity_padding_small"
+            android:layout_marginBottom="@dimen/activity_margin_small"
+            android:background="@mipmap/edit_bg"
             android:layout_toLeftOf="@+id/task_detail_btn_comment"
-            android:background="#fff"
             android:gravity="bottom"
             android:hint="请输入内容"
             android:maxLength="200"
+            android:paddingLeft="@dimen/activity_padding_middle"
+            android:paddingRight="@dimen/activity_padding_small"
             android:paddingBottom="@dimen/activity_padding" />
 
         <Button

@@ -2,6 +2,7 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -212,6 +214,7 @@ public class TaskDetailActivity extends BaseActivity {
                     editComment.setText("");
                     CommentItemEntity commentItemEntity = CommentItemEntity.toCommentEntity(data);
                     mCommentAdapter.addItem(0, commentItemEntity);
+                    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(TaskDetailActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             });
         }

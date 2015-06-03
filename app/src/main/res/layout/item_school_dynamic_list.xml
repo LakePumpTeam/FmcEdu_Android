@@ -35,7 +35,6 @@
         android:listSelector="@android:color/transparent"
         android:numColumns="4" />
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
