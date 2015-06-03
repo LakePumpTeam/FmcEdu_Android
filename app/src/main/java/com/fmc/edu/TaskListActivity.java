@@ -35,7 +35,6 @@ public class TaskListActivity extends BaseActivity {
     private SlideListView slideTaskList;
     private Bundle mBundle;
     private TaskListAdapter mAdapter;
-    private String mHostUrl;
     private boolean mIsLastPage;
 
     private int mPageIndex;
@@ -46,7 +45,6 @@ public class TaskListActivity extends BaseActivity {
         FmcApplication.addActivity(this, R.layout.activity_task_list);
         mBundle = getIntent().getExtras();
         mIsLastPage = mBundle.getBoolean("isLastPage", false);
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         rbUnFinish.setChecked(true);
         initViewsEvent();
@@ -128,7 +126,7 @@ public class TaskListActivity extends BaseActivity {
         param.put("pageSize", Constant.PAGE_SIZE);
         param.put("filter", "");
         param.put("status", ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 0));
-        MyIon.httpPost(this, mHostUrl + "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("taskList");
@@ -155,7 +153,7 @@ public class TaskListActivity extends BaseActivity {
         Map<String, Object> param = new HashMap<>();
         param.put("studentId", taskEntity.studentId);
         param.put("taskId", taskEntity.taskId);
-        MyIon.httpPost(this, mHostUrl + "task/requestTaskDetail", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "task/requestTaskDetail", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();

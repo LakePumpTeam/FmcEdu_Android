@@ -55,7 +55,7 @@ public class MyIon {
 
     public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
-            MyIon.setUrlAndBodyParams(context, url, params)
+            MyIon.setUrlAndBodyParams(context, AppConfigUtils.getServiceHost() + url, params)
                     .setCallback(new FMCMapFutureCallback(progressControl) {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, ?> result) {

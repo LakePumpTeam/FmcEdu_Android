@@ -48,7 +48,6 @@ public class RelatedInfoActivity extends BaseActivity {
     private TextView txtSchool;
     private TextView txtTeacher;
     private String mCellphone;
-    private String mHostUrl;
     private Map<String, Object> mParams;
     private SelectListControl classListControl;
     private int mPageIndex;
@@ -67,7 +66,6 @@ public class RelatedInfoActivity extends BaseActivity {
         initViews();
         bindViewEvents();
         mCellphone = getIntent().getStringExtra("cellPhone");
-        mHostUrl = AppConfigUtils.getServiceHost();
         mPageSize = AppConfigUtils.getPageSize();
         mParams = new HashMap<>();
         bindPageData();
@@ -255,7 +253,7 @@ public class RelatedInfoActivity extends BaseActivity {
             mProgressControl.showWindow();
         }
         handleParams();
-        MyIon.httpPost(this, mHostUrl + url, mParams, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, url, mParams, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterGetList(data);
@@ -265,8 +263,7 @@ public class RelatedInfoActivity extends BaseActivity {
 
     private void doSubmitAudit(View view) {
         mProgressControl.showWindow();
-        String url = mHostUrl + "profile/requestRegisterBaseInfo";
-        MyIon.httpPost(this, url, getParams(), mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestRegisterBaseInfo", getParams(), mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterInitSubmit(data);
@@ -547,7 +544,7 @@ public class RelatedInfoActivity extends BaseActivity {
         mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<>();
         params.put("classId", txtClass.getTag());
-        MyIon.httpPost(this, mHostUrl + "school/requestHeadTeacher", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "school/requestHeadTeacher", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 txtTeacher.setTag(ConvertUtils.getString(data.get("headTeacherId"), ""));

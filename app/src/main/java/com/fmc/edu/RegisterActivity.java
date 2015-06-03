@@ -29,7 +29,6 @@ public class RegisterActivity extends BaseActivity {
     private EditText editPassword;
     private EditText editConfirmPassword;
     private ValidateButtonControl validateBtnGetAuthCode;
-    private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,6 @@ public class RegisterActivity extends BaseActivity {
         FmcApplication.addActivity(this, R.layout.activity_register);
         initViews();
         initViewEvents();
-        mHostUrl = AppConfigUtils.getServiceHost();
         if (AppConfigUtils.isDevelopment()) {
             initTestData();
         }
@@ -117,10 +115,9 @@ public class RegisterActivity extends BaseActivity {
 
     private void getAuthCode(View view) {
         mProgressControl.showWindow();
-        String url = mHostUrl + "profile/requestPhoneIdentify";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", editCellphone.getText().toString());
-        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestPhoneIdentify", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
 //                if (AppConfigUtils.isDevelopment()) {
@@ -135,10 +132,9 @@ public class RegisterActivity extends BaseActivity {
 
     private void doNextStepOnClick(View view) {
         mProgressControl.showWindow();
-        String url = mHostUrl + "profile/requestRegisterConfirm";
         Map<String, Object> params = getNextStepParams();
 
-        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestRegisterConfirm", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 afterNextStep();

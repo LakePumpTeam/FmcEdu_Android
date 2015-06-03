@@ -28,7 +28,6 @@ public class SchoolDynamicActivity extends BaseActivity {
     private SchoolDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
     private int mPageIndex = 1;
-    private String mHostUrl;
     private int mCurrentTag = 2;
     private boolean mIsLastPage;
     private View mFooterView;
@@ -37,7 +36,6 @@ public class SchoolDynamicActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_school_dynamic);
-        mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
         mIsLastPage = bundle.getBoolean("isLastPage", false);
@@ -88,13 +86,12 @@ public class SchoolDynamicActivity extends BaseActivity {
 
 
     private void getDynamicData(boolean isShowProgress) {
-        String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("type", mCurrentTag);
-        MyIon.httpPost(SchoolDynamicActivity.this, url, params, isShowProgress ? mProgressControl : null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(SchoolDynamicActivity.this, "news/requestNewsList", params, isShowProgress ? mProgressControl : null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {

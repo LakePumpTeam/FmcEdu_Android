@@ -50,14 +50,12 @@ public class TaskDetailActivity extends BaseActivity {
     private TextView popupDelete;
     private TextView popupCopy;
     private PopupWindow commentPopupWindow;
-    private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_task_detail);
         mTaskEntity = (TaskEntity) getIntent().getExtras().getSerializable("taskDetail");
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
         initPageData();
@@ -208,7 +206,7 @@ public class TaskDetailActivity extends BaseActivity {
             param.put("userId", FmcApplication.getLoginUser().userId);
             param.put("taskId", mTaskEntity.taskId);
             param.put("comment", editComment.getText());
-            MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/addComment", param, mProgressControl, new MyIon.AfterCallBack() {
+            MyIon.httpPost(TaskDetailActivity.this, "task/addComment", param, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     editComment.setText("");
@@ -228,7 +226,7 @@ public class TaskDetailActivity extends BaseActivity {
         Map<String, Object> param = new HashMap<>();
         param.put("commentId", item.commentId);
         param.put("userId", loginUserEntity.userId);
-        MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/deleteComment", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(TaskDetailActivity.this, "task/deleteComment", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 commentPopupWindow.dismiss();
@@ -247,7 +245,7 @@ public class TaskDetailActivity extends BaseActivity {
         param.put("userId", loginUserEntity.userId);
         param.put("taskId", mTaskEntity.taskId);
         param.put("task", editContent.getText());
-        MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/editTask", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(TaskDetailActivity.this, "task/editTask", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showLong("保存成功！");
@@ -263,7 +261,7 @@ public class TaskDetailActivity extends BaseActivity {
         Map<String, Object> param = new HashMap<>();
         param.put("studentId", mTaskEntity.studentId);
         param.put("taskId", mTaskEntity.taskId);
-        MyIon.httpPost(TaskDetailActivity.this, mHostUrl + "task/submitTask", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(TaskDetailActivity.this, "task/submitTask", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showLong("已完成！");

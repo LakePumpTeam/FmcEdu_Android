@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity {
 
     private int mUserRole;
     private Bundle mBundle;
-    private String mHostUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class MainActivity extends BaseActivity {
         FmcApplication.addActivity(this, R.layout.activity_main);
         initViews();
         mBundle = getIntent().getExtras();
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViewEvents();
         afterInitData();
         initNewDynamic();
@@ -131,7 +129,7 @@ public class MainActivity extends BaseActivity {
     private void initNewDynamic() {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", FmcApplication.getLoginUser().userId);
-        MyIon.httpPost(this, mHostUrl + "news/checkNewNews", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "news/checkNewNews", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 menuSchoolDynamic.setHasDynamic(ConvertUtils.getBoolean(data.get("schoolNews"), false));
@@ -255,7 +253,7 @@ public class MainActivity extends BaseActivity {
 
     private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
         mProgressControl.showWindow();
-        String url = mHostUrl + "news/requestNewsList";
+        String url = "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", 1);
         params.put("pageSize", Constant.PAGE_SIZE);
@@ -299,7 +297,7 @@ public class MainActivity extends BaseActivity {
         param.put("pageSize", Constant.PAGE_SIZE);
         param.put("filter", "");
         param.put("status", 0);
-        MyIon.httpPost(this, mHostUrl + "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("taskList");
@@ -316,7 +314,7 @@ public class MainActivity extends BaseActivity {
 
     private void gotoCampusActivity() {
         mProgressControl.showWindow();
-        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", null, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(MainActivity.this, "profile/requestPendingAuditParentList", null, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<CampusEntity> list = CampusEntity.toCampusEntityList((List<Map<String, Object>>) data.get("campusList"));
@@ -341,7 +339,7 @@ public class MainActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(MainActivity.this);
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", loginUserEntity.userId);
-        MyIon.httpPost(MainActivity.this, mHostUrl + "profile/requestPendingAuditParentList", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(MainActivity.this, "profile/requestPendingAuditParentList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<WaitAuditEntity> list = WaitAuditEntity.ToWaitAuditEntity((List<Map<String, Object>>) data.get("parentsAuditList"));
@@ -358,7 +356,7 @@ public class MainActivity extends BaseActivity {
     private void gotoTeacherActivity(final int teacherId, final boolean isModify) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("teacherId", teacherId);
-        MyIon.httpPost(this, mHostUrl + "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "school/requestTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();
@@ -382,7 +380,7 @@ public class MainActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("parentId", loginUserEntity.userId);
-        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Intent intent = new Intent(MainActivity.this, RelatedInfoActivity.class);

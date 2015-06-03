@@ -129,11 +129,10 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
         ProgressControl progressControl = new ProgressControl(mContext,view);
         progressControl.showWindow();
         final int type = DynamicTypeEnum.getValue(item.type);
-        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", item.newsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
-        MyIon.httpPost(mContext, url, params, progressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(mContext,  "news/requestNewsDetail", params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();

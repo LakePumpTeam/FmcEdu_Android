@@ -33,7 +33,6 @@ public class KidSchoolActivity extends BaseActivity {
     private SlideListView slideListView;
     private AutoSlidePictureControl slideImg;
     private List<DynamicItemEntity> mList;
-    private String mHostUrl;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
     private List<Map<String, Object>> mSlidePicture;
@@ -42,7 +41,6 @@ public class KidSchoolActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_kid_school);
-        mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
         mIsLastPage = bundle.getBoolean("isLastPage", false);
@@ -70,8 +68,7 @@ public class KidSchoolActivity extends BaseActivity {
     }
 
     private void initSlidePicture() {
-        String url = mHostUrl + "news/requestSlides";
-        MyIon.httpPost(KidSchoolActivity.this, url, new HashMap<String, Object>(), null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(KidSchoolActivity.this, "news/requestSlides", new HashMap<String, Object>(), null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("slideList")) {
@@ -113,11 +110,10 @@ public class KidSchoolActivity extends BaseActivity {
 
     private void gotoDynamicDetailPage(View view, int newsId) {
         mProgressControl.showWindow();
-        String url = AppConfigUtils.getServiceHost() + "news/requestNewsDetail";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", newsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
-        MyIon.httpPost(KidSchoolActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(KidSchoolActivity.this, "news/requestNewsDetail", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 Bundle bundle = new Bundle();
@@ -159,13 +155,12 @@ public class KidSchoolActivity extends BaseActivity {
     }
 
     private void getDynamicData() {
-        String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
-        MyIon.httpPost(KidSchoolActivity.this, url, params, null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {

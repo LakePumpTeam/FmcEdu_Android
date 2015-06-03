@@ -86,7 +86,7 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
             param.put("taskId", taskEntity.taskId);
             param.put("studentId", taskEntity.studentId);
             param.put("userId", FmcApplication.getLoginUser().userId);
-            MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "task/deleteTask", param, progressControl, new MyIon.AfterCallBack() {
+            MyIon.httpPost(mContext, "task/deleteTask", param, progressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ToastToolUtils.showLong("删除成功！");

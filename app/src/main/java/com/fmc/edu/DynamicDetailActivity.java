@@ -64,12 +64,11 @@ public class DynamicDetailActivity extends BaseActivity {
 
         @Override
         public void onOperateClick(View v) {
-            String url = AppConfigUtils.getServiceHost() + "news/likeNews";
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("newsId", mBundle.getInt("newsId"));
             params.put("userId", FmcApplication.getLoginUser().userId);
             params.put("isLike", !ConvertUtils.getBoolean(topBar.getTag()));
-            MyIon.httpPost(DynamicDetailActivity.this, url, params, null, new MyIon.AfterCallBack() {
+            MyIon.httpPost(DynamicDetailActivity.this, "news/likeNews", params, null, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     if (ConvertUtils.getBoolean(topBar.getTag())) {

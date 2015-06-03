@@ -35,14 +35,12 @@ public class LoginActivity extends BaseActivity {
     private TextView txtRegister;
 
     private int REQUEST_CODE_REGISTER = 1;
-    private String mHostUrl;
     private PromptWindowControl promptWindowControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_login);
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         bindViewEvents();
         autoLogin();
@@ -154,10 +152,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void getLoginSalt(final String cellPhone, final String password) {
-        String url = mHostUrl + "profile/requestSalt";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cellPhone", cellPhone);
-        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestSalt", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 String salt = ConvertUtils.getString(data.get("salt"), "");
@@ -167,11 +164,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginRequestHttp(final String cellphone, final String password, final String salt) {
-        String url = mHostUrl + "profile/requestLogin";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", cellphone);
         params.put("password", StringUtils.MD5(salt, password));
-        MyIon.httpPost(this, url, params, null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestLogin", params, null, new MyIon.AfterCallBack() {
                     @Override
                     public void afterCallBack(Map<String, Object> data) {
                         saveLocalLoginInfo(cellphone, password, salt, data);
@@ -199,11 +195,10 @@ public class LoginActivity extends BaseActivity {
 
     private void gotoMainData() {
         mProgressControl.showWindow();
-        String url = AppConfigUtils.getServiceHost() + "home/requestHeaderTeacherForHomePage";
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", loginUserEntity.userId);
-        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "home/requestHeaderTeacherForHomePage", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 LoginActivity.this.finish();
@@ -225,7 +220,7 @@ public class LoginActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("parentId", loginUserEntity.userId);
-        MyIon.httpPost(this, mHostUrl + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 LoginActivity.this.finish();

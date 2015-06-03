@@ -50,14 +50,12 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
             holder.btnAgree.setText("已通过");
             holder.btnRefuse.setEnabled(true);
             holder.btnRefuse.setText("  拒绝  ");
-        }
-       else if (auditStatus == 2) {
+        } else if (auditStatus == 2) {
             holder.btnRefuse.setEnabled(false);
             holder.btnRefuse.setText("已拒绝");
             holder.btnAgree.setEnabled(true);
             holder.btnAgree.setText("  通过  ");
-        }
-        else{
+        } else {
             holder.btnRefuse.setEnabled(true);
             holder.btnRefuse.setText("  拒绝  ");
             holder.btnAgree.setEnabled(true);
@@ -74,11 +72,11 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
     private View.OnClickListener txtParentNameOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            ProgressControl mProgressControl = new ProgressControl(mContext,v);
+            ProgressControl mProgressControl = new ProgressControl(mContext, v);
             mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<>();
             params.put("parentId", v.getTag());
-            MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+            MyIon.httpPost(mContext, "profile/requestGetRelateInfo", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ParentDetailInfoControl parentDetailInfoControl = new ParentDetailInfoControl(mContext, data);
@@ -113,7 +111,7 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
         params.put("teacherId", loginUserEntity.userId);
         params.put("parentIds", holder.item.parentId);
         params.put("setPass", holder.auditStatus);
-        MyIon.httpPost(mContext, AppConfigUtils.getServiceHost() + "profile/requestParentAudit", params, null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(mContext, "profile/requestParentAudit", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (holder.auditStatus == 1) {

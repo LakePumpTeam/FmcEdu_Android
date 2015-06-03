@@ -39,14 +39,12 @@ public class AddTaskActivity extends BaseActivity {
     private TextView txtManager;
     private TextView txtFinishTime;
     private List<Integer> mSelectedStudentIds = new ArrayList<>();
-    private String mHostUrl;
     private List<MultiCommonEntity> mStudentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_add_task);
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
     }
@@ -70,7 +68,7 @@ public class AddTaskActivity extends BaseActivity {
         public void onClick(View v) {
             try {
                 mProgressControl.showWindow();
-                Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(mHostUrl + "task/publishTask");
+                Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(AppConfigUtils.getServiceHost() + "task/publishTask");
                 withB.setMultipartParameter("userId", StringUtils.base64Encode(FmcApplication.getLoginUser().userId))
                         .setMultipartParameter("deadline", StringUtils.base64Encode(txtFinishTime.getText()))
                         .setMultipartParameter("title", StringUtils.base64Encode(editSubject.getText()))
@@ -153,7 +151,7 @@ public class AddTaskActivity extends BaseActivity {
     private void getStudentList() {
         Map<String, Object> param = new HashMap<>();
         param.put("teacherId", FmcApplication.getLoginUser().userId);
-        MyIon.httpPost(AddTaskActivity.this, mHostUrl + "school/requestStudentList", param, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(AddTaskActivity.this, "school/requestStudentList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("studentList");

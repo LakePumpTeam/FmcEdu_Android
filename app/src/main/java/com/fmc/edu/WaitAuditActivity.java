@@ -24,7 +24,6 @@ public class WaitAuditActivity extends BaseActivity {
     private SlideListView slideList;
 
     private WaitAuditAdapter mWaitAuditAdapter;
-    private String mHostUrl;
     private Bundle mBundle;
 
     @Override
@@ -32,7 +31,6 @@ public class WaitAuditActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_wait_audit);
         mBundle = getIntent().getExtras();
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvents();
         initData();
@@ -69,7 +67,7 @@ public class WaitAuditActivity extends BaseActivity {
             Map<String, Object> params = new HashMap<>();
             params.put("teacherId", loginUserEntity.userId);
             params.put("allPass", 1);
-            MyIon.httpPost(WaitAuditActivity.this, mHostUrl + "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
+            MyIon.httpPost(WaitAuditActivity.this, "profile/requestParentAuditAll", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ToastToolUtils.showLong("审核成功");

@@ -30,7 +30,6 @@ public class ClassDynamicActivity extends BaseActivity {
     private RelativeLayout rlComment;
     private EditText editComment;
     private Button btnComment;
-    private String mHostUrl;
     private int mNewsId;
     private int mPositon;
     private ClassDynamicItemAdapter mAdapter;
@@ -43,7 +42,6 @@ public class ClassDynamicActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_class_dynamic);
-        mHostUrl = AppConfigUtils.getServiceHost();
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
         mIsLastPage = bundle.getBoolean("isLastPage", false);
@@ -98,13 +96,12 @@ public class ClassDynamicActivity extends BaseActivity {
     };
 
     private void getDynamicData() {
-        String url = mHostUrl + "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
-        MyIon.httpPost(ClassDynamicActivity.this, url, params, null, new MyIon.AfterCallBack() {
+        MyIon.httpPost(ClassDynamicActivity.this, "news/requestNewsList", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {
@@ -127,12 +124,11 @@ public class ClassDynamicActivity extends BaseActivity {
 
     private void doSendComment() {
         mProgressControl.showWindow();
-        String url = mHostUrl + "news/postComment";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", mNewsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("content", editComment.getText());
-        MyIon.httpPost(this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(this, "news/postComment", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showShort("评论成功");

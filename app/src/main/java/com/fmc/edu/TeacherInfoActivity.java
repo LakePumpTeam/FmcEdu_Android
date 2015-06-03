@@ -30,7 +30,6 @@ public class TeacherInfoActivity extends BaseActivity {
     private EditText editCellphone;
     private RadioGroup rgSex;
     private TextView txtBirth;
-    private String mHostUrl;
     private Bundle mBundle;
 
     @Override
@@ -39,7 +38,6 @@ public class TeacherInfoActivity extends BaseActivity {
         FmcApplication.addActivity(this, R.layout.activity_teacher_info);
         initViews();
         initViewEvent();
-        mHostUrl = AppConfigUtils.getServiceHost();
         mBundle = getIntent().getExtras();
         bindEnable();
         initPageData();
@@ -101,7 +99,7 @@ public class TeacherInfoActivity extends BaseActivity {
             params.put("resume", editRecord.getText());
             params.put("teacherSex", (findViewById(rgSex.getCheckedRadioButtonId()).getTag()));
 
-            MyIon.httpPost(TeacherInfoActivity.this, mHostUrl + "school/requestModifyTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
+            MyIon.httpPost(TeacherInfoActivity.this, "school/requestModifyTeacherInfo", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ToastToolUtils.showLong("修改成功");

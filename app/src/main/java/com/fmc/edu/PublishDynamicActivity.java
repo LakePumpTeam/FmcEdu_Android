@@ -45,7 +45,6 @@ public class PublishDynamicActivity extends BaseActivity {
     private TextView txtAddPicture;
     private final static int REQUEST_CODE = 1;
     private ImageLoader mImageLoader;
-    private String mHostUrl;
     private PublishDynamicGridAdapter mAdapter;
     private MultiPictureControl multiPictureControl;
 
@@ -53,7 +52,6 @@ public class PublishDynamicActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_publish_dynamic);
-        mHostUrl = AppConfigUtils.getServiceHost();
         initViews();
         initViewEvent();
         mImageLoader = ImageLoaderUtil.initCacheImageLoader(this);
@@ -128,7 +126,7 @@ public class PublishDynamicActivity extends BaseActivity {
             String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);
             try {
                 Builders.Any.B withB = MyIon.with(PublishDynamicActivity.this)
-                        .load(mHostUrl + "news/postClassNews");
+                        .load(AppConfigUtils.getServiceHost() + "news/postClassNews");
                 withB.setMultipartParameter("content", Base64.encodeToString(content.getBytes(), Base64.DEFAULT))
                         .setMultipartParameter("userId", base64UserId);
 
