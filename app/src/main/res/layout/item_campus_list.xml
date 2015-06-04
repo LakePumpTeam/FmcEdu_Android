@@ -6,9 +6,11 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/item_campus_list_img_popular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_hot" />
+        android:src="@mipmap/ic_hot"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/item_campus_list_txt_title"
@@ -54,10 +56,11 @@
             android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:id="@+id/item_campus_list_txt_part_in_count"
+            android:id="@+id/item_campus_list_txt_participation_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/item_campus_list_txt_part_in"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_toLeftOf="@+id/item_campus_list_txt_participation"
             android:drawableLeft="@mipmap/ic_part_in"
             android:drawablePadding="@dimen/activity_padding_middle"
             android:text="0"

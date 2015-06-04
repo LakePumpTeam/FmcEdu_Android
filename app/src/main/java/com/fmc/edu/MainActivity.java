@@ -314,15 +314,20 @@ public class MainActivity extends BaseActivity {
 
     private void gotoCampusActivity() {
         mProgressControl.showWindow();
-        MyIon.httpPost(MainActivity.this, "profile/requestPendingAuditParentList", null, mProgressControl, new MyIon.AfterCallBack() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pageIndex", 1);
+        params.put("pageSize", Constant.PAGE_SIZE);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.Campus));
+        MyIon.httpPost(MainActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                List<CampusEntity> list = CampusEntity.toCampusEntityList((List<Map<String, Object>>) data.get("campusList"));
-                menuAudit.setHasDynamic(false);
-                Intent intent = new Intent(MainActivity.this, CampusActivity.class);
+                menuCampus.setHasDynamic(false);
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) list);
+                bundle.putSerializable("list", (Serializable) DynamicItemEntity.toDynamicItemEntity(list));
                 bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+                Intent intent = new Intent(MainActivity.this, CampusActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

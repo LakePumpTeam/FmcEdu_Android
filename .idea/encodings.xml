@@ -6,7 +6,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/fmc/edu/SettingActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/fmc/edu/adapter/KidsSchoolAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/fmc/edu/adapter/SchoolDynamicItemAdapter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/fmc/edu/customcontrol/SoftKeyBoardStatusView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/fmc/edu/entity/KidSchoolEntity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/build.gradle" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
