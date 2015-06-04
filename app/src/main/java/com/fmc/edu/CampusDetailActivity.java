@@ -177,7 +177,7 @@ public class CampusDetailActivity extends Activity {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isSubmit", isSubmit);
         bundle.putInt("newsId", mBundle.getInt("newsId"));
-        intent.putExtras(intent);
+        intent.putExtras(bundle);
         setResult(RESULT_OK, intent);
     }
 
