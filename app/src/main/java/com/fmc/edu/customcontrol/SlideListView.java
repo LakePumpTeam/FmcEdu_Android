@@ -68,10 +68,8 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         }
         if (isVisible) {
             mFooterView.setVisibility(View.VISIBLE);
-//            mFooterView.setPadding(0, 0, 0, 0);
         } else {
             mFooterView.setVisibility(View.GONE);
-//            mFooterView.setPadding(0, mFooterView.getHeight(), 0, 0);
         }
     }
 }

@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:background="@color/activity_top_bar_color"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:paddingLeft="@dimen/activity_padding_middle">
+
+        <EditText
+            android:id="@+id/task_list_search_edit_key"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/task_list_search_ll_cancel"
+            android:background="@drawable/shape_search_edit"
+            android:hint="输入关键字搜索"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="@dimen/activity_padding_middle"
+            android:paddingRight="@dimen/activity_padding_middle"
+            android:singleLine="true"
+            android:textColor="#ddd"
+            android:textSize="@dimen/font_size_edit"
+            android:textColorHint="#ccc" />
+
+        <LinearLayout
+            android:id="@+id/task_list_search_ll_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/activity_padding_middle"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:textColor="@color/activity_top_bar_font_color"
+                android:textSize="@dimen/font_size_middle" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/task_list_search_slide_task_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activity_bg_color_write" />
+</LinearLayout>

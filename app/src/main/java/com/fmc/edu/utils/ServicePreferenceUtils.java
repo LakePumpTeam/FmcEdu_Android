@@ -24,6 +24,7 @@ public class ServicePreferenceUtils {
         editor.putString("salt", userEntity.salt);
         editor.putString("userName", userEntity.userName);
         editor.putBoolean("sex", userEntity.sex);
+        editor.putString("userCardNum",userEntity.userCardNum);
         editor.commit();
     }
 
@@ -80,6 +81,7 @@ public class ServicePreferenceUtils {
         loginUserEntity.salt = sharedPreferences.getString("salt", "");
         loginUserEntity.userName = sharedPreferences.getString("userName", "");
         loginUserEntity.sex = sharedPreferences.getBoolean("sex", true);
+        loginUserEntity.userCardNum = sharedPreferences.getString("userCardNum","0");
         return loginUserEntity;
     }
 

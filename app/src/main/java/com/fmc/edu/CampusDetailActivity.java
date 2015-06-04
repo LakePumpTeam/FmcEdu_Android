@@ -1,24 +1,32 @@
 package com.fmc.edu;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
+import com.fmc.edu.entity.CampusSelectionEntity;
+import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class CampusDetailActivity extends Activity {
@@ -31,6 +39,8 @@ public class CampusDetailActivity extends Activity {
     private TextView txtPartIn;
     private TopBarControl topBar;
     private Bundle mBundle;
+    private boolean isSubmit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,7 @@ public class CampusDetailActivity extends Activity {
 
     private void initViewEvent() {
         btnSubmit.setOnClickListener(btnSubmitOnClickListener);
+        topBar.setOnOperateOnClickListener(topBarOnOperateOnClickListener);
     }
 
     private void initPageData() {
@@ -66,18 +77,38 @@ public class CampusDetailActivity extends Activity {
         topBar.setTopBarText(title);
         txtTitle.setText(subject);
         txtContent.setText(mBundle.getString("content"));
-        txtDate.setText(mBundle.getString("date"));
-        txtPartIn.setText(mBundle.getString("partincount", "0"));
-        partInComment(!mBundle.getBoolean("partIned"));
+        txtDate.setText(mBundle.getString("createDate"));
+        txtPartIn.setText(ConvertUtils.getString(mBundle.getInt("participationCount", 0)));
+        initRgSuggest((List<CampusSelectionEntity>) mBundle.getSerializable("selections"));
+        partInComment(!mBundle.getBoolean("isParticipation", false));
         bindPicture(mBundle.getStringArrayList("imageUrl"));
     }
 
-    private View.OnClickListener btnSubmitOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            partInComment(false);
+    private void initRgSuggest(List<CampusSelectionEntity> selections) {
+        if (null == selections || 0 == selections.size()) {
+            btnSubmit.setVisibility(View.GONE);
+            return;
         }
-    };
+        btnSubmit.setVisibility(View.VISIBLE);
+        for (CampusSelectionEntity item : selections) {
+            RadioButton radioButton = createRadioButton(item);
+            RadioGroup.LayoutParams params_rb = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params_rb.setMargins(10, 10, 10, 10);
+            rgSuggest.addView(radioButton, params_rb);
+        }
+    }
+
+    private RadioButton createRadioButton(CampusSelectionEntity campusSelection) {
+
+        RadioButton radioButton = new RadioButton(this);
+        radioButton.setTag(campusSelection.selectionId);
+        radioButton.setChecked(campusSelection.isSelected);
+        radioButton.setText(campusSelection.selection);
+        radioButton.setButtonDrawable(R.drawable.selector_check_box_check);
+        radioButton.setPadding(ConvertUtils.getInteger(getResources().getDimension(R.dimen.activity_padding_middle), 0), 0, 0, 0);
+        radioButton.setTextColor(getResources().getColor(R.color.text_font_color));
+        return radioButton;
+    }
 
     private void bindPicture(ArrayList<String> imageUrls) {
         for (int i = 0; i < imageUrls.size(); i++) {
@@ -93,8 +124,73 @@ public class CampusDetailActivity extends Activity {
         }
     }
 
+
+    private View.OnClickListener btnSubmitOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            int radioButtonId = rgSuggest.getCheckedRadioButtonId();
+            if (0 == radioButtonId) {
+                ToastToolUtils.showLong("请先选择要提交的观点");
+                return;
+            }
+
+            ProgressControl progressControl = new ProgressControl(CampusDetailActivity.this, v);
+            progressControl.showWindow();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("newsId", mBundle.getInt("newsId"));
+            params.put("userId", FmcApplication.getLoginUser().userId);
+            params.put("selectionId", findViewById(radioButtonId).getTag());
+            MyIon.httpPost(CampusDetailActivity.this, "news/submitParticipation", params, progressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    isSubmit = true;
+                    txtPartIn.setText(ConvertUtils.getString(mBundle.getInt("participationCount", 0) + 1));
+                    ToastToolUtils.showLong("提交成功！");
+                    partInComment(false);
+                }
+            });
+        }
+    };
+
+    private TopBarControl.OnOperateOnClickListener topBarOnOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+            gotoBack();
+        }
+
+        @Override
+        public void onOperateClick(View v) {
+
+        }
+    };
+
+
+    @Override
+    public void onBackPressed() {
+        gotoBack();
+        CampusDetailActivity.this.finish();
+    }
+
+    private void gotoBack() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isSubmit", isSubmit);
+        bundle.putInt("newsId", mBundle.getInt("newsId"));
+        intent.putExtras(intent);
+        setResult(RESULT_OK, intent);
+    }
+
     private void partInComment(boolean isEnable) {
         rgSuggest.setEnabled(isEnable);
         btnSubmit.setEnabled(isEnable);
+        setRadioButtonEnable(isEnable);
+    }
+
+    private void setRadioButtonEnable(boolean isEnable) {
+        int childCount = rgSuggest.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            rgSuggest.getChildAt(i).setEnabled(isEnable);
+        }
     }
 }

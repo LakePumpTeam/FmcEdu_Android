@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,13 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.AuditStateTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -260,7 +257,8 @@ public class LoginActivity extends BaseActivity {
         userEntity.password = password;
         userEntity.salt = salt;
         userEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(userData.get("userRole")));
-        userEntity.userName = ConvertUtils.getString(userData.get("userName"));
+        userEntity.userName = ConvertUtils.getString(userData.get("userName"), "");
+        userEntity.userCardNum = ConvertUtils.getString(userData.get("braceletCardNumber"),"0");
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

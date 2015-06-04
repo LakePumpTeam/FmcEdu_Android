@@ -70,6 +70,7 @@
                     style="@style/TextStyle"
                     android:layout_alignParentRight="true"
                     android:drawableLeft="@mipmap/ic_part_in"
+                    android:layout_marginRight="@dimen/activity_margin_middle"
                     android:drawablePadding="@dimen/activity_padding_middle"
                     android:text="0"
                     android:textColor="@color/edit_text_hint_font_color"
@@ -91,31 +92,31 @@
                 android:layout_marginTop="@dimen/activity_margin"
                 android:orientation="vertical">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/selector_check_box_check"
-                    android:paddingLeft="@dimen/activity_padding"
-                    android:text="我同意作者的观点"
-                    android:textColor="@color/text_font_color" />
+                <!--<RadioButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/selector_check_box_check"-->
+                <!--android:paddingLeft="@dimen/activity_padding"-->
+                <!--android:text="我同意作者的观点"-->
+                <!--android:textColor="@color/text_font_color" />-->
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_margin"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:button="@drawable/selector_check_box_check"
-                    android:paddingLeft="@dimen/activity_padding"
-                    android:text="我不同意作者的观点"
-                    android:textColor="@color/text_font_color" />
+                <!--<RadioButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="@dimen/activity_margin"-->
+                <!--android:layout_marginTop="@dimen/activity_margin"-->
+                <!--android:button="@drawable/selector_check_box_check"-->
+                <!--android:paddingLeft="@dimen/activity_padding"-->
+                <!--android:text="我不同意作者的观点"-->
+                <!--android:textColor="@color/text_font_color" />-->
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/selector_check_box_check"
-                    android:paddingLeft="@dimen/activity_padding"
-                    android:text="我觉得无所谓"
-                    android:textColor="@color/text_font_color" />
+                <!--<RadioButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:button="@drawable/selector_check_box_check"-->
+                <!--android:paddingLeft="@dimen/activity_padding"-->
+                <!--android:text="我觉得无所谓"-->
+                <!--android:textColor="@color/text_font_color" />-->
             </RadioGroup>
 
             <Button
@@ -123,7 +124,8 @@
                 style="@style/OvalButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_margin="@dimen/activity_margin_large"
-                android:text="@string/btn_submit" />
+                android:text="@string/btn_submit"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

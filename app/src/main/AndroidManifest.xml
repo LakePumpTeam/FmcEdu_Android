@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fmc.edu"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -37,12 +37,16 @@
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:name=".FmcApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/dev/" />
@@ -57,7 +61,7 @@
             android:value="true" />
         <meta-data
             android:name="com.fmc.edu.three"
-            android:value="false" />
+            android:value="true" />
         <meta-data
             android:name="com.fmc.edu.version"
             android:value="1.0" />
@@ -77,7 +81,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -115,8 +119,7 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test"
-            android:windowSoftInputMode="adjustResize">
-
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name=".TeacherInfoActivity"
@@ -177,7 +180,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CampusDetailActivity"
-            android:label="@string/title_activity_campus_detail"></activity>
+            android:label="@string/title_activity_campus_detail" />
+        <activity
+            android:name=".TaskListSearchActivity"
+            android:label="@string/title_activity_task_list_search" >
+        </activity>
     </application>
 
 </manifest>

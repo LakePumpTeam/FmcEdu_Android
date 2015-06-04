@@ -19,11 +19,4 @@ public class LoginUserEntity {
     public String userCardNum;
     public int repayState;
     public boolean sex;
-
-    public static LoginUserEntity toLoginUserEntity(Map<String, Object> mapData) {
-        LoginUserEntity loginUserEntity = new LoginUserEntity();
-        loginUserEntity.userId = ConvertUtils.getInteger(mapData.get("userId"));
-        loginUserEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(mapData.get("userRole")));
-        return loginUserEntity;
-    }
 }

@@ -8,10 +8,13 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.AlertWindowControl;
+import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 
-public class IntelligentLocationActivity extends BaseActivity{
+public class IntelligentLocationActivity extends BaseActivity {
 
     private TextView txtSurrounding;
     private TextView txtLocation;
@@ -41,7 +44,14 @@ public class IntelligentLocationActivity extends BaseActivity{
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "15881037068"));
+
+            String userCardNum = FmcApplication.getLoginUser().userCardNum;
+            if (StringUtils.isEmptyOrNull(userCardNum)) {
+                AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
+                alertWindowControl.showWindow(v, "提示", "您还未绑定设备");
+                return;
+            }
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + userCardNum));
             startActivity(intent);
 
         }
@@ -50,8 +60,14 @@ public class IntelligentLocationActivity extends BaseActivity{
 
         @Override
         public void onClick(View v) {
+            String userCardNum = FmcApplication.getLoginUser().userCardNum;
+            if (StringUtils.isEmptyOrNull(userCardNum)) {
+                AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
+                alertWindowControl.showWindow(v, "提示", "您还未绑定设备");
+                return;
+            }
             SmsManager smsMgr = SmsManager.getDefault();
-            smsMgr.sendTextMessage("15881037068", null, "测试短信发送功能", null, null);
+            smsMgr.sendTextMessage(userCardNum, null, "测试短信发送功能", null, null);
             ToastToolUtils.showLong("已发送");
 //            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("smsto:" + "15881037068"));
 //            intent.putExtra("sms_body","sfadfafd");

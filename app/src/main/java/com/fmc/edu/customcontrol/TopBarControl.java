@@ -96,8 +96,13 @@ public class TopBarControl extends LinearLayout {
     }
 
     public void setTopBarOperateImg(int imgId) {
+        if(0 == imgId){
+            llOperate.setVisibility(GONE);
+            return;
+        }
         imgOperate.setImageDrawable(getResources().getDrawable(imgId));
         llOperateImage.setVisibility(VISIBLE);
+        llOperate.setVisibility(VISIBLE);
     }
 
     private void bindControlEvent() {

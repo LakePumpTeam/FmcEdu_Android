@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="@color/dynamic_title_color"
-            android:textSize="@dimen/font_size_middle_title" />
+            android:textSize="@dimen/font_size_middle" />
 
         <RelativeLayout
             android:layout_width="match_parent"

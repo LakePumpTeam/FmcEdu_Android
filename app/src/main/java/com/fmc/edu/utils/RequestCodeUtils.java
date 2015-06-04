@@ -9,4 +9,5 @@ public class RequestCodeUtils {
     public static final int PUBLISH_CLASS_DYNAMIC=4;
     public static final  int ADD_TASK=5;
     public static final int TASK_DETAIL=6;
+    public static final int CAMPUS_DETAIL=7;
 }

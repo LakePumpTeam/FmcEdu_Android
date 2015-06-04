@@ -93,6 +93,7 @@
     <string name="hint_task_content">请输入任务描述</string>
     <string name="btn_ok">确定</string>
     <string name="hint_finish_date">截止日期</string>
+    <string name="title_activity_task_list_search">TaskListSearchActivity</string>
 
 
 </resources>

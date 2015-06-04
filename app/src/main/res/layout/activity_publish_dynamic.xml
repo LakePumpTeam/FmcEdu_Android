@@ -23,10 +23,10 @@
         android:gravity="top"
         android:hint="@string/edit_content"
         android:lineSpacingExtra="2dp"
-        android:maxLength="100"
+        android:maxLength="200"
         android:padding="@dimen/activity_padding_middle"
         android:singleLine="false"
-        android:textSize="@dimen/font_size_middle" />
+        android:textSize="@dimen/font_size_edit" />
 
     <GridView
         android:id="@+id/publish_dynamic_grid_picture"

@@ -89,14 +89,16 @@ public class TaskDetailActivity extends BaseActivity {
             return;
         }
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-        if (loginUserEntity.userRole == UserRoleEnum.Parent) {
+
+        if (mTaskEntity.status == 1) {
+            topBar.setTopBarOperateImg(0);
+            editContent.setEnabled(false);
+        } else if (loginUserEntity.userRole == UserRoleEnum.Parent) {
             editContent.setEnabled(false);
             topBar.setTopBarOperateImg(R.mipmap.btn_finish);
-            topBar.setOperateEnable(mTaskEntity.status == 0);
 
         } else if (loginUserEntity.userRole == UserRoleEnum.Teacher) {
             topBar.setTopBarOperateImg(R.mipmap.btn_save);
-            topBar.setEnabled(true);
             editContent.setEnabled(true);
         }
         String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
@@ -214,7 +216,7 @@ public class TaskDetailActivity extends BaseActivity {
                     editComment.setText("");
                     CommentItemEntity commentItemEntity = CommentItemEntity.toCommentEntity(data);
                     mCommentAdapter.addItem(0, commentItemEntity);
-                    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(TaskDetailActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(TaskDetailActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             });
         }

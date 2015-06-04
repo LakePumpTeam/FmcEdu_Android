@@ -1,19 +1,15 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.HashMap;
@@ -30,7 +26,6 @@ public class SchoolDynamicActivity extends BaseActivity {
     private int mPageIndex = 1;
     private int mCurrentTag = 2;
     private boolean mIsLastPage;
-    private View mFooterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

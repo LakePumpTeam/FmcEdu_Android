@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/selector_list_item_bg"
+    android:paddingLeft="@dimen/activity_padding_middle"
+    android:paddingRight="@dimen/activity_padding_middle"
     android:orientation="vertical">
 
     <ImageView
@@ -21,14 +24,13 @@
         android:textColor="@color/dynamic_title_color"
         android:textSize="@dimen/font_size_middle" />
 
-    <TextView
-        android:id="@+id/item_campus_list_txt_content"
+    <com.fmc.edu.customcontrol.ExpandableTextViewControl
+        android:id="@+id/item_campus_list_expand_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
-        android:maxLines="5"
-        android:textColor="@color/dynamic_content_color"
-        android:textSize="@dimen/font_size_small" />
+        android:orientation="vertical"
+        fmc:isExpand="true"
+        fmc:maxCollapseLines="5" />
 
 
     <com.fmc.edu.customcontrol.GridViewControl
@@ -59,7 +61,7 @@
             android:id="@+id/item_campus_list_txt_participation_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_marginRight="@dimen/activity_margin"
             android:layout_toLeftOf="@+id/item_campus_list_txt_participation"
             android:drawableLeft="@mipmap/ic_part_in"
             android:drawablePadding="@dimen/activity_padding_middle"
@@ -68,14 +70,15 @@
             android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:id="@+id/item_campus_list_txt_part_in"
+            android:id="@+id/item_campus_list_txt_participation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:text="我要参与"
+            android:layout_marginRight="@dimen/activity_margin_small"
             android:textColor="@color/btn_bg_color_sel"
-            android:textSize="@dimen/font_size_middle" />
+            android:textSize="@dimen/font_size_small" />
     </RelativeLayout>
 
 </LinearLayout>

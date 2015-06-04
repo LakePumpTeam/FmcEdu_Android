@@ -14,6 +14,7 @@ import com.fmc.edu.adapter.TaskListAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.enums.UserRoleEnum;
@@ -33,10 +34,10 @@ public class TaskListActivity extends BaseActivity {
     private RadioButton rbUnFinish;
     private RadioButton rbFinish;
     private SlideListView slideTaskList;
+    private TopBarControl topBar;
     private Bundle mBundle;
     private TaskListAdapter mAdapter;
     private boolean mIsLastPage;
-
     private int mPageIndex;
 
     @Override
@@ -57,13 +58,15 @@ public class TaskListActivity extends BaseActivity {
         rbUnFinish = (RadioButton) findViewById(R.id.task_list_un_finish);
         rbFinish = (RadioButton) findViewById(R.id.task_list_finish);
         slideTaskList = (SlideListView) findViewById(R.id.task_list_slide_task_list);
+        topBar = (TopBarControl) findViewById(R.id.task_list_top_bar);
     }
 
     private void initViewsEvent() {
         btnAddTask.setOnClickListener(addTaskOnClickListener);
-        slideTaskList.setOnItemClickListener(slideOnItemClickListener);
         rgTab.setOnCheckedChangeListener(tabOnCheckedChangeListener);
+        slideTaskList.setOnItemClickListener(slideOnItemClickListener);
         slideTaskList.setOnLoadMoreListener(slideOnLoadMoreListener);
+        topBar.setOnOperateOnClickListener(searchOperateOnClickListener);
     }
 
     private void initPageData() {
@@ -115,7 +118,21 @@ public class TaskListActivity extends BaseActivity {
             if (mIsLastPage) {
                 return;
             }
+            mPageIndex++;
             loadMoreData();
+        }
+    };
+
+    private TopBarControl.OnOperateOnClickListener searchOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+
+        }
+
+        @Override
+        public void onOperateClick(View v) {
+            Intent intent = new Intent(TaskListActivity.this, TaskListSearchActivity.class);
+            startActivity(intent);
         }
     };
 
