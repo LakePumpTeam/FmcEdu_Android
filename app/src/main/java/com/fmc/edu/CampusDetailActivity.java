@@ -82,7 +82,8 @@ public class CampusDetailActivity extends Activity {
         txtPartIn.setText(ConvertUtils.getString(mBundle.getInt("participationCount", 0)));
         initRgSuggest((List<CampusSelectionEntity>) mBundle.getSerializable("selections"));
         partInComment(!mBundle.getBoolean("isParticipation", false));
-        bindPicture(mBundle.getStringArrayList("imageUrl"));
+        List<String> actualImageUrls = getActualImageUrl(mBundle.getStringArrayList("imageUrl"));
+        bindPicture(actualImageUrls);
     }
 
     private void initRgSuggest(List<CampusSelectionEntity> selections) {
@@ -111,7 +112,7 @@ public class CampusDetailActivity extends Activity {
         return radioButton;
     }
 
-    private void bindPicture(ArrayList<String> imageUrls) {
+    private void bindPicture(List<String> imageUrls) {
         for (int i = 0; i < imageUrls.size(); i++) {
             ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_single_picture, null);
             DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -122,7 +123,7 @@ public class CampusDetailActivity extends Activity {
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
             imageView.setTag(imageUrls);
             imageView.setOnClickListener(imageOnClickListener);
-            ImageLoaderUtil.initCacheImageLoader(this).displayImage(AppConfigUtils.getServiceHost() + imageUrls.get(i), imageView);
+            ImageLoaderUtil.initCacheImageLoader(this).displayImage(imageUrls.get(i), imageView);
             llPicture.addView(imageView);
         }
     }
@@ -208,5 +209,13 @@ public class CampusDetailActivity extends Activity {
         for (int i = 0; i < childCount; i++) {
             rgSuggest.getChildAt(i).setEnabled(isEnable);
         }
+    }
+
+    private List<String> getActualImageUrl(List<String> oldList) {
+        List<String> actualUrls = new ArrayList<>();
+        for (String oldUrl : oldList) {
+            actualUrls.add(AppConfigUtils.getServiceHost() + oldUrl);
+        }
+        return actualUrls;
     }
 }

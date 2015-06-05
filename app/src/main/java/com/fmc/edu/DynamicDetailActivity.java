@@ -180,4 +180,6 @@ public class DynamicDetailActivity extends BaseActivity {
             imageShowControl.showWindow(v, bigPictureUrl);
         }
     };
+
+
 }
