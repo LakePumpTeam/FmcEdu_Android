@@ -37,10 +37,6 @@
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-
     <application
         android:name=".FmcApplication"
         android:allowBackup="true"
@@ -181,6 +177,10 @@
         <activity
             android:name=".CampusDetailActivity"
             android:label="@string/title_activity_campus_detail" />
+        <activity
+            android:name=".TaskListSearchActivity"
+            android:label="@string/title_activity_task_list_search" >
+        </activity>
         <activity
             android:name=".TaskListSearchActivity"
             android:label="@string/title_activity_task_list_search" >

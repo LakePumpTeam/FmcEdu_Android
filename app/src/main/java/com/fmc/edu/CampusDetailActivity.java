@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CampusSelectionEntity;
@@ -119,6 +120,8 @@ public class CampusDetailActivity extends Activity {
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
+            imageView.setTag(imageUrls);
+            imageView.setOnClickListener(imageOnClickListener);
             ImageLoaderUtil.initCacheImageLoader(this).displayImage(AppConfigUtils.getServiceHost() + imageUrls.get(i), imageView);
             llPicture.addView(imageView);
         }
@@ -146,7 +149,7 @@ public class CampusDetailActivity extends Activity {
                 public void afterCallBack(Map<String, Object> data) {
                     isSubmit = true;
                     txtPartIn.setText(ConvertUtils.getString(mBundle.getInt("participationCount", 0) + 1));
-                    ToastToolUtils.showLong("提交成功！");
+                    ToastToolUtils.showLong("提交成功,谢谢参与");
                     partInComment(false);
                 }
             });
@@ -165,6 +168,18 @@ public class CampusDetailActivity extends Activity {
         }
     };
 
+    private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            List<String> bigPictureUrl = (List<String>) v.getTag();
+            if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
+                ToastToolUtils.showLong("无有效图片");
+                return;
+            }
+            ImageShowControl imageShowControl = new ImageShowControl(CampusDetailActivity.this);
+            imageShowControl.showWindow(v, bigPictureUrl);
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -184,6 +199,7 @@ public class CampusDetailActivity extends Activity {
     private void partInComment(boolean isEnable) {
         rgSuggest.setEnabled(isEnable);
         btnSubmit.setEnabled(isEnable);
+        btnSubmit.setText("您已提交过");
         setRadioButtonEnable(isEnable);
     }
 
