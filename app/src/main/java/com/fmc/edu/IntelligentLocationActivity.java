@@ -46,11 +46,17 @@ public class IntelligentLocationActivity extends BaseActivity {
         public void onClick(View v) {
 
             String userCardNum = FmcApplication.getLoginUser().userCardNum;
-            if (StringUtils.isEmptyOrNull(userCardNum)) {
+            if (StringUtils.isEmptyOrNull(userCardNum) || "0".equals(userCardNum)) {
                 AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
                 alertWindowControl.showWindow(v, "提示", "您还未绑定设备");
                 return;
             }
+            if (userCardNum.length() != 11) {
+                AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
+                alertWindowControl.showWindow(v, "提示", "设备卡号错误");
+                return;
+            }
+
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + userCardNum));
             startActivity(intent);
 
@@ -61,9 +67,14 @@ public class IntelligentLocationActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             String userCardNum = FmcApplication.getLoginUser().userCardNum;
-            if (StringUtils.isEmptyOrNull(userCardNum)) {
+            if (StringUtils.isEmptyOrNull(userCardNum) || "0".equals(userCardNum)) {
                 AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
                 alertWindowControl.showWindow(v, "提示", "您还未绑定设备");
+                return;
+            }
+            if (userCardNum.length() != 11) {
+                AlertWindowControl alertWindowControl = new AlertWindowControl(IntelligentLocationActivity.this);
+                alertWindowControl.showWindow(v, "提示", "设备卡号错误");
                 return;
             }
             SmsManager smsMgr = SmsManager.getDefault();
