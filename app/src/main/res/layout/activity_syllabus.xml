@@ -1,15 +1,131 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@color/activity_bg_color_write"
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/syllabus_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
+        fmc:operatorImageSrc="@mipmap/btn_upload"
         fmc:topTitle="@string/title_activity_syllabus" />
 
+    <HorizontalScrollView
+        android:id="@+id/syllabus_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:scrollbars="none">
 
-</RelativeLayout>
+        <RadioGroup
+            android:id="@+id/syllabus_rg_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_mon"
+                style="@style/TabRadioStyle"
+                android:tag="0"
+                android:text="周一" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_tue"
+                style="@style/TabRadioStyle"
+                android:tag="1"
+                android:text="周二" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_wed"
+                style="@style/TabRadioStyle"
+                android:tag="2"
+                android:text="周三" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_thu"
+                style="@style/TabRadioStyle"
+                android:tag="3"
+                android:text="周四" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_fri"
+                style="@style/TabRadioStyle"
+                android:tag="4"
+                android:text="周五" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_sat"
+                style="@style/TabRadioStyle"
+                android:tag="5"
+                android:text="周六" />
+
+            <RadioButton
+                android:id="@+id/syllabus_rb_tab_sun"
+                style="@style/TabRadioStyle"
+                android:tag="6"
+                android:text="周日" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider_bg_color"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="2"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/txt_course_num"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="4"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/txt_course_name"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="3"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/txt_class_time"
+            android:singleLine="true"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <ListView
+        android:id="@+id/syllabus_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/syllabus_ll_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
+</LinearLayout>

@@ -33,7 +33,7 @@
                     android:id="@+id/campus_detail_txt_title"
                     style="@style/TextStyle"
                     android:layout_marginTop="@dimen/activity_margin_middle"
-                    android:textSize="@dimen/font_size_large" />
+                    android:textSize="@dimen/font_size_middle_title" />
 
 
                 <TextView

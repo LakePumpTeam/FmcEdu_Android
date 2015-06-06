@@ -111,5 +111,4 @@
         <item name="android:paddingBottom">@dimen/activity_padding_middle</item>
     </style>
 
-
 </resources>

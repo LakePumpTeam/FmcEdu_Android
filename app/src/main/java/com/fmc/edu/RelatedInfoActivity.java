@@ -293,46 +293,57 @@ public class RelatedInfoActivity extends BaseActivity {
         params.put("addressId", editAddress.getTag().toString());
         params.put("braceletCardNumber", editBraceletCardNum.getText().toString());
         params.put("braceletNumber", editBraceletNumber.getText().toString());
-        mIsAudit = isAudit(params);
+        checkAudit(params);
         params.put("isAudit", mIsAudit);
         return params;
     }
 
-    private boolean isAudit(Map<String, Object> newData) {
+    private void checkAudit(Map<String, Object> newData) {
         if (null == mBundle || mBundle.getBoolean("isRegister", false)) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("provId").equals(mBundle.getString("provId"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("cityId").equals(mBundle.getString("cityId"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("schoolId").equals(mBundle.getString("schoolId"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("classId").equals(mBundle.getString("classId"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("teacherId").equals(mBundle.getString("teacherId"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("studentName").equals(mBundle.getString("studentName"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("studentAge").equals(mBundle.getString("studentBirth"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("parentName").equals(mBundle.getString("parentName"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("relation").equals(mBundle.getString("relation"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
         if (!newData.get("cellPhone").equals(mBundle.getString("cellPhone"))) {
-            return true;
+            mIsAudit = true;
+            return;
         }
-        return false;
+        mIsAudit = false;
     }
 
     private void afterInitSubmit(Object resultData) {

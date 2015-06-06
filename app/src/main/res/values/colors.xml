@@ -43,11 +43,15 @@
     <color name="text_label_font_color">#999</color>
     <color name="text_font_color_w">#fff</color>
     <color name="text_font_color">#555</color>
+    <color name="syllabus_font_color">#34c8c9</color>
     <color name="text_cellphone_font_color">#333</color>
     <color name="text_parent_name_label_font_color">#c0c0c0</color>
     <color name="text_parent_name_font_color">#6380a7</color>
     <color name="radio_color_sel">#34c8c9</color>
     <color name="radio_color_nor">#999</color>
+
+    <color name="bg_syllabus">#F8F8F8</color>
+
 
     <color name="gradient_center_color">#ffcccccc</color>
     <color name="gradient_start_end_color">#00cccccc</color>

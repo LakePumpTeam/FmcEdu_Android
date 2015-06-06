@@ -74,7 +74,7 @@ public class CampusDetailActivity extends Activity {
             return;
         }
         String subject = mBundle.getString("subject");
-        String title = subject.length() > 8 ? subject.substring(0, 8) : subject;
+        String title = subject.length() > 8 ? subject.substring(0, 8) + "..." : subject;
         topBar.setTopBarText(title);
         txtTitle.setText(subject);
         txtContent.setText(mBundle.getString("content"));

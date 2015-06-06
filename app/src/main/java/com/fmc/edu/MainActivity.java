@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.CampusEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.SyllabusEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
@@ -29,6 +27,7 @@ import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +49,7 @@ public class MainActivity extends BaseActivity {
     private TextView txtClassGrade;
     private TopBarControl topBar;
     private RelativeLayout rlAudit;
+    private RelativeLayout rlLocation;
 
     private int mUserRole;
     private Bundle mBundle;
@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity {
         txtClassGrade = (TextView) findViewById(R.id.main_txt_class_grade);
         topBar = (TopBarControl) findViewById(R.id.main_top_bar);
         rlAudit = (RelativeLayout) findViewById(R.id.main_menu_item_rl_audit);
+        rlLocation = (RelativeLayout) findViewById(R.id.main_menu_item_rl_location);
     }
 
     private void initViewEvents() {
@@ -118,10 +119,12 @@ public class MainActivity extends BaseActivity {
             circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
         }
         if (mUserRole == UserRoleEnum.getValue(UserRoleEnum.Teacher)) {
+            rlLocation.setVisibility(View.GONE);
             rlAudit.setVisibility(View.VISIBLE);
             imgSendNewMsg.setVisibility(View.VISIBLE);
         } else if (mUserRole == UserRoleEnum.getValue(UserRoleEnum.Parent)) {
-            rlAudit.setVisibility(View.INVISIBLE);
+            rlLocation.setVisibility(View.VISIBLE);
+            rlAudit.setVisibility(View.GONE);
             imgSendNewMsg.setVisibility(View.GONE);
         }
     }
@@ -285,8 +288,32 @@ public class MainActivity extends BaseActivity {
     }
 
     private void gotoSyllabusActivity() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) getListTest());
         Intent intent = new Intent(this, SyllabusActivity.class);
+        intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private List<SyllabusEntity> getListTest() {
+        List<SyllabusEntity> list = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 8; i++) {
+            SyllabusEntity syllabusEntity = new SyllabusEntity();
+            syllabusEntity.syllabusId = i;
+            syllabusEntity.sort = i;
+            syllabusEntity.courseNum = "第" + i + "节";
+            syllabusEntity.courseName = "数学" + i;
+            calendar.add(Calendar.HOUR, 1);
+            syllabusEntity.startTime = calendar.getTime();
+            calendar.add(Calendar.MINUTE, 30);
+            syllabusEntity.endTime = calendar.getTime();
+
+            list.add(syllabusEntity);
+        }
+        return list;
+
     }
 
     private void gotoTaskListActivity() {
@@ -420,22 +447,6 @@ public class MainActivity extends BaseActivity {
     private void gotoSendDynamicActivity() {
         Intent intent = new Intent(MainActivity.this, PublishDynamicActivity.class);
         startActivityForResult(intent, RequestCodeUtils.PUBLISH_CLASS_DYNAMIC);
-    }
-
-    private List<Map<String, Object>> getInitData() {
-        List<Map<String, Object>> list = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("taskId", i);
-            item.put("subject", "大宝最理念的年龄");
-            item.put("managerName", "李四");
-            item.put("managerId", i);
-            item.put("date", "2015-05-27");
-            item.put("status", false);
-            list.add(item);
-        }
-        return list;
     }
 
     @Override
