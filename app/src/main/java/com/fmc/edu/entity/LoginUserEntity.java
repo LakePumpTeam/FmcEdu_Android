@@ -19,4 +19,6 @@ public class LoginUserEntity {
     public String userCardNum;
     public int repayState;
     public boolean sex;
+    public  int classId;
+    public int studentId;
 }

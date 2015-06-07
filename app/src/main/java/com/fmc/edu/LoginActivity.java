@@ -2,12 +2,15 @@ package com.fmc.edu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.PromptWindowControl;
+import com.fmc.edu.customcontrol.SelectListControl;
+import com.fmc.edu.entity.CommonEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.AuditStateTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
@@ -18,7 +21,9 @@ import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.fmc.edu.utils.ValidationUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.fmc.edu.customcontrol.PromptWindowControl.OnOperateOnClickListener;
@@ -183,14 +188,72 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
-            gotoMainData();
+            gotoMainData(data);
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
         gotoRelationPage();
     }
 
-    private void gotoMainData() {
+    private void gotoMainData(Map<String, Object> data) {
+        List<Map<String, Object>> list = ConvertUtils.getList(data.get("optionList"));
+        UserRoleEnum userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole")));
+        if (null == list || list.size() == 0) {
+            if (userRole == UserRoleEnum.Parent) {
+                ToastToolUtils.showLong("未绑定学生，不能进入");
+                return;
+            }
+            if (userRole == UserRoleEnum.Teacher) {
+                ToastToolUtils.showLong("未绑定班级，不能进入");
+                return;
+            }
+            if (list.size() == 1) {
+                Map<String, Object> classInfo = list.get(0);
+                int classId = userRole == UserRoleEnum.Parent ? ConvertUtils.getInteger(classInfo.get("classId"), 0) : ConvertUtils.getInteger(classInfo.get("optionId"), 0);
+                int studentId = userRole == UserRoleEnum.Parent ? ConvertUtils.getInteger(classInfo.get("optionId"), 0) : 0;
+                gotoMainActivity(classId, studentId);
+                return;
+            }
+            String title = userRole == UserRoleEnum.Teacher ? "选择班级" : "选择学生";
+            btnLogin.setTag(data);
+            SelectListControl classListControl = new SelectListControl(LoginActivity.this, getCommonEntityList(list), true, title, btnLogin);
+            classListControl.setOnItemSelectedListener(selectedItemListener);
+            classListControl.showAtLocation(btnLogin, Gravity.CENTER, 0, 0);
+
+        }
+    }
+
+    private SelectListControl.OnItemSelectedListener selectedItemListener = new SelectListControl.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(CommonEntity obj, View view) {
+            Map<String, Object> data = (Map<String, Object>) view.getTag();
+            List<Map<String, Object>> list = ConvertUtils.getList(data.get("optionList"));
+            UserRoleEnum userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole")));
+            int selectId = ConvertUtils.getInteger(obj.getId());
+            if (userRole == UserRoleEnum.Teacher) {
+                gotoMainActivity(selectId, 0);
+                return;
+            }
+            int classId = getClassId(list, selectId);
+            gotoMainActivity(classId, selectId);
+        }
+    };
+
+
+    private List<CommonEntity> getCommonEntityList(List<Map<String, Object>> list) {
+
+        List<CommonEntity> commonEntityList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> item = list.get(i);
+            CommonEntity commonEntity = new CommonEntity(item.get("optionId").toString(), item.get("optionName").toString());
+            commonEntityList.add(commonEntity);
+        }
+        return commonEntityList;
+    }
+
+    private void gotoMainActivity(int classId, int studentId) {
+        ServicePreferenceUtils.saveClassIdPreference(LoginActivity.this, classId);
+        ServicePreferenceUtils.saveStudentIdPreference(LoginActivity.this, studentId);
         mProgressControl.showWindow();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -210,6 +273,15 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private int getClassId(List<Map<String, Object>> list, int optionId) {
+        for (Map<String, Object> item : list) {
+            if (ConvertUtils.getInteger(item.get("optionId"), 0) == optionId) {
+                return ConvertUtils.getInteger(item.get("classId"), 0);
+            }
+        }
+        return 0;
     }
 
     private void gotoRelationPage() {
@@ -258,7 +330,7 @@ public class LoginActivity extends BaseActivity {
         userEntity.salt = salt;
         userEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(userData.get("userRole")));
         userEntity.userName = ConvertUtils.getString(userData.get("userName"), "");
-        userEntity.userCardNum = ConvertUtils.getString(userData.get("braceletCardNumber"),"0");
+        userEntity.userCardNum = ConvertUtils.getString(userData.get("braceletCardNumber"), "0");
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

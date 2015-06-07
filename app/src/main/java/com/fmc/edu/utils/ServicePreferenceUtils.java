@@ -24,14 +24,28 @@ public class ServicePreferenceUtils {
         editor.putString("salt", userEntity.salt);
         editor.putString("userName", userEntity.userName);
         editor.putBoolean("sex", userEntity.sex);
-        editor.putString("userCardNum",userEntity.userCardNum);
+        editor.putString("userCardNum", userEntity.userCardNum);
         editor.commit();
     }
 
-    public static void saveSexPreference(Context context ,boolean sex){
+    public static void saveSexPreference(Context context, boolean sex) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("sex",sex);
+        editor.putBoolean("sex", sex);
+        editor.commit();
+    }
+
+    public static void saveClassIdPreference(Context context, int classId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("classId", classId);
+        editor.commit();
+    }
+
+    public static void saveStudentIdPreference(Context context, int studentId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("studentId", studentId);
         editor.commit();
     }
 
@@ -81,7 +95,9 @@ public class ServicePreferenceUtils {
         loginUserEntity.salt = sharedPreferences.getString("salt", "");
         loginUserEntity.userName = sharedPreferences.getString("userName", "");
         loginUserEntity.sex = sharedPreferences.getBoolean("sex", true);
-        loginUserEntity.userCardNum = sharedPreferences.getString("userCardNum","0");
+        loginUserEntity.userCardNum = sharedPreferences.getString("userCardNum", "0");
+        loginUserEntity.classId = sharedPreferences.getInt("classId", 0);
+        loginUserEntity.studentId =sharedPreferences.getInt("studentId", 0);
         return loginUserEntity;
     }
 

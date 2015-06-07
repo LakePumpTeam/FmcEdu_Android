@@ -12,8 +12,6 @@ import com.fmc.edu.customcontrol.EditWindowControl;
 import com.fmc.edu.entity.SyllabusEntity;
 import com.fmc.edu.utils.ConvertUtils;
 
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,7 +41,7 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
         TextView txtCourseName = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_name);
         TextView txtCourseTime = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_time);
 
-        txtCourseNum.setText(syllabusEntity.courseNum);
+        txtCourseNum.setText(syllabusEntity.orderName);
         txtCourseName.setText(syllabusEntity.courseName);
         txtCourseName.setTag(position);
         txtCourseName.setOnClickListener(txtCourseNameOnClickListener);

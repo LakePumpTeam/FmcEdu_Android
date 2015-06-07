@@ -28,43 +28,43 @@
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_mon"
                 style="@style/TabRadioStyle"
-                android:tag="0"
+                android:tag="1"
                 android:text="周一" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_tue"
                 style="@style/TabRadioStyle"
-                android:tag="1"
+                android:tag="2"
                 android:text="周二" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_wed"
                 style="@style/TabRadioStyle"
-                android:tag="2"
+                android:tag="3"
                 android:text="周三" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_thu"
                 style="@style/TabRadioStyle"
-                android:tag="3"
+                android:tag="4"
                 android:text="周四" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_fri"
                 style="@style/TabRadioStyle"
-                android:tag="4"
+                android:tag="5"
                 android:text="周五" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_sat"
                 style="@style/TabRadioStyle"
-                android:tag="5"
+                android:tag="6"
                 android:text="周六" />
 
             <RadioButton
                 android:id="@+id/syllabus_rb_tab_sun"
                 style="@style/TabRadioStyle"
-                android:tag="6"
+                android:tag="7"
                 android:text="周日" />
         </RadioGroup>
     </HorizontalScrollView>

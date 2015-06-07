@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity {
     private int mUserRole;
     private Bundle mBundle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -288,22 +289,31 @@ public class MainActivity extends BaseActivity {
     }
 
     private void gotoSyllabusActivity() {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) getListTest());
-        Intent intent = new Intent(this, SyllabusActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        mProgressControl.showWindow();
+        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("classId", loginUserEntity.classId);
+        MyIon.httpPost(this, "school/requestClassCourseList", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("syllabusList");
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) SyllabusEntity.toSyllabusEntity(list));
+                Intent intent = new Intent(MainActivity.this, SyllabusActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private List<SyllabusEntity> getListTest() {
         List<SyllabusEntity> list = new ArrayList<>();
-
         Calendar calendar = Calendar.getInstance();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 12; i++) {
             SyllabusEntity syllabusEntity = new SyllabusEntity();
-            syllabusEntity.syllabusId = i;
-            syllabusEntity.sort = i;
-            syllabusEntity.courseNum = "第" + i + "节";
+            syllabusEntity.courseId = i;
+            syllabusEntity.order = i;
+            syllabusEntity.orderName = "第" + (i + 1) + "节";
             syllabusEntity.courseName = "数学" + i;
             calendar.add(Calendar.HOUR, 1);
             syllabusEntity.startTime = calendar.getTime();
