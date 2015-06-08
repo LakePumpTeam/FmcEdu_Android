@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,14 +8,12 @@ import android.widget.RelativeLayout;
 
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -147,6 +144,9 @@ public class ClassDynamicActivity extends BaseActivity {
     public void setCommentVisible(int newsId, int position) {
         mNewsId = newsId;
         mPositon = position;
+        slideListView.setSelection(position);
+        editComment.setFocusable(true);
+        slideListView.scrollListBy(slideListView.getChildAt(position).getScrollY());
         rlComment.setVisibility(View.VISIBLE);
     }
 }

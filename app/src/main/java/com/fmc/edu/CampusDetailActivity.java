@@ -121,7 +121,10 @@ public class CampusDetailActivity extends Activity {
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
-            imageView.setTag(imageUrls);
+            Map<String,Object> map = new HashMap<>();
+            map.put("position", i);
+            map.put("imgUrls", imageUrls);
+            imageView.setTag(map);
             imageView.setOnClickListener(imageOnClickListener);
             ImageLoaderUtil.initCacheImageLoader(this).displayImage(imageUrls.get(i), imageView);
             llPicture.addView(imageView);
@@ -172,13 +175,14 @@ public class CampusDetailActivity extends Activity {
     private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            List<String> bigPictureUrl = (List<String>) v.getTag();
+            Map<String,Object> map = (Map<String, Object>) v.getTag();
+            List<String> bigPictureUrl = (List<String>) map.get("imgUrls");
             if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
                 ToastToolUtils.showLong("无有效图片");
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(CampusDetailActivity.this);
-            imageShowControl.showWindow(v, bigPictureUrl);
+            imageShowControl.showWindow(v, bigPictureUrl,ConvertUtils.getInteger(map.get("position"),0));
         }
     };
 

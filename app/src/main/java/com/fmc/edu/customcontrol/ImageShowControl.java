@@ -2,21 +2,14 @@ package com.fmc.edu.customcontrol;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-
-import com.fmc.edu.R;
-import com.fmc.edu.utils.ImageLoaderUtil;
 
 import java.util.List;
 
@@ -62,8 +55,8 @@ public class ImageShowControl extends PopupWindow {
         this.setContentView(linearLayout);
     }
 
-    public void showWindow(View parentView, List<String> url) {
-        imgBigPicture.setPageData(url);
+    public void showWindow(View parentView, List<String> url,int selectIndex) {
+        imgBigPicture.setPageData(url,selectIndex);
         this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
     }
 

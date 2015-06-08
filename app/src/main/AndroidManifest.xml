@@ -37,6 +37,7 @@
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+
     <application
         android:name=".FmcApplication"
         android:allowBackup="true"
@@ -181,6 +182,10 @@
             android:name=".TaskListSearchActivity"
             android:label="@string/title_activity_task_list_search"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".StartPageActivity"
+            android:label="@string/title_activity_start_page" >
+        </activity>
     </application>
 
 </manifest>

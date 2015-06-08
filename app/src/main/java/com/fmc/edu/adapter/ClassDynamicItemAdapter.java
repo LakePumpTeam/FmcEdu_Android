@@ -114,7 +114,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             List<ImageItemEntity> imageList = ((DynamicItemGridAdapter) parent.getAdapter()).getItems();
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, getOrigUrl(imageList));
+            imageShowControl.showWindow(view, getOrigUrl(imageList),position);
         }
     };
 

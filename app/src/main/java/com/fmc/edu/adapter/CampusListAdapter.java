@@ -19,7 +19,6 @@ import com.fmc.edu.customcontrol.ExpandableTextViewControl;
 import com.fmc.edu.customcontrol.GridViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.ProgressControl;
-import com.fmc.edu.entity.CampusEntity;
 import com.fmc.edu.entity.CampusSelectionEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
@@ -27,7 +26,6 @@ import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.RequestCodeUtils;
-import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
@@ -97,7 +95,7 @@ public class CampusListAdapter extends FmcBaseAdapter<DynamicItemEntity> {
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, bigPictureUrl);
+            imageShowControl.showWindow(view, bigPictureUrl,position);
         }
     };
 

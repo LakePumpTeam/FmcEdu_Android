@@ -62,6 +62,12 @@ public class LoginActivity extends BaseActivity {
         txtRegister.setOnClickListener(txtRegisterOnClickListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FmcApplication.clearAllActiviy();
+    }
+
     private void autoLogin() {
 
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);

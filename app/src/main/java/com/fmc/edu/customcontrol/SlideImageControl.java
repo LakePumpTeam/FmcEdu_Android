@@ -1,43 +1,21 @@
 package com.fmc.edu.customcontrol;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
 import com.fmc.edu.adapter.ViewPagerAdapter;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
-import com.fmc.edu.utils.ImageUtils;
-import com.fmc.edu.utils.ToastToolUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Candy on 2015/5/10.
@@ -66,12 +44,13 @@ public class SlideImageControl extends LinearLayout {
         this.addView(view);
     }
 
-    public void setPageData(List<String> imageUrls) {
+    public void setPageData(List<String> imageUrls, int selectIndex) {
         mImageUrls = imageUrls;
         ViewPagerAdapter adapter = new ViewPagerAdapter(mContext, createImageView(imageUrls));
         mViewPager.setAdapter(adapter);
+        mViewPager.setCurrentItem(selectIndex);
         mViewPager.setOnPageChangeListener(mViewPagerChangeListener);
-        refreshDotsLayout(0);
+        refreshDotsLayout(selectIndex);
     }
 
     public void setOnSlideItemClickListener(OnSlideItemClickListener onSlideItemClickListener) {
@@ -97,9 +76,9 @@ public class SlideImageControl extends LinearLayout {
     private OnClickListener imgViewClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(null == mOnSlideItemClickListener){
+            if (null == mOnSlideItemClickListener) {
                 return;
-           }
+            }
             mOnSlideItemClickListener.onSlideItemClick();
         }
     };

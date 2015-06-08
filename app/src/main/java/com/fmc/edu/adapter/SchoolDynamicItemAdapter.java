@@ -22,7 +22,6 @@ import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -81,7 +80,7 @@ public class SchoolDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> 
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, bigPictureUrl);
+            imageShowControl.showWindow(view, bigPictureUrl,position);
         }
     };
 

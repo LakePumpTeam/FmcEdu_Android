@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.TopBarControl;
-import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
@@ -72,7 +70,7 @@ public class DynamicDetailActivity extends BaseActivity {
             params.put("newsId", mBundle.getInt("newsId"));
             params.put("userId", FmcApplication.getLoginUser().userId);
             params.put("isLike", !ConvertUtils.getBoolean(topBar.getTag()));
-            MyIon.httpPost(DynamicDetailActivity.this, "news/likeNews", params, null, new MyIon.AfterCallBack() {
+            MyIon.httpPost(DynamicDetailActivity.this, "news/likeNews", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     if (ConvertUtils.getBoolean(topBar.getTag())) {
@@ -154,16 +152,19 @@ public class DynamicDetailActivity extends BaseActivity {
     }
 
     private void bindPicture(List<String> imageUrls) {
-        for (String imageUrl : imageUrls) {
+        for (int i=0;i<imageUrls.size();i++) {
             ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_single_picture, null);
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
-            imageView.setTag(imageUrls);
+            Map<String,Object> map = new HashMap<>();
+            map.put("position", i);
+            map.put("imgUrls", imageUrls);
+            imageView.setTag(map);
             imageView.setOnClickListener(imageOnClickListener);
-            ImageLoaderUtil.initCacheImageLoader(this).displayImage(imageUrl, imageView);
+            ImageLoaderUtil.initCacheImageLoader(this).displayImage(imageUrls.get(i), imageView);
             llPicture.addView(imageView);
         }
     }
@@ -171,13 +172,14 @@ public class DynamicDetailActivity extends BaseActivity {
     private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            List<String> bigPictureUrl = (List<String>) v.getTag();
+            Map<String,Object> map = (Map<String, Object>) v.getTag();
+            List<String> bigPictureUrl = (List<String>) map.get("imgUrls");
             if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
                 ToastToolUtils.showLong("无有效图片");
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(DynamicDetailActivity.this);
-            imageShowControl.showWindow(v, bigPictureUrl);
+            imageShowControl.showWindow(v, bigPictureUrl,ConvertUtils.getInteger(map.get("position"),0));
         }
     };
 

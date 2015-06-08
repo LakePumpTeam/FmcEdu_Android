@@ -50,7 +50,10 @@ public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtContent.setText(item.content);
         txtDate.setText(item.createDate);
         txtLikeCount.setText(ConvertUtils.getString(item.likeCount, "0"));
-        imgPhoto.setTag(item.imageUrls);
+        KidsSchoolHolder holder = new KidsSchoolHolder();
+        holder.position = position;
+        holder.imageList = item.imageUrls;
+        imgPhoto.setTag(holder);
 
         String imgUrl = null != item.imageUrls && item.imageUrls.size() > 0 ? item.imageUrls.get(0).origUrl : "";
         ImageLoaderUtil.initCacheImageLoader(mContext).displayImage(imgUrl, imgPhoto);
@@ -62,14 +65,19 @@ public class KidsSchoolAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     private View.OnClickListener imgPhotoOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            List<ImageItemEntity> imageList = (List<ImageItemEntity>) v.getTag();
-            List<String> bigPictureUrl = ImageItemEntity.getOrigUrlList(imageList);
+            KidsSchoolHolder holder = (KidsSchoolHolder) v.getTag();
+            List<String> bigPictureUrl = ImageItemEntity.getOrigUrlList(holder.imageList);
             if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
                 ToastToolUtils.showLong("无有效图片");
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(v, bigPictureUrl);
+            imageShowControl.showWindow(v, bigPictureUrl, holder.position);
         }
     };
+
+    private class KidsSchoolHolder {
+        public int position;
+        public List<ImageItemEntity> imageList;
+    }
 }
