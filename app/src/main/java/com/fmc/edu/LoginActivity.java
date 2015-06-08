@@ -173,7 +173,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void afterCallBack(Map<String, Object> data) {
                         saveLocalLoginInfo(cellphone, password, salt, data);
-                        afterLogin(data);
+                        gotoMainData(data);
                     }
                 }
         );
@@ -207,20 +207,23 @@ public class LoginActivity extends BaseActivity {
                 ToastToolUtils.showLong("未绑定班级，不能进入");
                 return;
             }
-            if (list.size() == 1) {
-                Map<String, Object> classInfo = list.get(0);
-                int classId = userRole == UserRoleEnum.Parent ? ConvertUtils.getInteger(classInfo.get("classId"), 0) : ConvertUtils.getInteger(classInfo.get("optionId"), 0);
-                int studentId = userRole == UserRoleEnum.Parent ? ConvertUtils.getInteger(classInfo.get("optionId"), 0) : 0;
-                gotoMainActivity(classId, studentId);
-                return;
-            }
-            String title = userRole == UserRoleEnum.Teacher ? "选择班级" : "选择学生";
-            btnLogin.setTag(data);
-            SelectListControl classListControl = new SelectListControl(LoginActivity.this, getCommonEntityList(list), true, title, btnLogin);
-            classListControl.setOnItemSelectedListener(selectedItemListener);
-            classListControl.showAtLocation(btnLogin, Gravity.CENTER, 0, 0);
-
         }
+        if (list.size() == 1) {
+            Map<String, Object> classInfo = list.get(0);
+            if (userRole == UserRoleEnum.Teacher) {
+                gotoMainActivity(ConvertUtils.getInteger(classInfo.get("classId"), 0), 0);
+            } else {
+                parentGotoMainActivity(classInfo);
+            }
+            return;
+        }
+
+        String title = userRole == UserRoleEnum.Teacher ? "选择班级" : "选择学生";
+        btnLogin.setTag(data);
+        SelectListControl classListControl = new SelectListControl(LoginActivity.this, getCommonEntityList(list), true, title, btnLogin);
+        classListControl.setOnItemSelectedListener(selectedItemListener);
+        classListControl.showAtLocation(btnLogin, Gravity.CENTER, 0, 0);
+
     }
 
     private SelectListControl.OnItemSelectedListener selectedItemListener = new SelectListControl.OnItemSelectedListener() {
@@ -234,10 +237,34 @@ public class LoginActivity extends BaseActivity {
                 gotoMainActivity(selectId, 0);
                 return;
             }
-            int classId = getClassId(list, selectId);
-            gotoMainActivity(classId, selectId);
+            Map<String, Object> selectItem = getSelectItem(list, selectId);
+            ServicePreferenceUtils.saveUserCardNumPreference(LoginActivity.this, ConvertUtils.getString(selectItem.get("braceletCardNumber"), ""));
+            parentGotoMainActivity(selectItem);
         }
     };
+
+
+    private void parentGotoMainActivity(Map<String, Object> data) {
+        int auditState = ConvertUtils.getInteger(data.get("auditState"), -1);
+        if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.UnRelation)) {
+            ToastToolUtils.showLong("没有关联学生");
+            return;
+        }
+
+        if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
+            LoginActivity.this.finish();
+            Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
+            startActivity(intent);
+            return;
+        }
+        if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
+            gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0));
+            return;
+        }
+        ToastToolUtils.showLong("信息审核不通过");
+        gotoRelationPage();
+
+    }
 
 
     private List<CommonEntity> getCommonEntityList(List<Map<String, Object>> list) {
@@ -258,9 +285,11 @@ public class LoginActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", loginUserEntity.userId);
+        params.put("studentId", studentId);
         MyIon.httpPost(this, "home/requestHeaderTeacherForHomePage", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                ServicePreferenceUtils.saveSexPreference(LoginActivity.this, ConvertUtils.getBoolean(data.get("sex"), false));
                 LoginActivity.this.finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
@@ -275,13 +304,13 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private int getClassId(List<Map<String, Object>> list, int optionId) {
+    private Map<String, Object> getSelectItem(List<Map<String, Object>> list, int optionId) {
         for (Map<String, Object> item : list) {
             if (ConvertUtils.getInteger(item.get("optionId"), 0) == optionId) {
-                return ConvertUtils.getInteger(item.get("classId"), 0);
+                return item;
             }
         }
-        return 0;
+        return null;
     }
 
     private void gotoRelationPage() {
@@ -330,7 +359,6 @@ public class LoginActivity extends BaseActivity {
         userEntity.salt = salt;
         userEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(userData.get("userRole")));
         userEntity.userName = ConvertUtils.getString(userData.get("userName"), "");
-        userEntity.userCardNum = ConvertUtils.getString(userData.get("braceletCardNumber"), "0");
         ServicePreferenceUtils.saveLoginUserPreference(this, userEntity);
     }
 }

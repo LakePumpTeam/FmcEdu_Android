@@ -4,7 +4,7 @@ package com.fmc.edu.enums;
  * Created by Candy on 2015/5/14.
  */
 public enum AuditStateTypeEnum {
-    Auditing(0), Pass(1), UnPass(2);
+    UnRelation(-1), Auditing(0), Pass(1), UnPass(2);
 
     private int value;
 
@@ -14,6 +14,8 @@ public enum AuditStateTypeEnum {
 
     public static int getValue(AuditStateTypeEnum auditStateTypeEnum) {
         switch (auditStateTypeEnum) {
+            case UnRelation:
+                return -1;
             case Auditing:
                 return 0;
             case Pass:

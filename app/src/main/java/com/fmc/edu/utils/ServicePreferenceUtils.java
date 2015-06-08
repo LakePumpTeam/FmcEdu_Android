@@ -23,7 +23,6 @@ public class ServicePreferenceUtils {
         editor.putString("password", encryptPWD(userEntity.password));
         editor.putString("salt", userEntity.salt);
         editor.putString("userName", userEntity.userName);
-        editor.putBoolean("sex", userEntity.sex);
         editor.putString("userCardNum", userEntity.userCardNum);
         editor.commit();
     }
@@ -39,6 +38,13 @@ public class ServicePreferenceUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("classId", classId);
+        editor.commit();
+    }
+
+    public static void saveUserCardNumPreference(Context context, String userCardNum) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userCardNum", userCardNum);
         editor.commit();
     }
 
@@ -97,7 +103,7 @@ public class ServicePreferenceUtils {
         loginUserEntity.sex = sharedPreferences.getBoolean("sex", true);
         loginUserEntity.userCardNum = sharedPreferences.getString("userCardNum", "0");
         loginUserEntity.classId = sharedPreferences.getInt("classId", 0);
-        loginUserEntity.studentId =sharedPreferences.getInt("studentId", 0);
+        loginUserEntity.studentId = sharedPreferences.getInt("studentId", 0);
         return loginUserEntity;
     }
 
