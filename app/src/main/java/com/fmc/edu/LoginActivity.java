@@ -185,22 +185,6 @@ public class LoginActivity extends BaseActivity {
         );
     }
 
-    private void afterLogin(Map<String, Object> data) {
-        int auditState = ConvertUtils.getInteger(data.get("auditState"), 1);
-        if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Auditing)) {
-            this.finish();
-            Intent intent = new Intent(LoginActivity.this, AuditingActivity.class);
-            startActivity(intent);
-            return;
-        }
-        if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
-            gotoMainData(data);
-            return;
-        }
-        ToastToolUtils.showLong("信息审核不通过");
-        gotoRelationPage();
-    }
-
     private void gotoMainData(Map<String, Object> data) {
         List<Map<String, Object>> list = ConvertUtils.getList(data.get("optionList"));
         UserRoleEnum userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole")));
@@ -217,7 +201,7 @@ public class LoginActivity extends BaseActivity {
         if (list.size() == 1) {
             Map<String, Object> classInfo = list.get(0);
             if (userRole == UserRoleEnum.Teacher) {
-                gotoMainActivity(ConvertUtils.getInteger(classInfo.get("classId"), 0), 0);
+                gotoMainActivity(ConvertUtils.getInteger(classInfo.get("classId"), 0), 0,UserRoleEnum.Teacher);
             } else {
                 parentGotoMainActivity(classInfo);
             }
@@ -240,7 +224,7 @@ public class LoginActivity extends BaseActivity {
             UserRoleEnum userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole")));
             int selectId = ConvertUtils.getInteger(obj.getId());
             if (userRole == UserRoleEnum.Teacher) {
-                gotoMainActivity(selectId, 0);
+                gotoMainActivity(selectId, 0,UserRoleEnum.Teacher);
                 return;
             }
             Map<String, Object> selectItem = getSelectItem(list, selectId);
@@ -264,12 +248,11 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
-            gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0));
+            gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0),UserRoleEnum.Parent);
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
         gotoRelationPage();
-
     }
 
 
@@ -284,14 +267,14 @@ public class LoginActivity extends BaseActivity {
         return commonEntityList;
     }
 
-    private void gotoMainActivity(int classId, int studentId) {
+    private void gotoMainActivity(int classId, int studentId, UserRoleEnum userRole) {
         ServicePreferenceUtils.saveClassIdPreference(LoginActivity.this, classId);
         ServicePreferenceUtils.saveStudentIdPreference(LoginActivity.this, studentId);
         mProgressControl.showWindow();
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", loginUserEntity.userId);
-        params.put("studentId", studentId);
+        params.put("optionId", userRole == UserRoleEnum.Parent ? studentId : classId);
         MyIon.httpPost(this, "home/requestHeaderTeacherForHomePage", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

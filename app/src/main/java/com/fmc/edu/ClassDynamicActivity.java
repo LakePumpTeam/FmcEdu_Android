@@ -1,9 +1,13 @@
 package com.fmc.edu;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
@@ -33,6 +37,7 @@ public class ClassDynamicActivity extends BaseActivity {
     private List<DynamicItemEntity> mList;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
+    private LinearLayout tttt;
 
 
     @Override
@@ -52,12 +57,14 @@ public class ClassDynamicActivity extends BaseActivity {
         rlComment = (RelativeLayout) findViewById(R.id.class_dynamic_rl_comment);
         editComment = (EditText) findViewById(R.id.class_dynamic_edit_comment);
         btnComment = (Button) findViewById(R.id.class_dynamic_btn_comment);
+        tttt = (LinearLayout) findViewById(R.id.tttt);
     }
 
     private void initViewEvent() {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
         slideListView.setOnScrollPrepListener(slideOnScrollPrepListener);
+
     }
 
     private void initPageData() {
@@ -88,7 +95,12 @@ public class ClassDynamicActivity extends BaseActivity {
     private SlideListView.OnScrollPrepListener slideOnScrollPrepListener = new SlideListView.OnScrollPrepListener() {
         @Override
         public void onScrollPrep() {
-            rlComment.setVisibility(View.GONE);
+//            rlComment.setVisibility(View.GONE);
+//            if ((getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED)) {
+//
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(editComment.getWindowToken(), 0);
+//            }
         }
     };
 
@@ -141,12 +153,16 @@ public class ClassDynamicActivity extends BaseActivity {
         });
     }
 
-    public void setCommentVisible(int newsId, int position) {
+    public void setCommentVisible(int newsId, int position, View view) {
         mNewsId = newsId;
         mPositon = position;
-        slideListView.setSelection(position);
-        editComment.setFocusable(true);
-        slideListView.scrollListBy(slideListView.getChildAt(position).getScrollY());
         rlComment.setVisibility(View.VISIBLE);
+        if (!(getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED)) {
+            editComment.setFocusableInTouchMode(true);
+            editComment.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editComment, 0);
+        }
+        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight());
     }
 }

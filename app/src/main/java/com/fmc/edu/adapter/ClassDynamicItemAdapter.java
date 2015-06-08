@@ -70,7 +70,11 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         Map<String, Object> commentItem = new HashMap<String, Object>();
         commentItem.put("newsId", item.newsId);
         commentItem.put("position", position);
-        txtComment.setTag(commentItem);
+
+        ClassDynamicItemHoler holer = new ClassDynamicItemHoler();
+        holer.commentItem = commentItem;
+        holer.view = convertView;
+        txtComment.setTag(holer);
 
         List<CommentItemEntity> commentList = item.commentList;
         commentView.removeAllViews();
@@ -103,8 +107,8 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         @Override
         public void onClick(View v) {
             if (mContext.getClass() == ClassDynamicActivity.class) {
-                Map<String, Object> commentItem = (Map<String, Object>) v.getTag();
-                ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(commentItem.get("newsId"), 0), ConvertUtils.getInteger(commentItem.get("position"), 0));
+                ClassDynamicItemHoler holder= (ClassDynamicItemHoler) v.getTag();
+                ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(holder.commentItem.get("newsId"), 0), ConvertUtils.getInteger(holder.commentItem.get("position"), 0), holder.view);
             }
         }
     };
@@ -114,7 +118,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             List<ImageItemEntity> imageList = ((DynamicItemGridAdapter) parent.getAdapter()).getItems();
             ImageShowControl imageShowControl = new ImageShowControl(mContext);
-            imageShowControl.showWindow(view, getOrigUrl(imageList),position);
+            imageShowControl.showWindow(view, getOrigUrl(imageList), position);
         }
     };
 
@@ -127,4 +131,9 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     }
 
 
+    private class ClassDynamicItemHoler{
+        public  View view;
+        public  Map<String, Object> commentItem;
+
+    }
 }

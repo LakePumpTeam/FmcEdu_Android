@@ -115,8 +115,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:label="@string/title_activity_test"></activity>
         <activity
             android:name=".TeacherInfoActivity"
             android:label="@string/title_activity_teacher_info"
@@ -132,8 +131,8 @@
         <activity
             android:name=".ClassDynamicActivity"
             android:label="@string/title_activity_class_dynamic"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PublishDynamicActivity"
             android:label="@string/title_activity_publish_dynamic"
