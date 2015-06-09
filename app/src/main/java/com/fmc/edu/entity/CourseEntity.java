@@ -3,6 +3,7 @@ package com.fmc.edu.entity;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/6/6.
  */
-public class SyllabusEntity implements Serializable {
+public class CourseEntity implements Serializable {
     public int courseId;
     public int order;
     public String orderName;
@@ -21,10 +22,10 @@ public class SyllabusEntity implements Serializable {
     public Date startTime;
     public Date endTime;
 
-    public static List<SyllabusEntity> toSyllabusEntity(List<Map<String, Object>> data) {
-        List<SyllabusEntity> syllabusList = new ArrayList<>();
+    public static List<CourseEntity> toCourseList(List<Map<String, Object>> data) {
+        List<CourseEntity> syllabusList = new ArrayList<>();
         for (Map<String, Object> item : data) {
-            SyllabusEntity syllabusEntity = new SyllabusEntity();
+            CourseEntity syllabusEntity = new CourseEntity();
             syllabusEntity.courseId = ConvertUtils.getInteger(item.get("courseId"), 0);
             syllabusEntity.order = ConvertUtils.getInteger(item.get("order"), 0);
             syllabusEntity.orderName = ConvertUtils.getString(item.get("orderName"));
@@ -37,14 +38,20 @@ public class SyllabusEntity implements Serializable {
         return syllabusList;
     }
 
-    public Map<String, Object> toMapBySyllabus() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("courseId", this.courseId);
-        map.put("order", this.courseId);
-        map.put("orderName", this.courseId);
-        map.put("courseName", this.courseId);
-        map.put("startTime", this.courseId);
-        map.put("endTime", this.courseId);
-        return map;
+
+    public static List<Map<String, Object>> toMapByCourseList(List<CourseEntity> courseList) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (CourseEntity item : courseList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("courseId", item.courseId);
+            map.put("order", item.order);
+            map.put("orderName", item.orderName);
+            map.put("courseName", item.courseName);
+            map.put("startTime", dateFormat.format(item.startTime));
+            map.put("endTime", dateFormat.format(item.endTime));
+            result.add(map);
+        }
+        return result;
     }
 }

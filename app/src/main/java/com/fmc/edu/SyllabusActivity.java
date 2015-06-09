@@ -9,13 +9,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.fmc.edu.adapter.SyllabusAdapter;
-import com.fmc.edu.customcontrol.AlertWindowControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.entity.SyllabusEntity;
+import com.fmc.edu.entity.CourseEntity;
+import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
@@ -24,11 +23,15 @@ import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
+import com.google.gson.JsonObject;
 import com.koushikdutta.ion.builder.Builders;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,7 @@ public class SyllabusActivity extends BaseActivity {
     private ListView listView;
     private TopBarControl topBar;
     private SyllabusAdapter mAdapter;
+    private List<WeekCourseEntity> mList;
 
 
     @Override
@@ -98,10 +102,10 @@ public class SyllabusActivity extends BaseActivity {
         if (null == bundle) {
             return;
         }
-
-        List<SyllabusEntity> list = (List<SyllabusEntity>) bundle.getSerializable("list");
-        mAdapter = new SyllabusAdapter(SyllabusActivity.this, list);
+        mList = (List<WeekCourseEntity>) bundle.getSerializable("list");
+        mAdapter = new SyllabusAdapter(SyllabusActivity.this, getWeekCourseList(1));
         listView.setAdapter(mAdapter);
+        ((RadioButton) rgTab.getChildAt(0)).setChecked(true);
     }
 
     private RadioGroup.OnCheckedChangeListener rgTabOnCheckedChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -109,7 +113,9 @@ public class SyllabusActivity extends BaseActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             View view = findViewById(checkedId);
             int tag = ConvertUtils.getInteger(view.getTag());
-            changeWeekChecked(tag);
+            setOnScrollX(tag);
+            List<CourseEntity> list = getWeekCourseList(tag);
+            mAdapter.addAllItems(list, true);
         }
     };
 
@@ -122,41 +128,22 @@ public class SyllabusActivity extends BaseActivity {
         @Override
         public void onOperateClick(View v) {
             mProgressControl.showWindow();
+            Map<String, Object> course = new HashMap<>();
+            course.put("week", findViewById(rgTab.getCheckedRadioButtonId()).getTag());
+            course.put("classId", ConvertUtils.getString(FmcApplication.getLoginUser().classId, ""));
+            course.put("courses", CourseEntity.toMapByCourseList(mAdapter.mItems));
+            JSONObject json = new JSONObject(course);
+            Map<String, Object> params = new HashMap<>();
+            params.put("course", json.toString());
 
-            try {
-                Builders.Any.B withB = MyIon.with(SyllabusActivity.this)
-                        .load(AppConfigUtils.getServiceHost() + "school/submitClassCourse");
-                withB.setMultipartParameter("classId", ConvertUtils.getString(FmcApplication.getLoginUser().classId, ""));
-                for (SyllabusEntity syllabusEntity : mAdapter.mItems) {
-                    Map<String, Object> item = syllabusEntity.toMapBySyllabus();
-                    JSONObject json = new JSONObject(item);
-                    withB.setMultipartParameter("courses", Base64.encodeToString(json.toString().getBytes(), Base64.DEFAULT));
+            MyIon.httpPost(SyllabusActivity.this, "school/submitClassCourse", params, mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    ToastToolUtils.showLong("上传成功");
                 }
-                withB.asString(Charset.forName("utf8"))
-                        .setCallback(new FMCMapFutureCallback(mProgressControl) {
-                            @Override
-                            public void onTranslateCompleted(Exception e, Map<String, ?> result) {
-                                mProgressControl.dismiss();
-                                if (!HttpTools.isRequestSuccessfully(e, result)) {
-                                    ToastToolUtils.showLong(result.get("msg").toString());
-                                    return;
-                                }
-
-                                if (StringUtils.isEmptyOrNull(result.get("data"))) {
-                                    ToastToolUtils.showLong("上传失败,服务器出错");
-                                    return;
-                                }
-                                ToastToolUtils.showLong("上传成功");
-                            }
-                        });
-
-            } catch (Exception ex) {
-                mProgressControl.dismiss();
-                ToastToolUtils.showLong(ex == null ? "上传失败" : ex.getMessage());
-            }
+            });
         }
     };
-
 
     private void setOnScrollX(int tag) {
         if (tag == 1 || tag == 2 || tag == 3) {
@@ -170,19 +157,34 @@ public class SyllabusActivity extends BaseActivity {
         }
     }
 
-    private void changeWeekChecked(final int week) {
-        mProgressControl.showWindow();
-        LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(this);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("classId", loginUserEntity.classId);
-        params.put("week", week);
-        MyIon.httpPost(this, "school/requestClassCourseList", params, mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                setOnScrollX(week);
-                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("syllabusList");
-                mAdapter.addAllItems(SyllabusEntity.toSyllabusEntity(list), true);
+    private List<CourseEntity> getCourseList(int week) {
+        if (null == mList || mList.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        for (WeekCourseEntity item : mList) {
+            if (item.week == week) {
+                return item.courseList;
             }
-        });
+        }
+        return mList.get(0).courseList;
+    }
+
+    private List<CourseEntity> getWeekCourseList(int week) {
+        List<CourseEntity> list = new ArrayList<>();
+        List<CourseEntity> oldCourseList = getCourseList(week);
+        int size = null == oldCourseList ? 0 : oldCourseList.size();
+        for (int i = 0; i < 12; i++) {
+            if (i < size) {
+                list.add(oldCourseList.get(i));
+                continue;
+            }
+            CourseEntity syllabusEntity = new CourseEntity();
+            syllabusEntity.courseId = 0;
+            syllabusEntity.order = i;
+            syllabusEntity.orderName = "第" + ConvertUtils.getChineseNum(i + 1) + "节";
+            list.add(syllabusEntity);
+        }
+        return list;
     }
 }

@@ -14,9 +14,10 @@ import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.entity.SyllabusEntity;
+import com.fmc.edu.entity.CourseEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
+import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
@@ -296,34 +297,14 @@ public class MainActivity extends BaseActivity {
         MyIon.httpPost(this, "school/requestClassCourseList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("syllabusList");
+                List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("courseList");
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) SyllabusEntity.toSyllabusEntity(list));
+                bundle.putSerializable("list", (Serializable) WeekCourseEntity.toWeekCourseList(list));
                 Intent intent = new Intent(MainActivity.this, SyllabusActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-    }
-
-    private List<SyllabusEntity> getListTest() {
-        List<SyllabusEntity> list = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        for (int i = 0; i < 12; i++) {
-            SyllabusEntity syllabusEntity = new SyllabusEntity();
-            syllabusEntity.courseId = i;
-            syllabusEntity.order = i;
-            syllabusEntity.orderName = "第" + (i + 1) + "节";
-            syllabusEntity.courseName = "数学" + i;
-            calendar.add(Calendar.HOUR, 1);
-            syllabusEntity.startTime = calendar.getTime();
-            calendar.add(Calendar.MINUTE, 30);
-            syllabusEntity.endTime = calendar.getTime();
-
-            list.add(syllabusEntity);
-        }
-        return list;
-
     }
 
     private void gotoTaskListActivity() {

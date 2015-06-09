@@ -1,8 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">#673AB7</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">#512DA8</item>
     </style>
 
     <style name="OvalButtonStyle">

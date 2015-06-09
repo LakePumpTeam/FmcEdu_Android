@@ -9,21 +9,22 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.CourseTimeSelectControl;
 import com.fmc.edu.customcontrol.EditWindowControl;
-import com.fmc.edu.entity.SyllabusEntity;
+import com.fmc.edu.entity.CourseEntity;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Candy on 2015/6/6.
  */
-public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
+public class SyllabusAdapter extends FmcBaseAdapter<CourseEntity> {
 
 
-    public SyllabusAdapter(Context context, List<SyllabusEntity> items) {
+    public SyllabusAdapter(Context context, List<CourseEntity> items) {
         super(context, items);
 
     }
@@ -36,19 +37,19 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_syllabus, null);
         }
-        SyllabusEntity syllabusEntity = mItems.get(position);
+        CourseEntity syllabusEntity = mItems.get(position);
         TextView txtCourseNum = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_num);
         TextView txtCourseName = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_name);
         TextView txtCourseTime = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_time);
 
         txtCourseNum.setText(syllabusEntity.orderName);
-        txtCourseName.setText(syllabusEntity.courseName);
+        txtCourseName.setText(null == syllabusEntity.courseName ? "" : syllabusEntity.courseName);
         txtCourseName.setTag(position);
         txtCourseName.setOnClickListener(txtCourseNameOnClickListener);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
 
-        String time = simpleDateFormat.format(syllabusEntity.startTime) + "-" + simpleDateFormat.format(syllabusEntity.endTime);
+        String time = (null == syllabusEntity.startTime || null == syllabusEntity.endTime) ? "" : simpleDateFormat.format(syllabusEntity.startTime) + "-" + simpleDateFormat.format(syllabusEntity.endTime);
         txtCourseTime.setText(time);
         txtCourseTime.setTag(position);
         txtCourseTime.setOnClickListener(txtCourseTimeOnClickListener);
@@ -59,7 +60,7 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
         @Override
         public void onClick(View v) {
             int position = ConvertUtils.getInteger(v.getTag(), 0);
-            SyllabusEntity syllabusEntity = mItems.get(position);
+            CourseEntity syllabusEntity = mItems.get(position);
             EditWindowControl editWindowControl = new EditWindowControl(mContext);
             editWindowControl.showWindow(v, "课程名称", syllabusEntity.courseName);
             editWindowControl.setOnOperateOnClickListener(editWindowOperateOnClickListener);
@@ -71,7 +72,7 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
         public void onOperateOnClick(View view, String content) {
             int position = ConvertUtils.getInteger(view.getTag(), 0);
             ((TextView) view).setText(content);
-            SyllabusEntity syllabusEntity = mItems.get(position);
+            CourseEntity syllabusEntity = mItems.get(position);
             syllabusEntity.courseName = content;
             mItems.set(position, syllabusEntity);
         }
@@ -81,9 +82,12 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
         @Override
         public void onClick(View v) {
             int position = ConvertUtils.getInteger(v.getTag(), 0);
-            SyllabusEntity syllabusEntity = mItems.get(position);
+            CourseEntity syllabusEntity = mItems.get(position);
+            Calendar calendar = Calendar.getInstance();
+            Date startTime = null == syllabusEntity.startTime ? calendar.getTime() : syllabusEntity.startTime;
+            Date endTime = null == syllabusEntity.endTime ? calendar.getTime() : syllabusEntity.endTime;
             CourseTimeSelectControl courseTimeSelectControl = new CourseTimeSelectControl(mContext);
-            courseTimeSelectControl.showWindow(v, syllabusEntity.startTime, syllabusEntity.endTime);
+            courseTimeSelectControl.showWindow(v,startTime,endTime);
             courseTimeSelectControl.setOnOperateOnClickListener(editTimeOperateOnClickListener);
         }
     };
@@ -95,7 +99,7 @@ public class SyllabusAdapter extends FmcBaseAdapter<SyllabusEntity> {
             int position = ConvertUtils.getInteger(view.getTag(), 0);
             String timeStr = startTime + "-" + endTime;
             ((TextView) view).setText(timeStr);
-            SyllabusEntity syllabusEntity = mItems.get(position);
+            CourseEntity syllabusEntity = mItems.get(position);
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             try {

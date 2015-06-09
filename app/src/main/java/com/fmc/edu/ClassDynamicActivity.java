@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -157,6 +159,7 @@ public class ClassDynamicActivity extends BaseActivity {
                 commentItemEntity.comment = editComment.getText().toString();
                 mAdapter.addComment(commentItemEntity, mPositon);
                 editComment.setText("");
+                editComment.clearFocus();
                 hideSystemSoftInputKeyboard(editComment);
                 rlComment.setVisibility(View.GONE);
             }
@@ -171,7 +174,7 @@ public class ClassDynamicActivity extends BaseActivity {
      */
     public void showSystemSoftInputKeyboard(EditText editText) {
         if (editText != null) {
-            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
         }
     }
@@ -184,11 +187,10 @@ public class ClassDynamicActivity extends BaseActivity {
      */
     public void hideSystemSoftInputKeyboard(EditText editText) {
         if (editText != null) {
-            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getApplicationWindowToken(), 0);
         }
     }
-
 
     class ItemClick implements View.OnClickListener {
 
@@ -203,7 +205,7 @@ public class ClassDynamicActivity extends BaseActivity {
         @Override
         public void onClick(final View v) {
             rlComment.setVisibility(View.VISIBLE);
-            showSystemSoftInputKeyboard(editComment);
+
             rlComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -215,7 +217,10 @@ public class ClassDynamicActivity extends BaseActivity {
                     rlComment.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
-
+            editComment.setFocusable(true);
+            editComment.setFocusableInTouchMode(true);
+            editComment.requestFocus();
+            showSystemSoftInputKeyboard(editComment);
             int[] location = new int[2];
             mParentView.getLocationOnScreen(location);
             final int y = location[1];

@@ -110,8 +110,8 @@
             android:background="@color/bg_syllabus"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="@string/txt_class_time"
             android:singleLine="true"
+            android:text="@string/txt_class_time"
             android:textColor="@color/text_font_color"
             android:textSize="@dimen/font_size_middle" />
     </LinearLayout>
@@ -121,7 +121,9 @@
     <ListView
         android:id="@+id/syllabus_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@color/divider_bg_color"
+        android:dividerHeight="1dp" />
 
     <LinearLayout
         android:id="@+id/syllabus_ll_list"
