@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/popup_edit_comment_ll_other"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/popup_edit_comment_rl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#eee">
+
+        <View
+            android:id="@+id/line1"
+            style="@style/HorizontalDividerLineStyle"
+            android:layout_alignParentTop="true" />
+
+        <EditText
+            android:id="@+id/popup_edit_comment_edit_comment"
+            style="@style/EditTextStyle"
+            android:layout_below="@+id/line1"
+            android:layout_marginBottom="@dimen/activity_margin_small"
+            android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_marginTop="@dimen/activity_padding_small"
+            android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
+            android:background="@mipmap/edit_bg"
+            android:gravity="bottom"
+            android:hint="请输入内容"
+            android:maxLength="200"
+            android:state_enabled="true"
+            android:state_focused="true"
+            android:paddingBottom="@dimen/activity_padding"
+            android:paddingLeft="@dimen/activity_padding_middle"
+            android:paddingRight="@dimen/activity_padding_small" />
+
+        <Button
+            android:id="@+id/popup_edit_comment_btn_comment"
+            style="@style/ValidateButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:text="发表评论" />
+    </RelativeLayout>
+</RelativeLayout>

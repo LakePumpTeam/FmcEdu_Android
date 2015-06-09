@@ -1,68 +1,80 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg_color_write"
     android:orientation="vertical">
 
-    <com.fmc.edu.customcontrol.TopBarControl
-        android:id="@+id/class_dynamic_top_bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_top_bar_height"
-        android:layout_alignParentTop="true"
-        fmc:backVisible="true"
-        fmc:topTitle="@string/title_activity_class_dynamic" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.fmc.edu.customcontrol.TopBarControl
+            android:id="@+id/class_dynamic_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_top_bar_height"
+            android:layout_alignParentTop="true"
+            fmc:backVisible="true"
+            fmc:topTitle="@string/title_activity_class_dynamic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/class_dynamic_rl_comment"
+            android:layout_below="@id/class_dynamic_top_bar">
+
+            <com.fmc.edu.customcontrol.SlideListView
+                android:id="@+id/class_dynamic_slide_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/activity_bg_color_write" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tttt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/class_dynamic_rl_comment"
-        android:layout_below="@id/class_dynamic_top_bar">
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-        <com.fmc.edu.customcontrol.SlideListView
-            android:id="@+id/class_dynamic_slide_list"
+        <RelativeLayout
+            android:id="@+id/class_dynamic_rl_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/activity_bg_color_write" />
+            android:layout_height="wrap_content"
+            android:background="#eee">
+
+            <View
+                android:id="@+id/line1"
+                style="@style/HorizontalDividerLineStyle"
+                android:layout_alignParentTop="true" />
+
+            <EditText
+                android:id="@+id/class_dynamic_edit_comment"
+                style="@style/EditTextStyle"
+                android:layout_below="@+id/line1"
+                android:layout_marginBottom="@dimen/activity_margin_small"
+                android:layout_marginLeft="@dimen/activity_margin_middle"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:layout_marginTop="@dimen/activity_padding_small"
+                android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
+                android:background="@mipmap/edit_bg"
+                android:gravity="bottom"
+                android:hint="请输入内容"
+                android:maxLength="200"
+                android:paddingBottom="@dimen/activity_padding"
+                android:paddingLeft="@dimen/activity_padding_middle"
+                android:paddingRight="@dimen/activity_padding_small" />
+
+            <Button
+                android:id="@+id/class_dynamic_btn_comment"
+                style="@style/ValidateButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:text="发表评论" />
+        </RelativeLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/class_dynamic_rl_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#eee"
-        android:visibility="gone">
-
-        <View
-            android:id="@+id/line1"
-            style="@style/HorizontalDividerLineStyle"
-            android:layout_alignParentTop="true" />
-
-        <EditText
-            android:id="@+id/class_dynamic_edit_comment"
-            style="@style/EditTextStyle"
-            android:layout_below="@+id/line1"
-            android:layout_marginBottom="@dimen/activity_margin_small"
-            android:layout_marginLeft="@dimen/activity_margin_middle"
-            android:layout_marginRight="@dimen/activity_margin_middle"
-            android:layout_marginTop="@dimen/activity_padding_small"
-            android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
-            android:background="@mipmap/edit_bg"
-            android:gravity="bottom"
-            android:hint="请输入内容"
-            android:maxLength="200"
-            android:paddingBottom="@dimen/activity_padding"
-            android:paddingLeft="@dimen/activity_padding_middle"
-            android:paddingRight="@dimen/activity_padding_small" />
-
-        <Button
-            android:id="@+id/class_dynamic_btn_comment"
-            style="@style/ValidateButtonStyle"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_margin_middle"
-            android:text="发表评论" />
-    </RelativeLayout>
-</RelativeLayout>
+</FrameLayout>

@@ -1,17 +1,28 @@
 package com.fmc.edu;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
+import com.fmc.edu.customcontrol.SlideImageControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
@@ -29,7 +40,9 @@ import java.util.Map;
 public class ClassDynamicActivity extends BaseActivity {
     private SlideListView slideListView;
     private RelativeLayout rlComment;
+
     private EditText editComment;
+    private EditText editPopUpComment;
     private Button btnComment;
     private int mNewsId;
     private int mPositon;
@@ -64,7 +77,15 @@ public class ClassDynamicActivity extends BaseActivity {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
         slideListView.setOnScrollPrepListener(slideOnScrollPrepListener);
-
+        tttt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                rlComment.setVisibility(View.GONE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editComment.getWindowToken(), 0);
+                return false;
+            }
+        });
     }
 
     private void initPageData() {
@@ -96,11 +117,6 @@ public class ClassDynamicActivity extends BaseActivity {
         @Override
         public void onScrollPrep() {
 //            rlComment.setVisibility(View.GONE);
-//            if ((getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED)) {
-//
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(editComment.getWindowToken(), 0);
-//            }
         }
     };
 
@@ -163,6 +179,80 @@ public class ClassDynamicActivity extends BaseActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editComment, 0);
         }
-        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight());
+        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight() - rlComment.getHeight());
+
+//        SendCommentPopWindow sendCommentPopWindow = new SendCommentPopWindow(this);
+//        sendCommentPopWindow.showWindow(view);
+//        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight());
     }
+
+    private class SendCommentPopWindow extends PopupWindow {
+        private Context mContext;
+        private DisplayMetrics mDisplayMetrics;
+
+        public SendCommentPopWindow(Context context) {
+            super(context, null);
+            this.mContext = context;
+            mDisplayMetrics = new DisplayMetrics();
+            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+            initPopWindow();
+            initContentView();
+        }
+
+        private void initPopWindow() {
+            this.setWidth(mDisplayMetrics.widthPixels);
+            this.setHeight(mDisplayMetrics.heightPixels);
+            ColorDrawable dw = new ColorDrawable(-000000);
+            this.setTouchable(true);
+            this.setFocusable(true); // 设置PopupWindow可获得焦点
+            this.setBackgroundDrawable(dw);
+        }
+
+        private void initContentView() {
+            LinearLayout linearLayout = new LinearLayout(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
+            linearLayout.setLayoutParams(params);
+            linearLayout.setGravity(Gravity.CENTER);
+            linearLayout.setBackgroundColor(Color.parseColor("#00ffffff"));
+            View view = LayoutInflater.from(mContext).inflate(R.layout.popup_edit_comment, null);
+            editPopUpComment = (EditText) view.findViewById(R.id.popup_edit_comment_edit_comment);
+            linearLayout.setOnTouchListener(onTouchListener);
+//打开键盘，设置延时时长
+            linearLayout.addView(view);
+            this.setContentView(linearLayout);
+        }
+
+        public void showWindow(View parentView) {
+            this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
+            openKeyboard(new Handler(), 100);
+        }
+
+        private SlideImageControl.OnSlideItemClickListener onSlideItemClickListener = new SlideImageControl.OnSlideItemClickListener() {
+            @Override
+            public void onSlideItemClick() {
+            }
+        };
+
+        private void openKeyboard(Handler mHandler, int s) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
+                }
+            }, s);
+        }
+
+
+        private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (SendCommentPopWindow.this.isShowing()) {
+                    SendCommentPopWindow.this.dismiss();
+                }
+                return false;
+            }
+        };
+    }
+
 }
