@@ -1,37 +1,44 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
+import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.fmc.edu.adapter.ClassDynamicItemAdapter;
+import com.fmc.edu.adapter.DynamicItemGridAdapter;
+import com.fmc.edu.adapter.FmcBaseAdapter;
 import com.fmc.edu.common.Constant;
-import com.fmc.edu.customcontrol.SlideImageControl;
+import com.fmc.edu.customcontrol.ExpandableTextViewControl;
+import com.fmc.edu.customcontrol.ImageShowControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.ToastToolUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +58,9 @@ public class ClassDynamicActivity extends BaseActivity {
     private int mPageIndex = 1;
     private boolean mIsLastPage;
     private LinearLayout tttt;
+    private int distance;
+    private Rect r;
+    private DisplayMetrics mDisplay;
 
 
     @Override
@@ -60,6 +70,7 @@ public class ClassDynamicActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         mList = (List<DynamicItemEntity>) bundle.getSerializable("list");
         mIsLastPage = bundle.getBoolean("isLastPage", false);
+        mDisplay = getResources().getDisplayMetrics();
         initViews();
         initViewEvent();
         initPageData();
@@ -70,22 +81,11 @@ public class ClassDynamicActivity extends BaseActivity {
         rlComment = (RelativeLayout) findViewById(R.id.class_dynamic_rl_comment);
         editComment = (EditText) findViewById(R.id.class_dynamic_edit_comment);
         btnComment = (Button) findViewById(R.id.class_dynamic_btn_comment);
-        tttt = (LinearLayout) findViewById(R.id.tttt);
     }
 
     private void initViewEvent() {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
-        slideListView.setOnScrollPrepListener(slideOnScrollPrepListener);
-        tttt.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                rlComment.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editComment.getWindowToken(), 0);
-                return false;
-            }
-        });
     }
 
     private void initPageData() {
@@ -110,13 +110,6 @@ public class ClassDynamicActivity extends BaseActivity {
             mPageIndex++;
             slideListView.setFooterViewVisible(true);
             getDynamicData();
-        }
-    };
-
-    private SlideListView.OnScrollPrepListener slideOnScrollPrepListener = new SlideListView.OnScrollPrepListener() {
-        @Override
-        public void onScrollPrep() {
-//            rlComment.setVisibility(View.GONE);
         }
     };
 
@@ -164,95 +157,165 @@ public class ClassDynamicActivity extends BaseActivity {
                 commentItemEntity.comment = editComment.getText().toString();
                 mAdapter.addComment(commentItemEntity, mPositon);
                 editComment.setText("");
+                hideSystemSoftInputKeyboard(editComment);
                 rlComment.setVisibility(View.GONE);
             }
         });
     }
 
-    public void setCommentVisible(int newsId, int position, View view) {
-        mNewsId = newsId;
-        mPositon = position;
-        rlComment.setVisibility(View.VISIBLE);
-        if (!(getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED)) {
-            editComment.setFocusableInTouchMode(true);
-            editComment.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editComment, 0);
-        }
-        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight() - rlComment.getHeight());
 
-//        SendCommentPopWindow sendCommentPopWindow = new SendCommentPopWindow(this);
-//        sendCommentPopWindow.showWindow(view);
-//        slideListView.smoothScrollToPositionFromTop(mPositon, slideListView.getHeight() - view.getHeight());
+    /**
+     * 显示输入法
+     *
+     * @param editText
+     */
+    public void showSystemSoftInputKeyboard(EditText editText) {
+        if (editText != null) {
+            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+        }
     }
 
-    private class SendCommentPopWindow extends PopupWindow {
-        private Context mContext;
-        private DisplayMetrics mDisplayMetrics;
 
-        public SendCommentPopWindow(Context context) {
-            super(context, null);
-            this.mContext = context;
-            mDisplayMetrics = new DisplayMetrics();
-            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
-            initPopWindow();
-            initContentView();
+    /**
+     * 隐藏输入法
+     *
+     * @param editText
+     */
+    public void hideSystemSoftInputKeyboard(EditText editText) {
+        if (editText != null) {
+            final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getApplicationWindowToken(), 0);
+        }
+    }
+
+
+    class ItemClick implements View.OnClickListener {
+
+        View mParentView;
+
+        public ItemClick(int position, int newsId, View parentView) {
+            mPositon = position;
+            mNewsId = newsId;
+            mParentView = parentView;
         }
 
-        private void initPopWindow() {
-            this.setWidth(mDisplayMetrics.widthPixels);
-            this.setHeight(mDisplayMetrics.heightPixels);
-            ColorDrawable dw = new ColorDrawable(-000000);
-            this.setTouchable(true);
-            this.setFocusable(true); // 设置PopupWindow可获得焦点
-            this.setBackgroundDrawable(dw);
-        }
+        @Override
+        public void onClick(final View v) {
+            rlComment.setVisibility(View.VISIBLE);
+            showSystemSoftInputKeyboard(editComment);
+            rlComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (r == null) {
+                        r = new Rect();
+                    }
+                    r.setEmpty();
+                    rlComment.getGlobalVisibleRect(r);
+                    rlComment.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            });
 
-        private void initContentView() {
-            LinearLayout linearLayout = new LinearLayout(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
-            linearLayout.setLayoutParams(params);
-            linearLayout.setGravity(Gravity.CENTER);
-            linearLayout.setBackgroundColor(Color.parseColor("#00ffffff"));
-            View view = LayoutInflater.from(mContext).inflate(R.layout.popup_edit_comment, null);
-            editPopUpComment = (EditText) view.findViewById(R.id.popup_edit_comment_edit_comment);
-            linearLayout.setOnTouchListener(onTouchListener);
-//打开键盘，设置延时时长
-            linearLayout.addView(view);
-            this.setContentView(linearLayout);
-        }
+            int[] location = new int[2];
+            mParentView.getLocationOnScreen(location);
+            final int y = location[1];
+            mParentView.getLocationOnScreen(location);
 
-        public void showWindow(View parentView) {
-            this.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-            openKeyboard(new Handler(), 100);
-        }
+            final int height = mParentView.getHeight();
+            slideListView.postDelayed(new Runnable() {
 
-        private SlideImageControl.OnSlideItemClickListener onSlideItemClickListener = new SlideImageControl.OnSlideItemClickListener() {
-            @Override
-            public void onSlideItemClick() {
-            }
-        };
-
-        private void openKeyboard(Handler mHandler, int s) {
-            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
+                    if (r != null) {
+                        distance = y - r.top;
+                        slideListView.smoothScrollBy(distance + height + (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mDisplay), 500);
+                    }
                 }
-            }, s);
+            }, 100);
+        }
+    }
+
+    class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
+        private final SparseBooleanArray mCollapsedStatus;
+
+        public ClassDynamicItemAdapter(Context context, List<DynamicItemEntity> items) {
+            super(context, items);
+            mCollapsedStatus = new SparseBooleanArray();
+        }
+
+        public void addComment(CommentItemEntity commentItemEntity, int positon) {
+            if (null == mItems.get(positon).commentList) {
+                mItems.get(positon).commentList = new ArrayList<CommentItemEntity>();
+            }
+
+            mItems.get(positon).commentList.add(commentItemEntity);
+            mItems.get(positon).commentCount++;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (null == mItems) {
+                return convertView;
+            }
+            if (null == convertView) {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_class_danamic_list, null);
+            }
+            TextView txtDate = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_date);
+            TextView txtComment = (TextView) convertView.findViewById(R.id.item_class_dynamic_list_txt_comment);
+            GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
+            LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
+            ExpandableTextViewControl expand_text_view = (ExpandableTextViewControl) convertView.findViewById(R.id.expand_text_view);
+
+            DynamicItemEntity item = mItems.get(position);
+            expand_text_view.setText(item.content, mCollapsedStatus, position);
+            txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
+            txtDate.setText(item.createDate);
+
+
+            List<CommentItemEntity> commentList = item.commentList;
+            commentView.removeAllViews();
+            for (int i = 0; i < commentList.size(); i++) {
+                String userName = commentList.get(i).userName + "：";
+                String comment = commentList.get(i).comment;
+                TextView textView = createText(userName, comment);
+                commentView.addView(textView);
+            }
+            DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
+            gridView.setAdapter(dynamicItemGridAdapter);
+            gridView.setOnItemClickListener(gridOnItemClickListener);
+            txtComment.setOnClickListener(new ItemClick(position, item.newsId, commentView));
+            return convertView;
+        }
+
+        private TextView createText(String userName, String comment) {
+            SpannableStringBuilder builder = new SpannableStringBuilder(userName + comment);
+            TextView textView = new TextView(mContext);
+            ForegroundColorSpan userNameSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.text_parent_name_font_color));
+            ForegroundColorSpan commentSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.dynamic_class_dynamic_color));
+            builder.setSpan(userNameSpan, 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(commentSpan, userName.length(), userName.length() + comment.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            textView.setText(builder);
+            return textView;
         }
 
 
-        private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        private AdapterView.OnItemClickListener gridOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (SendCommentPopWindow.this.isShowing()) {
-                    SendCommentPopWindow.this.dismiss();
-                }
-                return false;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                List<ImageItemEntity> imageList = ((DynamicItemGridAdapter) parent.getAdapter()).getItems();
+                ImageShowControl imageShowControl = new ImageShowControl(mContext);
+                imageShowControl.showWindow(view, getOrigUrl(imageList), position);
             }
         };
-    }
 
+        private List<String> getOrigUrl(List<ImageItemEntity> list) {
+            List<String> origUrls = new ArrayList<String>();
+            for (int i = 0; i < list.size(); i++) {
+                origUrls.add(list.get(i).origUrl);
+            }
+            return origUrls;
+        }
+
+
+    }
 }
