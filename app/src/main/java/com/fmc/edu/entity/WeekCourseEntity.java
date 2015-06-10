@@ -24,4 +24,6 @@ public class WeekCourseEntity implements Serializable {
         }
         return weekCourseList;
     }
+
+
 }

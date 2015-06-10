@@ -21,4 +21,5 @@ public class LoginUserEntity {
     public boolean sex;
     public  int classId;
     public int studentId;
+    public boolean headTeacher;
 }

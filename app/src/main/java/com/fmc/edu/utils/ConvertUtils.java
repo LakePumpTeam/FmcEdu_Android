@@ -144,6 +144,19 @@ public class ConvertUtils {
         }
     }
 
+    public static java.util.Date getTime(Object str, java.util.Date defaultValue) {
+        if (str == null || "null".equals(str)) {
+            return defaultValue;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        try {
+            return simpleDateFormat.parse(getString(str));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+    }
+
     public static String getFormatDateStr(java.util.Date date, String format) {
         if (date == null || date.equals("null")) {
             return "";

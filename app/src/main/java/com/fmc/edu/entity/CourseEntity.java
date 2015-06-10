@@ -24,19 +24,19 @@ public class CourseEntity implements Serializable {
     public Date endTime;
 
     public static List<CourseEntity> toCourseList(List<Map<String, Object>> data) {
-        List<CourseEntity> syllabusList = new ArrayList<>();
+        List<CourseEntity> courseList = new ArrayList<>();
         for (Map<String, Object> item : data) {
-            CourseEntity syllabusEntity = new CourseEntity();
-            syllabusEntity.courseId = ConvertUtils.getInteger(item.get("courseId"), 0);
-            syllabusEntity.order = ConvertUtils.getInteger(item.get("order"), 0);
-            syllabusEntity.orderName = ConvertUtils.getString(item.get("orderName"));
-            syllabusEntity.courseName = ConvertUtils.getString(item.get("courseName"), "");
+            CourseEntity courseEntity = new CourseEntity();
+            courseEntity.courseId = ConvertUtils.getInteger(item.get("courseId"), 0);
+            courseEntity.order = ConvertUtils.getInteger(item.get("order"), 0);
+            courseEntity.orderName = ConvertUtils.getString(item.get("orderName"));
+            courseEntity.courseName = ConvertUtils.getString(item.get("courseName"), "");
             Calendar calendar = Calendar.getInstance();
-            syllabusEntity.startTime = ConvertUtils.getDate(item.get("startTime"), calendar.getTime());
-            syllabusEntity.endTime = ConvertUtils.getDate(item.get("endTime"), calendar.getTime());
-            syllabusList.add(syllabusEntity);
+            courseEntity.startTime = ConvertUtils.getTime(item.get("startTime"), calendar.getTime());
+            courseEntity.endTime = ConvertUtils.getTime(item.get("endTime"), calendar.getTime());
+            courseList.add(courseEntity);
         }
-        return syllabusList;
+        return courseList;
     }
 
 
@@ -54,5 +54,24 @@ public class CourseEntity implements Serializable {
             result.add(map);
         }
         return result;
+    }
+
+    public static List<CourseEntity> cloneCourseList(List<CourseEntity> list) {
+        List<CourseEntity> cloneList = new ArrayList<>();
+        for (CourseEntity item : list) {
+            cloneList.add(clone(item));
+        }
+        return cloneList;
+    }
+
+    public static CourseEntity clone(CourseEntity courseEntity) {
+        CourseEntity cloneCourse = new CourseEntity();
+        cloneCourse.courseId = courseEntity.courseId;
+        cloneCourse.order = courseEntity.order;
+        cloneCourse.orderName = courseEntity.orderName;
+        cloneCourse.courseName = courseEntity.courseName;
+        cloneCourse.startTime = courseEntity.startTime;
+        cloneCourse.endTime = courseEntity.endTime;
+        return cloneCourse;
     }
 }

@@ -201,7 +201,7 @@ public class LoginActivity extends BaseActivity {
         if (list.size() == 1) {
             Map<String, Object> classInfo = list.get(0);
             if (userRole == UserRoleEnum.Teacher) {
-                gotoMainActivity(ConvertUtils.getInteger(classInfo.get("classId"), 0), 0,UserRoleEnum.Teacher);
+                gotoMainActivity(ConvertUtils.getInteger(classInfo.get("classId"), 0), 0, UserRoleEnum.Teacher);
             } else {
                 parentGotoMainActivity(classInfo);
             }
@@ -224,7 +224,7 @@ public class LoginActivity extends BaseActivity {
             UserRoleEnum userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole")));
             int selectId = ConvertUtils.getInteger(obj.getId());
             if (userRole == UserRoleEnum.Teacher) {
-                gotoMainActivity(selectId, 0,UserRoleEnum.Teacher);
+                gotoMainActivity(selectId, 0, UserRoleEnum.Teacher);
                 return;
             }
             Map<String, Object> selectItem = getSelectItem(list, selectId);
@@ -248,7 +248,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
-            gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0),UserRoleEnum.Parent);
+            gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0), UserRoleEnum.Parent);
             return;
         }
         ToastToolUtils.showLong("信息审核不通过");
@@ -279,6 +279,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ServicePreferenceUtils.saveSexPreference(LoginActivity.this, ConvertUtils.getBoolean(data.get("sex"), false));
+                ServicePreferenceUtils.saveHeadTeacherPreference(LoginActivity.this, ConvertUtils.getBoolean(data.get("headTeacher"), false));
                 LoginActivity.this.finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();

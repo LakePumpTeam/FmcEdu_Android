@@ -3,11 +3,14 @@ package com.fmc.edu.customcontrol;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.fmc.edu.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +142,10 @@ public class PickerViewControl extends View {
         float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
 
         canvas.drawText(mDataList.get(mCurrentSelected), x, baseline, mPaint);
+        if (mCurrentSelected == 0) {
+            drawFirstText(canvas);
+        }
+
         // 绘制上方data
         for (int i = 1; (mCurrentSelected - i) >= 0; i++) {
             drawOtherText(canvas, i, -1);
@@ -147,7 +154,9 @@ public class PickerViewControl extends View {
         for (int i = 1; (mCurrentSelected + i) < mDataList.size(); i++) {
             drawOtherText(canvas, i, 1);
         }
-
+        if (mCurrentSelected + 1 == mDataList.size()) {
+            drawLastText(canvas);
+        }
     }
 
     /**
@@ -167,6 +176,30 @@ public class PickerViewControl extends View {
         float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
         canvas.drawText(mDataList.get(mCurrentSelected + type * position),
                 (float) (mViewWidth / 2.0), baseline, mPaint);
+    }
+
+    private void drawLastText(Canvas canvas) {
+        float d = (float) (MARGIN_ALPHA * mMinTextSize + mMoveLen);
+        float scale = parabola(mViewHeight / 4.0f, d);
+        float size = (mMaxTextSize - mMinTextSize) * scale + mMinTextSize;
+        mPaint.setTextSize(size);
+        mPaint.setAlpha((int) ((mMaxTextAlpha - mMinTextAlpha) * scale + mMinTextAlpha));
+        float y = (float) (mViewHeight / 2.0 + d);
+        Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
+        float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        canvas.drawText(mDataList.get(0), (float) (mViewWidth / 2.0), baseline, mPaint);
+    }
+
+    private void drawFirstText(Canvas canvas) {
+        float d = (float) (MARGIN_ALPHA * mMinTextSize + mMoveLen);
+        float scale = parabola(mViewHeight / 4.0f, d);
+        float size = (mMaxTextSize - mMinTextSize) * scale + mMinTextSize;
+        mPaint.setTextSize(size);
+        mPaint.setAlpha((int) ((mMaxTextAlpha - mMinTextAlpha) * scale + mMinTextAlpha));
+        float y = (float) (mViewHeight / 2.0 - d);
+        Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
+        float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        canvas.drawText(mDataList.get(mDataList.size() - 1), (float) (mViewWidth / 2.0), baseline, mPaint);
     }
 
     /**

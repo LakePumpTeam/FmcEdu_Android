@@ -205,7 +205,6 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         if (bottom == oldBottom) {
             return;
         }
-        final int newbottom = bottom;
         if (bottom < oldBottom && oldBottom - bottom > mSoftWareMinHeight) {
             mMoveDistance = 0;
             int[] location = new int[2];
@@ -215,9 +214,8 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
             if ((mPosition == 0 || mPosition == 1) && y + height < bottom) {
                 return;
             }
-
-//            mMoveDistance = y - newbottom + height + rlComment.getHeight();
-            mMoveDistance = calcMoveDistance(y, height, bottom);
+            int otherIndex = y <= bottom ? -40 : 80;
+            mMoveDistance = y - bottom + height + rlComment.getHeight() + otherIndex;
             slideListView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -238,18 +236,6 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
 
     }
 
-
-    private int calcMoveDistance(int itemY, int itemHeight, int bottomY) {
-        int rlCommentHeight = rlComment.getHeight();
-
-        if (itemY + itemHeight <= bottomY) {
-            return itemY + itemHeight + rlCommentHeight - bottomY;
-        }
-        if (itemY + itemHeight > bottomY) {
-            return itemY + itemHeight - rlCommentHeight - bottomY;
-        }
-        return itemY + itemHeight + rlCommentHeight - bottomY;
-    }
 
     public void setCommentVisible(int newsId, int position, View parentView) {
         mPosition = position;

@@ -135,7 +135,6 @@ public class SyllabusActivity extends BaseActivity {
             JSONObject json = new JSONObject(course);
             Map<String, Object> params = new HashMap<>();
             params.put("course", json.toString());
-
             MyIon.httpPost(SyllabusActivity.this, "school/submitClassCourse", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
@@ -165,10 +164,10 @@ public class SyllabusActivity extends BaseActivity {
 
         for (WeekCourseEntity item : mList) {
             if (item.week == week) {
-                return item.courseList;
+                return CourseEntity.cloneCourseList(item.courseList);
             }
         }
-        return mList.get(0).courseList;
+        return CourseEntity.cloneCourseList(mList.get(0).courseList);
     }
 
     private List<CourseEntity> getWeekCourseList(int week) {
@@ -193,7 +192,7 @@ public class SyllabusActivity extends BaseActivity {
         int week = ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 0);
         for (WeekCourseEntity item : mList) {
             if (item.week == week) {
-                item.courseList = mAdapter.mItems;
+                item.courseList = CourseEntity.cloneCourseList(mAdapter.mItems);
                 return;
             }
         }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.CourseTimeSelectControl;
 import com.fmc.edu.customcontrol.EditWindowControl;
@@ -29,6 +30,11 @@ public class SyllabusAdapter extends FmcBaseAdapter<CourseEntity> {
 
     }
 
+    public void refreshItems(List<CourseEntity> list) {
+        mItems = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (null == mItems) {
@@ -41,6 +47,9 @@ public class SyllabusAdapter extends FmcBaseAdapter<CourseEntity> {
         TextView txtCourseNum = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_num);
         TextView txtCourseName = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_name);
         TextView txtCourseTime = (TextView) convertView.findViewById(R.id.item_syllabus_txt_course_time);
+
+        txtCourseName.setEnabled(FmcApplication.getLoginUser().headTeacher);
+        txtCourseTime.setEnabled(FmcApplication.getLoginUser().headTeacher);
 
         txtCourseNum.setText(syllabusEntity.orderName);
         txtCourseName.setText(null == syllabusEntity.courseName ? "" : syllabusEntity.courseName);
@@ -87,7 +96,7 @@ public class SyllabusAdapter extends FmcBaseAdapter<CourseEntity> {
             Date startTime = null == syllabusEntity.startTime ? calendar.getTime() : syllabusEntity.startTime;
             Date endTime = null == syllabusEntity.endTime ? calendar.getTime() : syllabusEntity.endTime;
             CourseTimeSelectControl courseTimeSelectControl = new CourseTimeSelectControl(mContext);
-            courseTimeSelectControl.showWindow(v,startTime,endTime);
+            courseTimeSelectControl.showWindow(v, startTime, endTime);
             courseTimeSelectControl.setOnOperateOnClickListener(editTimeOperateOnClickListener);
         }
     };

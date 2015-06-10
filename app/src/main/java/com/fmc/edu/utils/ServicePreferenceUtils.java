@@ -41,6 +41,13 @@ public class ServicePreferenceUtils {
         editor.commit();
     }
 
+    public static void saveHeadTeacherPreference(Context context, boolean isHeadTeacher) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("headTeacher", isHeadTeacher);
+        editor.commit();
+    }
+
     public static void saveUserCardNumPreference(Context context, String userCardNum) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -104,6 +111,7 @@ public class ServicePreferenceUtils {
         loginUserEntity.userCardNum = sharedPreferences.getString("userCardNum", "0");
         loginUserEntity.classId = sharedPreferences.getInt("classId", 0);
         loginUserEntity.studentId = sharedPreferences.getInt("studentId", 0);
+        loginUserEntity.headTeacher = sharedPreferences.getBoolean("headTeacher", false);
         return loginUserEntity;
     }
 

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light" />
 
     <style name="OvalButtonStyle">
         <item name="android:layout_width">match_parent</item>
@@ -63,7 +63,7 @@
         <item name="android:textColor">@color/edit_text_font_color</item>
         <item name="android:textColorHint">@color/edit_text_hint_font_color</item>
         <item name="android:textSize">@dimen/font_size_small</item>
-        <item name="android:textCursorDrawable">@color/edit_text_font_color</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
 
