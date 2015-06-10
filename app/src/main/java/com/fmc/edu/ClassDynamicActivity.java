@@ -10,11 +10,10 @@ import android.util.DisplayMetrics;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,6 +28,7 @@ import com.fmc.edu.adapter.FmcBaseAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ExpandableTextViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
+import com.fmc.edu.customcontrol.ResizeLayout;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
@@ -49,17 +49,15 @@ import java.util.Map;
 public class ClassDynamicActivity extends BaseActivity {
     private SlideListView slideListView;
     private RelativeLayout rlComment;
-
     private EditText editComment;
-    private EditText editPopUpComment;
     private Button btnComment;
+    private LinearLayout llCover;
     private int mNewsId;
-    private int mPositon;
+    private int mPosition;
     private ClassDynamicItemAdapter mAdapter;
     private List<DynamicItemEntity> mList;
     private int mPageIndex = 1;
     private boolean mIsLastPage;
-    private LinearLayout tttt;
     private int distance;
     private Rect r;
     private DisplayMetrics mDisplay;
@@ -81,13 +79,15 @@ public class ClassDynamicActivity extends BaseActivity {
     private void initViews() {
         slideListView = (SlideListView) findViewById(R.id.class_dynamic_slide_list);
         rlComment = (RelativeLayout) findViewById(R.id.class_dynamic_rl_comment);
-        editComment = (EditText) findViewById(R.id.class_dynamic_edit_comment);
+        llCover = (LinearLayout) findViewById(R.id.dynamic_class_ll_cover);
         btnComment = (Button) findViewById(R.id.class_dynamic_btn_comment);
+        editComment = (EditText) findViewById(R.id.class_dynamic_edit_comment);
     }
 
     private void initViewEvent() {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
+        llCover.setOnTouchListener(llCoverOnTouchListener);
     }
 
     private void initPageData() {
@@ -112,6 +112,14 @@ public class ClassDynamicActivity extends BaseActivity {
             mPageIndex++;
             slideListView.setFooterViewVisible(true);
             getDynamicData();
+        }
+    };
+
+    private View.OnTouchListener llCoverOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            hideEditComment();
+            return false;
         }
     };
 
@@ -157,15 +165,25 @@ public class ClassDynamicActivity extends BaseActivity {
                 commentItemEntity.userName = loginUserEntity.userName;
                 commentItemEntity.userId = loginUserEntity.userId;
                 commentItemEntity.comment = editComment.getText().toString();
-                mAdapter.addComment(commentItemEntity, mPositon);
+                mAdapter.addComment(commentItemEntity, mPosition);
                 editComment.setText("");
-                editComment.clearFocus();
-                hideSystemSoftInputKeyboard(editComment);
-                rlComment.setVisibility(View.GONE);
+                hideEditComment();
             }
         });
     }
 
+    private void hideEditComment() {
+        editComment.clearFocus();
+        hideSystemSoftInputKeyboard(editComment);
+        rlComment.setVisibility(View.GONE);
+        llCover.setVisibility(View.GONE);
+    }
+
+    private void showEditComment() {
+        llCover.setVisibility(View.VISIBLE);
+        rlComment.setVisibility(View.VISIBLE);
+        editComment.requestFocus();
+    }
 
     /**
      * 显示输入法
@@ -197,15 +215,14 @@ public class ClassDynamicActivity extends BaseActivity {
         View mParentView;
 
         public ItemClick(int position, int newsId, View parentView) {
-            mPositon = position;
+            mPosition = position;
             mNewsId = newsId;
             mParentView = parentView;
         }
 
         @Override
         public void onClick(final View v) {
-            rlComment.setVisibility(View.VISIBLE);
-
+            showEditComment();
             rlComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -217,8 +234,7 @@ public class ClassDynamicActivity extends BaseActivity {
                     rlComment.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
-            editComment.setFocusable(true);
-            editComment.setFocusableInTouchMode(true);
+
             editComment.requestFocus();
             showSystemSoftInputKeyboard(editComment);
             int[] location = new int[2];

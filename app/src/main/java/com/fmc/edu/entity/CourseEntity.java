@@ -1,6 +1,7 @@
 package com.fmc.edu.entity;
 
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.StringUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -48,8 +49,8 @@ public class CourseEntity implements Serializable {
             map.put("order", item.order);
             map.put("orderName", item.orderName);
             map.put("courseName", item.courseName);
-            map.put("startTime", dateFormat.format(item.startTime));
-            map.put("endTime", dateFormat.format(item.endTime));
+            map.put("startTime", StringUtils.isEmptyOrNull(item.startTime) ? null : dateFormat.format(item.startTime));
+            map.put("endTime", StringUtils.isEmptyOrNull(item.endTime) ? null : dateFormat.format(item.endTime));
             result.add(map);
         }
         return result;

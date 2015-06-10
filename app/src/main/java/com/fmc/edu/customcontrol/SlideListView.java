@@ -1,6 +1,7 @@
 package com.fmc.edu.customcontrol;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,8 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         mFooterView = LayoutInflater.from(mContext).inflate(R.layout.listview_footer_view, null);
         addFooterView(mFooterView);
         setFooterViewVisible(false);
+        this.setDivider(new ColorDrawable(getResources().getColor(R.color.divider_bg_color)));
+        this.setDividerHeight(1);
     }
 
     @Override
@@ -58,9 +61,6 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         mOnLoadMoreListener = onLoadMoreListener;
     }
 
-    public void setOnScrollPrepListener(OnScrollPrepListener onScrollPrepListener) {
-        mOnScrollPrepListener = onScrollPrepListener;
-    }
 
     public void setFooterViewVisible(boolean isVisible) {
         if (null == mFooterView) {

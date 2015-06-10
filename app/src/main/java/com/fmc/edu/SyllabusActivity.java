@@ -139,6 +139,7 @@ public class SyllabusActivity extends BaseActivity {
             MyIon.httpPost(SyllabusActivity.this, "school/submitClassCourse", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
+                    updateLocalData();
                     ToastToolUtils.showLong("上传成功");
                 }
             });
@@ -186,5 +187,15 @@ public class SyllabusActivity extends BaseActivity {
             list.add(syllabusEntity);
         }
         return list;
+    }
+
+    private void updateLocalData() {
+        int week = ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 0);
+        for (WeekCourseEntity item : mList) {
+            if (item.week == week) {
+                item.courseList = mAdapter.mItems;
+                return;
+            }
+        }
     }
 }

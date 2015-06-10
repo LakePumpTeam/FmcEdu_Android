@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.fmc.edu.customcontrol.TopBarControl
         android:id="@+id/class_dynamic_top_bar"
         android:layout_width="match_parent"
@@ -12,15 +11,26 @@
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_class_dynamic" />
 
-
-    <com.fmc.edu.customcontrol.SlideListView
-        android:id="@+id/class_dynamic_slide_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/class_dynamic_rl_comment"
-        android:layout_below="@id/class_dynamic_top_bar"
-        android:background="@color/activity_bg_color_write" />
+        android:layout_below="@id/class_dynamic_top_bar">
 
+        <com.fmc.edu.customcontrol.SlideListView
+            android:id="@+id/class_dynamic_slide_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/activity_bg_color_write" />
+
+        <LinearLayout
+            android:id="@+id/dynamic_class_ll_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#55000000"
+            android:orientation="vertical"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/class_dynamic_rl_comment"
@@ -45,6 +55,8 @@
             android:layout_marginTop="@dimen/activity_padding_small"
             android:layout_toLeftOf="@+id/class_dynamic_btn_comment"
             android:background="@mipmap/edit_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="bottom"
             android:hint="请输入内容"
             android:maxLength="200"
