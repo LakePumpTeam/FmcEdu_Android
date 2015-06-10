@@ -2,7 +2,6 @@ package com.fmc.edu;
 
 import android.app.Activity;
 import android.app.Application;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -37,6 +36,12 @@ public class FmcApplication extends Application {
     public static void addActivity(BaseActivity activity, int layoutId) {
         addActivity(activity);
         View view = LayoutInflater.from(activity).inflate(layoutId, null);
+        activity.setContentView(view);
+        activity.mProgressControl = new ProgressControl(activity, view);
+    }
+
+    public static void addActivity(BaseActivity activity, View view) {
+        addActivity(activity);
         activity.setContentView(view);
         activity.mProgressControl = new ProgressControl(activity, view);
     }

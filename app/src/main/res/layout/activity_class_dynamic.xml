@@ -24,10 +24,10 @@
             android:background="@color/activity_bg_color_write" />
 
         <LinearLayout
-            android:id="@+id/dynamic_class_ll_cover"
+            android:id="@+id/class_dynamic_ll_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#55000000"
+            android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone" />
     </FrameLayout>
