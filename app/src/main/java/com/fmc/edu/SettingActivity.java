@@ -83,7 +83,7 @@ public class SettingActivity extends BaseActivity {
     private View.OnClickListener txtVersionOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String version = AppConfigUtils.getVersion();
+            String version = AppConfigUtils.getVersion(SettingActivity.this);
             AlertWindowControl alertWindowControl = new AlertWindowControl(SettingActivity.this);
             alertWindowControl.showWindow(v, "版本信息", "当前版本:" + version);
         }

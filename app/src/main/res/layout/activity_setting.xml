@@ -20,12 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:background="@color/edit_text_bg_color"
-        android:textColor="@color/edit_text_font_color"
         android:drawableRight="@mipmap/ic_arrow_right"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
-        android:text="@string/modify_password" />
+        android:text="@string/modify_password"
+        android:textColor="@color/edit_text_font_color" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
@@ -37,13 +37,13 @@
         android:id="@+id/setting_txt_new_msg_notice"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
-        android:textColor="@color/edit_text_font_color"
         android:background="@color/edit_text_bg_color"
         android:drawableRight="@mipmap/ic_arrow_right"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
-        android:text="@string/new_msg_notice_setting" />
+        android:text="@string/new_msg_notice_setting"
+        android:textColor="@color/edit_text_font_color" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
@@ -60,7 +60,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
-        android:text="@string/version_info" />
+        android:text="@string/version_info"
+        android:textColor="@color/edit_text_font_color" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
@@ -68,13 +69,13 @@
         android:id="@+id/setting_txt_about"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
-        android:textColor="@color/edit_text_font_color"
         android:background="@color/edit_text_bg_color"
         android:drawableRight="@mipmap/ic_arrow_right"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
-        android:text="@string/about" />
+        android:text="@string/about"
+        android:textColor="@color/edit_text_font_color" />
 
     <View style="@style/HorizontalDividerLineStyle" />
 
