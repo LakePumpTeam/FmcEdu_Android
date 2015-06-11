@@ -42,12 +42,21 @@
             android:textColor="@color/dynamic_content_color"
             android:textSize="@dimen/font_size_small" />
 
+        <ImageView
+            android:id="@+id/item_class_dynamic_list_img_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_toLeftOf="@+id/item_class_dynamic_list_txt_comment"
+            android:clickable="true"
+            android:src="@mipmap/ic_delete" />
+
         <TextView
             android:id="@+id/item_class_dynamic_list_txt_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin_middle"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_margin_middle"
             android:clickable="true"
             android:drawableLeft="@mipmap/ic_comment"
             android:drawablePadding="@dimen/activity_padding_middle"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +41,14 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         mCollapsedStatus = new SparseBooleanArray();
     }
 
-    public void addComment(CommentItemEntity commentItemEntity, int positon) {
-        if (null == mItems.get(positon).commentList) {
-            mItems.get(positon).commentList = new ArrayList<CommentItemEntity>();
+    public void addComment(CommentItemEntity commentItemEntity, int position) {
+        if (null == mItems.get(position).commentList) {
+            mItems.get(position).commentList = new ArrayList<CommentItemEntity>();
         }
 
-        mItems.get(positon).commentList.add(commentItemEntity);
-        mItems.get(positon).commentCount++;
+        mItems.get(position).commentList.add(commentItemEntity);
+        mItems.get(position).commentCount++;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -61,6 +64,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         GridView gridView = (GridView) convertView.findViewById(R.id.item_class_dynamic_list_grid_picture);
         LinearLayout commentView = (LinearLayout) convertView.findViewById(R.id.item_class_dynamic_list_ll_comment);
         ExpandableTextViewControl expand_text_view = (ExpandableTextViewControl) convertView.findViewById(R.id.expand_text_view);
+        ImageView imgDelete = (ImageView) convertView.findViewById(R.id.item_class_dynamic_list_img_delete);
 
         DynamicItemEntity item = mItems.get(position);
         expand_text_view.setText(item.content, mCollapsedStatus, position);
@@ -71,7 +75,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         commentItem.put("newsId", item.newsId);
         commentItem.put("position", position);
 
-        ClassDynamicItemHoler holer = new ClassDynamicItemHoler();
+        ClassDynamicItemHolder holer = new ClassDynamicItemHolder();
         holer.commentItem = commentItem;
         holer.view = convertView;
         txtComment.setTag(holer);
@@ -87,8 +91,9 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         DynamicItemGridAdapter dynamicItemGridAdapter = new DynamicItemGridAdapter(mContext, item.imageUrls, ImageLoaderUtil.initCacheImageLoader(mContext));
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
-        ClassDynamicActivity classDynamicActivity = (ClassDynamicActivity) mContext;
         txtComment.setOnClickListener(txtCommentOnClickListener);
+        imgDelete.setTag(position);
+        imgDelete.setOnClickListener(imgDeleteOnClickListener);
         return convertView;
     }
 
@@ -108,7 +113,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         @Override
         public void onClick(View v) {
             if (mContext.getClass() == ClassDynamicActivity.class) {
-                ClassDynamicItemHoler holder = (ClassDynamicItemHoler) v.getTag();
+                ClassDynamicItemHolder holder = (ClassDynamicItemHolder) v.getTag();
                 ((ClassDynamicActivity) mContext).setCommentVisible(ConvertUtils.getInteger(holder.commentItem.get("newsId"), 0), ConvertUtils.getInteger(holder.commentItem.get("position"), 0), holder.view);
             }
         }
@@ -123,6 +128,15 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         }
     };
 
+    private View.OnClickListener imgDeleteOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = ConvertUtils.getInteger(v.getTag());
+            mItems.remove(position);
+            notifyDataSetChanged();
+        }
+    };
+
     private List<String> getOrigUrl(List<ImageItemEntity> list) {
         List<String> origUrls = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
@@ -132,7 +146,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     }
 
 
-    private class ClassDynamicItemHoler {
+    private class ClassDynamicItemHolder {
         public View view;
         public Map<String, Object> commentItem;
 

@@ -60,7 +60,6 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         initViews();
         initViewEvent();
         initPageData();
-        //view.addOnLayoutChangeListener(this);
     }
 
     private void initViews() {
@@ -90,24 +89,14 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
                     if ((mPosition == 0 || mPosition == 1) && y + height < bottom) {
                         return;
                     }
-                    int otherIndex = y <= bottom ? -40 : 80;
-                    mMoveDistance = y - top + height + otherIndex;
-                    slideListView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            slideListView.smoothScrollBy(mMoveDistance, 500);
-                        }
-                    }, 100);
+                    int otherY = y < top ? 0 : 120;
+                    mMoveDistance = y - top + height + otherY;
+                    slideListView.smoothScrollBy(mMoveDistance, 500);
 
                 }
 
                 if (top > oldTop && top - oldTop > mSoftWareMinHeight) {
-                    slideListView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            slideListView.smoothScrollBy(-mMoveDistance, 500);
-                        }
-                    }, 100);
+                    slideListView.smoothScrollBy(-mMoveDistance, 500);
                 }
             }
         });
@@ -174,6 +163,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
     }
 
     private void doSendComment() {
+        hideEditComment();
         mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("newsId", mNewsId);
@@ -183,15 +173,15 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 ToastToolUtils.showShort("评论成功");
-
                 CommentItemEntity commentItemEntity = new CommentItemEntity();
                 LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
                 commentItemEntity.userName = loginUserEntity.userName;
                 commentItemEntity.userId = loginUserEntity.userId;
                 commentItemEntity.comment = editComment.getText().toString();
                 mAdapter.addComment(commentItemEntity, mPosition);
-                hideEditComment();
                 editComment.setText("");
+
+
             }
         });
     }
