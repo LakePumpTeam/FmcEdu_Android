@@ -110,5 +110,7 @@
         <item name="android:paddingBottom">@dimen/activity_padding_middle</item>
     </style>
 
-    <style name="Theme.TransparencyDemo" parent="@android:style/Theme.Holo.Light" />
+    <style name="Theme.TransparencyDemo" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
 </resources>

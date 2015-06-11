@@ -3,92 +3,98 @@
     android:layout_height="match_parent"
     android:background="@color/activity_login_bg_color"
     android:gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="35dp"
-    android:paddingRight="35dp">
+    android:orientation="vertical">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textStyle="bold"
         android:textColor="@color/activity_font_color"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
         android:layout_marginTop="30dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/shape_edit_oval_corner_border">
+        android:background="@drawable/shape_edit_oval_corner_border"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_marginLeft="@dimen/activity_margin"
-            android:src="@mipmap/ic_phone"/>
+            android:src="@mipmap/ic_phone" />
 
         <EditText
             android:id="@+id/login_edit_cellphone"
             style="@style/EditTextStyle"
-            android:textColorHint="@color/activity_login_hint_color"
             android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:background="@drawable/shape_edit_oval_corner"
+            android:hint="@string/hint_input_cellphone"
             android:inputType="phone"
             android:maxLength="11"
-            android:background="@drawable/shape_edit_oval_corner"
-            android:hint="@string/hint_input_cellphone" />
+            android:textColorHint="@color/activity_login_hint_color" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
         android:layout_marginTop="@dimen/activity_margin"
-        android:background="@drawable/shape_edit_oval_corner_border">
+        android:background="@drawable/shape_edit_oval_corner_border"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin"
-            android:src="@mipmap/ic_lock"/>
+            android:src="@mipmap/ic_lock" />
 
         <EditText
             android:id="@+id/login_edit_password"
             style="@style/EditTextStyle"
-            android:textColorHint="@color/activity_login_hint_color"
             android:layout_marginLeft="@dimen/activity_margin_middle"
             android:background="@drawable/shape_edit_oval_corner"
             android:hint="@string/edit_input_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/activity_login_hint_color" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/login_txt_forget_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
+
         android:layout_gravity="right"
-        android:textColor="@color/activity_font_color"
-        android:layout_marginTop="@dimen/activity_margin_middle"
         android:layout_marginBottom="@dimen/activity_margin_middle"
-        android:text="@string/forget_password" />
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="@dimen/activity_margin_middle"
+        android:clickable="true"
+        android:text="@string/forget_password"
+        android:textColor="@color/activity_font_color" />
 
     <Button
         android:id="@+id/login_btn_login"
         style="@style/OvalButtonStyleBorder"
-        android:layout_marginTop="@dimen/activity_margin"
         android:layout_marginBottom="@dimen/activity_margin_middle"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="@dimen/activity_margin"
         android:text="@string/btn_login" />
 
     <TextView
         android:id="@+id/login_txt_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:textColor="@color/activity_font_color"
-        android:textSize="@dimen/font_size_middle"
         android:layout_marginTop="@dimen/activity_margin"
-        android:text="新用户注册" />
+        android:clickable="true"
+        android:text="新用户注册"
+        android:textColor="@color/activity_font_color"
+        android:textSize="@dimen/font_size_middle" />
 </LinearLayout>

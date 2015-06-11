@@ -60,7 +60,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         initViews();
         initViewEvent();
         initPageData();
-        view.addOnLayoutChangeListener(this);
+        //view.addOnLayoutChangeListener(this);
     }
 
     private void initViews() {
@@ -75,6 +75,42 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
         llCover.setOnTouchListener(llCoverOnTouchListener);
+        rlComment.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (top == oldTop) {
+                    return;
+                }
+                if (top < oldTop && oldTop - top > mSoftWareMinHeight) {
+                    mMoveDistance = 0;
+                    int[] location = new int[2];
+                    mParentView.getLocationOnScreen(location);
+                    final int y = location[1];
+                    final int height = mParentView.getHeight();
+                    if ((mPosition == 0 || mPosition == 1) && y + height < bottom) {
+                        return;
+                    }
+                    int otherIndex = y <= bottom ? -40 : 80;
+                    mMoveDistance = y - top + height + otherIndex;
+                    slideListView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            slideListView.smoothScrollBy(mMoveDistance, 500);
+                        }
+                    }, 100);
+
+                }
+
+                if (top > oldTop && top - oldTop > mSoftWareMinHeight) {
+                    slideListView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            slideListView.smoothScrollBy(-mMoveDistance, 500);
+                        }
+                    }, 100);
+                }
+            }
+        });
     }
 
     private void initPageData() {

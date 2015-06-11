@@ -2,7 +2,7 @@
 <resources>
     <color name="activity_login_bg_color">#00bbbb</color>
     <color name="activity_login_hint_color">#ddd</color>
-    <color name="activity_bg_color">#01BABC</color>
+    <color name="activity_bg_color">#F0FCFC</color>
     <color name="activity_bg_color_write">#fff</color>
     <color name="activity_top_bar_color">#01BABC</color>
     <color name="activity_top_bar_font_color">#fff</color>
@@ -22,7 +22,7 @@
     <color name="edit_text_font_color">#555</color>
     <color name="edit_text_hint_font_color">#b4b4b4</color>
     <color name="edit_text_bg_color">#fff</color>
-    <color name="edit_text_border_color">#fff</color>
+    <color name="edit_text_border_color">#eee</color>
     <color name="edit_layout_bg_color">#F9F9F9</color>
     <color name="select_item_font_color">#777</color>
     <color name="select_item_title_font_color">#3c3c3c</color>

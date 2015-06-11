@@ -6,13 +6,13 @@ import android.app.Application;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,29 +40,33 @@ public class FmcApplication extends Application {
     public static void addActivity(BaseActivity activity, int layoutId) {
         addActivity(activity);
         View view = LayoutInflater.from(activity).inflate(layoutId, null);
-        activity.setContentView(view);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true, activity);
+
         }
-        activity.mProgressControl = new ProgressControl(activity, view);
+        addActivity(activity, view);
     }
 
     @TargetApi(19)
     private static void setTranslucentStatus(boolean on, BaseActivity activity) {
-
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            tintManager.setStatusBarTintColor(activity.getResources().getColor(R.color.activity_top_bar_color));
+            tintManager.setStatusBarTintEnabled(true);
         }
-        win.setAttributes(winParams);
     }
 
     public static void addActivity(BaseActivity activity, View view) {
         addActivity(activity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            tintManager.setStatusBarTintColor(activity.getResources().getColor(R.color.activity_top_bar_color));
+            tintManager.setStatusBarTintEnabled(true);
+        }
         activity.setContentView(view);
         activity.mProgressControl = new ProgressControl(activity, view);
     }
