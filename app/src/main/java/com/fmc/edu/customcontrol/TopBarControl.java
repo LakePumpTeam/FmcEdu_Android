@@ -91,9 +91,6 @@ public class TopBarControl extends LinearLayout {
         llOperateImage.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
-    public void setOperateEnable(boolean isEnable) {
-        llOperate.setEnabled(isEnable);
-    }
 
     public void setTopBarOperateImg(int imgId) {
         if(0 == imgId){

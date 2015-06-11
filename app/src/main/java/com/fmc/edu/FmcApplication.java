@@ -1,9 +1,13 @@
 package com.fmc.edu;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.fmc.edu.common.CrashHandler;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -37,7 +41,24 @@ public class FmcApplication extends Application {
         addActivity(activity);
         View view = LayoutInflater.from(activity).inflate(layoutId, null);
         activity.setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true, activity);
+        }
         activity.mProgressControl = new ProgressControl(activity, view);
+    }
+
+    @TargetApi(19)
+    private static void setTranslucentStatus(boolean on, BaseActivity activity) {
+
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     public static void addActivity(BaseActivity activity, View view) {

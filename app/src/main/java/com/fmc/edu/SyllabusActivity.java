@@ -11,6 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.SyllabusAdapter;
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.CourseEntity;
@@ -51,6 +53,7 @@ public class SyllabusActivity extends BaseActivity {
     private TopBarControl topBar;
     private SyllabusAdapter mAdapter;
     private List<WeekCourseEntity> mList;
+    private List<CourseEntity> mCourseList;
 
 
     @Override
@@ -103,9 +106,10 @@ public class SyllabusActivity extends BaseActivity {
             return;
         }
         mList = (List<WeekCourseEntity>) bundle.getSerializable("list");
-        mAdapter = new SyllabusAdapter(SyllabusActivity.this, getWeekCourseList(1));
+        mAdapter = new SyllabusAdapter(SyllabusActivity.this, new ArrayList<CourseEntity>());
         listView.setAdapter(mAdapter);
         ((RadioButton) rgTab.getChildAt(0)).setChecked(true);
+        topBar.setTopOperateImgVisible(FmcApplication.getLoginUser().headTeacher);
     }
 
     private RadioGroup.OnCheckedChangeListener rgTabOnCheckedChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -114,8 +118,18 @@ public class SyllabusActivity extends BaseActivity {
             View view = findViewById(checkedId);
             int tag = ConvertUtils.getInteger(view.getTag());
             setOnScrollX(tag);
-            List<CourseEntity> list = getWeekCourseList(tag);
-            mAdapter.addAllItems(list, true);
+            refreshWeekCourseList(tag);
+            mAdapter.addAllItems(mCourseList, true);
+            List<CourseEntity> oldCourse = getCourseList(tag);
+//            if (oldCourse == mCourseList) {
+//                setOnScrollX(tag);
+//                refreshWeekCourseList(tag);
+//                mAdapter.addAllItems(mCourseList, true);
+//                return;
+//            }
+//            PromptWindowControl promptWindowControl = new PromptWindowControl(SyllabusActivity.this);
+//            promptWindowControl.showWindow(view, "提示", "编辑的课程表还未保存，切换会清楚未保存上数据，是否确定操作？", "确定");
+//            promptWindowControl.setOnOperateOnClickListener(prompOnClickListener);
         }
     };
 
@@ -145,6 +159,16 @@ public class SyllabusActivity extends BaseActivity {
         }
     };
 
+//
+//    private PromptWindowControl.OnOperateOnClickListener prompOnClickListener = new PromptWindowControl.OnOperateOnClickListener() {
+//        @Override
+//        public void onOperateOnClick() {
+//            setOnScrollX(tag);
+//            refreshWeekCourseList(tag);
+//            mAdapter.addAllItems(mCourseList, true);
+//        }
+//    };
+
     private void setOnScrollX(int tag) {
         if (tag == 1 || tag == 2 || tag == 3) {
             scrollView.setScrollX(0);
@@ -170,29 +194,29 @@ public class SyllabusActivity extends BaseActivity {
         return CourseEntity.cloneCourseList(mList.get(0).courseList);
     }
 
-    private List<CourseEntity> getWeekCourseList(int week) {
-        List<CourseEntity> list = new ArrayList<>();
+
+    private void refreshWeekCourseList(int week) {
+        mCourseList = new ArrayList<>();
         List<CourseEntity> oldCourseList = getCourseList(week);
         int size = null == oldCourseList ? 0 : oldCourseList.size();
         for (int i = 0; i < 12; i++) {
             if (i < size) {
-                list.add(oldCourseList.get(i));
+                mCourseList.add(CourseEntity.clone(oldCourseList.get(i)));
                 continue;
             }
             CourseEntity syllabusEntity = new CourseEntity();
             syllabusEntity.courseId = 0;
             syllabusEntity.order = i;
             syllabusEntity.orderName = "第" + ConvertUtils.getChineseNum(i + 1) + "节";
-            list.add(syllabusEntity);
+            mCourseList.add(syllabusEntity);
         }
-        return list;
     }
 
     private void updateLocalData() {
-        int week = ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 0);
+        int week = ConvertUtils.getInteger(findViewById(rgTab.getCheckedRadioButtonId()).getTag(), 1);
         for (WeekCourseEntity item : mList) {
             if (item.week == week) {
-                item.courseList = CourseEntity.cloneCourseList(mAdapter.mItems);
+                item.courseList = CourseEntity.cloneCourseList(mCourseList);
                 return;
             }
         }
