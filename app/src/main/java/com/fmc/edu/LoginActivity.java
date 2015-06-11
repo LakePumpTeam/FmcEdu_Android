@@ -228,7 +228,6 @@ public class LoginActivity extends BaseActivity {
                 return;
             }
             Map<String, Object> selectItem = getSelectItem(list, selectId);
-            ServicePreferenceUtils.saveUserCardNumPreference(LoginActivity.this, ConvertUtils.getString(selectItem.get("braceletCardNumber"), ""));
             parentGotoMainActivity(selectItem);
         }
     };
@@ -248,6 +247,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (auditState == AuditStateTypeEnum.getValue(AuditStateTypeEnum.Pass)) {
+            ServicePreferenceUtils.saveUserCardNumPreference(LoginActivity.this, ConvertUtils.getString(data.get("braceletCardNumber"), ""));
             gotoMainActivity(ConvertUtils.getInteger(data.get("classId"), 0), ConvertUtils.getInteger(data.get("optionId"), 0), UserRoleEnum.Parent);
             return;
         }

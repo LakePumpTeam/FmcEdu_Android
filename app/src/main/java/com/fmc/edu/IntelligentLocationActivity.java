@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
-import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -78,11 +76,8 @@ public class IntelligentLocationActivity extends BaseActivity {
                 return;
             }
             SmsManager smsMgr = SmsManager.getDefault();
-            smsMgr.sendTextMessage(userCardNum, null, "测试短信发送功能", null, null);
+            smsMgr.sendTextMessage(userCardNum, null, "测试定位功能", null, null);
             ToastToolUtils.showLong("已发送");
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("smsto:" + "15881037068"));
-//            intent.putExtra("sms_body","sfadfafd");
-//            startActivity(intent);
         }
     };
     private View.OnClickListener txtIntroduceOnClickListener = new View.OnClickListener() {
