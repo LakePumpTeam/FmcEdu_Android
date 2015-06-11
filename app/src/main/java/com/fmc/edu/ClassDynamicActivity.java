@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.fmc.edu.adapter.ClassDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
@@ -29,10 +30,14 @@ import java.util.Map;
 
 
 public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutChangeListener {
-    private SlideListView slideListView;
-    private RelativeLayout rlComment;
-    private EditText editComment;
     private Button btnComment;
+    private EditText editComment;
+    private LinearLayout llCover;
+    private RelativeLayout rlComment;
+    private SlideListView slideListView;
+    private View view;
+    private View mParentView;
+    private TopBarControl topBar;
     private int mNewsId;
     private int mPosition;
     private ClassDynamicItemAdapter mAdapter;
@@ -40,10 +45,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
     private int mPageIndex = 1;
     private boolean mIsLastPage;
     private DisplayMetrics mDisplay;
-    private View view;
-    private View mParentView;
     private int mMoveDistance;
-    private LinearLayout llCover;
     private int mSoftWareMinHeight;
 
 
@@ -68,38 +70,15 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         btnComment = (Button) findViewById(R.id.class_dynamic_btn_comment);
         editComment = (EditText) findViewById(R.id.class_dynamic_edit_comment);
         llCover = (LinearLayout) findViewById(R.id.class_dynamic_ll_cover);
+        topBar = (TopBarControl) findViewById(R.id.class_dynamic_top_bar);
     }
 
     private void initViewEvent() {
         btnComment.setOnClickListener(btnCommentOnClickListener);
         slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
         llCover.setOnTouchListener(llCoverOnTouchListener);
-        rlComment.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (top == oldTop) {
-                    return;
-                }
-                if (top < oldTop && oldTop - top > mSoftWareMinHeight) {
-                    mMoveDistance = 0;
-                    int[] location = new int[2];
-                    mParentView.getLocationOnScreen(location);
-                    final int y = location[1];
-                    final int height = mParentView.getHeight();
-                    if ((mPosition == 0 || mPosition == 1) && y + height < bottom) {
-                        return;
-                    }
-                    int otherY = y < top ? 0 : 120;
-                    mMoveDistance = y - top + height + otherY;
-                    slideListView.smoothScrollBy(mMoveDistance, 500);
-
-                }
-
-                if (top > oldTop && top - oldTop > mSoftWareMinHeight) {
-                    slideListView.smoothScrollBy(-mMoveDistance, 500);
-                }
-            }
-        });
+        topBar.setOnOperateOnClickListener(classDynamicOnOperateListener);
+        rlComment.addOnLayoutChangeListener(onLayoutChangeListener);
     }
 
     private void initPageData() {
@@ -135,6 +114,45 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         }
     };
 
+    private TopBarControl.OnOperateOnClickListener classDynamicOnOperateListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+            hideEditComment();
+        }
+
+        @Override
+        public void onOperateClick(View v) {
+
+        }
+    };
+
+    private View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            if (top == oldTop) {
+                return;
+            }
+            if (top < oldTop && oldTop - top > mSoftWareMinHeight) {
+                mMoveDistance = 0;
+                int[] location = new int[2];
+                mParentView.getLocationOnScreen(location);
+                final int y = location[1];
+                final int height = mParentView.getHeight();
+                if ((mPosition == 0 || mPosition == 1) && y + height < bottom) {
+                    return;
+                }
+                int otherY = y < top ? 0 : 120;
+                mMoveDistance = y - top + height + otherY;
+                slideListView.smoothScrollBy(mMoveDistance, 500);
+
+            }
+
+            if (top > oldTop && top - oldTop > mSoftWareMinHeight) {
+                slideListView.smoothScrollBy(-mMoveDistance, 500);
+            }
+        }
+    };
+
     private void getDynamicData() {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
@@ -165,7 +183,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
     private void doSendComment() {
         hideEditComment();
         mProgressControl.showWindow();
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("newsId", mNewsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
         params.put("content", editComment.getText());

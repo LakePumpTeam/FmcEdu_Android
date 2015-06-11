@@ -152,6 +152,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     }
 
     private void afterResetPassword() {
+        ToastToolUtils.showLong("重置成功，请重新登录！");
         ServicePreferenceUtils.clearPasswordPreference(this);
         this.finish();
         Intent intent = new Intent(ForgetPasswordActivity.this, LoginActivity.class);

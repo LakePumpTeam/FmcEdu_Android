@@ -14,13 +14,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fmc.edu.BaseActivity;
 import com.fmc.edu.ClassDynamicActivity;
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
 import com.fmc.edu.customcontrol.ExpandableTextViewControl;
 import com.fmc.edu.customcontrol.ImageShowControl;
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ImageLoaderUtil;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -43,7 +48,7 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
 
     public void addComment(CommentItemEntity commentItemEntity, int position) {
         if (null == mItems.get(position).commentList) {
-            mItems.get(position).commentList = new ArrayList<CommentItemEntity>();
+            mItems.get(position).commentList = new ArrayList<>();
         }
 
         mItems.get(position).commentList.add(commentItemEntity);
@@ -71,14 +76,17 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         txtComment.setText(ConvertUtils.getString(item.commentCount, "0"));
         txtDate.setText(item.createDate);
 
-        Map<String, Object> commentItem = new HashMap<String, Object>();
+        Map<String, Object> commentItem = new HashMap<>();
         commentItem.put("newsId", item.newsId);
         commentItem.put("position", position);
 
-        ClassDynamicItemHolder holer = new ClassDynamicItemHolder();
-        holer.commentItem = commentItem;
-        holer.view = convertView;
-        txtComment.setTag(holer);
+        ClassDynamicItemHolder holder = new ClassDynamicItemHolder();
+        holder.commentItem = commentItem;
+        holder.view = convertView;
+        txtComment.setTag(holder);
+
+        imgDelete.setVisibility(item.author == FmcApplication.getLoginUser().userId ? View.VISIBLE : View.GONE);
+        imgDelete.setTag(item);
 
         List<CommentItemEntity> commentList = item.commentList;
         commentView.removeAllViews();
@@ -92,7 +100,6 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
         gridView.setAdapter(dynamicItemGridAdapter);
         gridView.setOnItemClickListener(gridOnItemClickListener);
         txtComment.setOnClickListener(txtCommentOnClickListener);
-        imgDelete.setTag(position);
         imgDelete.setOnClickListener(imgDeleteOnClickListener);
         return convertView;
     }
@@ -131,14 +138,29 @@ public class ClassDynamicItemAdapter extends FmcBaseAdapter<DynamicItemEntity> {
     private View.OnClickListener imgDeleteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position = ConvertUtils.getInteger(v.getTag());
-            mItems.remove(position);
-            notifyDataSetChanged();
+            DynamicItemEntity item = (DynamicItemEntity) v.getTag();
+            deleteClassDynamic(item);
         }
     };
 
+    public void deleteClassDynamic(final DynamicItemEntity item) {
+        ((BaseActivity) mContext).mProgressControl.showWindow();
+        Map<String, Object> params = new HashMap<>();
+        params.put("newsId", item.newsId);
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(mContext, "/news/requestDisableNews", params, ((BaseActivity) mContext).mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                ToastToolUtils.showShort("删除成功");
+                mItems.remove(item);
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+
     private List<String> getOrigUrl(List<ImageItemEntity> list) {
-        List<String> origUrls = new ArrayList<String>();
+        List<String> origUrls = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             origUrls.add(list.get(i).origUrl);
         }

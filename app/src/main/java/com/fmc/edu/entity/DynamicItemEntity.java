@@ -28,6 +28,7 @@ public class DynamicItemEntity implements Serializable {
     public boolean popular; //是否热门
     public int participationCount; //参与数
     public boolean isParticipation;
+    public int author;
 
     public static List<DynamicItemEntity> toDynamicItemEntity(List<Map<String, Object>> data) {
         List<DynamicItemEntity> list = new ArrayList<DynamicItemEntity>();
@@ -45,7 +46,8 @@ public class DynamicItemEntity implements Serializable {
             dynamicItem.popular = ConvertUtils.getBoolean(item.get("popular"), false);
             dynamicItem.participationCount = ConvertUtils.getInteger(item.get("participationCount"), 0);
             dynamicItem.origlImageURls = ConvertUtils.getStringList(item.get("imageUrls"));
-            dynamicItem.isParticipation = ConvertUtils.getBoolean(item.get("isParticipation"),false);
+            dynamicItem.isParticipation = ConvertUtils.getBoolean(item.get("isParticipation"), false);
+            dynamicItem.author = ConvertUtils.getInteger(item.get("author"), 0);
             List<Map<String, Object>> commentList = (List<Map<String, Object>>) item.get("commentList");
             dynamicItem.commentList = CommentItemEntity.toCommentEntityList(commentList);
             list.add(dynamicItem);
