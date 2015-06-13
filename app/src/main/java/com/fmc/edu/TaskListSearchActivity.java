@@ -104,8 +104,8 @@ public class TaskListSearchActivity extends BaseActivity {
                 mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<TaskEntity> taskList = TaskEntity.toTaskEntityList(list);
                 if (mPageIndex == 1) {
-                    mAdapter = new TaskListAdapter(TaskListSearchActivity.this,taskList);
-                    mAdapter.addAllItems(taskList, true);
+                    mAdapter = new TaskListAdapter(TaskListSearchActivity.this, taskList);
+                    slideTaskList.setAdapter(mAdapter);
                 } else {
                     mAdapter.addAllItems(taskList, false);
                     slideTaskList.setFooterViewVisible(false);

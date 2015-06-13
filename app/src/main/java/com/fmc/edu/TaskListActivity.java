@@ -91,7 +91,7 @@ public class TaskListActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(TaskListActivity.this, AddTaskActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,RequestCodeUtils.ADD_TASK);
         }
     };
 
@@ -190,6 +190,8 @@ public class TaskListActivity extends BaseActivity {
             return;
         }
         if (requestCode == RequestCodeUtils.ADD_TASK) {
+            mPageIndex = 1;
+            loadTaskData();
             rbUnFinish.setChecked(true);
         }
         super.onActivityResult(requestCode, resultCode, data);

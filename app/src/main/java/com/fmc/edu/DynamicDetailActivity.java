@@ -66,6 +66,7 @@ public class DynamicDetailActivity extends BaseActivity {
 
         @Override
         public void onOperateClick(View v) {
+            mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("newsId", mBundle.getInt("newsId"));
             params.put("userId", FmcApplication.getLoginUser().userId);
@@ -152,14 +153,14 @@ public class DynamicDetailActivity extends BaseActivity {
     }
 
     private void bindPicture(List<String> imageUrls) {
-        for (int i=0;i<imageUrls.size();i++) {
+        for (int i = 0; i < imageUrls.size(); i++) {
             ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_single_picture, null);
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("position", i);
             map.put("imgUrls", imageUrls);
             imageView.setTag(map);
@@ -172,14 +173,14 @@ public class DynamicDetailActivity extends BaseActivity {
     private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Map<String,Object> map = (Map<String, Object>) v.getTag();
+            Map<String, Object> map = (Map<String, Object>) v.getTag();
             List<String> bigPictureUrl = (List<String>) map.get("imgUrls");
             if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
                 ToastToolUtils.showLong("无有效图片");
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(DynamicDetailActivity.this);
-            imageShowControl.showWindow(v, bigPictureUrl,ConvertUtils.getInteger(map.get("position"),0));
+            imageShowControl.showWindow(v, bigPictureUrl, ConvertUtils.getInteger(map.get("position"), 0));
         }
     };
 

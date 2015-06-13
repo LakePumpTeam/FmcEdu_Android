@@ -46,7 +46,7 @@
         android:theme="@style/Theme.TransparencyDemo">
         <meta-data
             android:name="com.fmc.edu.service_host"
-            android:value="http://182.92.98.174/dev/" />
+            android:value="http://182.92.98.174/" />
         <meta-data
             android:name="com.fmc.edu.is_development"
             android:value="false" />
@@ -58,7 +58,7 @@
             android:value="true" />
         <meta-data
             android:name="com.fmc.edu.three"
-            android:value="false" />
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"
