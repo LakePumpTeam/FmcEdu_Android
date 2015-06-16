@@ -133,7 +133,9 @@ public class MainActivity extends BaseActivity {
 
     private void initNewDynamic() {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("userId", loginUserEntity.userId);
+        params.put("classId", loginUserEntity.classId);
         MyIon.httpPost(this, "news/checkNewNews", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -258,13 +260,14 @@ public class MainActivity extends BaseActivity {
 
     private void gotoDynamicList(final DynamicTypeEnum dynamicType) {
         mProgressControl.showWindow();
-        String url = "news/requestNewsList";
         Map<String, Object> params = new HashMap<String, Object>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
+        params.put("classId", loginUserEntity.classId);
         params.put("type", DynamicTypeEnum.getValue(dynamicType));
-        MyIon.httpPost(MainActivity.this, url, params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(MainActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
@@ -333,10 +336,12 @@ public class MainActivity extends BaseActivity {
     private void gotoCampusActivity() {
         mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<String, Object>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.Campus));
+        params.put("classId", loginUserEntity.classId);
         MyIon.httpPost(MainActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

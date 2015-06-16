@@ -9,6 +9,7 @@ import com.fmc.edu.adapter.SchoolDynamicItemAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
 
@@ -82,10 +83,12 @@ public class SchoolDynamicActivity extends BaseActivity {
 
     private void getDynamicData(boolean isShowProgress) {
         Map<String, Object> params = new HashMap<String, Object>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
         params.put("type", mCurrentTag);
+        params.put("classId", loginUserEntity.classId);
         MyIon.httpPost(SchoolDynamicActivity.this, "news/requestNewsList", params, isShowProgress ? mProgressControl : null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

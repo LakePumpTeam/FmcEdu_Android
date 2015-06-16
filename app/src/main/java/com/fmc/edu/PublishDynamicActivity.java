@@ -18,6 +18,7 @@ import com.fmc.edu.customcontrol.MultiPictureControl;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.ImageItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.HttpTools;
 import com.fmc.edu.http.MyIon;
@@ -121,15 +122,16 @@ public class PublishDynamicActivity extends BaseActivity {
                 return;
             }
             mProgressControl.showWindow();
-
             String content = editContent.getText().toString();
-            String base64UserId = Base64.encodeToString(String.valueOf(FmcApplication.getLoginUser().userId).getBytes(), Base64.DEFAULT);
+            LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+            String base64UserId = Base64.encodeToString(String.valueOf(loginUserEntity.userId).getBytes(), Base64.DEFAULT);
+            String base64ClassId = Base64.encodeToString(String.valueOf(loginUserEntity.classId).getBytes(), Base64.DEFAULT);
             try {
                 Builders.Any.B withB = MyIon.with(PublishDynamicActivity.this)
                         .load(AppConfigUtils.getServiceHost() + "news/postClassNews");
                 withB.setMultipartParameter("content", Base64.encodeToString(content.getBytes(), Base64.DEFAULT))
-                        .setMultipartParameter("userId", base64UserId);
-
+                        .setMultipartParameter("userId", base64UserId)
+                        .setMultipartParameter("classId ", base64ClassId);
                 for (int i = 1; i < mAdapter.getCount() + 1; i++) {
                     String url = mAdapter.getImageUrl(i - 1);
                     if (StringUtils.isEmptyOrNull(url)) {

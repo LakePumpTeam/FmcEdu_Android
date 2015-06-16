@@ -121,7 +121,7 @@ public class CampusDetailActivity extends Activity {
             int screenWidth = displayMetrics.widthPixels - 20;
             imageView.setMaxWidth(screenWidth);
             imageView.setMaxHeight(screenWidth * 5);//这里其实可以根据需求而定，我这里测试为最大宽度的5倍
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("position", i);
             map.put("imgUrls", imageUrls);
             imageView.setTag(map);
@@ -175,14 +175,14 @@ public class CampusDetailActivity extends Activity {
     private View.OnClickListener imageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Map<String,Object> map = (Map<String, Object>) v.getTag();
+            Map<String, Object> map = (Map<String, Object>) v.getTag();
             List<String> bigPictureUrl = (List<String>) map.get("imgUrls");
             if (null == bigPictureUrl || 0 == bigPictureUrl.size()) {
                 ToastToolUtils.showLong("无有效图片");
                 return;
             }
             ImageShowControl imageShowControl = new ImageShowControl(CampusDetailActivity.this);
-            imageShowControl.showWindow(v, bigPictureUrl,ConvertUtils.getInteger(map.get("position"),0));
+            imageShowControl.showWindow(v, bigPictureUrl, ConvertUtils.getInteger(map.get("position"), 0));
         }
     };
 
@@ -204,7 +204,7 @@ public class CampusDetailActivity extends Activity {
     private void partInComment(boolean isEnable) {
         rgSuggest.setEnabled(isEnable);
         btnSubmit.setEnabled(isEnable);
-        btnSubmit.setText("您已提交过");
+        btnSubmit.setText(isEnable ? "提交" : "您已提交过");
         setRadioButtonEnable(isEnable);
     }
 

@@ -13,6 +13,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
@@ -155,12 +156,15 @@ public class KidSchoolActivity extends BaseActivity {
     }
 
     private void getDynamicData() {
+        mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<String, Object>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
-        MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, null, new MyIon.AfterCallBack() {
+        params.put("classId", loginUserEntity.classId);
+        MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {

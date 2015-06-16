@@ -8,6 +8,7 @@ import com.fmc.edu.adapter.CampusListAdapter;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.DynamicItemEntity;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
@@ -65,10 +66,12 @@ public class CampusActivity extends BaseActivity {
 
     private void getCampusData() {
         mProgressControl.showWindow();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
+        params.put("classId", loginUserEntity.classId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.Campus));
         MyIon.httpPost(CampusActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override

@@ -154,12 +154,15 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
     };
 
     private void getDynamicData() {
+        mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<String, Object>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
         params.put("pageSize", Constant.PAGE_SIZE);
-        params.put("userId", FmcApplication.getLoginUser().userId);
+        params.put("userId", loginUserEntity.userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
-        MyIon.httpPost(ClassDynamicActivity.this, "news/requestNewsList", params, null, new MyIon.AfterCallBack() {
+        params.put("classId", loginUserEntity.classId);
+        MyIon.httpPost(ClassDynamicActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 if (null == data.get("newsList")) {
