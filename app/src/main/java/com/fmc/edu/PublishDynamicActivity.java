@@ -118,7 +118,7 @@ public class PublishDynamicActivity extends BaseActivity {
         @Override
         public void onOperateClick(View v) {
             if (StringUtils.isEmptyOrNull(editContent.getText())) {
-                ToastToolUtils.showLong("请输入内容呢");
+                ToastToolUtils.showLong("请输入内容");
                 return;
             }
             mProgressControl.showWindow();

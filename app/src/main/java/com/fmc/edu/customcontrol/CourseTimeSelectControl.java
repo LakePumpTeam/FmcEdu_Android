@@ -14,7 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.fmc.edu.R;
+import com.fmc.edu.utils.ToastToolUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -89,8 +92,19 @@ public class CourseTimeSelectControl extends PopupWindow {
             if (null == mOnOperateOnClickListener) {
                 return;
             }
-            mOnOperateOnClickListener.onOperateOnClick(mParentView, pickerStartTime.getSelectTime(), pickerEndTime.getSelectTime());
-            dismiss();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+            try {
+                Date beginDate = simpleDateFormat.parse(pickerStartTime.getSelectTime());
+                Date endDate = simpleDateFormat.parse(pickerEndTime.getSelectTime());
+                if (beginDate.getTime() > endDate.getTime()) {
+                    ToastToolUtils.showLong("上课时间不能大于下课时间");
+                    return;
+                }
+                mOnOperateOnClickListener.onOperateOnClick(mParentView, pickerStartTime.getSelectTime(), pickerEndTime.getSelectTime());
+                dismiss();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     };
 

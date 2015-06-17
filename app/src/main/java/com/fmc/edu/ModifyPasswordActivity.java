@@ -67,7 +67,7 @@ public class ModifyPasswordActivity extends BaseActivity {
         MyIon.httpPost(this, "profile/requestAlterPwd", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                ToastToolUtils.showLong("修改成功!");
+                ToastToolUtils.showShort("修改成功!");
                 afterModifyPassword();
             }
         });

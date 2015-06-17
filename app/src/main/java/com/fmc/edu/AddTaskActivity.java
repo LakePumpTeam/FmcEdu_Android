@@ -67,6 +67,23 @@ public class AddTaskActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             try {
+                if (StringUtils.isEmptyOrNull(txtManager.getText())) {
+                    ToastToolUtils.showLong("请选择学生");
+                    return;
+                }
+
+                if (StringUtils.isEmptyOrNull(txtFinishTime.getText())) {
+                    ToastToolUtils.showLong("请选择时间");
+                    return;
+                }
+                if (StringUtils.isEmptyOrNull(editSubject.getText())) {
+                    ToastToolUtils.showLong("请输入任务标题");
+                    return;
+                }
+                if (StringUtils.isEmptyOrNull(editContent.getText())) {
+                    ToastToolUtils.showLong("请输入任务内容");
+                    return;
+                }
                 mProgressControl.showWindow();
                 Builders.Any.B withB = MyIon.with(AddTaskActivity.this).load(AppConfigUtils.getServiceHost() + "task/publishTask");
                 withB.setMultipartParameter("userId", StringUtils.base64Encode(FmcApplication.getLoginUser().userId))

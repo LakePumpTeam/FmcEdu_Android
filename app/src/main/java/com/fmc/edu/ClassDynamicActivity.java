@@ -189,6 +189,11 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         Map<String, Object> params = new HashMap<>();
         params.put("newsId", mNewsId);
         params.put("userId", FmcApplication.getLoginUser().userId);
+        char[] chars = new char[editComment.getText().length()];
+        editComment.getText().getChars(0, editComment.getText().length(), chars, 0);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(chars);
+
         params.put("content", editComment.getText());
         MyIon.httpPost(this, "news/postComment", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
