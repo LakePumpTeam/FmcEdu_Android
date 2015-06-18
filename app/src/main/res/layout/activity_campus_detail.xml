@@ -84,14 +84,14 @@
                 android:layout_height="10dp"
                 android:background="@color/activity_bg_color" />
 
-            <RadioGroup
-                android:id="@+id/campus_detail_rg_suggest"
+            <LinearLayout
+                android:id="@+id/campus_detail_ll_suggest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:orientation="vertical">
-            </RadioGroup>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/campus_detail_btn_submit"
