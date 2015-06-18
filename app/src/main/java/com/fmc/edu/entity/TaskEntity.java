@@ -42,7 +42,7 @@ public class TaskEntity implements Serializable {
         taskEntity.content = ConvertUtils.getString(data.get("task"), "");
         taskEntity.studentId = ConvertUtils.getInteger(data.get("studentId"), 0);
         taskEntity.deadline = ConvertUtils.getString(data.get("deadline"), "");
-        taskEntity.status = ConvertUtils.getInteger(data.get("status"), 0);
+        taskEntity.status = ConvertUtils.getInteger(data.get("completeStatus"), 0);
         taskEntity.userRole = UserRoleEnum.getEnumValue(ConvertUtils.getInteger(data.get("userRole"), 0));
         taskEntity.commentList = CommentItemEntity.toCommentEntityList(ConvertUtils.getList(data.get("commentList")));
         return taskEntity;
