@@ -163,7 +163,7 @@ public class CampusDetailActivity extends BaseActivity {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("newsId", mBundle.getInt("newsId"));
             params.put("userId", FmcApplication.getLoginUser().userId);
-            params.put("selectionId", selectIds);
+            params.put("selectionIds", selectIds);
             MyIon.httpPost(CampusDetailActivity.this, "news/submitParticipation", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
