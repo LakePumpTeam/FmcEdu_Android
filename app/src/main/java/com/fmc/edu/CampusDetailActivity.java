@@ -56,7 +56,7 @@ public class CampusDetailActivity extends BaseActivity {
     private void initView() {
         btnSubmit = (Button) findViewById(R.id.campus_detail_btn_submit);
         llPicture = (LinearLayout) findViewById(R.id.campus_detail_ll_picture);
-        llSuggest = (RadioGroup) findViewById(R.id.campus_detail_ll_suggest);
+        llSuggest = (LinearLayout) findViewById(R.id.campus_detail_ll_suggest);
         txtTitle = (TextView) findViewById(R.id.campus_detail_txt_title);
         txtContent = (TextView) findViewById(R.id.campus_detail_txt_content);
         txtDate = (TextView) findViewById(R.id.campus_detail_txt_date);
