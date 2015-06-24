@@ -1,11 +1,9 @@
 package com.fmc.edu;
 
 import android.accounts.NetworkErrorException;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -13,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.MultiSelectListControl;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.MultiCommonEntity;
 import com.fmc.edu.http.FMCMapFutureCallback;
 import com.fmc.edu.http.MyIon;
@@ -23,12 +20,13 @@ import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.ion.builder.Builders;
 
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 
 public class AddTaskActivity extends BaseActivity {
@@ -76,6 +74,15 @@ public class AddTaskActivity extends BaseActivity {
                     ToastToolUtils.showLong("请选择时间");
                     return;
                 }
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                long finishSpan = simpleDateFormat.parse(txtFinishTime.getText().toString()).getTime();
+                long nowSpan = simpleDateFormat.parse(simpleDateFormat.format(calendar.getTime())).getTime();
+                if (finishSpan < nowSpan) {
+                    ToastToolUtils.showLong("结束日期不能小于当前日期");
+                    return;
+                }
+
                 if (StringUtils.isEmptyOrNull(editSubject.getText())) {
                     ToastToolUtils.showLong("请输入任务标题");
                     return;
@@ -105,6 +112,8 @@ public class AddTaskActivity extends BaseActivity {
                         });
 
             } catch (NetworkErrorException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
