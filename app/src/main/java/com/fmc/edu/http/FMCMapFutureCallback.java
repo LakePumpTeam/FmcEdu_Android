@@ -30,7 +30,7 @@ public abstract class FMCMapFutureCallback implements FutureCallback<String> {
         }
 
         if (null != e || result.contains("403 Forbidden") || result.contains("404")) {
-            ToastToolUtils.showLong("服务器出问题...");
+            ToastToolUtils.showLong("服务器连接失败...");
             return;
         }
         if (result.contains("Service Unavailable")) {
