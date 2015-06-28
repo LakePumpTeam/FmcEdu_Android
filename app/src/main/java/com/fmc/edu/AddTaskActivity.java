@@ -176,7 +176,7 @@ public class AddTaskActivity extends BaseActivity {
 
     private void getStudentList() {
         Map<String, Object> param = new HashMap<>();
-        param.put("teacherId", FmcApplication.getLoginUser().userId);
+        param.put("classId", FmcApplication.getLoginUser().classId);
         MyIon.httpPost(AddTaskActivity.this, "school/requestStudentList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
