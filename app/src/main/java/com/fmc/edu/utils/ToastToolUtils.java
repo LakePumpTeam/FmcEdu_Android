@@ -9,7 +9,7 @@ import com.fmc.edu.FmcApplication;
  */
 public class ToastToolUtils {
     public static void showLong(String msg) {
-        Toast.makeText(FmcApplication.getApplication(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(FmcApplication.getApplication(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void showShort(String msg) {

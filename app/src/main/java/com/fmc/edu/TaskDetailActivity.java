@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -21,14 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fmc.edu.adapter.TaskDetailCommentAdapter;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CommentItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -90,16 +87,16 @@ public class TaskDetailActivity extends BaseActivity {
         }
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
 
-        if (mTaskEntity.status == 1) {
-            topBar.setTopBarOperateImg(0);
-            editContent.setEnabled(false);
-        } else if (loginUserEntity.userRole == UserRoleEnum.Parent) {
+        if (loginUserEntity.userRole == UserRoleEnum.Parent) {
             editContent.setEnabled(false);
             topBar.setTopBarOperateImg(R.mipmap.btn_finish);
 
         } else if (loginUserEntity.userRole == UserRoleEnum.Teacher) {
             topBar.setTopBarOperateImg(R.mipmap.btn_save);
             editContent.setEnabled(true);
+        } else if (mTaskEntity.status == 1) {
+            topBar.setTopBarOperateImg(0);
+            editContent.setEnabled(false);
         }
         String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
         topBar.setTopBarText(title);
