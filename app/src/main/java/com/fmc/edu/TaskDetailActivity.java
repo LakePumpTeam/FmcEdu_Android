@@ -86,17 +86,17 @@ public class TaskDetailActivity extends BaseActivity {
             return;
         }
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-
-        if (loginUserEntity.userRole == UserRoleEnum.Parent) {
+         if (mTaskEntity.status == 1) {
+            topBar.setTopBarOperateImg(0);
+            editContent.setEnabled(false);
+        }
+        else if (loginUserEntity.userRole == UserRoleEnum.Parent) {
             editContent.setEnabled(false);
             topBar.setTopBarOperateImg(R.mipmap.btn_finish);
 
         } else if (loginUserEntity.userRole == UserRoleEnum.Teacher) {
             topBar.setTopBarOperateImg(R.mipmap.btn_save);
             editContent.setEnabled(true);
-        } else if (mTaskEntity.status == 1) {
-            topBar.setTopBarOperateImg(0);
-            editContent.setEnabled(false);
         }
         String title = mTaskEntity.title.length() > 6 ? mTaskEntity.title.substring(0, 6) : mTaskEntity.title;
         topBar.setTopBarText(title);

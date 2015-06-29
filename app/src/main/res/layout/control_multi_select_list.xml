@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/select_list_bg_color"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/select_list_bg_color">
 
     <RelativeLayout
         android:id="@+id/multi_select_list_ll_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
+        android:layout_alignParentTop="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_padding_middle">
@@ -36,12 +36,17 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <View style="@style/HorizontalDividerLineStyle" />
+    <View
+        android:id="@+id/multi_select_view_line"
+        style="@style/HorizontalDividerLineStyle"
+        android:layout_below="@+id/multi_select_list_ll_title" />
 
     <com.fmc.edu.customcontrol.SlideListView
         android:id="@+id/multi_select_slide_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/multi_select_btn_ok"
+        android:layout_below="@+id/multi_select_view_line"
         android:background="@color/select_list_bg_color"
         android:divider="@null"
         android:dividerHeight="0dp"
@@ -50,7 +55,14 @@
     <Button
         android:id="@+id/multi_select_btn_ok"
         style="@style/OvalButtonStyle"
-        android:layout_gravity="bottom"
+        android:layout_above="@+id/multi_select_view_line_1"
         android:layout_margin="@dimen/activity_margin"
         android:text="@string/btn_ok" />
-</LinearLayout>
+
+    <View
+        android:id="@+id/multi_select_view_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

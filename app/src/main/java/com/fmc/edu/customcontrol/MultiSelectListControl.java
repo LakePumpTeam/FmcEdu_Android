@@ -63,7 +63,7 @@ public class MultiSelectListControl extends PopupWindow {
     private void initContentView() {
         LinearLayout linearLayout = new LinearLayout(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
-        linearLayout.setPadding(40, 30, 40, 30);
+        linearLayout.setPadding(40, 30, 40, 80);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
