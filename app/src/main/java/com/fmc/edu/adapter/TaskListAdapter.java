@@ -14,7 +14,6 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.HashMap;
@@ -58,8 +57,7 @@ public class TaskListAdapter extends FmcBaseAdapter<TaskEntity> {
             imgStatus.setImageResource(R.mipmap.ic_finish);
         } else {
             if (loginUserEntity.userRole == UserRoleEnum.Parent) {
-                imgStatus.setEnabled(false);
-                imgStatus.setImageResource(R.mipmap.ic_un_finish);
+                imgStatus.setVisibility(View.GONE);
             } else {
                 imgStatus.setImageResource(R.mipmap.ic_un_finish);
                 imgStatus.setEnabled(true);
