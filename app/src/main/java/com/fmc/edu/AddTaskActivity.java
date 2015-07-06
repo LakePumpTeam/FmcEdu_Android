@@ -112,8 +112,10 @@ public class AddTaskActivity extends BaseActivity {
                         });
 
             } catch (NetworkErrorException e) {
+                mProgressControl.dismiss();
                 e.printStackTrace();
             } catch (ParseException e) {
+                mProgressControl.dismiss();
                 e.printStackTrace();
             }
         }
