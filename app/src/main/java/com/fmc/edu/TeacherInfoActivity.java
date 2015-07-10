@@ -1,9 +1,8 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -12,9 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.Calendar;
@@ -90,7 +88,7 @@ public class TeacherInfoActivity extends BaseActivity {
     private View.OnClickListener btnSubmitListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Map<String, Object> params = new HashMap<String, Object>();
+            final Map<String, Object> params = new HashMap<String, Object>();
             params.put("teacherId", mBundle.getInt("teacherId"));
             params.put("teacherName", editName.getText());
             params.put("teacherBirth", txtBirth.getText());
@@ -103,6 +101,17 @@ public class TeacherInfoActivity extends BaseActivity {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ToastToolUtils.showLong("修改成功");
+                    if (null == mBundle || !mBundle.getBoolean("isModify")) {
+                        return;
+                    }
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("teacherSex", ConvertUtils.getBoolean( params.get("teacherSex")));
+                    bundle.putString("teacherName", ConvertUtils.getString( params.get("teacherName")));
+                    bundle.putString("cellPhone", ConvertUtils.getString(params.get("cellPhone")));
+                    intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
+                    TeacherInfoActivity.this.finish();
                 }
             });
         }

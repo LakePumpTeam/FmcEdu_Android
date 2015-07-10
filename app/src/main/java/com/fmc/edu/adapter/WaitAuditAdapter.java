@@ -13,7 +13,6 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.http.MyIon;
-import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.util.HashMap;
@@ -29,6 +28,10 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
         super(context, list);
     }
 
+    public void  updateStatus(int position,int status){
+        mItems.get(position).auditStatus = status;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (null == convertView) {
@@ -37,34 +40,37 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
         WaitAuditHolder holder = new WaitAuditHolder();
         TextView txtCellphone = (TextView) convertView.findViewById(R.id.item_wait_audit_txt_cellphone);
         TextView txtParentName = (TextView) convertView.findViewById(R.id.item_wait_audit_txt_parent_name);
-        holder.btnAgree = (Button) convertView.findViewById(R.id.item_wait_audit_btn_agree);
-        holder.btnRefuse = (Button) convertView.findViewById(R.id.item_wait_audit_btn_refuse);
+        Button btnAgree = (Button) convertView.findViewById(R.id.item_wait_audit_btn_agree);
+        Button btnRefuse = (Button) convertView.findViewById(R.id.item_wait_audit_btn_refuse);
+        holder.btnAgree = btnAgree;
+        holder.btnRefuse = btnRefuse;
         WaitAuditEntity item = mItems.get(position);
         holder.item = mItems.get(position);
+        holder.position = position;
         txtCellphone.setText(item.cellphone);
         txtParentName.setText(item.parentName);
         txtParentName.setTag(item.parentId);
         int auditStatus = item.auditStatus;
         if (auditStatus == 1) {
-            holder.btnAgree.setEnabled(false);
-            holder.btnAgree.setText("已通过");
-            holder.btnRefuse.setEnabled(true);
-            holder.btnRefuse.setText("  拒绝  ");
+            btnAgree.setEnabled(false);
+            btnAgree.setText("已通过");
+            btnRefuse.setEnabled(true);
+            btnRefuse.setText("  拒绝  ");
         } else if (auditStatus == 2) {
-            holder.btnRefuse.setEnabled(false);
-            holder.btnRefuse.setText("已拒绝");
-            holder.btnAgree.setEnabled(true);
-            holder.btnAgree.setText("  通过  ");
+           btnRefuse.setEnabled(false);
+           btnRefuse.setText("已拒绝");
+           btnAgree.setEnabled(true);
+           btnAgree.setText("  通过  ");
         } else {
-            holder.btnRefuse.setEnabled(true);
-            holder.btnRefuse.setText("  拒绝  ");
-            holder.btnAgree.setEnabled(true);
-            holder.btnAgree.setText("  通过  ");
+            btnRefuse.setEnabled(true);
+            btnRefuse.setText("  拒绝  ");
+            btnAgree.setEnabled(true);
+            btnAgree.setText("  通过  ");
         }
-        holder.btnAgree.setTag(holder);
-        holder.btnRefuse.setTag(holder);
-        holder.btnAgree.setOnClickListener(btnAgreeOnClickListener);
-        holder.btnRefuse.setOnClickListener(btnRefuseOnClickListener);
+        btnAgree.setTag(holder);
+        btnRefuse.setTag(holder);
+        btnAgree.setOnClickListener(btnAgreeOnClickListener);
+        btnRefuse.setOnClickListener(btnRefuseOnClickListener);
         txtParentName.setOnClickListener(txtParentNameOnClickListener);
         return convertView;
     }
@@ -104,8 +110,6 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
     };
 
     private void auditParentRegister(final View view, final WaitAuditHolder holder) {
-        // ProgressControl mProgressControl = new ProgressControl(mContext);
-        //  mProgressControl.showWindow(view);
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(mContext);
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", loginUserEntity.userId);
@@ -125,6 +129,7 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
                     holder.btnRefuse.setEnabled(false);
                     holder.btnAgree.setText("  通过  ");
                 }
+                updateStatus(holder.position,holder.auditStatus);
             }
         });
     }
@@ -134,5 +139,6 @@ public class WaitAuditAdapter extends FmcBaseAdapter<WaitAuditEntity> {
         public Button btnAgree;
         public Button btnRefuse;
         public int auditStatus;
+        public  int  position;
     }
 }

@@ -34,6 +34,18 @@ public class ServicePreferenceUtils {
         editor.commit();
     }
 
+    public static void saveUserNamePreference(Context context, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userName", userName);
+        editor.commit();
+    }
+    public static void saveCellphonePreference(Context context, String cellPhone) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("cellphone", cellPhone);
+        editor.commit();
+    }
     public static void saveClassIdPreference(Context context, int classId) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("loginUser", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

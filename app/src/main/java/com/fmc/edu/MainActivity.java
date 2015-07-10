@@ -14,7 +14,6 @@ import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
-import com.fmc.edu.entity.CourseEntity;
 import com.fmc.edu.entity.TaskEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.entity.WeekCourseEntity;
@@ -28,7 +27,6 @@ import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -398,7 +396,11 @@ public class MainActivity extends BaseActivity {
                 bundle.putBoolean("isModify", isModify);
                 Intent intent = new Intent(MainActivity.this, TeacherInfoActivity.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                if (isModify) {
+                    startActivityForResult(intent, RequestCodeUtils.EDIT_TEACHER);
+                } else {
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -454,7 +456,26 @@ public class MainActivity extends BaseActivity {
             menuGradeDynamic.setHasDynamic(true);
             return;
         }
+        if (requestCode == RequestCodeUtils.EDIT_TEACHER) {
+            updateTeacherInfo(data.getExtras());
+            return;
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
 
     }
+
+    private void updateTeacherInfo(Bundle bundle) {
+        txtTeacher.setText(ConvertUtils.getString(bundle.getString("teacherName"), ""));
+        if (bundle.getBoolean("teacherSex")) {
+            circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_boy));
+        } else {
+            circleImgHeadPhoto.setImageDrawable(getResources().getDrawable(R.mipmap.head_photo_girl));
+        }
+        ServicePreferenceUtils.saveSexPreference(this, bundle.getBoolean("teacherSex"));
+        ServicePreferenceUtils.saveUserNamePreference(this, bundle.getString("teacherName"));
+        ServicePreferenceUtils.saveCellphonePreference(this, bundle.getString("cellPhone"));
+    }
+
+
 }
