@@ -24,6 +24,7 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class MainActivity extends BaseActivity {
     private MenuItemControl menuCampus;
     private MenuItemControl menuLocation;
     private MenuItemControl menuAudit;
+    private MenuItemControl menuPickup;
+   private  MenuItemControl menuTimeWork;
     private TextView txtTeacher;
     private TextView txtClassGrade;
     private TopBarControl topBar;
@@ -81,6 +84,8 @@ public class MainActivity extends BaseActivity {
         menuCampus = (MenuItemControl) findViewById(R.id.main_menu_campus);
         menuLocation = (MenuItemControl) findViewById(R.id.main_menu_location);
         menuAudit = (MenuItemControl) findViewById(R.id.main_menu_audit);
+        menuPickup = (MenuItemControl) findViewById(R.id.main_menu_pickup);
+        menuTimeWork = (MenuItemControl) findViewById(R.id.main_menu_timework);
         txtTeacher = (TextView) findViewById(R.id.main_txt_teacher);
         txtClassGrade = (TextView) findViewById(R.id.main_txt_class_grade);
         topBar = (TopBarControl) findViewById(R.id.main_top_bar);
@@ -100,6 +105,8 @@ public class MainActivity extends BaseActivity {
         menuCampus.setOnClickListener(menuItemOnClickListener);
         menuLocation.setOnClickListener(menuItemOnClickListener);
         menuAudit.setOnClickListener(menuItemOnClickListener);
+        menuPickup.setOnClickListener(menuItemOnClickListener);
+        menuTimeWork.setOnClickListener(menuItemOnClickListener);
         circleImgHeadPhoto.setOnClickListener(photoOnClickListener);
         txtTeacher.setOnClickListener(txtTeacherOnClickListener);
     }
@@ -249,6 +256,12 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_menu_audit:
                     gotoWaitAuditActivity();
+                    break;
+                case  R.id.main_menu_pickup:
+                    ToastToolUtils.showShort("正在实现中...");
+                    break;
+                case  R.id.main_menu_timework:
+                    ToastToolUtils.showShort("正在实现中...");
                     break;
                 default:
                     break;
