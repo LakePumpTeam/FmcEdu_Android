@@ -1,5 +1,6 @@
 package com.fmc.edu;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -8,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.android.pushservice.CustomPushNotificationBuilder;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushNotificationBuilder;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
@@ -20,6 +25,7 @@ import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
@@ -46,7 +52,7 @@ public class MainActivity extends BaseActivity {
     private MenuItemControl menuLocation;
     private MenuItemControl menuAudit;
     private MenuItemControl menuPickup;
-   private  MenuItemControl menuTimeWork;
+    private MenuItemControl menuTimeWork;
     private TextView txtTeacher;
     private TextView txtClassGrade;
     private TopBarControl topBar;
@@ -62,6 +68,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_main);
         initViews();
+        StillStartService.startStillStartService(this);
         mBundle = getIntent().getExtras();
         initViewEvents();
         afterInitData();
@@ -257,10 +264,10 @@ public class MainActivity extends BaseActivity {
                 case R.id.main_menu_audit:
                     gotoWaitAuditActivity();
                     break;
-                case  R.id.main_menu_pickup:
+                case R.id.main_menu_pickup:
                     ToastToolUtils.showShort("正在实现中...");
                     break;
-                case  R.id.main_menu_timework:
+                case R.id.main_menu_timework:
                     ToastToolUtils.showShort("正在实现中...");
                     break;
                 default:
