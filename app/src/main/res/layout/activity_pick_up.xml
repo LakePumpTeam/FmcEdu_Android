@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/activity_bg_color_write"
+    android:layout_height="match_parent">
+
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:id="@+id/class_dynamic_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:layout_alignParentTop="true"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_pick_up" />
+</RelativeLayout>

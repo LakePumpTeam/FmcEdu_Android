@@ -101,6 +101,8 @@
     <string name="txt_start_time">上课时间</string>
     <string name="txt_end_time">下课时间</string>
     <string name="title_activity_start_page">StartPageActivity</string>
+    <string name="title_activity_time_work">校园考勤</string>
+    <string name="title_activity_pick_up">接送记录</string>
 
 
 </resources>

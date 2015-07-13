@@ -15,6 +15,7 @@ import com.baidu.android.pushservice.PushManager;
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.MainActivity;
 import com.fmc.edu.R;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class StillStartService extends Service {
         if (PushManager.isConnected(FmcApplication.getApplication()) && PushManager.isPushEnabled(FmcApplication.getApplication())) {
             return;
         }
-        PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, "SLHL6GPxiQo6niknDQEI1c1V");
+        PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
     }
 
     @Override

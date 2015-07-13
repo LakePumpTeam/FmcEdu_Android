@@ -20,11 +20,17 @@ public class AppConfigUtils {
     private static String PAGE_SIZE = "com.fmc.edu.page_size";
     private static String DEVELOPER_TWO = "com.fmc.edu.two";
     private static String DEVELOPER_THREE = "com.fmc.edu.three";
+    private static String DEVELOPER_FOUR = "com.fmc.edu.four";
+    private static String BAIDU_APPKEY = "baiDuAppKey";
 
     private static Map<String, Object> configCacheMap = new HashMap<String, Object>(10);
 
     public static String getServiceHost() {
         return ConvertUtils.getString(getValue(SERVICE_HOST, null));
+    }
+
+    public static String getBaiduAppKey() {
+        return ConvertUtils.getString(getValue(BAIDU_APPKEY, ""));
     }
 
     public static boolean isDevelopment() {
@@ -39,6 +45,11 @@ public class AppConfigUtils {
     public static boolean isDevelopThree() {
         return ConvertUtils.getBoolean(getValue(DEVELOPER_THREE, true));
     }
+
+    public static boolean isDevelopFour() {
+        return ConvertUtils.getBoolean(getValue(DEVELOPER_FOUR, true));
+    }
+
 
     public static String getVersion(Context context) {
         try {

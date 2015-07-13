@@ -1,6 +1,5 @@
 package com.fmc.edu;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -9,10 +8,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.android.pushservice.CustomPushNotificationBuilder;
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
-import com.baidu.android.pushservice.PushNotificationBuilder;
 import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.CircleImageControl;
 import com.fmc.edu.customcontrol.MenuItemControl;
@@ -26,12 +21,10 @@ import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.receiver.AlarmReceiver;
-import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
-import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -266,10 +259,14 @@ public class MainActivity extends BaseActivity {
                     gotoWaitAuditActivity();
                     break;
                 case R.id.main_menu_pickup:
-                    ToastToolUtils.showShort("正在实现中...");
+                    if(AppConfigUtils.isDevelopFour()) {
+                    gotoPickUpActivity();
+                    }
                     break;
                 case R.id.main_menu_timework:
-                    ToastToolUtils.showShort("正在实现中...");
+                    if(AppConfigUtils.isDevelopFour()) {
+                        gotoTimeWorkActivity();
+                    }
                     break;
                 default:
                     break;
@@ -468,6 +465,16 @@ public class MainActivity extends BaseActivity {
         startActivityForResult(intent, RequestCodeUtils.PUBLISH_CLASS_DYNAMIC);
     }
 
+    private void gotoPickUpActivity() {
+        Intent intent = new Intent(MainActivity.this, PickUpActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoTimeWorkActivity() {
+        Intent intent = new Intent(MainActivity.this, TimeWorkActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
@@ -497,6 +504,5 @@ public class MainActivity extends BaseActivity {
         ServicePreferenceUtils.saveUserNamePreference(this, bundle.getString("teacherName"));
         ServicePreferenceUtils.saveCellphonePreference(this, bundle.getString("cellPhone"));
     }
-
 
 }
