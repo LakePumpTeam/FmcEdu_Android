@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fmc.edu"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -53,10 +53,11 @@
     <application
         android:name=".FmcApplication"
         android:allowBackup="true"
-        android:persistent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.TransparencyDemo">
+        android:persistent="true"
+        android:sharedUserId="android.uid.system"
+        android:theme="@style/Theme.TransparencyDemo" >
         <meta-data
             android:name="com.fmc.edu.service_host"
             android:value="http://182.92.98.174/" />
@@ -88,7 +89,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -199,7 +200,7 @@
         <!-- 用于接收系统消息以保证PushService正常运行 -->
         <receiver
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -212,10 +213,9 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
                 <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
@@ -226,8 +226,7 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".receiver.PushMessageReceiver">
+        <receiver android:name=".receiver.PushMessageReceiver" >
             <intent-filter>
 
                 <!-- 接收push消息 -->
@@ -238,10 +237,9 @@
                 <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.fmc.edu.receiver.BootBroadcastReceiver">
+        <receiver android:name=".receiver.BootBroadcastReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="com.fmcedu.destroy" />
             </intent-filter>
@@ -250,26 +248,30 @@
         <service
             android:name="com.baidu.android.pushservice.CommandService"
             android:exported="true" />
-
         <service
             android:name="com.baidu.android.pushservice.PushService"
             android:exported="true"
-            android:process=":bdservice_v1">
+            android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.StillStartService"
-            android:enabled="true">
-            <intent-filter android:priority="1000">
-                <action android:name="com.fmcedu.myservi
-                ce" />
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.fmcedu.myservice" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="fmcedu.alarm.action"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
-
-
