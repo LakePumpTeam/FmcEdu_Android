@@ -25,6 +25,7 @@ import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.receiver.AlarmReceiver;
 import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         FmcApplication.addActivity(this, R.layout.activity_main);
         initViews();
-        StillStartService.startStillStartService(this);
+        AlarmReceiver.startAlarmReceiver(this);
         mBundle = getIntent().getExtras();
         initViewEvents();
         afterInitData();

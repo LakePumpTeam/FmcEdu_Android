@@ -43,19 +43,18 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- 允许应用打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-
+    <!--android:persistent="true"-->
     <application
         android:name=".FmcApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:persistent="true"
+
         android:sharedUserId="android.uid.system"
         android:theme="@style/Theme.TransparencyDemo" >
         <meta-data
@@ -240,8 +239,6 @@
         <receiver android:name=".receiver.BootBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="com.fmcedu.destroy" />
             </intent-filter>
         </receiver>
 

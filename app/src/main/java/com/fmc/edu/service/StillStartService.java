@@ -15,6 +15,7 @@ import com.baidu.android.pushservice.PushManager;
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.MainActivity;
 import com.fmc.edu.R;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class StillStartService extends Service {
         if (isServiceRunning(context)) {
             return;
         }
-
+        ToastToolUtils.showShort("启动服务");
         Intent service = new Intent(context, StillStartService.class);
         context.startService(service);
     }
@@ -61,7 +62,7 @@ public class StillStartService extends Service {
 
     @Override
     public void onDestroy() {
-        Intent intent = new Intent("com.fmcedu.destroy");
+        Intent intent = new Intent("fmcedu.alarm.action");
         sendBroadcast(intent);
     }
 }
