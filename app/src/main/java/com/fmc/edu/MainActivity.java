@@ -25,6 +25,7 @@ import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.fmc.edu.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -259,12 +260,12 @@ public class MainActivity extends BaseActivity {
                     gotoWaitAuditActivity();
                     break;
                 case R.id.main_menu_pickup:
-                    if(AppConfigUtils.isDevelopFour()) {
-                    gotoPickUpActivity();
+                    if (AppConfigUtils.isDevelopFour()) {
+                        gotoPickUpActivity();
                     }
                     break;
                 case R.id.main_menu_timework:
-                    if(AppConfigUtils.isDevelopFour()) {
+                    if (AppConfigUtils.isDevelopFour()) {
                         gotoTimeWorkActivity();
                     }
                     break;
@@ -467,12 +468,71 @@ public class MainActivity extends BaseActivity {
 
     private void gotoPickUpActivity() {
         Intent intent = new Intent(MainActivity.this, PickUpActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) buildPickUpData());
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     private void gotoTimeWorkActivity() {
+
+//        mProgressControl.showWindow();
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+//        params.put("pageIndex", 1);
+//        params.put("pageSize", Constant.PAGE_SIZE);
+//        params.put("userId", loginUserEntity.userId);
+//        MyIon.httpPost(MainActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
+//            @Override
+//            public void afterCallBack(Map<String, Object> data) {
+//                menuCampus.setHasDynamic(false);
+//                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("list", (Serializable) DynamicItemEntity.toDynamicItemEntity(list));
+//                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+//                Intent intent = new Intent(MainActivity.this, CampusActivity.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
+
         Intent intent = new Intent(MainActivity.this, TimeWorkActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) buildTimeWorkData());
+        intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private List<Map<String, Object>> buildTimeWorkData() {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            Map<String, Object> item = new HashMap<>();
+            String date = "2015-07-0" + (i + 1);
+            item.put("date", date);
+            item.put("week", StringUtils.dayForWeek(date));
+            item.put("time", "10:20:00");
+            item.put("sign", i % 2 == 0);
+            list.add(item);
+        }
+        return list;
+
+    }
+
+    private List<Map<String, Object>> buildPickUpData() {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            Map<String, Object> item = new HashMap<>();
+            String date = "2015-07-0" + (i + 1);
+            item.put("date", date);
+            item.put("week", StringUtils.dayForWeek(date));
+            item.put("time", "10:20:00");
+            item.put("parent", "张三" + i);
+            list.add(item);
+        }
+        return list;
+
     }
 
     @Override

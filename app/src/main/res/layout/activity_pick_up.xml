@@ -1,14 +1,143 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/activity_bg_color_write"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    <com.fmc.edu.customcontrol.TopBarControl
-        android:id="@+id/class_dynamic_top_bar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
-        android:layout_alignParentTop="true"
-        fmc:backVisible="true"
-        fmc:topTitle="@string/title_activity_pick_up" />
-</RelativeLayout>
+        android:background="@color/activity_top_bar_color"
+        android:paddingLeft="@dimen/activity_padding_middle">
+
+        <LinearLayout
+            android:id="@+id/pick_up_ll_back"
+            android:layout_width="@dimen/operate_icon_height"
+            android:layout_height="@dimen/operate_icon_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/operate_icon_core_width"
+                android:layout_height="@dimen/operate_icon_core_width"
+                android:scaleType="center"
+                android:src="@mipmap/ic_back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/title_activity_pick_up"
+                android:textColor="@color/activity_top_bar_font_color"
+                android:textSize="@dimen/font_size_large" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pick_up_ll_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/operate_icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:layout_toLeftOf="@+id/pick_up_ll_msg"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/top_bar_img_setting"
+                android:layout_width="@dimen/operate_icon_core_width"
+                android:layout_height="@dimen/operate_icon_core_height"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_setting" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pick_up_ll_msg"
+            android:layout_width="@dimen/operate_icon_height"
+            android:layout_height="@dimen/operate_icon_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_small"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/operate_icon_core_width"
+                android:layout_height="@dimen/operate_icon_core_height"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_msg" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider_bg_color"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/str_date"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/week"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/timework_time"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/str_parent"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <com.fmc.edu.customcontrol.SlideListView
+        android:id="@+id/pick_up_slide_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

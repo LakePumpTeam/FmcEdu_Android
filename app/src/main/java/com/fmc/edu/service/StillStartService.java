@@ -44,7 +44,6 @@ public class StillStartService extends Service {
         if (isServiceRunning(context)) {
             return;
         }
-        ToastToolUtils.showShort("启动服务");
         Intent service = new Intent(context, StillStartService.class);
         context.startService(service);
     }

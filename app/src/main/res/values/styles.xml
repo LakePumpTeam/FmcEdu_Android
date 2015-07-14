@@ -41,7 +41,11 @@
         <item name="android:layout_height">@dimen/divider_height</item>
         <item name="android:background">@color/divider_bg_color</item>
     </style>
-
+    <style name="VerticalDividerLineStyle">
+        <item name="android:layout_width">@dimen/divider_height</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/divider_bg_color</item>
+    </style>
     <style name="VerticalGradientDividerLineStyle">
         <item name="android:layout_width">@dimen/divider_height</item>
         <item name="android:layout_height">match_parent</item>
