@@ -108,6 +108,9 @@
     <string name="timework_time">时间</string>
     <string name="inorout">进出标志</string>
     <string name="str_parent">家长</string>
+    <string name="title_activity_teacher_pick">TeacherPickActivity</string>
+    <string name="title_activity_card_setting">CardSettingActivity</string>
+    <string name="title_activity_message_list">MessageListActivity</string>
 
 
 </resources>
