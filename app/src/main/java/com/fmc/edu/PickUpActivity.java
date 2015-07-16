@@ -8,6 +8,9 @@ import android.widget.LinearLayout;
 import com.fmc.edu.adapter.PickUpAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,12 +34,13 @@ public class PickUpActivity extends BaseActivity {
     private void findViews() {
         slideListView = (SlideListView) findViewById(R.id.pick_up_slide_list);
         llBack = (LinearLayout) findViewById(R.id.pick_up_ll_back);
-        llSetting = (LinearLayout) findViewById(R.id.pick_up_ll_setting);
         llMsgList = (LinearLayout) findViewById(R.id.pick_up_ll_msg);
     }
 
     private void bindViewEvent() {
         llBack.setOnClickListener(OnClickListener);
+        llSetting.setOnClickListener(OnClickListener);
+        llMsgList.setOnClickListener(OnClickListener);
     }
 
     private void initData() {
@@ -53,14 +57,36 @@ public class PickUpActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.pick_up_ll_setting:
-                    Intent intent = new Intent(PickUpActivity.this, CardSettingActivity.class);
-                    startActivity(intent);
+                    gotoCardSettingActivity();
                     break;
                 case R.id.pick_up_ll_msg:
-                    Intent intent1 = new Intent(PickUpActivity.this, MessageListActivity.class);
-                    startActivity(intent1);
+                    Intent messageListIntent = new Intent(PickUpActivity.this, MessageListActivity.class);
+                    startActivity(messageListIntent);
                     break;
             }
         }
     };
+
+
+    private void gotoCardSettingActivity() {
+        List<Map<String, Object>> list = bulidCardSettingData();
+        Intent cardSettingIntent = new Intent(PickUpActivity.this, CardSettingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) list);
+        cardSettingIntent.putExtras(bundle);
+        startActivity(cardSettingIntent);
+    }
+
+    private List<Map<String, Object>> bulidCardSettingData() {
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("cardNo", "100000" + i);
+            item.put("parent", "张三" + i);
+            item.put("isLose", i % 2 == 0);
+            item.put("comment", "备注" + i);
+            list.add(item);
+        }
+        return list;
+    }
 }

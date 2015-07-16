@@ -1,38 +1,35 @@
 package com.fmc.edu;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.fmc.edu.adapter.CardSettingAdapter;
+
+import java.util.List;
+import java.util.Map;
 
 
-public class CardSettingActivity extends ActionBarActivity {
+public class CardSettingActivity extends BaseActivity {
+
+    private ListView lvList;
+    private CardSettingAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_setting);
+        FmcApplication.addActivity(this, R.layout.activity_card_setting);
+        findViews();
+        initData();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_card_setting, menu);
-        return true;
+    private void findViews() {
+        lvList = (ListView) findViewById(R.id.card_setting_lv_list);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void initData() {
+        List<Map<String, Object>> list = (List<Map<String, Object>>) getIntent().getExtras().getSerializable("list");
+        mAdapter = new CardSettingAdapter(this, list);
+        lvList.setAdapter(mAdapter);
     }
+
 }

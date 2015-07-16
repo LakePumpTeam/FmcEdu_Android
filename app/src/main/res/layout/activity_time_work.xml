@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <com.fmc.edu.customcontrol.TopBarControl
-        android:id="@+id/class_dynamic_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         android:layout_alignParentTop="true"

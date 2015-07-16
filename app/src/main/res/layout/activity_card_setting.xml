@@ -1,12 +1,82 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.fmc.edu.CardSettingActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fmc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color_write"
+    android:orientation="vertical">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <com.fmc.edu.customcontrol.TopBarControl
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_top_bar_height"
+        android:layout_alignParentTop="true"
+        fmc:backVisible="true"
+        fmc:topTitle="@string/title_activity_card_setting" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider_bg_color"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/str_card_no"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/str_parent"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/lose"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <View style="@style/VerticalGradientDividerLineStyle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_weight="1"
+            android:background="@color/bg_syllabus"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/str_comment"
+            android:textColor="@color/text_font_color"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
+
+    <ListView
+        android:id="@+id/card_setting_lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
