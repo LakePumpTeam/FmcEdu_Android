@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
+import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/7/14.
  */
-public class PickUpAdapter extends FmcBaseAdapter<Map<String, Object>> {
-    public PickUpAdapter(Context context, List<Map<String, Object>> items) {
+public class PickUpAdapter extends FmcBaseAdapter<PickUpEntity> {
+    public PickUpAdapter(Context context, List<PickUpEntity> items) {
         super(context, items);
     }
 
@@ -31,11 +32,11 @@ public class PickUpAdapter extends FmcBaseAdapter<Map<String, Object>> {
         TextView txtTime = (TextView) convertView.findViewById(R.id.item_pick_up_txt_time);
         TextView txtParent = (TextView) convertView.findViewById(R.id.item_pick_up_txt_parent);
 
-        Map<String, Object> item = mItems.get(position);
-        txtDate.setText(ConvertUtils.getString(item.get("date"), ""));
-        txtWeek.setText(ConvertUtils.getString(item.get("week"), ""));
-        txtTime.setText(ConvertUtils.getString(item.get("time"), ""));
-        txtParent.setText(ConvertUtils.getString(item.get("parent"), ""));
+        PickUpEntity item = mItems.get(position);
+        txtDate.setText(item.date);
+        txtWeek.setText(item.week);
+        txtTime.setText(item.time);
+        txtParent.setText(item.parentName);
         return convertView;
     }
 }
