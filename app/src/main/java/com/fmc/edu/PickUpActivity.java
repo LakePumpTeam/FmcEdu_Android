@@ -60,8 +60,7 @@ public class PickUpActivity extends BaseActivity {
                     gotoCardSettingActivity();
                     break;
                 case R.id.pick_up_ll_msg:
-                    Intent messageListIntent = new Intent(PickUpActivity.this, MessageListActivity.class);
-                    startActivity(messageListIntent);
+                    MessageListActivity.startMessageActivity(PickUpActivity.this);
                     break;
             }
         }
@@ -69,7 +68,7 @@ public class PickUpActivity extends BaseActivity {
 
 
     private void gotoCardSettingActivity() {
-        List<Map<String, Object>> list = bulidCardSettingData();
+        List<Map<String, Object>> list = buildCardSettingData();
         Intent cardSettingIntent = new Intent(PickUpActivity.this, CardSettingActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("list", (Serializable) list);
@@ -77,12 +76,14 @@ public class PickUpActivity extends BaseActivity {
         startActivity(cardSettingIntent);
     }
 
-    private List<Map<String, Object>> bulidCardSettingData() {
+
+
+    private List<Map<String, Object>> buildCardSettingData() {
         List<Map<String, Object>> list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             Map<String, Object> item = new HashMap<>();
             item.put("cardNo", "100000" + i);
-            item.put("parent", "张三" + i);
+            item.put("parent", "家长" + i);
             item.put("isLose", i % 2 == 0);
             item.put("comment", "备注" + i);
             list.add(item);
