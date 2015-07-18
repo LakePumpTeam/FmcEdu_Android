@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.fmc.edu.adapter.PickUpAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.PickUpEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class PickUpActivity extends BaseActivity {
     private void findViews() {
         slideListView = (SlideListView) findViewById(R.id.pick_up_slide_list);
         llBack = (LinearLayout) findViewById(R.id.pick_up_ll_back);
+        llSetting = (LinearLayout) findViewById(R.id.pick_up_ll_setting);
         llMsgList = (LinearLayout) findViewById(R.id.pick_up_ll_msg);
     }
 
@@ -44,7 +46,7 @@ public class PickUpActivity extends BaseActivity {
     }
 
     private void initData() {
-        List<Map<String, Object>> list = (List<Map<String, Object>>) getIntent().getExtras().getSerializable("list");
+        List<PickUpEntity> list = (List<PickUpEntity>) getIntent().getExtras().getSerializable("list");
         mAdapter = new PickUpAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }

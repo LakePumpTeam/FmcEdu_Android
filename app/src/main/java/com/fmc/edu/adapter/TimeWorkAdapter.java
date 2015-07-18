@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
+import com.fmc.edu.entity.TimeWorkEntity;
 import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.Map;
 /**
  * Created by Candy on 2015/7/14.
  */
-public class TimeWorkAdapter extends FmcBaseAdapter<Map<String,Object>> {
-    public TimeWorkAdapter(Context context, List<Map<String,Object>> items) {
+public class TimeWorkAdapter extends FmcBaseAdapter<TimeWorkEntity> {
+    public TimeWorkAdapter(Context context, List<TimeWorkEntity> items) {
         super(context, items);
     }
 
@@ -31,11 +32,11 @@ public class TimeWorkAdapter extends FmcBaseAdapter<Map<String,Object>> {
         TextView txtTime = (TextView) convertView.findViewById(R.id.item_time_work_txt_time);
         TextView txtSign = (TextView) convertView.findViewById(R.id.item_time_work_txt_sign);
 
-        Map<String,Object> item = mItems.get(position);
-        txtDate.setText(ConvertUtils.getString(item.get("date"), ""));
-        txtWeek.setText(ConvertUtils.getString(item.get("week"), ""));
-        txtTime.setText(ConvertUtils.getString(item.get("time"), ""));
-        txtSign.setText(ConvertUtils.getBoolean(item.get("date"), false) ? "进" : "出");
+        TimeWorkEntity item = mItems.get(position);
+        txtDate.setText(item.date);
+        txtWeek.setText(item.week);
+        txtTime.setText(item.time);
+        txtSign.setText(item.sign ? "进" : "出");
         return convertView;
     }
 }

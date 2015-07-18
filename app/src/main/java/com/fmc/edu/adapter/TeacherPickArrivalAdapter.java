@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.entity.PickUpEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,16 @@ import java.util.List;
 public class TeacherPickArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
     public TeacherPickArrivalAdapter(Context context, List<PickUpEntity> items) {
         super(context, items);
+    }
+
+    public void addAllItems(List<PickUpEntity> list, boolean isClear) {
+        if (null == mItems) {
+            mItems = new ArrayList<>();
+        }
+        if (isClear) {
+            mItems.clear();
+        }
+        mItems.addAll(list);
     }
 
     @Override

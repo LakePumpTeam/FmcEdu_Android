@@ -22,7 +22,7 @@ public class MessageListAdapter extends FmcBaseAdapter<MessageListEntity> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (null == convertView) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_time_work, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_message_list, null);
         }
 
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_message_list_date);

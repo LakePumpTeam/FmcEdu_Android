@@ -168,6 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/teacher_pick_ll_un_arrival"
         android:layout_width="match_parent"
@@ -227,7 +228,9 @@
         <ListView
             android:id="@+id/teacher_pick_lv_un_arrival"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@color/divider_bg_color"
+            android:dividerHeight="1dp" />
     </LinearLayout>
 
 </LinearLayout>

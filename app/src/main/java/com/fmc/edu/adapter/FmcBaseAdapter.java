@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,12 +59,13 @@ public class FmcBaseAdapter<T> extends BaseAdapter {
 
 
     public void addAllItems(List<T> items, boolean isClear) {
-        if (null != this.mItems && isClear) {
+        if (null == mItems) {
+            mItems = new ArrayList<>();
+        }
+        if (isClear) {
             this.mItems.clear();
         }
-        if (null == items) {
-            return;
-        }
+
         this.mItems.addAll(items);
         notifyDataSetChanged();
     }

@@ -1,6 +1,7 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,13 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
         super(context, items);
     }
 
+    public void addAllItems(List<PickUpEntity> list) {
+        if (null != mItems) {
+            mItems.clear();
+        }
+        mItems = list;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (null == convertView) {
@@ -28,11 +36,27 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
 
         TextView txtDate = (TextView) convertView.findViewById(R.id.item_teacher_pick_un_arrival_txt_date);
         TextView txtStudent = (TextView) convertView.findViewById(R.id.item_teacher_pick_un_arrival_txt_student);
-        Button btnParent = (Button) convertView.findViewById(R.id.item_teacher_pick_un_arrival_btn_remind);
+        TextView txtRemind = (TextView) convertView.findViewById(R.id.item_teacher_pick_un_arrival_txt_remind);
 
         PickUpEntity item = mItems.get(position);
         txtDate.setText(item.date);
         txtStudent.setText(item.studentName);
+        txtRemind.setOnClickListener(txtRemindOnClickListener);
         return convertView;
     }
+
+    private View.OnClickListener txtRemindOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final TextView txtView = (TextView) v;
+            txtView.setText("已提醒");
+            txtView.setEnabled(false);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    txtView.setText("点击提醒");
+                    txtView.setEnabled(true);
+                }
+            }, 180000);
+        }
+    };
 }

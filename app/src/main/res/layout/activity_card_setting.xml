@@ -78,5 +78,7 @@
     <ListView
         android:id="@+id/card_setting_lv_list"
         android:layout_width="match_parent"
+        android:divider="@color/divider_bg_color"
+        android:dividerHeight="1dp"
         android:layout_height="match_parent" />
 </LinearLayout>

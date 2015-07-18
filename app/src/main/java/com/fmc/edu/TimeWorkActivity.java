@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.fmc.edu.adapter.TimeWorkAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.TimeWorkEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class TimeWorkActivity extends BaseActivity {
     }
 
     private void initData() {
-        List<Map<String,Object>> list  = (List<Map<String, Object>>) getIntent().getExtras().getSerializable("list");
+        List<TimeWorkEntity> list  = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
         mAdapter = new TimeWorkAdapter(this,list);
         slideListView.setAdapter(mAdapter);
     }

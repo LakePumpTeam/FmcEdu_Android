@@ -29,15 +29,15 @@ public class CardSettingAdapter extends FmcBaseAdapter<Map<String, Object>> {
 
         TextView txtCardNo = (TextView) convertView.findViewById(R.id.item_card_setting_txt_card_no);
         TextView txtParent = (TextView) convertView.findViewById(R.id.item_card_setting_txt_parent);
-        CheckBox ckLose = (CheckBox) convertView.findViewById(R.id.item_card_setting_ck_lose);
+        TextView txtLose = (TextView) convertView.findViewById(R.id.item_card_setting_tv_lose);
         TextView txtComment = (TextView) convertView.findViewById(R.id.item_card_setting_txt_comment);
 
         Map<String, Object> item = mItems.get(position);
         txtCardNo.setText(ConvertUtils.getString(item.get("cardNo"), ""));
         txtParent.setText(ConvertUtils.getString(item.get("parent"), ""));
         boolean isLose = ConvertUtils.getBoolean(item.get("isLose"), false);
-        ckLose.setChecked(isLose);
-        ckLose.setText(isLose ? "已挂失" : "点此挂失");
+        txtLose.setEnabled(isLose);
+        txtLose.setText(isLose ? "已挂失" : "点此挂失");
         txtComment.setText(ConvertUtils.getString(item.get("comment"), ""));
         return convertView;
     }

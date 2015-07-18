@@ -14,7 +14,9 @@ import com.fmc.edu.customcontrol.MenuItemControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.entity.TaskEntity;
+import com.fmc.edu.entity.TimeWorkEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
@@ -261,7 +263,11 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_menu_pickup:
                     if (AppConfigUtils.isDevelopFour()) {
-                        gotoPickUpActivity();
+                        if (FmcApplication.getLoginUser().userRole == UserRoleEnum.Parent) {
+                            gotoPickUpActivity();
+                        } else {
+                            gotoTeacherPickUpActivity();
+                        }
                     }
                     break;
                 case R.id.main_menu_timework:
@@ -474,6 +480,14 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    private void gotoTeacherPickUpActivity() {
+        Intent intent = new Intent(MainActivity.this, TeacherPickActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", (Serializable) buildPickUpData());
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     private void gotoTimeWorkActivity() {
 
 //        mProgressControl.showWindow();
@@ -503,32 +517,32 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private List<Map<String, Object>> buildTimeWorkData() {
-        List<Map<String, Object>> list = new ArrayList<>();
+    private List<TimeWorkEntity> buildTimeWorkData() {
+        List<TimeWorkEntity> list = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            Map<String, Object> item = new HashMap<>();
+            TimeWorkEntity item = new TimeWorkEntity();
             String date = "2015-07-0" + (i + 1);
-            item.put("date", date);
-            item.put("week", StringUtils.dayForWeek(date));
-            item.put("time", "10:20:00");
-            item.put("sign", i % 2 == 0);
+            item.date = date;
+            item.week = StringUtils.dayForWeek(date);
+            item.time = "10:20:00";
+            item.sign = i % 2 == 0;
             list.add(item);
         }
         return list;
 
     }
 
-    private List<Map<String, Object>> buildPickUpData() {
-        List<Map<String, Object>> list = new ArrayList<>();
+    private List<PickUpEntity> buildPickUpData() {
+        List<PickUpEntity> list = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            Map<String, Object> item = new HashMap<>();
+            PickUpEntity item = new PickUpEntity();
             String date = "2015-07-0" + (i + 1);
-            item.put("date", date);
-            item.put("week", StringUtils.dayForWeek(date));
-            item.put("time", "10:20:00");
-            item.put("parent", "张三" + i);
+            item.date = date;
+            item.week = StringUtils.dayForWeek(date);
+            item.time = "10:20:00";
+            item.parentName = "张三" + i;
             list.add(item);
         }
         return list;

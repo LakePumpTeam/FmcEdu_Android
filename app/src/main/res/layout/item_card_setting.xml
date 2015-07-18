@@ -38,12 +38,14 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <CheckBox
-            android:id="@+id/item_card_setting_ck_lose"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/item_card_setting_tv_lose"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_ck_coner"
-            android:button="@null"
+            android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:layout_marginRight="@dimen/activity_margin_middle"
+            android:clickable="true"
+            android:background="@drawable/selector_btn_corner_enable"
             android:gravity="center"
             android:padding="@dimen/activity_padding_middle"
             android:singleLine="true"
