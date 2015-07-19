@@ -272,7 +272,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_menu_timework:
                     if (AppConfigUtils.isDevelopFour()) {
-                        gotoTimeWorkActivity();
+                        TimeWorkActivity.startTimeWorkActivity(MainActivity.this);
                     }
                     break;
                 default:
@@ -488,50 +488,6 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void gotoTimeWorkActivity() {
-
-//        mProgressControl.showWindow();
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-//        params.put("pageIndex", 1);
-//        params.put("pageSize", Constant.PAGE_SIZE);
-//        params.put("userId", loginUserEntity.userId);
-//        MyIon.httpPost(MainActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
-//            @Override
-//            public void afterCallBack(Map<String, Object> data) {
-//                menuCampus.setHasDynamic(false);
-//                List<Map<String, Object>> list = ConvertUtils.getList(data.get("newsList"));
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("list", (Serializable) DynamicItemEntity.toDynamicItemEntity(list));
-//                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
-//                Intent intent = new Intent(MainActivity.this, CampusActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//            }
-//        });
-
-        Intent intent = new Intent(MainActivity.this, TimeWorkActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) buildTimeWorkData());
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    private List<TimeWorkEntity> buildTimeWorkData() {
-        List<TimeWorkEntity> list = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            TimeWorkEntity item = new TimeWorkEntity();
-            String date = "2015-07-0" + (i + 1);
-            item.date = date;
-            item.week = StringUtils.dayForWeek(date);
-            item.time = "10:20:00";
-            item.sign = i % 2 == 0;
-            list.add(item);
-        }
-        return list;
-
-    }
 
     private List<PickUpEntity> buildPickUpData() {
         List<PickUpEntity> list = new ArrayList<>();
