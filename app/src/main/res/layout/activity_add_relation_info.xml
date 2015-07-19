@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
-        fmc:operatorImageSrc="@mipmap/btn_upload"
-        fmc:topTitle="@string/title_activity_related_info" />
+        fmc:topTitle="@string/title_activity_add_relation_info" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/related_info_txt_province"
+                android:id="@+id/add_related_info_txt_province"
                 style="@style/DropDownShortTextViewStyle"
                 android:layout_marginTop="@dimen/activity_margin_middle"
                 android:drawableLeft="@mipmap/icon_required"
@@ -37,7 +36,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
-                android:id="@+id/related_info_txt_city"
+                android:id="@+id/add_related_info_txt_city"
                 style="@style/DropDownShortTextViewStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/hint_choice_city"
@@ -46,7 +45,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
-                android:id="@+id/related_info_txt_school"
+                android:id="@+id/add_related_info_txt_school"
                 style="@style/DropDownShortTextViewStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/hint_choice_school"
@@ -55,7 +54,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
-                android:id="@+id/related_info_txt_class"
+                android:id="@+id/add_related_info_txt_class"
                 style="@style/DropDownShortTextViewStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/label_class"
@@ -64,7 +63,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
-                android:id="@+id/related_info_txt_relation"
+                android:id="@+id/add_related_info_txt_relation"
                 style="@style/DropDownShortTextViewStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:hint="@string/hint_relation" />
@@ -72,7 +71,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <TextView
-                android:id="@+id/related_info_txt_teacher"
+                android:id="@+id/add_related_info_txt_teacher"
                 style="@style/EditTextStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:drawablePadding="@dimen/activity_padding_middle"
@@ -83,7 +82,7 @@
 
 
             <TextView
-                android:id="@+id/related_info_txt_birthday"
+                android:id="@+id/add_related_info_txt_birthday"
                 style="@style/EditTextStyle"
                 android:clickable="true"
                 android:drawableLeft="@mipmap/icon_required"
@@ -110,7 +109,7 @@
                     android:textSize="@dimen/font_size_small" />
 
                 <RadioGroup
-                    android:id="@+id/related_info_rg_sex"
+                    android:id="@+id/add_related_info_rg_sex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -144,7 +143,7 @@
 
 
             <EditText
-                android:id="@+id/related_info_edit_cellphone"
+                android:id="@+id/add_related_info_edit_cellphone"
                 style="@style/EditTextStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:drawablePadding="@dimen/activity_padding_middle"
@@ -156,16 +155,17 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
-                android:id="@+id/related_info_edit_par_name"
+                android:id="@+id/add_related_info_edit_par_name"
                 style="@style/EditTextStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:drawablePadding="@dimen/activity_padding_middle"
+                android:enabled="false"
                 android:hint="@string/hint_par_name" />
 
             <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
-                android:id="@+id/related_info_edit_stu_name"
+                android:id="@+id/add_related_info_edit_stu_name"
                 style="@style/EditTextStyle"
                 android:drawableLeft="@mipmap/icon_required"
                 android:drawablePadding="@dimen/activity_padding_middle"
@@ -176,7 +176,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
-                android:id="@+id/related_info_edit_device_code"
+                android:id="@+id/add_related_info_edit_device_code"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_device_code"
                 android:paddingLeft="@dimen/activity_padding" />
@@ -184,7 +184,7 @@
             <View style="@style/HorizontalDividerLineStyle" />
 
             <EditText
-                android:id="@+id/related_info_edit_device_card_num"
+                android:id="@+id/add_related_info_edit_device_card_num"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_device_card_num"
                 android:inputType="phone"
@@ -195,8 +195,9 @@
 
 
             <EditText
-                android:id="@+id/related_info_edit_address"
+                android:id="@+id/add_related_info_edit_address"
                 style="@style/EditTextStyle"
+                android:enabled="false"
                 android:hint="@string/hint_address"
                 android:paddingLeft="@dimen/activity_padding"
                 android:tag="0" />
@@ -214,7 +215,7 @@
                 android:textSize="@dimen/font_size_small" />
 
             <Button
-                android:id="@+id/related_info_btn_submit_audit"
+                android:id="@+id/add_related_info_btn_submit_audit"
                 style="@style/OvalButtonStyle"
                 android:layout_margin="@dimen/activity_margin"
                 android:text="@string/btn_submit_audit" />

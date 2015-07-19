@@ -293,6 +293,10 @@
             android:name=".MessageListActivity"
             android:label="@string/title_activity_message_list" >
         </activity>
+        <activity
+            android:name=".AddRelationInfoActivity"
+            android:label="@string/title_activity_add_relation_info" >
+        </activity>
     </application>
 
 </manifest>

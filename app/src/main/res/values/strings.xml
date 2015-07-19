@@ -117,6 +117,7 @@
     <string name="str_click_lose">点此挂失</string>
     <string name="str_student">学生</string>
     <string name="str_remind">提醒</string>
+    <string name="title_activity_add_relation_info">增加关联学生</string>
 
 
 </resources>

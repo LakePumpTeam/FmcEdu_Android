@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
+import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CommonEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.http.MyIon;
@@ -57,6 +58,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View mSelectView;
     private boolean mIsAudit = false;
     private Bundle mBundle;
+    private TopBarControl topBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class RelatedInfoActivity extends BaseActivity {
         txtRelation = (TextView) findViewById(R.id.related_info_txt_relation);
         txtSchool = (TextView) findViewById(R.id.related_info_txt_school);
         txtTeacher = (TextView) findViewById(R.id.related_info_txt_teacher);
+        topBar = (TopBarControl) findViewById(R.id.related_info_top_bar);
     }
 
     private void bindViewEvents() {
@@ -97,6 +100,7 @@ public class RelatedInfoActivity extends BaseActivity {
         txtRelation.setOnClickListener(txtRelationOnClickListener);
         txtSchool.setOnClickListener(txtSchoolOnClickListener);
         txtBirthday.setOnClickListener(txtBirthListener);
+        topBar.setOnOperateOnClickListener(onOperateOnClickListener);
     }
 
     private void bindPageData() {
@@ -104,9 +108,11 @@ public class RelatedInfoActivity extends BaseActivity {
             ((RadioButton) rgSex.getChildAt(0)).setChecked(true);
             editCellphone.setText(mCellphone);
             editCellphone.setEnabled(false);
+            topBar.setTopOperateImgVisible(false);
             return;
         }
         editCellphone.setEnabled(true);
+        topBar.setTopOperateImgVisible(true);
         editAddress.setText(mBundle.getString("address"));
         editAddress.setTag(mBundle.getString("addressId"));
         txtBirthday.setText(mBundle.getString("studentBirth"));
@@ -208,6 +214,19 @@ public class RelatedInfoActivity extends BaseActivity {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             String birthDay = String.valueOf(year) + "-" + String.valueOf(monthOfYear) + "-" + String.valueOf(dayOfMonth);
             txtBirthday.setText(birthDay);
+        }
+    };
+
+    private TopBarControl.OnOperateOnClickListener onOperateOnClickListener = new TopBarControl.OnOperateOnClickListener() {
+        @Override
+        public void onBackClick(View view) {
+
+        }
+
+        @Override
+        public void onOperateClick(View v) {
+            Intent intent = new Intent(RelatedInfoActivity.this, AddRelationInfoActivity.class);
+            startActivity(intent);
         }
     };
 
