@@ -14,11 +14,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fmc.edu.common.Constant;
 import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.customcontrol.TopBarControl;
 import com.fmc.edu.entity.CommonEntity;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.enums.OperateTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
@@ -53,7 +55,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private SelectListControl classListControl;
     private int mPageIndex;
     private int mPageSize;
-    private OperateType mCurrentOperateType;
+    private OperateTypeEnum mCurrentOperateType;
     private boolean mIsLastPage = true;
     private View mSelectView;
     private boolean mIsAudit = false;
@@ -143,7 +145,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View.OnClickListener txtProvinceOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mCurrentOperateType = OperateType.Province;
+            mCurrentOperateType = OperateTypeEnum.Province;
             mSelectView = v;
             handleDropDownClick();
         }
@@ -151,7 +153,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View.OnClickListener txtCityOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mCurrentOperateType = OperateType.City;
+            mCurrentOperateType = OperateTypeEnum.City;
             mSelectView = v;
             handleDropDownClick();
         }
@@ -160,7 +162,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View.OnClickListener txtSchoolOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mCurrentOperateType = OperateType.School;
+            mCurrentOperateType = OperateTypeEnum.School;
             mSelectView = v;
             handleDropDownClick();
         }
@@ -169,7 +171,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View.OnClickListener txtClassOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mCurrentOperateType = OperateType.Class;
+            mCurrentOperateType = OperateTypeEnum.Class;
             mSelectView = v;
             handleDropDownClick();
         }
@@ -178,7 +180,7 @@ public class RelatedInfoActivity extends BaseActivity {
     private View.OnClickListener txtRelationOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            SelectListControl relationListControl = new SelectListControl(RelatedInfoActivity.this, getRelationList(), true, "亲子关系", v);
+            SelectListControl relationListControl = new SelectListControl(RelatedInfoActivity.this, Constant.getRelationList(), true, "亲子关系", v);
             relationListControl.setOnItemSelectedListener(relationItemListener);
             relationListControl.showAtLocation(v, Gravity.CENTER, 0, 0);
         }
@@ -226,6 +228,7 @@ public class RelatedInfoActivity extends BaseActivity {
         @Override
         public void onOperateClick(View v) {
             Intent intent = new Intent(RelatedInfoActivity.this, AddRelationInfoActivity.class);
+            intent.putExtras(mBundle);
             startActivity(intent);
         }
     };
@@ -380,18 +383,18 @@ public class RelatedInfoActivity extends BaseActivity {
     }
 
     private void clearSelectInfo() {
-        if (mCurrentOperateType == OperateType.Province) {
+        if (mCurrentOperateType == OperateTypeEnum.Province) {
             clearTextView(txtCity);
             clearTextView(txtSchool);
             clearTextView(txtClass);
             return;
         }
-        if (mCurrentOperateType == OperateType.City) {
+        if (mCurrentOperateType == OperateTypeEnum.City) {
             clearTextView(txtSchool);
             clearTextView(txtClass);
             return;
         }
-        if (mCurrentOperateType == OperateType.School) {
+        if (mCurrentOperateType == OperateTypeEnum.School) {
             clearTextView(txtClass);
         }
     }
@@ -471,7 +474,7 @@ public class RelatedInfoActivity extends BaseActivity {
             textView.setText(obj.getFullName());
             textView.setTag(obj.getId());
             clearSelectInfo();
-            if (mCurrentOperateType == OperateType.Class) {
+            if (mCurrentOperateType == OperateTypeEnum.Class) {
                 getTeacher();
             }
         }
@@ -583,22 +586,5 @@ public class RelatedInfoActivity extends BaseActivity {
         });
     }
 
-    private List<CommonEntity> getRelationList() {
-        List<CommonEntity> list = new ArrayList<CommonEntity>();
-        list.add(new CommonEntity("1", "爸爸"));
-        list.add(new CommonEntity("2", "妈妈"));
-        list.add(new CommonEntity("3", "爷爷"));
-        list.add(new CommonEntity("4", "奶奶"));
-        list.add(new CommonEntity("5", "姥爷"));
-        list.add(new CommonEntity("6", "姥姥"));
-        list.add(new CommonEntity("7", "其他"));
-        return list;
-    }
 
-    enum OperateType {
-        Province,
-        City,
-        School,
-        Class;
-    }
 }

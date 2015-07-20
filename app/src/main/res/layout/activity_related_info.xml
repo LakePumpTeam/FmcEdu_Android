@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
-        fmc:operatorImageSrc="@mipmap/btn_upload"
+        fmc:operatorImageSrc="@mipmap/ic_relation"
         fmc:topTitle="@string/title_activity_related_info" />
 
     <ScrollView

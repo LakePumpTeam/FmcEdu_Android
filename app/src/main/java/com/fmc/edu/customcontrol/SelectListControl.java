@@ -120,7 +120,7 @@ public class SelectListControl extends PopupWindow {
                 return;
             }
 //            footerView.setVisibility(View.VISIBLE);
-//            mFooterView = footerView;
+            mFooterView = footerView;
             listView.setFooterViewVisible(true);
             mOnLoadMoreListener.onLoadMore();
         }
