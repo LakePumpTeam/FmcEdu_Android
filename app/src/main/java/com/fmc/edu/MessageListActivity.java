@@ -49,7 +49,16 @@ public class MessageListActivity extends BaseActivity {
 
     }
 
+    public static void startNoticeMessageActivity(Context context) {
+        Intent intent = new Intent(context, MessageListActivity.class);
+        Bundle bundle = new Bundle();
+        List<MessageListEntity> list = buildMessageSettingData();
+        bundle.putSerializable("list", (Serializable) list);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
 
+    }
     private static List<MessageListEntity> buildMessageSettingData() {
         List<MessageListEntity> list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
