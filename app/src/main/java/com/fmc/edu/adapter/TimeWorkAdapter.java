@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.TimeWorkEntity;
-import com.fmc.edu.utils.ConvertUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Candy on 2015/7/14.
@@ -36,7 +34,7 @@ public class TimeWorkAdapter extends FmcBaseAdapter<TimeWorkEntity> {
         txtDate.setText(item.date);
         txtWeek.setText(item.week);
         txtTime.setText(item.time);
-        txtSign.setText(item.sign ? "进" : "出");
+        txtSign.setText(item.attendance ? "进" : "出");
         return convertView;
     }
 }
