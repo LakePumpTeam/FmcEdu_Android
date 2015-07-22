@@ -1,6 +1,8 @@
 package com.fmc.edu.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fmc.edu.BaseActivity;
+import com.fmc.edu.FmcApplication;
 import com.fmc.edu.R;
+import com.fmc.edu.TeacherInfoActivity;
 import com.fmc.edu.entity.PickUpEntity;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.RequestCodeUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Candy on 2015/7/17.
@@ -47,16 +57,25 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
 
     private View.OnClickListener txtRemindOnClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
             final TextView txtView = (TextView) v;
-            txtView.setText("已提醒");
-            txtView.setEnabled(false);
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    txtView.setText("点击提醒");
-                    txtView.setEnabled(true);
+            final BaseActivity baseActivity = (BaseActivity) mContext;
+            baseActivity.mProgressControl.showWindow();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("studentId", FmcApplication.getLoginUser().studentId);
+            MyIon.httpPost(mContext, "clock/in/notifyParentNorthDelta", params, baseActivity.mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    txtView.setText("已提醒");
+                    txtView.setEnabled(false);
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            txtView.setText("点击提醒");
+                            txtView.setEnabled(true);
+                        }
+                    }, 180000);
                 }
-            }, 180000);
+            });
         }
     };
 }
