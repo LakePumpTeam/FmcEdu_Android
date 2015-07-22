@@ -16,7 +16,6 @@ import com.fmc.edu.entity.DynamicItemEntity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.entity.TaskEntity;
-import com.fmc.edu.entity.TimeWorkEntity;
 import com.fmc.edu.entity.WaitAuditEntity;
 import com.fmc.edu.entity.WeekCourseEntity;
 import com.fmc.edu.enums.DynamicTypeEnum;
@@ -264,9 +263,9 @@ public class MainActivity extends BaseActivity {
                 case R.id.main_menu_pickup:
                     if (AppConfigUtils.isDevelopFour()) {
                         if (FmcApplication.getLoginUser().userRole == UserRoleEnum.Parent) {
-                            gotoPickUpActivity();
+                            PickUpActivity.startPickUpActivity(MainActivity.this);
                         } else {
-                            gotoTeacherPickUpActivity();
+                            TeacherPickActivity.startTeacherPickUpActivity(MainActivity.this);
                         }
                     }
                     break;
@@ -472,38 +471,6 @@ public class MainActivity extends BaseActivity {
         startActivityForResult(intent, RequestCodeUtils.PUBLISH_CLASS_DYNAMIC);
     }
 
-    private void gotoPickUpActivity() {
-        Intent intent = new Intent(MainActivity.this, PickUpActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) buildPickUpData());
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    private void gotoTeacherPickUpActivity() {
-        Intent intent = new Intent(MainActivity.this, TeacherPickActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) buildPickUpData());
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-
-    private List<PickUpEntity> buildPickUpData() {
-        List<PickUpEntity> list = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            PickUpEntity item = new PickUpEntity();
-            String date = "2015-07-0" + (i + 1);
-            item.date = date;
-            item.week = StringUtils.dayForWeek(date);
-            item.time = "10:20:00";
-            item.parentName = "张三" + i;
-            list.add(item);
-        }
-        return list;
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -7,10 +7,12 @@ import android.widget.LinearLayout;
 
 import com.fmc.edu.adapter.PickUpAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.PickUpEntity;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ConvertUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class PickUpActivity extends BaseActivity {
     private LinearLayout llSetting;
     private LinearLayout llMsgList;
     private PickUpAdapter mAdapter;
+    private int mPageIndex = 1;
+    private boolean mIsLastPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class PickUpActivity extends BaseActivity {
         llBack.setOnClickListener(OnClickListener);
         llSetting.setOnClickListener(OnClickListener);
         llMsgList.setOnClickListener(OnClickListener);
+        slideListView.setOnLoadMoreListener(slideLoadedMoreListener);
     }
 
     private void initData() {
@@ -59,7 +64,7 @@ public class PickUpActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.pick_up_ll_setting:
-                    gotoCardSettingActivity();
+                    CardSettingActivity.startCardSettingActivity(PickUpActivity.this);
                     break;
                 case R.id.pick_up_ll_msg:
                     MessageListActivity.startMessageActivity(PickUpActivity.this);
@@ -69,27 +74,54 @@ public class PickUpActivity extends BaseActivity {
     };
 
 
-    private void gotoCardSettingActivity() {
-        List<Map<String, Object>> list = buildCardSettingData();
-        Intent cardSettingIntent = new Intent(PickUpActivity.this, CardSettingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", (Serializable) list);
-        cardSettingIntent.putExtras(bundle);
-        startActivity(cardSettingIntent);
+    private SlideListView.OnLoadMoreListener slideLoadedMoreListener = new SlideListView.OnLoadMoreListener() {
+        @Override
+        public void onLoadMore(View footerView) {
+            if (mIsLastPage) {
+                return;
+            }
+            mPageIndex++;
+            slideListView.setFooterViewVisible(true);
+            getPickUpList();
+        }
+    };
+
+
+    private void getPickUpList() {
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", mPageIndex);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(PickUpActivity.this, "clock/in/clockInRecords", params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+                List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
+                mAdapter.addAllItems(pickUpList, false);
+            }
+        });
     }
 
-
-
-    private List<Map<String, Object>> buildCardSettingData() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("cardNo", "100000" + i);
-            item.put("parent", "家长" + i);
-            item.put("isLose", i % 2 == 0);
-            item.put("comment", "备注" + i);
-            list.add(item);
-        }
-        return list;
+    public static void startPickUpActivity(final BaseActivity activity) {
+        activity.mProgressControl.showWindow();
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", 1);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
+                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+                Intent intent = new Intent(activity, PickUpActivity.class);
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            }
+        });
     }
 }

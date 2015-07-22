@@ -1,5 +1,6 @@
 package com.fmc.edu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -70,6 +71,7 @@ public class TimeWorkActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<TimeWorkEntity> timeWorkList = TimeWorkEntity.toTimeWorkList(list);
                 mAdapter.addAllItems(timeWorkList, false);
             }
@@ -96,5 +98,28 @@ public class TimeWorkActivity extends BaseActivity {
                 activity.startActivity(intent);
             }
         });
+    }
+
+    public static void startNoticeMessageActivity(final Context context) {
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", 1);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(context, "clock/in/clockInRecords", params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) TimeWorkEntity.toTimeWorkList(list));
+                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+                Intent intent = new Intent(context, TimeWorkActivity.class);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
+
     }
 }

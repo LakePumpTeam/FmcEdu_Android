@@ -28,6 +28,7 @@ public class TeacherPickArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
             mItems.clear();
         }
         mItems.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

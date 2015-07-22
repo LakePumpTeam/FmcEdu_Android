@@ -1,5 +1,6 @@
 package com.fmc.edu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,11 +12,18 @@ import android.widget.RadioGroup;
 
 import com.fmc.edu.adapter.TeacherPickArrivalAdapter;
 import com.fmc.edu.adapter.TeacherPickUnArrivalAdapter;
+import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.customcontrol.SlideListView;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.PickUpEntity;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ConvertUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class TeacherPickActivity extends BaseActivity {
@@ -32,7 +40,8 @@ public class TeacherPickActivity extends BaseActivity {
 
     private TeacherPickArrivalAdapter mArrivalAdapter;
     private TeacherPickUnArrivalAdapter mUnArrivalAdapter;
-
+    private int mPageIndex;
+    private boolean mIsLastPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,19 +97,18 @@ public class TeacherPickActivity extends BaseActivity {
     private RadioGroup.OnCheckedChangeListener checkChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            mProgressControl.showWindow();
+            mIsLastPage = false;
             if (checkedId == R.id.teacher_pick_rb_arrival) {
                 llArrival.setVisibility(View.VISIBLE);
                 llUnArrival.setVisibility(View.GONE);
-                List<PickUpEntity> list = getArrivalData();
-                mArrivalAdapter.addAllItems(list, true);
-                mArrivalAdapter.notifyDataSetChanged();
+                mPageIndex = 1;
+                getArrivalData();
 
             } else if (checkedId == R.id.teacher_pick_rb_un_arrival) {
                 llArrival.setVisibility(View.GONE);
                 llUnArrival.setVisibility(View.VISIBLE);
-                List<PickUpEntity> list = getUnArrivalData();
-                mUnArrivalAdapter.addAllItems(list, true);
-                mUnArrivalAdapter.notifyDataSetChanged();
+                getUnArrivalData();
             }
         }
     };
@@ -108,43 +116,68 @@ public class TeacherPickActivity extends BaseActivity {
     private SlideListView.OnLoadMoreListener lodeMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
-            List<PickUpEntity> list = getArrivalData();
-            mArrivalAdapter.addAllItems(list, true);
-            mArrivalAdapter.notifyDataSetChanged();
+            if (mIsLastPage) {
+                return;
+            }
+            mPageIndex++;
+            slideArrival.setFooterViewVisible(true);
+            getArrivalData();
         }
     };
 
-    private List<PickUpEntity> getArrivalData() {
-        List<PickUpEntity> list = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            PickUpEntity pickEntity = new PickUpEntity();
-            pickEntity.date = "2015-07-18";
-            pickEntity.week = "周三";
-            pickEntity.time = "15:20:11";
-            pickEntity.parentName = "张三" + i;
-            pickEntity.parnetId = i + "";
-            pickEntity.studentName = "张小三" + i;
-            pickEntity.studentId = i + "";
-            pickEntity.isArrival = i % 2 == 0;
-            list.add(pickEntity);
-        }
-        return list;
+    private void getArrivalData() {
+        ProgressControl progressControl = mPageIndex == 1 ? mProgressControl : null;
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", mPageIndex);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, progressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+                List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
+                boolean isClear = mPageIndex == 1;
+                mArrivalAdapter.addAllItems(pickUpList, isClear);
+            }
+        });
     }
 
-    private List<PickUpEntity> getUnArrivalData() {
-        List<PickUpEntity> list = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            PickUpEntity pickEntity = new PickUpEntity();
-            pickEntity.date = "2015-07-18";
-            pickEntity.week = "周三";
-            pickEntity.time = "15:20:11";
-            pickEntity.parentName = "张三" + i;
-            pickEntity.parnetId = i + "";
-            pickEntity.studentName = "张小三" + i;
-            pickEntity.studentId = i + "";
-            pickEntity.isArrival = i % 2 == 0;
-            list.add(pickEntity);
-        }
-        return list;
+    private void getUnArrivalData() {
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", 1);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
+                mArrivalAdapter.addAllItems(pickUpList, true);
+            }
+        });
+    }
+
+    public static void startTeacherPickUpActivity(final BaseActivity activity) {
+        activity.mProgressControl.showWindow();
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+        params.put("pageIndex", 1);
+        params.put("studentId", loginUserEntity.studentId);
+        params.put("type", 0);
+        MyIon.httpPost(activity, "", params, activity.mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
+                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+                Intent intent = new Intent(activity, PickUpActivity.class);
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            }
+        });
     }
 }
