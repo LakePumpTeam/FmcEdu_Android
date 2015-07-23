@@ -84,10 +84,13 @@ public class ServicePreferenceUtils {
 
     public static Map<String, Boolean> getNoticeSettingByPreference(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(ConvertUtils.getString(getLoginUserByPreference(context).userId), Context.MODE_PRIVATE);
-        if (null == sharedPreferences) {
-            return null;
-        }
         Map<String, Boolean> mapData = new HashMap<String, Boolean>();
+        if (null == sharedPreferences) {
+            mapData.put("shake",  true);
+            mapData.put("ring", true);
+            return mapData;
+        }
+
         mapData.put("shake", sharedPreferences.getBoolean("shake", true));
         mapData.put("ring", sharedPreferences.getBoolean("ring", true));
         return mapData;

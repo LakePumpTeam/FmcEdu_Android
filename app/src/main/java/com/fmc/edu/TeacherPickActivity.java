@@ -131,7 +131,7 @@ public class TeacherPickActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
+        params.put("type", 1);
         MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -149,7 +149,7 @@ public class TeacherPickActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
+        params.put("type", 1);
         MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -166,7 +166,7 @@ public class TeacherPickActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
+        params.put("type", 1);
         MyIon.httpPost(activity, "", params, activity.mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {

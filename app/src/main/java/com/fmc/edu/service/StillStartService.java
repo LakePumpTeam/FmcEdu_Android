@@ -10,21 +10,37 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
+import com.baidu.android.pushservice.BasicPushNotificationBuilder;
+import com.baidu.android.pushservice.CustomPushNotificationBuilder;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.fmc.edu.FmcApplication;
 import com.fmc.edu.MainActivity;
 import com.fmc.edu.R;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.util.List;
+import java.util.Map;
 
 public class StillStartService extends Service {
     public StillStartService() {
         if (PushManager.isConnected(FmcApplication.getApplication()) && PushManager.isPushEnabled(FmcApplication.getApplication())) {
             return;
         }
+        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
+        builder.setStatusbarIcon(R.mipmap.send_msg_2);
+        builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失
+        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(this);
+        int defaultLights = Notification.DEFAULT_LIGHTS;
+        if (settingData.get("shake")) {
+            defaultLights = defaultLights|Notification.DEFAULT_VIBRATE;
+        }
+        if(settingData.get("ring")){
+            defaultLights = defaultLights|Notification.DEFAULT_SOUND;
+        }
+        builder.setNotificationDefaults(defaultLights);
         PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
     }
 
