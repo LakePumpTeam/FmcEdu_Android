@@ -1,11 +1,11 @@
 package com.fmc.edu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -53,6 +53,8 @@ public class MessageNoticeSettingActivity extends BaseActivity {
             mapData.put("shake", ckShake.isChecked());
             mapData.put("ring", ckRing.isChecked());
             ServicePreferenceUtils.saveNoticeSettingPreference(MessageNoticeSettingActivity.this, mapData);
+            StillStartService.stopStartWork(MessageNoticeSettingActivity.this);
+            StillStartService.startStillStartService(MessageNoticeSettingActivity.this);
             ToastToolUtils.showLong("设置成功");
         }
     };

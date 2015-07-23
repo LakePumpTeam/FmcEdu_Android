@@ -29,7 +29,6 @@ public class StillStartService extends Service {
 
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -43,7 +42,7 @@ public class StillStartService extends Service {
 
 
     public static void startStillStartService(Context context) {
-        baiduStartWork();
+        baiduStartWork(context);
         if (isServiceRunning(context)) {
             return;
         }
@@ -51,33 +50,39 @@ public class StillStartService extends Service {
         context.startService(service);
     }
 
-    public static void stopStillStartService(Context  context){
+    public static void stopStillStartService(Context context) {
         Intent service = new Intent(context, StillStartService.class);
         if (!isServiceRunning(context)) {
             return;
         }
         context.stopService(service);
-        PushManager.stopWork(FmcApplication.getApplication());
+        PushManager.stopWork(context);
     }
 
 
-    private static void baiduStartWork() {
-        if (PushManager.isConnected(FmcApplication.getApplication()) && PushManager.isPushEnabled(FmcApplication.getApplication())) {
+    public static void baiduStartWork(Context context) {
+        if (PushManager.isConnected(context) && PushManager.isPushEnabled(context)) {
             return;
         }
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
         builder.setStatusbarIcon(R.mipmap.send_msg_2);
         builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失
-        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(FmcApplication.getApplication());
-        int defaultLights = Notification.DEFAULT_LIGHTS;
-        if (settingData.get("shake")) {
-            defaultLights = defaultLights | Notification.DEFAULT_VIBRATE;
+        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(context);
+        int defaultLights = Notification.DEFAULT_VIBRATE;
+        if (!settingData.get("shake")) {
+            builder.setNotificationVibrate(new long[]{0, 0, 0, 0});
         }
         if (settingData.get("ring")) {
-            defaultLights = defaultLights | Notification.DEFAULT_SOUND;
         }
         builder.setNotificationDefaults(defaultLights);
-        PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
+        PushManager.setDefaultNotificationBuilder(context, builder);
+        PushManager.startWork(context, PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
+    }
+
+    public static void stopStartWork(Context context) {
+        if (PushManager.isConnected(context) && PushManager.isPushEnabled(context)) {
+            PushManager.stopWork(context);
+        }
     }
 
     public static boolean isServiceRunning(Context context) {
@@ -91,7 +96,6 @@ public class StillStartService extends Service {
         }
         return false;
     }
-
 
 
     @Override
