@@ -26,23 +26,9 @@ import java.util.Map;
 
 public class StillStartService extends Service {
     public StillStartService() {
-        if (PushManager.isConnected(FmcApplication.getApplication()) && PushManager.isPushEnabled(FmcApplication.getApplication())) {
-            return;
-        }
-        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
-        builder.setStatusbarIcon(R.mipmap.send_msg_2);
-        builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失
-        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(this);
-        int defaultLights = Notification.DEFAULT_LIGHTS;
-        if (settingData.get("shake")) {
-            defaultLights = defaultLights|Notification.DEFAULT_VIBRATE;
-        }
-        if(settingData.get("ring")){
-            defaultLights = defaultLights|Notification.DEFAULT_SOUND;
-        }
-        builder.setNotificationDefaults(defaultLights);
-        PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
+
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -57,11 +43,41 @@ public class StillStartService extends Service {
 
 
     public static void startStillStartService(Context context) {
+        baiduStartWork();
         if (isServiceRunning(context)) {
             return;
         }
         Intent service = new Intent(context, StillStartService.class);
         context.startService(service);
+    }
+
+    public static void stopStillStartService(Context  context){
+        Intent service = new Intent(context, StillStartService.class);
+        if (!isServiceRunning(context)) {
+            return;
+        }
+        context.stopService(service);
+        PushManager.stopWork(FmcApplication.getApplication());
+    }
+
+
+    private static void baiduStartWork() {
+        if (PushManager.isConnected(FmcApplication.getApplication()) && PushManager.isPushEnabled(FmcApplication.getApplication())) {
+            return;
+        }
+        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
+        builder.setStatusbarIcon(R.mipmap.send_msg_2);
+        builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失
+        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(FmcApplication.getApplication());
+        int defaultLights = Notification.DEFAULT_LIGHTS;
+        if (settingData.get("shake")) {
+            defaultLights = defaultLights | Notification.DEFAULT_VIBRATE;
+        }
+        if (settingData.get("ring")) {
+            defaultLights = defaultLights | Notification.DEFAULT_SOUND;
+        }
+        builder.setNotificationDefaults(defaultLights);
+        PushManager.startWork(FmcApplication.getApplication(), PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
     }
 
     public static boolean isServiceRunning(Context context) {
@@ -75,6 +91,8 @@ public class StillStartService extends Service {
         }
         return false;
     }
+
+
 
     @Override
     public void onDestroy() {
