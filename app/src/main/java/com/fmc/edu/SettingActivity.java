@@ -8,9 +8,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fmc.edu.customcontrol.AlertWindowControl;
+import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.enums.UserRoleEnum;
+import com.fmc.edu.http.MyIon;
 import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SettingActivity extends BaseActivity {
@@ -48,11 +54,20 @@ public class SettingActivity extends BaseActivity {
     private View.OnClickListener btnLoginOutOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ServicePreferenceUtils.clearPasswordPreference(SettingActivity.this);
-            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            SettingActivity.this.finish();
-            FmcApplication.clearAllActiviy();
+            mProgressControl.showWindow();
+            Map<String, Object> params = new HashMap<>();
+            LoginUserEntity currentLoginUser = FmcApplication.getLoginUser();
+            params.put("userId", currentLoginUser.userRole == UserRoleEnum.Parent ? currentLoginUser.studentId : currentLoginUser.userId);
+            MyIon.httpPost(SettingActivity.this, "profile/requestLogout", params, mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    ServicePreferenceUtils.clearPasswordPreference(SettingActivity.this);
+                    Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    SettingActivity.this.finish();
+                    FmcApplication.clearAllActiviy();
+                }
+            });
         }
     };
 

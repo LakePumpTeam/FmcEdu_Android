@@ -1,10 +1,12 @@
 package com.fmc.edu;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.fmc.edu.http.MyIon;
 import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
@@ -49,13 +51,24 @@ public class MessageNoticeSettingActivity extends BaseActivity {
     private View.OnClickListener btnSaveOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Map<String, Boolean> mapData = new HashMap<String, Boolean>();
-            mapData.put("shake", ckShake.isChecked());
-            mapData.put("ring", ckRing.isChecked());
-            ServicePreferenceUtils.saveNoticeSettingPreference(MessageNoticeSettingActivity.this, mapData);
-            StillStartService.stopStartWork(MessageNoticeSettingActivity.this);
-            StillStartService.startStillStartService(MessageNoticeSettingActivity.this);
-            ToastToolUtils.showLong("设置成功");
+          mProgressControl.showWindow();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("userId", FmcApplication.getLoginUser().studentId);
+            params.put("isBel",ckRing.isChecked());
+            params.put("isVibra",ckShake.isChecked());
+            MyIon.httpPost(MessageNoticeSettingActivity.this, "profile/appSetting", params, mProgressControl, new MyIon.AfterCallBack() {
+                @Override
+                public void afterCallBack(Map<String, Object> data) {
+                    ToastToolUtils.showLong("设置成功");
+                }
+            });
+//            Map<String, Boolean> mapData = new HashMap<String, Boolean>();
+//            mapData.put("shake", ckShake.isChecked());
+//            mapData.put("ring", ckRing.isChecked());
+//            ServicePreferenceUtils.saveNoticeSettingPreference(MessageNoticeSettingActivity.this, mapData);
+//            StillStartService.stopStartWork(MessageNoticeSettingActivity.this);
+//            StillStartService.startStillStartService(MessageNoticeSettingActivity.this);
+//            ToastToolUtils.showLong("设置成功");
         }
     };
 }

@@ -42,10 +42,8 @@ public class CardSettingActivity extends BaseActivity {
         activity.mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-        params.put("pageIndex", 1);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
-        MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(activity, "magneticCard/retrieveAllMagneticCard", params, activity.mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));

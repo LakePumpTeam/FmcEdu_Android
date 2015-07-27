@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.fmc.edu.adapter.MessageListAdapter;
+import com.fmc.edu.customcontrol.ProgressControl;
+import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.MessageListEntity;
 import com.fmc.edu.enums.MessageTypeEnum;
+import com.fmc.edu.enums.UserRoleEnum;
+import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,26 +45,50 @@ public class MessageListActivity extends BaseActivity {
     }
 
 
-    public static void startMessageActivity(Context context) {
-        Intent intent = new Intent(context, MessageListActivity.class);
-        Bundle bundle = new Bundle();
-        List<MessageListEntity> list = buildMessageSettingData();
-        bundle.putSerializable("list", (Serializable) list);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+    public static void startMessageActivity(final Context context) {
+        BaseActivity baseActivity = (BaseActivity) context;
+        baseActivity.mProgressControl.showWindow();
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity currentLoginUser = FmcApplication.getLoginUser();
+        params.put("userId", currentLoginUser.userRole == UserRoleEnum.Parent ? currentLoginUser.studentId : currentLoginUser.userId);
+        params.put("pageIndex", 1);
+        params.put("pageSize", Integer.MAX_VALUE);
+        MyIon.httpPost(context, "profile/queryPushMessage", params,  baseActivity.mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                Intent intent = new Intent(context, MessageListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) MessageListEntity.ConvertMessageList(list));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    public static void startNoticeMessageActivity(final Context context) {
+        Map<String, Object> params = new HashMap<>();
+        LoginUserEntity currentLoginUser = FmcApplication.getLoginUser();
+        params.put("userId", currentLoginUser.userRole == UserRoleEnum.Parent ? currentLoginUser.studentId : currentLoginUser.userId);
+        params.put("pageIndex", 1);
+        params.put("pageSize", Integer.MAX_VALUE);
+        MyIon.httpPost(context, "profile/queryPushMessage", params, null, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                Intent intent = new Intent(context, MessageListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("list", (Serializable) MessageListEntity.ConvertMessageList(list));
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
-    public static void startNoticeMessageActivity(Context context) {
-        Intent intent = new Intent(context, MessageListActivity.class);
-        Bundle bundle = new Bundle();
-        List<MessageListEntity> list = buildMessageSettingData();
-        bundle.putSerializable("list", (Serializable) list);
-        intent.putExtras(bundle);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
-    }
     private static List<MessageListEntity> buildMessageSettingData() {
         List<MessageListEntity> list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
