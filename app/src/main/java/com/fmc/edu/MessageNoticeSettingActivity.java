@@ -53,7 +53,7 @@ public class MessageNoticeSettingActivity extends BaseActivity {
         public void onClick(View v) {
           mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("userId", FmcApplication.getLoginUser().studentId);
+            params.put("userId", FmcApplication.getLoginUser().userId);
             params.put("isBel",ckRing.isChecked());
             params.put("isVibra",ckShake.isChecked());
             MyIon.httpPost(MessageNoticeSettingActivity.this, "profile/appSetting", params, mProgressControl, new MyIon.AfterCallBack() {

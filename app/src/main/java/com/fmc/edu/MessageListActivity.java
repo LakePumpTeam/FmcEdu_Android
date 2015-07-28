@@ -50,7 +50,7 @@ public class MessageListActivity extends BaseActivity {
         baseActivity.mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity currentLoginUser = FmcApplication.getLoginUser();
-        params.put("userId", currentLoginUser.userRole == UserRoleEnum.Parent ? currentLoginUser.studentId : currentLoginUser.userId);
+        params.put("userId", currentLoginUser.userId);
         params.put("pageIndex", 1);
         params.put("pageSize", Integer.MAX_VALUE);
         MyIon.httpPost(context, "profile/queryPushMessage", params,  baseActivity.mProgressControl, new MyIon.AfterCallBack() {
@@ -70,7 +70,7 @@ public class MessageListActivity extends BaseActivity {
     public static void startNoticeMessageActivity(final Context context) {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity currentLoginUser = FmcApplication.getLoginUser();
-        params.put("userId", currentLoginUser.userRole == UserRoleEnum.Parent ? currentLoginUser.studentId : currentLoginUser.userId);
+        params.put("userId", currentLoginUser.userId);
         params.put("pageIndex", 1);
         params.put("pageSize", Integer.MAX_VALUE);
         MyIon.httpPost(context, "profile/queryPushMessage", params, null, new MyIon.AfterCallBack() {
