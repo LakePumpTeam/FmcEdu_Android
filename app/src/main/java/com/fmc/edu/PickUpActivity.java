@@ -26,6 +26,7 @@ public class PickUpActivity extends BaseActivity {
     private LinearLayout llMsgList;
     private PickUpAdapter mAdapter;
     private int mPageIndex = 1;
+    private int mCurrentNoDataDays = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +53,14 @@ public class PickUpActivity extends BaseActivity {
 
     private void initData() {
         List<PickUpEntity> list = (List<PickUpEntity>) getIntent().getExtras().getSerializable("list");
+        mPageIndex = 1;
+
         if (null == list || 0 == list.size()) {
-            ToastToolUtils.showShort("最近七天没有数据");
+            ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+            mCurrentNoDataDays++;
             return;
         }
-
+        mCurrentNoDataDays = 1;
         mAdapter = new PickUpAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }
@@ -100,9 +104,11 @@ public class PickUpActivity extends BaseActivity {
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 if (null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近七天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    mCurrentNoDataDays++;
                     return;
                 }
+                mCurrentNoDataDays = 1;
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 mAdapter.addAllItems(pickUpList, false);
             }
@@ -115,12 +121,11 @@ public class PickUpActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 1 );
+        params.put("type", 1);
         MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
                 Intent intent = new Intent(activity, PickUpActivity.class);

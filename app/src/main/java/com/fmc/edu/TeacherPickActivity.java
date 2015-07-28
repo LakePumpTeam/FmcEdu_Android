@@ -18,6 +18,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,11 +38,11 @@ public class TeacherPickActivity extends BaseActivity {
     private LinearLayout llArrival;
     private SlideListView slideArrival;
     private ListView lvUnArrival;
+    private int mCurrentNoDataDays = 1;
 
     private TeacherPickArrivalAdapter mArrivalAdapter;
     private TeacherPickUnArrivalAdapter mUnArrivalAdapter;
     private int mPageIndex;
-    private boolean mIsLastPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,8 @@ public class TeacherPickActivity extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             mProgressControl.showWindow();
-            mIsLastPage = false;
+//            mIsLastPage = false;
+            mCurrentNoDataDays = 1;
             if (checkedId == R.id.teacher_pick_rb_arrival) {
                 llArrival.setVisibility(View.VISIBLE);
                 llUnArrival.setVisibility(View.GONE);
@@ -116,9 +118,9 @@ public class TeacherPickActivity extends BaseActivity {
     private SlideListView.OnLoadMoreListener lodeMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
-            if (mIsLastPage) {
-                return;
-            }
+//            if (mIsLastPage) {
+//                return;
+//            }
             mPageIndex++;
             slideArrival.setFooterViewVisible(true);
             getArrivalData();
@@ -136,6 +138,12 @@ public class TeacherPickActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                if (null == list || 0 == list.size()) {
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    mCurrentNoDataDays++;
+                    return;
+                }
+                mCurrentNoDataDays = 1;
 //                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 boolean isClear = mPageIndex == 1;
@@ -154,6 +162,11 @@ public class TeacherPickActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                if (null == list || 0 == list.size()) {
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    mCurrentNoDataDays++;
+                    return;
+                }
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 mArrivalAdapter.addAllItems(pickUpList, true);
             }

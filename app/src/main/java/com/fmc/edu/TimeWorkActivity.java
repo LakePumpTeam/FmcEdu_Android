@@ -23,7 +23,7 @@ public class TimeWorkActivity extends BaseActivity {
     private SlideListView slideListView;
     private TimeWorkAdapter mAdapter;
     private int mPageIndex = 1;
-    private boolean mIsLastPage;
+    private int mCurrentNoDataDays = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,10 @@ public class TimeWorkActivity extends BaseActivity {
         List<TimeWorkEntity> list = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
         if(null == list || 0 == list.size()) {
             ToastToolUtils.showShort("最近七天没有数据");
+            mCurrentNoDataDays++;
             return;
         }
+        mCurrentNoDataDays=1;
         mAdapter = new TimeWorkAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }
@@ -56,9 +58,6 @@ public class TimeWorkActivity extends BaseActivity {
     private SlideListView.OnLoadMoreListener slideLoadedMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
-            if (mIsLastPage) {
-                return;
-            }
             mPageIndex++;
             slideListView.setFooterViewVisible(true);
             getTimeWorkList();
@@ -77,10 +76,11 @@ public class TimeWorkActivity extends BaseActivity {
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 if(null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近七天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    mCurrentNoDataDays++;
                     return;
                 }
-                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+                mCurrentNoDataDays=1;
                 List<TimeWorkEntity> timeWorkList = TimeWorkEntity.toTimeWorkList(list);
                 mAdapter.addAllItems(timeWorkList, false);
             }
