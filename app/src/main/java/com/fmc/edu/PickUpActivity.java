@@ -94,7 +94,7 @@ public class PickUpActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
+        params.put("type", 1);
         MyIon.httpPost(PickUpActivity.this, "clock/in/clockInRecords", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
@@ -115,7 +115,7 @@ public class PickUpActivity extends BaseActivity {
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
         params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 0);
+        params.put("type", 1);
         MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
