@@ -46,7 +46,7 @@ public class CardSettingActivity extends BaseActivity {
         MyIon.httpPost(activity, "magneticCard/retrieveAllMagneticCard", params, activity.mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("magneticCards"));
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) list);
                 Intent intent = new Intent(activity, CardSettingActivity.class);

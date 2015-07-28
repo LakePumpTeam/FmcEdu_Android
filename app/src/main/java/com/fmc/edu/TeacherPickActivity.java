@@ -136,7 +136,7 @@ public class TeacherPickActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+//                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 boolean isClear = mPageIndex == 1;
                 mArrivalAdapter.addAllItems(pickUpList, isClear);
@@ -173,7 +173,7 @@ public class TeacherPickActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
-                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
+//                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
                 Intent intent = new Intent(activity, PickUpActivity.class);
                 intent.putExtras(bundle);
                 activity.startActivity(intent);

@@ -11,6 +11,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.TimeWorkEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -44,6 +45,10 @@ public class TimeWorkActivity extends BaseActivity {
     private void initData() {
         mPageIndex = 1;
         List<TimeWorkEntity> list = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
+        if(null == list || 0 == list.size()) {
+            ToastToolUtils.showShort("最近七天没有数据");
+            return;
+        }
         mAdapter = new TimeWorkAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }
@@ -71,6 +76,10 @@ public class TimeWorkActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                if(null == list || 0 == list.size()) {
+                    ToastToolUtils.showShort("最近七天没有数据");
+                    return;
+                }
                 mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<TimeWorkEntity> timeWorkList = TimeWorkEntity.toTimeWorkList(list);
                 mAdapter.addAllItems(timeWorkList, false);
@@ -92,7 +101,6 @@ public class TimeWorkActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) TimeWorkEntity.toTimeWorkList(list));
-                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
                 Intent intent = new Intent(activity, TimeWorkActivity.class);
                 intent.putExtras(bundle);
                 activity.startActivity(intent);
@@ -110,9 +118,9 @@ public class TimeWorkActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) TimeWorkEntity.toTimeWorkList(list));
-                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
                 Intent intent = new Intent(context, TimeWorkActivity.class);
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

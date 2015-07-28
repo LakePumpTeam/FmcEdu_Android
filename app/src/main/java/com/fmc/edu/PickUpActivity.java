@@ -11,6 +11,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ public class PickUpActivity extends BaseActivity {
     private LinearLayout llMsgList;
     private PickUpAdapter mAdapter;
     private int mPageIndex = 1;
-    private boolean mIsLastPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,11 @@ public class PickUpActivity extends BaseActivity {
 
     private void initData() {
         List<PickUpEntity> list = (List<PickUpEntity>) getIntent().getExtras().getSerializable("list");
+        if (null == list || 0 == list.size()) {
+            ToastToolUtils.showShort("最近七天没有数据");
+            return;
+        }
+
         mAdapter = new PickUpAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }
@@ -77,9 +82,6 @@ public class PickUpActivity extends BaseActivity {
     private SlideListView.OnLoadMoreListener slideLoadedMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
-            if (mIsLastPage) {
-                return;
-            }
             mPageIndex++;
             slideListView.setFooterViewVisible(true);
             getPickUpList();
@@ -97,7 +99,10 @@ public class PickUpActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+                if (null == list || 0 == list.size()) {
+                    ToastToolUtils.showShort("最近七天没有数据");
+                    return;
+                }
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 mAdapter.addAllItems(pickUpList, false);
             }
@@ -115,9 +120,9 @@ public class PickUpActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
-                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
                 Intent intent = new Intent(activity, PickUpActivity.class);
                 intent.putExtras(bundle);
                 activity.startActivity(intent);

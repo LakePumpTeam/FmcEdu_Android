@@ -41,10 +41,10 @@ public class CardSettingAdapter extends FmcBaseAdapter<Map<String, Object>> {
 
         Map<String, Object> item = mItems.get(position);
         txtCardNo.setText(ConvertUtils.getString(item.get("cardNo"), ""));
-        txtParent.setText(ConvertUtils.getString(item.get("parent"), ""));
-        boolean isLose = ConvertUtils.getBoolean(item.get("isLose"), false);
-        txtLose.setEnabled(isLose);
-        txtLose.setText(isLose ? "已挂失" : "点此挂失");
+        txtParent.setText(ConvertUtils.getString(item.get("parentName"), ""));
+        boolean isUnLose = ConvertUtils.getBoolean(item.get("status"), true);
+        txtLose.setEnabled(isUnLose);
+        txtLose.setText(!isUnLose ? "已挂失" : "点此挂失");
         txtComment.setText(ConvertUtils.getString(item.get("comment"), ""));
         txtLose.setTag(item);
         txtLose.setOnClickListener(txtLoseOnclickListener);
