@@ -1,6 +1,7 @@
 package com.fmc.edu.entity;
 
 import com.fmc.edu.enums.MessageTypeEnum;
+import com.fmc.edu.utils.ConvertUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,20 +15,26 @@ public class MessageListEntity implements Serializable {
     public String content;
     public String date;
     public String typeName;
+    public String title;
     public MessageTypeEnum messageType;
 
-    public static List<MessageListEntity> ConvertMessageList(List<Map<String, Object>> list) {
+    public static List<MessageListEntity> toMessageList(List<Map<String, Object>> list) {
         List<MessageListEntity> messageList = new ArrayList<>();
         for (Map<String, Object> item : list) {
-            MessageListEntity messageItem = ConvertMessage(item);
+            MessageListEntity messageItem = toMessage(item);
             messageList.add(messageItem);
         }
         return messageList;
     }
 
-    public static MessageListEntity ConvertMessage(Map<String, Object> hashMsg) {
-
+    public static MessageListEntity toMessage(Map<String, Object> hashMsg) {
+        if (null == hashMsg) {
+            return new MessageListEntity();
+        }
         MessageListEntity messageListEntity = new MessageListEntity();
+        messageListEntity.date = ConvertUtils.getFormatDateStr(hashMsg.get("date").toString(), "yyyy-MM-dd");
+        messageListEntity.content = ConvertUtils.getString(hashMsg.get("content"), "");
+        messageListEntity.title = ConvertUtils.getString(hashMsg.get("title"), "");
         return messageListEntity;
     }
 }

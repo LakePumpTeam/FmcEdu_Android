@@ -30,7 +30,7 @@ public class MessageListAdapter extends FmcBaseAdapter<MessageListEntity> {
 
         MessageListEntity item = mItems.get(position);
         txtDate.setText(item.date);
-        txtContent.setText(item.typeName + item.content);
+        txtContent.setText( item.content);
         return convertView;
     }
 }

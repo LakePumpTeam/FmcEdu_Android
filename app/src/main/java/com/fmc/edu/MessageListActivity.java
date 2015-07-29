@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.fmc.edu.adapter.MessageListAdapter;
-import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.MessageListEntity;
 import com.fmc.edu.enums.MessageTypeEnum;
-import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
-import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,7 +57,7 @@ public class MessageListActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 Intent intent = new Intent(context, MessageListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) MessageListEntity.ConvertMessageList(list));
+                bundle.putSerializable("list", (Serializable) MessageListEntity.toMessageList(list));
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
@@ -80,7 +77,7 @@ public class MessageListActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 Intent intent = new Intent(context, MessageListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) MessageListEntity.ConvertMessageList(list));
+                bundle.putSerializable("list", (Serializable) MessageListEntity.toMessageList(list));
                 intent.putExtras(bundle);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

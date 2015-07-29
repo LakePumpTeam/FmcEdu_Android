@@ -99,12 +99,11 @@ public class TeacherPickActivity extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             mProgressControl.showWindow();
-//            mIsLastPage = false;
             mCurrentNoDataDays = 1;
+            mPageIndex = 1;
             if (checkedId == R.id.teacher_pick_rb_arrival) {
                 llArrival.setVisibility(View.VISIBLE);
                 llUnArrival.setVisibility(View.GONE);
-                mPageIndex = 1;
                 getArrivalData();
 
             } else if (checkedId == R.id.teacher_pick_rb_un_arrival) {
@@ -118,9 +117,6 @@ public class TeacherPickActivity extends BaseActivity {
     private SlideListView.OnLoadMoreListener lodeMoreListener = new SlideListView.OnLoadMoreListener() {
         @Override
         public void onLoadMore(View footerView) {
-//            if (mIsLastPage) {
-//                return;
-//            }
             mPageIndex++;
             slideArrival.setFooterViewVisible(true);
             getArrivalData();
@@ -144,7 +140,6 @@ public class TeacherPickActivity extends BaseActivity {
                     return;
                 }
                 mCurrentNoDataDays = 1;
-//                mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 boolean isClear = mPageIndex == 1;
                 mArrivalAdapter.addAllItems(pickUpList, isClear);
@@ -174,23 +169,24 @@ public class TeacherPickActivity extends BaseActivity {
     }
 
     public static void startTeacherPickUpActivity(final BaseActivity activity) {
-        activity.mProgressControl.showWindow();
-        Map<String, Object> params = new HashMap<>();
-        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-        params.put("pageIndex", 1);
-        params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 1);
-        MyIon.httpPost(activity, "", params, activity.mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
-//                bundle.putBoolean("isLastPage", ConvertUtils.getBoolean(data.get("isLastPage")));
-                Intent intent = new Intent(activity, PickUpActivity.class);
-                intent.putExtras(bundle);
-                activity.startActivity(intent);
-            }
-        });
+        Intent intent = new Intent(activity, PickUpActivity.class);
+        activity.startActivity(intent);
+//        activity.mProgressControl.showWindow();
+//        Map<String, Object> params = new HashMap<>();
+//        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
+//        params.put("pageIndex", 1);
+//        params.put("studentId", loginUserEntity.studentId);
+//        params.put("type", 1);
+//        MyIon.httpPost(activity, "", params, activity.mProgressControl, new MyIon.AfterCallBack() {
+//            @Override
+//            public void afterCallBack(Map<String, Object> data) {
+//                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
+//                Intent intent = new Intent(activity, PickUpActivity.class);
+//                intent.putExtras(bundle);
+//                activity.startActivity(intent);
+//            }
+//        });
     }
 }
