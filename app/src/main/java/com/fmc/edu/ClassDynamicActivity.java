@@ -101,7 +101,6 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
                 return;
             }
             mPageIndex++;
-            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };
@@ -165,6 +164,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
         MyIon.httpPost(ClassDynamicActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                slideListView.setFooterViewVisible(false);
                 if (null == data.get("newsList")) {
                     return;
                 }
@@ -175,12 +175,13 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
     }
 
     private void afterGetDynamic(List<DynamicItemEntity> list) {
+
         if (mPageIndex == 1) {
             mAdapter.addAllItems(list, true);
             return;
         }
         mAdapter.addAllItems(list, false);
-        slideListView.setFooterViewVisible(false);
+
     }
 
     private void doSendComment() {

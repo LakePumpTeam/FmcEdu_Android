@@ -88,7 +88,7 @@ public class KidSchoolActivity extends BaseActivity {
                 return;
             }
             mPageIndex++;
-            slideListView.setFooterViewVisible(true);
+//            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };
@@ -167,11 +167,13 @@ public class KidSchoolActivity extends BaseActivity {
         MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                slideListView.setFooterViewVisible(false);
                 if (null == data.get("newsList")) {
                     return;
                 }
                 mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 afterGetDynamic(DynamicItemEntity.toDynamicItemEntity((List<Map<String, Object>>) data.get("newsList")));
+
             }
         });
     }
@@ -182,7 +184,7 @@ public class KidSchoolActivity extends BaseActivity {
             return;
         }
         mAdapter.addAllItems(list, false);
-        slideListView.setFooterViewVisible(false);
+
     }
 
 }

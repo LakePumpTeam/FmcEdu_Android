@@ -76,17 +76,20 @@ public class CampusActivity extends BaseActivity {
         MyIon.httpPost(CampusActivity.this, "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                slideList.setFooterViewVisible(false);
                 if (null == data.get("newsList")) {
                     return;
                 }
                 List<DynamicItemEntity> list = DynamicItemEntity.toDynamicItemEntity((List<Map<String, Object>>) data.get("newsList"));
                 mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
+
                 if (mPageIndex == 1) {
                     mAdapter.addAllItems(list, true);
                     return;
                 }
                 mAdapter.addAllItems(list, false);
-                slideList.setFooterViewVisible(false);
+
+
             }
         });
     }

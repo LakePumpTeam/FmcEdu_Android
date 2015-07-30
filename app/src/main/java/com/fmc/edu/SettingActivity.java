@@ -90,8 +90,7 @@ public class SettingActivity extends BaseActivity {
     private View.OnClickListener txtNewMsgNoticeOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(SettingActivity.this, MessageNoticeSettingActivity.class);
-            startActivity(intent);
+            MessageNoticeSettingActivity.startMessageNoticeSettingActivity(SettingActivity.this);
         }
     };
 

@@ -85,6 +85,7 @@ public class TaskListSearchActivity extends BaseActivity {
             if (mIsLastPage) {
                 return;
             }
+            slideTaskList.setFooterViewVisible(true);
             mPageIndex++;
             loadMoreData();
         }
@@ -100,6 +101,7 @@ public class TaskListSearchActivity extends BaseActivity {
         MyIon.httpPost(this, "task/requestTaskList", param, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                slideTaskList.setFooterViewVisible(false);
                 List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("taskList");
                 mIsLastPage = ConvertUtils.getBoolean(data.get("isLastPage"));
                 List<TaskEntity> taskList = TaskEntity.toTaskEntityList(list);

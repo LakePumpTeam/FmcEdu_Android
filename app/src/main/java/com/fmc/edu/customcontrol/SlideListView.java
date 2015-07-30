@@ -46,6 +46,7 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
             if (getLastVisiblePosition() == getCount() - 1) {
                 if (null != mOnLoadMoreListener) {
+                    mFooterView.setVisibility(VISIBLE);
                     mOnLoadMoreListener.onLoadMore(mFooterView);
                 }
             }

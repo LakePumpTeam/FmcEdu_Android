@@ -103,6 +103,7 @@ public class PickUpActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                slideListView.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
                     mCurrentNoDataDays++;

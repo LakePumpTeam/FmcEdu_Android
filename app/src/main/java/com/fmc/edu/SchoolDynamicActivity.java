@@ -92,6 +92,7 @@ public class SchoolDynamicActivity extends BaseActivity {
         MyIon.httpPost(SchoolDynamicActivity.this, "news/requestNewsList", params, isShowProgress ? mProgressControl : null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
+                slideListView.setFooterViewVisible(false);
                 if (null == data.get("newsList")) {
                     return;
                 }
@@ -107,6 +108,6 @@ public class SchoolDynamicActivity extends BaseActivity {
             return;
         }
         mAdapter.addAllItems(list, false);
-        slideListView.setFooterViewVisible(false);
+
     }
 }

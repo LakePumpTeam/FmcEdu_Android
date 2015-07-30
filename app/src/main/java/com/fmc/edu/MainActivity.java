@@ -201,6 +201,7 @@ public class MainActivity extends BaseActivity {
         public void onOperateClick(View v) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
+
         }
     };
 

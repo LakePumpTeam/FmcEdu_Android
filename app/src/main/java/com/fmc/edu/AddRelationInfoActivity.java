@@ -263,10 +263,11 @@ public class AddRelationInfoActivity extends BaseActivity {
                 title = "班级列表";
                 break;
         }
+        if (null != classListControl) {
+            classListControl.setFooterViewFalse();
+        }
         if (null == data || 0 == data.size()) {
-            if (null != classListControl) {
-                classListControl.setFooterViewFalse();
-            }
+
             return;
         }
         if (null == classListControl) {

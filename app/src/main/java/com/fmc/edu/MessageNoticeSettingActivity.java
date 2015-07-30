@@ -1,5 +1,6 @@
 package com.fmc.edu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.CheckBox;
 
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.service.StillStartService;
+import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
@@ -40,23 +42,41 @@ public class MessageNoticeSettingActivity extends BaseActivity {
     }
 
     private void initPageData() {
-        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(this);
-        if (null == settingData) {
+        Bundle bundle = getIntent().getExtras();
+        if (null == bundle) {
             return;
         }
-        ckShake.setChecked(settingData.get("shake"));
-        ckRing.setChecked(settingData.get("ring"));
+        ckShake.setChecked(bundle.getBoolean("isVibra"));
+        ckRing.setChecked(bundle.getBoolean("isBel"));
+    }
+
+    public static void startMessageNoticeSettingActivity(final BaseActivity activity) {
+        activity.mProgressControl.showWindow();
+        final Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", FmcApplication.getLoginUser().userId);
+        MyIon.httpPost(activity.getApplication(), "app/getAppSetting", params, activity.mProgressControl, new MyIon.AfterCallBack() {
+            @Override
+            public void afterCallBack(Map<String, Object> data) {
+                Intent intent = new Intent(activity, MessageNoticeSettingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isBel", ConvertUtils.getBoolean(data.get("isBel"), false));
+                bundle.putBoolean("isVibra", ConvertUtils.getBoolean(data.get("isVibra"), false));
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+
+            }
+        });
     }
 
     private View.OnClickListener btnSaveOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          mProgressControl.showWindow();
+            mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("userId", FmcApplication.getLoginUser().userId);
-            params.put("isBel",ckRing.isChecked());
-            params.put("isVibra",ckShake.isChecked());
-            MyIon.httpPost(MessageNoticeSettingActivity.this, "profile/appSetting", params, mProgressControl, new MyIon.AfterCallBack() {
+            params.put("isBel", ckRing.isChecked());
+            params.put("isVibra", ckShake.isChecked());
+            MyIon.httpPost(MessageNoticeSettingActivity.this, "app/appSetting", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
                     ToastToolUtils.showLong("设置成功");
