@@ -88,8 +88,6 @@ public class CampusActivity extends BaseActivity {
                     return;
                 }
                 mAdapter.addAllItems(list, false);
-
-
             }
         });
     }

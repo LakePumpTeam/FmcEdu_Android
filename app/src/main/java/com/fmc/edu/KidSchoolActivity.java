@@ -88,7 +88,7 @@ public class KidSchoolActivity extends BaseActivity {
                 return;
             }
             mPageIndex++;
-//            slideListView.setFooterViewVisible(true);
+            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };

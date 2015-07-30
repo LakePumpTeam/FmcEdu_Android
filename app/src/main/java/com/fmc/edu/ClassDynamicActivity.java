@@ -101,6 +101,7 @@ public class ClassDynamicActivity extends BaseActivity implements View.OnLayoutC
                 return;
             }
             mPageIndex++;
+            slideListView.setFooterViewVisible(true);
             getDynamicData();
         }
     };
