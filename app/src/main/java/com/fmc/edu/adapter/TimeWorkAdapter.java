@@ -34,7 +34,7 @@ public class TimeWorkAdapter extends FmcBaseAdapter<TimeWorkEntity> {
         txtDate.setText(item.date);
         txtWeek.setText(item.week);
         txtTime.setText(item.time);
-        txtSign.setText(item.attendance ? "进" : "出");
+        txtSign.setText(item.attendance ? "进校" : "离校");
         return convertView;
     }
 }

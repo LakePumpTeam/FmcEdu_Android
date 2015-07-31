@@ -54,7 +54,7 @@ public class MessageListActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
 
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("pushMessages"));
                 Intent intent = new Intent(context, MessageListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) MessageListEntity.toMessageList(list));
@@ -74,7 +74,7 @@ public class MessageListActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
 
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("pushMessages"));
                 Intent intent = new Intent(context, MessageListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("list", (Serializable) MessageListEntity.toMessageList(list));
@@ -86,16 +86,4 @@ public class MessageListActivity extends BaseActivity {
 
     }
 
-    private static List<MessageListEntity> buildMessageSettingData() {
-        List<MessageListEntity> list = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            MessageListEntity item = new MessageListEntity();
-            item.content = "提示内容";
-            item.date = "2015-06-15";
-            item.messageType = MessageTypeEnum.Common;
-            item.typeName = MessageTypeEnum.GetMessageTypeName(i % 2);
-            list.add(item);
-        }
-        return list;
-    }
 }

@@ -6,12 +6,18 @@ import android.os.Bundle;
 
 import com.fmc.edu.MessageListActivity;
 import com.fmc.edu.RelatedInfoActivity;
+import com.fmc.edu.TimeWorkActivity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.MessageListEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.JsonToMapUtils;
+import com.fmc.edu.utils.JsonUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.ToastToolUtils;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,12 +68,20 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
     }
 
     @Override
-    public void onNotificationClicked(Context context, String title, String content, String customContentString){
-        MessageListActivity.startNoticeMessageActivity(context);
+    public void onNotificationClicked(Context context, String title, String content, String customContentString) {
+        Map<String, Object> map = JsonUtils.getMap(customContentString);
+        String msgType = ConvertUtils.getString(map.get("msgType"), "");
+        if (msgType.equals("4") || msgType.equals("5")) {
+            TimeWorkActivity.startNoticeMessageActivity(context);
+        } else {
+            MessageListActivity.startNoticeMessageActivity(context);
+        }
     }
 
     @Override
     public void onNotificationArrived(Context context, String title, String content, String customContentString) {
+
+
         ToastToolUtils.showShort(title);
     }
 
