@@ -4,81 +4,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg_color_write"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_padding_middle"
-    android:paddingRight="@dimen/activity_padding_middle">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/item_campus_list_img_popular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_hot"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/item_campus_list_txt_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
-        android:singleLine="true"
-        android:textColor="@color/dynamic_title_color"
-        android:textSize="@dimen/font_size_middle" />
-
-    <com.fmc.edu.customcontrol.ExpandableTextViewControl
-        android:id="@+id/item_campus_list_expand_text_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        fmc:isExpand="true"
-        fmc:maxCollapseLines="5" />
+        android:paddingLeft="@dimen/activity_padding_middle"
+        android:paddingRight="@dimen/activity_padding_middle">
 
-
-    <com.fmc.edu.customcontrol.GridViewControl
-        android:id="@+id/item_campus_list_grid_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
-        android:horizontalSpacing="5dp"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="4" />
-
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_margin_small"
-        android:layout_marginTop="@dimen/activity_margin_middle">
-
-        <TextView
-            android:id="@+id/item_campus_list_txt_date"
+        <ImageView
+            android:id="@+id/item_campus_list_img_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
+            android:src="@mipmap/ic_hot"
+            android:visibility="gone" />
 
         <TextView
-            android:id="@+id/item_campus_list_txt_participation_count"
+            android:id="@+id/item_campus_list_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:singleLine="true"
+            android:textColor="@color/dynamic_title_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <com.fmc.edu.customcontrol.ExpandableTextViewControl
+            android:id="@+id/item_campus_list_expand_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            fmc:isExpand="true"
+            fmc:maxCollapseLines="5" />
+
+
+        <com.fmc.edu.customcontrol.GridViewControl
+            android:id="@+id/item_campus_list_grid_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_toLeftOf="@+id/item_campus_list_txt_participation"
-            android:drawableLeft="@mipmap/ic_part_in"
-            android:drawablePadding="@dimen/activity_padding_middle"
-            android:text="0"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
+            android:layout_marginTop="@dimen/activity_margin_small"
+            android:horizontalSpacing="5dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4" />
 
-        <TextView
-            android:id="@+id/item_campus_list_txt_participation"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_margin_small"
-            android:clickable="true"
-            android:text="我要参与"
-            android:textColor="@color/btn_bg_color_sel"
-            android:textSize="@dimen/font_size_small" />
-    </RelativeLayout>
+            android:layout_marginBottom="@dimen/activity_margin_small"
+            android:layout_marginTop="@dimen/activity_margin_middle">
 
+            <TextView
+                android:id="@+id/item_campus_list_txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/dynamic_content_color"
+                android:textSize="@dimen/font_size_small" />
+
+            <TextView
+                android:id="@+id/item_campus_list_txt_participation_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_toLeftOf="@+id/item_campus_list_txt_participation"
+                android:drawableLeft="@mipmap/ic_part_in"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:text="0"
+                android:textColor="@color/dynamic_content_color"
+                android:textSize="@dimen/font_size_small" />
+
+            <TextView
+                android:id="@+id/item_campus_list_txt_participation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_margin_small"
+                android:clickable="true"
+                android:text="我要参与"
+                android:textColor="@color/btn_bg_color_sel"
+                android:textSize="@dimen/font_size_small" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View style="@style/HorizontalDividerLineStyle" />
 </LinearLayout>

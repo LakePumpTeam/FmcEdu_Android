@@ -264,7 +264,7 @@ public class AddRelationInfoActivity extends BaseActivity {
                 break;
         }
         if (null != classListControl) {
-            classListControl.setFooterViewFalse();
+            classListControl.setFooterViewFalse(false);
         }
         if (null == data || 0 == data.size()) {
 
@@ -443,7 +443,7 @@ public class AddRelationInfoActivity extends BaseActivity {
         public void onLoadMore() {
             if (mIsLastPage) {
                 if (null != classListControl) {
-                    classListControl.setFooterViewFalse();
+                    classListControl.setFooterViewFalse(false);
                 }
                 return;
             }

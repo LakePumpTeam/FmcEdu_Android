@@ -5,70 +5,78 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/activity_margin_middle"
     android:background="@color/edit_text_bg_color"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_padding_middle"
-    android:paddingRight="@dimen/activity_padding_middle">
+    android:orientation="vertical">
 
-    <com.fmc.edu.customcontrol.ExpandableTextViewControl
-        android:id="@+id/expand_text_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        fmc:isExpand="true"
-        fmc:maxCollapseLines="5" />
+        android:paddingLeft="@dimen/activity_padding_middle"
+        android:paddingRight="@dimen/activity_padding_middle">
+
+        <com.fmc.edu.customcontrol.ExpandableTextViewControl
+            android:id="@+id/expand_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            fmc:isExpand="true"
+            fmc:maxCollapseLines="5" />
 
 
-    <GridView
-        android:id="@+id/item_class_dynamic_list_grid_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
-        android:horizontalSpacing="5dp"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="4" />
+        <GridView
+            android:id="@+id/item_class_dynamic_list_grid_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_small"
+            android:horizontalSpacing="5dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4" />
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_margin_small"
-        android:layout_marginTop="@dimen/activity_margin_middle">
-
-        <TextView
-            android:id="@+id/item_class_dynamic_list_txt_date"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
+            android:layout_marginBottom="@dimen/activity_margin_small"
+            android:layout_marginTop="@dimen/activity_margin_middle">
 
-        <ImageView
-            android:id="@+id/item_class_dynamic_list_img_delete"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/item_class_dynamic_list_txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/dynamic_content_color"
+                android:textSize="@dimen/font_size_small" />
+
+            <ImageView
+                android:id="@+id/item_class_dynamic_list_img_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_toLeftOf="@+id/item_class_dynamic_list_txt_comment"
+                android:clickable="true"
+                android:src="@mipmap/ic_delete" />
+
+            <TextView
+                android:id="@+id/item_class_dynamic_list_txt_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/activity_margin_middle"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/ic_comment"
+                android:drawablePadding="@dimen/activity_padding_middle"
+                android:textColor="@color/dynamic_content_color"
+                android:textSize="@dimen/font_size_small" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/item_class_dynamic_list_ll_comment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_toLeftOf="@+id/item_class_dynamic_list_txt_comment"
-            android:clickable="true"
-            android:src="@mipmap/ic_delete" />
+            android:layout_marginBottom="@dimen/activity_margin_small"
+            android:orientation="vertical" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/item_class_dynamic_list_txt_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_margin_middle"
-            android:clickable="true"
-            android:drawableLeft="@mipmap/ic_comment"
-            android:drawablePadding="@dimen/activity_padding_middle"
-            android:textColor="@color/dynamic_content_color"
-            android:textSize="@dimen/font_size_small" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/item_class_dynamic_list_ll_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_margin_small"
-        android:orientation="vertical" />
+    <View style="@style/HorizontalDividerLineStyle" />
 </LinearLayout>

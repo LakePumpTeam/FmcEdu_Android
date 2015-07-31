@@ -448,10 +448,10 @@ public class RelatedInfoActivity extends BaseActivity {
                 title = "班级列表";
                 break;
         }
+        if (null != classListControl) {
+            classListControl.setFooterViewFalse(false);
+        }
         if (null == data || 0 == data.size()) {
-            if (null != classListControl) {
-                classListControl.setFooterViewFalse();
-            }
             return;
         }
         if (null == classListControl) {
@@ -485,7 +485,7 @@ public class RelatedInfoActivity extends BaseActivity {
         public void onLoadMore() {
             if (mIsLastPage) {
                 if (null != classListControl) {
-                    classListControl.setFooterViewFalse();
+                    classListControl.setFooterViewFalse(false);
                 }
                 return;
             }

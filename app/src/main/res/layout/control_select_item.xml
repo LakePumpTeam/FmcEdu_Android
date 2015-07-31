@@ -19,6 +19,6 @@
         android:textColor="@color/edit_text_font_color"
         android:textSize="@dimen/font_size_middle" />
 
-    <View style="@style/HorizontalDividerLineStyle"></View>
+    <View style="@style/HorizontalDividerLineStyle"/>
 
 </LinearLayout>

@@ -35,7 +35,7 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         addFooterView(mFooterView);
         setFooterViewVisible(false);
         this.setDivider(new ColorDrawable(getResources().getColor(R.color.divider_bg_color)));
-        this.setDividerHeight(1);
+        this.setDividerHeight(0);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         }
         if (isVisible) {
             mFooterView.setVisibility(View.VISIBLE);
+
         } else {
             mFooterView.setVisibility(View.GONE);
         }

@@ -18,6 +18,7 @@
             android:id="@+id/select_list_txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_size_middle" />
     </LinearLayout>

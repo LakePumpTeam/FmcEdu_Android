@@ -156,7 +156,6 @@ public class KidSchoolActivity extends BaseActivity {
     }
 
     private void getDynamicData() {
-        mProgressControl.showWindow();
         Map<String, Object> params = new HashMap<String, Object>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
@@ -164,7 +163,7 @@ public class KidSchoolActivity extends BaseActivity {
         params.put("userId", loginUserEntity.userId);
         params.put("type", DynamicTypeEnum.getValue(DynamicTypeEnum.ClassDynamic));
         params.put("classId", loginUserEntity.classId);
-        MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, mProgressControl, new MyIon.AfterCallBack() {
+        MyIon.httpPost(KidSchoolActivity.this,  "news/requestNewsList", params, null, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 slideListView.setFooterViewVisible(false);

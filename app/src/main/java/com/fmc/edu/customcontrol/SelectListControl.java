@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -77,6 +78,9 @@ public class SelectListControl extends PopupWindow {
         linearLayout.setBackgroundColor(Color.parseColor("#bb666666"));
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.control_select_list, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mDisplayMetrics.widthPixels - 80, mDisplayMetrics.heightPixels - 100);
+        layoutParams.setMargins(20, 20, 20, 50);
+        view.setLayoutParams(layoutParams);
         txtTitle = (TextView) view.findViewById(R.id.select_list_txt_title);
         listView = (SlideListView) view.findViewById(R.id.select_slide_list);
         txtTitle.setText(mTitle);
@@ -119,7 +123,6 @@ public class SelectListControl extends PopupWindow {
             if (null == mOnLoadMoreListener || mIsLastPage) {
                 return;
             }
-//            footerView.setVisibility(View.VISIBLE);
             mFooterView = footerView;
             listView.setFooterViewVisible(true);
             mOnLoadMoreListener.onLoadMore();
@@ -136,13 +139,12 @@ public class SelectListControl extends PopupWindow {
 
     public void setLoadMoreData(List<CommonEntity> data, boolean isLastPage) {
         mIsLastPage = isLastPage;
-        mFooterView.setVisibility(View.GONE);
+        listView.setFooterViewVisible(false);
         mSelectListControlAdapter.addAllItems(data, false);
         mSelectListControlAdapter.notifyDataSetChanged();
     }
 
-    public void setFooterViewFalse() {
-        listView.setFooterViewVisible(true);
-//        mFooterView.setVisibility(View.GONE);
+    public void setFooterViewFalse(boolean isVisible) {
+        listView.setFooterViewVisible(isVisible);
     }
 }
