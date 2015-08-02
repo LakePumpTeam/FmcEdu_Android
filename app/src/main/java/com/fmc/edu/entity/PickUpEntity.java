@@ -1,5 +1,8 @@
 package com.fmc.edu.entity;
 
+import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.StringUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,23 +16,29 @@ public class PickUpEntity implements Serializable {
     public String week;
     public String time;
     public String parentName;
-    public String parnetId;
+    public String parentId;
     public String studentName;
     public String studentId;
-    public boolean isArrival;
 
 
-    public static List<PickUpEntity> toPickUpEntityList(List<Map<String,Object>> mapList){
+    public static List<PickUpEntity> toPickUpEntityList(List<Map<String, Object>> mapList) {
         List<PickUpEntity> pickUpList = new ArrayList<>();
-        for(Map<String,Object> mapItem : mapList){
+        for (Map<String, Object> mapItem : mapList) {
             PickUpEntity pickUpItem = toPickUpEntity(mapItem);
             pickUpList.add(pickUpItem);
         }
-        return  pickUpList;
+        return pickUpList;
     }
 
     private static PickUpEntity toPickUpEntity(Map<String, Object> mapItem) {
         PickUpEntity pickUpEntity = new PickUpEntity();
+        pickUpEntity.date = ConvertUtils.getString(mapItem.get("date"), "");
+        pickUpEntity.week = StringUtils.dayForWeek(pickUpEntity.date);
+        pickUpEntity.time = ConvertUtils.getString(mapItem.get("time"), "");
+        pickUpEntity.parentName = ConvertUtils.getString(mapItem.get("parentName"), "");
+        pickUpEntity.parentId = ConvertUtils.getString(mapItem.get("parentId"), "");
+        pickUpEntity.studentName = ConvertUtils.getString(mapItem.get("studentName"), "");
+        pickUpEntity.studentId = ConvertUtils.getString(mapItem.get("studentId"), "");
         return pickUpEntity;
     }
 }

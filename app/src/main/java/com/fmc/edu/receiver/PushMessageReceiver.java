@@ -72,6 +72,10 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
         Map<String, Object> map = JsonUtils.getMap(customContentString);
         String msgType = ConvertUtils.getString(map.get("msgType"), "");
         if (msgType.equals("4") || msgType.equals("5")) {
+
+
+
+
             TimeWorkActivity.startNoticeMessageActivity(context);
         } else {
             MessageListActivity.startNoticeMessageActivity(context);

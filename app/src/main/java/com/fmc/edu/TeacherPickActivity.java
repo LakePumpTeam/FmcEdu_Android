@@ -128,12 +128,11 @@ public class TeacherPickActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
-        params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 1);
-        MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, progressControl, new MyIon.AfterCallBack() {
+        params.put("classId", loginUserEntity.classId);
+        MyIon.httpPost(TeacherPickActivity.this, "clock/in/queryClockInParent", params, progressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
                 slideArrival.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
@@ -151,10 +150,8 @@ public class TeacherPickActivity extends BaseActivity {
     private void getUnArrivalData() {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-        params.put("pageIndex", 1);
-        params.put("studentId", loginUserEntity.studentId);
-        params.put("type", 1);
-        MyIon.httpPost(TeacherPickActivity.this, "clock/in/clockInRecords", params, mProgressControl, new MyIon.AfterCallBack() {
+        params.put("classId", loginUserEntity.classId);
+        MyIon.httpPost(TeacherPickActivity.this, "clock/in/queryNotClockInParent", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
@@ -172,22 +169,5 @@ public class TeacherPickActivity extends BaseActivity {
     public static void startTeacherPickUpActivity(final BaseActivity activity) {
         Intent intent = new Intent(activity, PickUpActivity.class);
         activity.startActivity(intent);
-//        activity.mProgressControl.showWindow();
-//        Map<String, Object> params = new HashMap<>();
-//        LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
-//        params.put("pageIndex", 1);
-//        params.put("studentId", loginUserEntity.studentId);
-//        params.put("type", 1);
-//        MyIon.httpPost(activity, "", params, activity.mProgressControl, new MyIon.AfterCallBack() {
-//            @Override
-//            public void afterCallBack(Map<String, Object> data) {
-//                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("list", (Serializable) PickUpEntity.toPickUpEntityList(list));
-//                Intent intent = new Intent(activity, PickUpActivity.class);
-//                intent.putExtras(bundle);
-//                activity.startActivity(intent);
-//            }
-//        });
     }
 }
