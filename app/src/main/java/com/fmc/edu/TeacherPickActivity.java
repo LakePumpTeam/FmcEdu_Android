@@ -39,6 +39,7 @@ public class TeacherPickActivity extends BaseActivity {
     private SlideListView slideArrival;
     private ListView lvUnArrival;
     private int mCurrentNoDataDays = 1;
+    private int mArrivalTotalCount = 0;
 
     private TeacherPickArrivalAdapter mArrivalAdapter;
     private TeacherPickUnArrivalAdapter mUnArrivalAdapter;
@@ -102,6 +103,7 @@ public class TeacherPickActivity extends BaseActivity {
             mCurrentNoDataDays = 1;
             mPageIndex = 1;
             if (checkedId == R.id.teacher_pick_rb_arrival) {
+                mArrivalTotalCount = 0;
                 llArrival.setVisibility(View.VISIBLE);
                 llUnArrival.setVisibility(View.GONE);
                 getArrivalData();
@@ -133,12 +135,14 @@ public class TeacherPickActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
+                mArrivalTotalCount += ConvertUtils.getInteger(data.get("parentCount"), 0);
                 slideArrival.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }
+                rbArrival.setText("已到家长(" + (mArrivalTotalCount > 99 ? "99+" : mArrivalTotalCount) + ")");
                 mCurrentNoDataDays = 1;
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 boolean isClear = mPageIndex == 1;
@@ -160,6 +164,7 @@ public class TeacherPickActivity extends BaseActivity {
                     mCurrentNoDataDays++;
                     return;
                 }
+                rbUnArrival.setText("未到家长(" + data.get("parentCount") + ")");
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                 mArrivalAdapter.addAllItems(pickUpList, true);
             }

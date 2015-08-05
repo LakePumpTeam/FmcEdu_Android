@@ -81,7 +81,7 @@
             android:value="true" />
         <meta-data
             android:name="baiDuAppKey"
-            android:value="SLHL6GPxiQo6niknDQEI1c1V" />
+            android:value="zLy5twQDWL07Q5ipEo7NjSqw" />
 
         <activity
             android:name=".MainActivity"

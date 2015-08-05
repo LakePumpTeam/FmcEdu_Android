@@ -139,7 +139,11 @@ public class MainActivity extends BaseActivity {
             imgSendNewMsg.setVisibility(View.GONE);
         }
         if (AppConfigUtils.isKindergarten()) {
-
+            menuPickup.setVisibility(View.VISIBLE);
+            menuTimeWork.setVisibility(View.GONE);
+        } else {
+            menuPickup.setVisibility(View.GONE);
+            menuTimeWork.setVisibility(View.VISIBLE);
         }
     }
 

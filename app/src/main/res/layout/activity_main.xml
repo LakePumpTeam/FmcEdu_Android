@@ -77,7 +77,7 @@
                     android:layout_height="match_parent"
                     android:layout_above="@+id/main_view_school_down_line"
                     fmc:drawableId="@mipmap/ic_school_dynamic"
-                    fmc:menuName="校园动态"/>
+                    fmc:menuName="校园动态" />
 
                 <View
                     android:id="@+id/main_view_school_down_line"
@@ -246,12 +246,22 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <com.fmc.edu.customcontrol.MenuItemControl
                     android:id="@+id/main_menu_pickup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     fmc:drawableId="@mipmap/pickup"
                     fmc:menuName="接送学生" />
+
+                <com.fmc.edu.customcontrol.MenuItemControl
+                    android:id="@+id/main_menu_timework"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    fmc:drawableId="@mipmap/timework"
+                    fmc:menuName="考勤" />
 
                 <View
                     style="@style/VerticalGradientDividerLineStyle"
@@ -262,13 +272,8 @@
                 android:id="@+id/main_menu_item_rl_timework"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
-                <com.fmc.edu.customcontrol.MenuItemControl
-                    android:id="@+id/main_menu_timework"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    fmc:drawableId="@mipmap/timework"
-                    fmc:menuName="考勤" />
+                android:layout_weight="1">
+
 
                 <View
                     style="@style/VerticalGradientDividerLineStyle"
