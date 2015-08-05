@@ -242,9 +242,10 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/main_menu_item_rl_pickup"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
                 <com.fmc.edu.customcontrol.MenuItemControl
                     android:id="@+id/main_menu_pickup"
                     android:layout_width="match_parent"
@@ -258,6 +259,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/main_menu_item_rl_timework"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >

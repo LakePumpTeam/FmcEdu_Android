@@ -35,7 +35,7 @@ public class PickUpEntity implements Serializable {
         pickUpEntity.date = ConvertUtils.getString(mapItem.get("date"), "");
         pickUpEntity.week = StringUtils.dayForWeek(pickUpEntity.date);
         pickUpEntity.time = ConvertUtils.getString(mapItem.get("time"), "");
-        pickUpEntity.parentName = ConvertUtils.getString(mapItem.get("parentName"), "");
+        pickUpEntity.parentName = ConvertUtils.getString(mapItem.get("name"), "");
         pickUpEntity.parentId = ConvertUtils.getString(mapItem.get("parentId"), "");
         pickUpEntity.studentName = ConvertUtils.getString(mapItem.get("studentName"), "");
         pickUpEntity.studentId = ConvertUtils.getString(mapItem.get("studentId"), "");

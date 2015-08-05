@@ -27,6 +27,7 @@ import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.RequestCodeUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
+import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -137,6 +138,9 @@ public class MainActivity extends BaseActivity {
             rlAudit.setVisibility(View.GONE);
             imgSendNewMsg.setVisibility(View.GONE);
         }
+        if (AppConfigUtils.isKindergarten()) {
+
+        }
     }
 
     private void initNewDynamic() {
@@ -230,8 +234,9 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_menu_syllabus_dynamic:
                     if (AppConfigUtils.isDevelopThree()) {
-                        menuSyllabusDynamic.setHasDynamic(false);
-                        gotoSyllabusActivity();
+                        ToastToolUtils.showShort("暂未开放");
+//                        menuSyllabusDynamic.setHasDynamic(false);
+//                        gotoSyllabusActivity();
                     }
                     break;
                 case R.id.main_menu_parenting:

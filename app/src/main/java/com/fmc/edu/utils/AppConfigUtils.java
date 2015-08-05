@@ -22,6 +22,7 @@ public class AppConfigUtils {
     private static String DEVELOPER_THREE = "com.fmc.edu.three";
     private static String DEVELOPER_FOUR = "com.fmc.edu.four";
     private static String BAIDU_APPKEY = "baiDuAppKey";
+    private static  String IS_KINDERGARTEN ="com.fmc.edu.is_kindergarten";
 
     private static Map<String, Object> configCacheMap = new HashMap<String, Object>(10);
 
@@ -31,6 +32,11 @@ public class AppConfigUtils {
 
     public static String getBaiduAppKey() {
         return ConvertUtils.getString(getValue(BAIDU_APPKEY, ""));
+    }
+
+    public static boolean isKindergarten() {
+        return ConvertUtils.getBoolean(getValue(IS_KINDERGARTEN, false));
+
     }
 
     public static boolean isDevelopment() {

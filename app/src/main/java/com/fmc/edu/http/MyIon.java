@@ -60,7 +60,7 @@ public class MyIon {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, ?> result) {
 
-                            if (!HttpTools.isRequestSuccessfully(e, result))
+                                if (!HttpTools.isRequestSuccessfully(e, result))
 
                             {
                                 ToastToolUtils.showLong(result.get("msg").toString());
@@ -118,7 +118,7 @@ public class MyIon {
                             {
                                 ToastToolUtils.showLong("服务器出错");
                                 return;
-                            }
+                        }
 
                             Map<String, Object> mapData = (Map<String, Object>) result.get("data");
                             if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {

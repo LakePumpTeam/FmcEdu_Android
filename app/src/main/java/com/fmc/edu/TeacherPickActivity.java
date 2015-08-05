@@ -167,7 +167,7 @@ public class TeacherPickActivity extends BaseActivity {
     }
 
     public static void startTeacherPickUpActivity(final BaseActivity activity) {
-        Intent intent = new Intent(activity, PickUpActivity.class);
+        Intent intent = new Intent(activity, TeacherPickActivity.class);
         activity.startActivity(intent);
     }
 }
