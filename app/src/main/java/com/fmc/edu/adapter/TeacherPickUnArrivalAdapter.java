@@ -51,6 +51,7 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
         PickUpEntity item = mItems.get(position);
         txtDate.setText(item.date);
         txtStudent.setText(item.studentName);
+        txtRemind.setTag(item.studentId);
         txtRemind.setOnClickListener(txtRemindOnClickListener);
         return convertView;
     }
@@ -62,7 +63,7 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
             final BaseActivity baseActivity = (BaseActivity) mContext;
             baseActivity.mProgressControl.showWindow();
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("studentId", FmcApplication.getLoginUser().studentId);
+            params.put("studentId",v.getTag());
             MyIon.httpPost(mContext, "clock/in/notifyParentNorthDelta", params, baseActivity.mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
@@ -73,7 +74,7 @@ public class TeacherPickUnArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
                             txtView.setText("点击提醒");
                             txtView.setEnabled(true);
                         }
-                    }, 180000);
+                    }, 2000);
                 }
             });
         }

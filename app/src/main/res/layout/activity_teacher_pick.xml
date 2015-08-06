@@ -229,8 +229,8 @@
             android:id="@+id/teacher_pick_lv_un_arrival"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/divider_bg_color"
-            android:dividerHeight="1dp" />
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </LinearLayout>
 
 </LinearLayout>

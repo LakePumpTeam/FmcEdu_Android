@@ -80,6 +80,7 @@ public class TeacherPickActivity extends BaseActivity {
         slideArrival.setAdapter(mArrivalAdapter);
         mUnArrivalAdapter = new TeacherPickUnArrivalAdapter(this, new ArrayList<PickUpEntity>());
         lvUnArrival.setAdapter(mUnArrivalAdapter);
+        getUnArrivalData();
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -103,12 +104,14 @@ public class TeacherPickActivity extends BaseActivity {
             mCurrentNoDataDays = 1;
             mPageIndex = 1;
             if (checkedId == R.id.teacher_pick_rb_arrival) {
+                mArrivalAdapter.clearItems();
                 mArrivalTotalCount = 0;
                 llArrival.setVisibility(View.VISIBLE);
                 llUnArrival.setVisibility(View.GONE);
                 getArrivalData();
 
             } else if (checkedId == R.id.teacher_pick_rb_un_arrival) {
+                mUnArrivalAdapter.clearItems();
                 llArrival.setVisibility(View.GONE);
                 llUnArrival.setVisibility(View.VISIBLE);
                 getUnArrivalData();
@@ -158,7 +161,7 @@ public class TeacherPickActivity extends BaseActivity {
         MyIon.httpPost(TeacherPickActivity.this, "clock/in/queryNotClockInParent", params, mProgressControl, new MyIon.AfterCallBack() {
             @Override
             public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
                 if (null == list || 0 == list.size()) {
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
                     mCurrentNoDataDays++;
@@ -166,7 +169,7 @@ public class TeacherPickActivity extends BaseActivity {
                 }
                 rbUnArrival.setText("未到家长(" + data.get("parentCount") + ")");
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
-                mArrivalAdapter.addAllItems(pickUpList, true);
+               mUnArrivalAdapter.addAllItems(pickUpList, true);
             }
         });
     }
