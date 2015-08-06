@@ -61,9 +61,7 @@ public class StillStartService extends Service {
 
 
     public static void baiduStartWork(Context context) {
-        if (PushManager.isConnected(context) && PushManager.isPushEnabled(context)) {
-            return;
-        }
+
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
         builder.setStatusbarIcon(R.mipmap.send_msg_2);
         builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失

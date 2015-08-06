@@ -138,13 +138,13 @@ public class TeacherPickActivity extends BaseActivity {
             @Override
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
-                mArrivalTotalCount += ConvertUtils.getInteger(data.get("parentCount"), 0);
                 slideArrival.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays  + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }
+                mArrivalTotalCount +=list.size();
                 rbArrival.setText("已到家长(" + (mArrivalTotalCount > 99 ? "99+" : mArrivalTotalCount) + ")");
                 mCurrentNoDataDays = 1;
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
@@ -163,11 +163,11 @@ public class TeacherPickActivity extends BaseActivity {
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
                 if (null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }
-                rbUnArrival.setText("未到家长(" + data.get("parentCount") + ")");
+                rbUnArrival.setText("未到家长(" + list.size() + ")");
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
                mUnArrivalAdapter.addAllItems(pickUpList, true);
             }

@@ -46,7 +46,7 @@ public class TimeWorkActivity extends BaseActivity {
         mPageIndex = 1;
         List<TimeWorkEntity> list = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
         if(null == list || 0 == list.size()) {
-            ToastToolUtils.showShort("最近七天没有数据");
+            ToastToolUtils.showShort("最近一天没有数据");
             mCurrentNoDataDays++;
             return;
         }
@@ -77,7 +77,7 @@ public class TimeWorkActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 slideListView.setFooterViewVisible(false);
                 if(null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }

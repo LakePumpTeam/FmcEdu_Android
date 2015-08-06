@@ -73,9 +73,6 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
         String msgType = ConvertUtils.getString(map.get("msgType"), "");
         if (msgType.equals("4") || msgType.equals("5")) {
 
-
-
-
             TimeWorkActivity.startNoticeMessageActivity(context);
         } else {
             MessageListActivity.startNoticeMessageActivity(context);

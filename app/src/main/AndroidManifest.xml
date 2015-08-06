@@ -65,7 +65,7 @@
             android:value="false" />
         <meta-data
             android:name="com.fmc.edu.is_kindergarten"
-            android:value="true" />
+            android:value="false" />
 
         <meta-data
             android:name="com.fmc.edu.page_size"
