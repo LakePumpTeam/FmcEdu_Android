@@ -45,12 +45,12 @@ public class TimeWorkActivity extends BaseActivity {
     private void initData() {
         mPageIndex = 1;
         List<TimeWorkEntity> list = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
-        if(null == list || 0 == list.size()) {
+        if (null == list || 0 == list.size()) {
             ToastToolUtils.showShort("最近一天没有数据");
             mCurrentNoDataDays++;
             return;
         }
-        mCurrentNoDataDays=1;
+        mCurrentNoDataDays = 1;
         mAdapter = new TimeWorkAdapter(this, list);
         slideListView.setAdapter(mAdapter);
     }
@@ -76,12 +76,12 @@ public class TimeWorkActivity extends BaseActivity {
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 slideListView.setFooterViewVisible(false);
-                if(null == list || 0 == list.size()) {
+                if (null == list || 0 == list.size()) {
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }
-                mCurrentNoDataDays=1;
+                mCurrentNoDataDays = 1;
                 List<TimeWorkEntity> timeWorkList = TimeWorkEntity.toTimeWorkList(list);
                 mAdapter.addAllItems(timeWorkList, false);
             }
@@ -94,19 +94,27 @@ public class TimeWorkActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
-        params.put("studentId", loginUserEntity.studentId);
+        if (loginUserEntity.userRole == com.fmc.edu.enums.UserRoleEnum.Parent) {
+            params.put("studentId", loginUserEntity.studentId);
+        } else {
+            params.put("classId", loginUserEntity.classId);
+        }
         params.put("type", 0);
-        MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack() {
-            @Override
-            public void afterCallBack(Map<String, Object> data) {
-                List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("list", (Serializable) TimeWorkEntity.toTimeWorkList(list));
-                Intent intent = new Intent(activity, TimeWorkActivity.class);
-                intent.putExtras(bundle);
-                activity.startActivity(intent);
-            }
-        });
+        MyIon.httpPost(activity, "clock/in/clockInRecords", params, activity.mProgressControl, new MyIon.AfterCallBack()
+
+                {
+                    @Override
+                    public void afterCallBack(Map<String, Object> data) {
+                        List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("list", (Serializable) TimeWorkEntity.toTimeWorkList(list));
+                        Intent intent = new Intent(activity, TimeWorkActivity.class);
+                        intent.putExtras(bundle);
+                        activity.startActivity(intent);
+                    }
+                }
+
+        );
     }
 
     public static void startNoticeMessageActivity(final Context context) {
