@@ -41,4 +41,14 @@ public class PickUpEntity implements Serializable {
         pickUpEntity.studentId = ConvertUtils.getString(mapItem.get("studentId"), "");
         return pickUpEntity;
     }
+
+
+    public static List<PickUpEntity> getEmptyPickupEntityList() {
+        List<PickUpEntity> pickUpList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            PickUpEntity pickUpItem = new PickUpEntity();
+            pickUpList.add(pickUpItem);
+        }
+        return pickUpList;
+    }
 }

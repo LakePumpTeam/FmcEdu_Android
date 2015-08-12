@@ -14,6 +14,7 @@ import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,9 @@ public class PickUpActivity extends BaseActivity {
         mPageIndex = 1;
 
         if (null == list || 0 == list.size()) {
-            ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+            ToastToolUtils.showShort("最近" + mCurrentNoDataDays  + "天没有数据");
+            mAdapter = new PickUpAdapter(this, PickUpEntity.getEmptyPickupEntityList());
+            slideListView.setAdapter(mAdapter);
             mCurrentNoDataDays++;
             return;
         }
@@ -105,7 +108,7 @@ public class PickUpActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("record"));
                 slideListView.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays * 7 + "天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays  + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }

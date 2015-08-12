@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.fmc.edu.R;
 import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.utils.ConvertUtils;
+import com.fmc.edu.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,26 @@ public class PickUpAdapter extends FmcBaseAdapter<PickUpEntity> {
     public PickUpAdapter(Context context, List<PickUpEntity> items) {
         super(context, items);
     }
+
+
+    public void addAllItems(List<PickUpEntity> items, boolean isClear) {
+        if (null == mItems) {
+            mItems = new ArrayList<>();
+        }
+        if (isClear) {
+            this.mItems.clear();
+        }
+
+        if (!isClear && mItems.size() > 0) {
+            if (StringUtils.isEmptyOrNull(mItems.get(0).date)) {
+                mItems.clear();
+            }
+        }
+
+        this.mItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

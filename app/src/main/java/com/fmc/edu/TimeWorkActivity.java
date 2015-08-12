@@ -69,7 +69,11 @@ public class TimeWorkActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", mPageIndex);
-        params.put("studentId", loginUserEntity.studentId);
+        if (loginUserEntity.userRole == com.fmc.edu.enums.UserRoleEnum.Parent) {
+            params.put("studentId", loginUserEntity.studentId);
+        } else {
+            params.put("classId", loginUserEntity.classId);
+        }
         params.put("type", 0);
         MyIon.httpPost(TimeWorkActivity.this, "clock/in/clockInRecords", params, null, new MyIon.AfterCallBack() {
             @Override
@@ -121,7 +125,11 @@ public class TimeWorkActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         LoginUserEntity loginUserEntity = FmcApplication.getLoginUser();
         params.put("pageIndex", 1);
-        params.put("studentId", loginUserEntity.studentId);
+        if (loginUserEntity.userRole == com.fmc.edu.enums.UserRoleEnum.Parent) {
+            params.put("studentId", loginUserEntity.studentId);
+        } else {
+            params.put("classId", loginUserEntity.classId);
+        }
         params.put("type", 0);
         MyIon.httpPost(context, "clock/in/clockInRecords", params, null, new MyIon.AfterCallBack() {
             @Override
@@ -136,7 +144,5 @@ public class TimeWorkActivity extends BaseActivity {
                 context.startActivity(intent);
             }
         });
-
-
     }
 }

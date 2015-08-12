@@ -1,9 +1,12 @@
 package com.fmc.edu.customcontrol;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -18,6 +21,8 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
     private OnScrollPrepListener mOnScrollPrepListener;
     private Context mContext;
     private View mFooterView;
+    private boolean isLastRow;
+
 
     public interface OnLoadMoreListener {
         void onLoadMore(View footerView);
@@ -38,24 +43,30 @@ public class SlideListView extends ListView implements AbsListView.OnScrollListe
         this.setDividerHeight(0);
     }
 
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (null != mOnScrollPrepListener) {
             mOnScrollPrepListener.onScrollPrep();
+
         }
-        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-            if (getLastVisiblePosition() == getCount() - 1) {
-                if (null != mOnLoadMoreListener) {
-                    mOnLoadMoreListener.onLoadMore(mFooterView);
-                }
+        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && isLastRow) {
+            if (null != mOnLoadMoreListener) {
+                mOnLoadMoreListener.onLoadMore(mFooterView);
             }
+            isLastRow = false;
         }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+        if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+            isLastRow = true;
+        }
+
     }
+
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         mOnLoadMoreListener = onLoadMoreListener;
