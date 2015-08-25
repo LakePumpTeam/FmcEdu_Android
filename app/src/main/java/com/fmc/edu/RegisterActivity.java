@@ -124,7 +124,7 @@ public class RegisterActivity extends BaseActivity {
 //                    editAuthCode.setText(data.get("identifyCode").toString());
 //                }
                 //TODO 短信验证开启后，要关闭此处
-                editAuthCode.setText(data.get("identifyCode").toString());
+               // editAuthCode.setText(data.get("identifyCode").toString());
                 validateBtnGetAuthCode.startCountdown();
             }
         });
