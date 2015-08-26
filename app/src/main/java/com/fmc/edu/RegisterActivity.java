@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.fmc.edu.common.MyTextWatcher;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -28,6 +29,7 @@ public class RegisterActivity extends BaseActivity {
     private EditText editAuthCode;
     private EditText editPassword;
     private EditText editConfirmPassword;
+    private TextView txtService;
     private ValidateButtonControl validateBtnGetAuthCode;
 
     @Override
@@ -48,12 +50,14 @@ public class RegisterActivity extends BaseActivity {
         editAuthCode = (EditText) findViewById(R.id.register_edit_auth_code);
         editPassword = (EditText) findViewById(R.id.register_edit_password);
         editConfirmPassword = (EditText) findViewById(R.id.register_edit_confirm_password);
+        txtService = (TextView) findViewById(R.id.register_txt_service);
         validateBtnGetAuthCode = (ValidateButtonControl) findViewById(R.id.register_validate_btn_get_auth_code);
     }
 
     private void initViewEvents() {
         btnNextStep.setOnClickListener(btnNextStepOnClickListener);
         validateBtnGetAuthCode.setOnClickListener(btnGetAuthCodeOnClickListener);
+        txtService.setOnClickListener(txtServiceOnClickListener);
 
         MyTextWatcher validatePhoneTextWatcher = new MyTextWatcher();
         editCellphone.addTextChangedListener(validatePhoneTextWatcher);
@@ -80,6 +84,14 @@ public class RegisterActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             CheckValidateInput();
+        }
+    };
+
+    private View.OnClickListener txtServiceOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(RegisterActivity.this, ServiceStatementActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -124,7 +136,7 @@ public class RegisterActivity extends BaseActivity {
 //                    editAuthCode.setText(data.get("identifyCode").toString());
 //                }
                 //TODO 短信验证开启后，要关闭此处
-               // editAuthCode.setText(data.get("identifyCode").toString());
+                // editAuthCode.setText(data.get("identifyCode").toString());
                 validateBtnGetAuthCode.startCountdown();
             }
         });
@@ -147,7 +159,7 @@ public class RegisterActivity extends BaseActivity {
         data.put("cellPhone", editCellphone.getText());
         data.put("authCode", editAuthCode.getText());
 
-        long salt =System.currentTimeMillis();
+        long salt = System.currentTimeMillis();
         String md5Password = StringUtils.MD5(String.valueOf(salt), editPassword.getText().toString());
         data.put("password", md5Password);
         data.put("salt", salt);
@@ -158,7 +170,7 @@ public class RegisterActivity extends BaseActivity {
         this.finish();
         Intent intent = new Intent(RegisterActivity.this, RelatedInfoActivity.class);
         intent.putExtra("cellPhone", editCellphone.getText().toString());
-        intent.putExtra("isRegister",true);
+        intent.putExtra("isRegister", true);
         startActivity(intent);
     }
 

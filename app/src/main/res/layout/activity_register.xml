@@ -27,8 +27,8 @@
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/register_validate_btn_get_auth_code"
             android:hint="@string/hint_input_cellphone"
-            android:maxLength="11"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:maxLength="11" />
 
         <com.fmc.edu.customcontrol.ValidateButtonControl
             android:id="@+id/register_validate_btn_get_auth_code"
@@ -36,9 +36,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/activity_margin_middle"
-            fmc:repeatSendTime="60"
             android:enabled="false"
-            android:text="@string/get_auth_code" />
+            android:text="@string/get_auth_code"
+            fmc:repeatSendTime="60" />
     </RelativeLayout>
 
     <View style="@style/HorizontalDividerLineStyle" />
@@ -72,19 +72,35 @@
         android:hint="@string/hint_confirm_password"
         android:inputType="textPassword"
         android:maxLength="16" />
+
     <View style="@style/HorizontalDividerLineStyle" />
 
-    <CheckBox
-        android:id="@+id/register_ck_read_agreement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_small"
-        android:text="@string/txt_read_agreement"
-        android:layout_marginLeft="@dimen/activity_margin_middle"
-        android:button="@drawable/selector_check_box_check"
-        android:paddingLeft="@dimen/activity_padding_middle"
-        android:textColor="@color/annotation_txt_font_color"
-        android:textSize="@dimen/font_size_middle" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/register_ck_read_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_middle"
+            android:layout_marginTop="@dimen/activity_margin_small"
+            android:button="@drawable/selector_check_box_check"
+            android:paddingLeft="@dimen/activity_padding_middle"
+            android:text="@string/txt_read_agreement"
+            android:textColor="@color/annotation_txt_font_color"
+            android:textSize="@dimen/font_size_middle" />
+
+        <TextView
+            android:id="@+id/register_txt_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《服务协议》"
+            android:clickable="true"
+            android:textColor="@color/popup_window_alert_btn_font_color"
+            android:layout_marginTop="@dimen/activity_margin_small"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/register_btn_next_step"
