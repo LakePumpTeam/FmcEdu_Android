@@ -17,6 +17,7 @@ public class TimeWorkEntity implements Serializable {
     public String time;
     public boolean attendance;
     public String name;
+    public String attendanceName;
 
 
     public static List<TimeWorkEntity> toTimeWorkList(List<Map<String, Object>> hasList) {
@@ -35,6 +36,15 @@ public class TimeWorkEntity implements Serializable {
         timeWorkEntity.time = ConvertUtils.getString(hasMap.get("time"), "");
         timeWorkEntity.name = ConvertUtils.getString(hasMap.get("name"), "");
         timeWorkEntity.attendance = ConvertUtils.getBoolean(hasMap.get("attendance"), false);
+        timeWorkEntity.attendanceName =timeWorkEntity.attendance ? "进校" : "离校";
         return timeWorkEntity;
+    }
+    public static List<TimeWorkEntity> getEmptyTimeWorkEntityList() {
+        List<TimeWorkEntity> TimeWorkList = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            TimeWorkEntity timeWorkEntity = new TimeWorkEntity();
+            TimeWorkList.add(timeWorkEntity);
+        }
+        return TimeWorkList;
     }
 }

@@ -13,6 +13,7 @@ import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.service.StillStartService;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.BaiduUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 
 import java.util.HashMap;
@@ -61,6 +62,7 @@ public class SettingActivity extends BaseActivity {
             MyIon.httpPost(SettingActivity.this, "profile/requestLogout", params, mProgressControl, new MyIon.AfterCallBack() {
                 @Override
                 public void afterCallBack(Map<String, Object> data) {
+                    BaiduUtils.stopStartWork(SettingActivity.this);
                     ServicePreferenceUtils.clearPasswordPreference(SettingActivity.this);
                     Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                     startActivity(intent);

@@ -45,7 +45,7 @@ public class PickUpEntity implements Serializable {
 
     public static List<PickUpEntity> getEmptyPickupEntityList() {
         List<PickUpEntity> pickUpList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             PickUpEntity pickUpItem = new PickUpEntity();
             pickUpList.add(pickUpItem);
         }

@@ -11,6 +11,7 @@ import com.fmc.edu.customcontrol.ProgressControl;
 import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.NetworkUtils;
+import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.koushikdutta.ion.Ion;
@@ -53,14 +54,14 @@ public class MyIon {
         return withB.asString(Charset.forName("utf8"));
     }
 
-    public static void httpPost(final Context context, String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
+    public static void httpPost(final Context context, final String url, Map<String, Object> params, final ProgressControl progressControl, final AfterCallBack afterCallBack) {
         try {
             MyIon.setUrlAndBodyParams(context, AppConfigUtils.getServiceHost() + url, params)
                     .setCallback(new FMCMapFutureCallback(progressControl) {
                         @Override
                         public void onTranslateCompleted(Exception e, Map<String, ?> result) {
 
-                                if (!HttpTools.isRequestSuccessfully(e, result))
+                            if (!HttpTools.isRequestSuccessfully(e, result))
 
                             {
                                 ToastToolUtils.showLong(result.get("msg").toString());
@@ -76,6 +77,9 @@ public class MyIon {
 
                             Map<String, Object> mapData = (Map<String, Object>) result.get("data");
                             if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {
+                                if (url.equals("profile/requestLogin")) {
+                                    ServicePreferenceUtils.clearPasswordPreference(context);
+                                }
                                 AlertWindowControl alertWindowControl = new AlertWindowControl(context);
                                 alertWindowControl.showWindow(new TextView(context), "提示", ConvertUtils.getString(mapData.get("businessMsg")));
                                 return;
@@ -118,7 +122,7 @@ public class MyIon {
                             {
                                 ToastToolUtils.showLong("服务器出错");
                                 return;
-                        }
+                            }
 
                             Map<String, Object> mapData = (Map<String, Object>) result.get("data");
                             if (ConvertUtils.getInteger(mapData.get("isSuccess")) != 0) {

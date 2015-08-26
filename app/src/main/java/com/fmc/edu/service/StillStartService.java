@@ -42,7 +42,7 @@ public class StillStartService extends Service {
 
 
     public static void startStillStartService(Context context) {
-        baiduStartWork(context);
+       // baiduStartWork(context);
         if (isServiceRunning(context)) {
             return;
         }
@@ -56,32 +56,12 @@ public class StillStartService extends Service {
             return;
         }
         context.stopService(service);
-        PushManager.stopWork(context);
+       // PushManager.stopWork(context);
     }
 
 
-    public static void baiduStartWork(Context context) {
 
-        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder();
-        builder.setStatusbarIcon(R.mipmap.send_msg_2);
-        builder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  //设置为自动消失
-        Map<String, Boolean> settingData = ServicePreferenceUtils.getNoticeSettingByPreference(context);
-        int defaultLights = Notification.DEFAULT_VIBRATE;
-        if (!settingData.get("shake")) {
-            builder.setNotificationVibrate(new long[]{0, 0, 0, 0});
-        }
-        if (settingData.get("ring")) {
-        }
-        builder.setNotificationDefaults(defaultLights);
-        PushManager.setDefaultNotificationBuilder(context, builder);
-        PushManager.startWork(context, PushConstants.LOGIN_TYPE_API_KEY, AppConfigUtils.getBaiduAppKey());
-    }
 
-    public static void stopStartWork(Context context) {
-        if (PushManager.isConnected(context) && PushManager.isPushEnabled(context)) {
-            PushManager.stopWork(context);
-        }
-    }
 
     public static boolean isServiceRunning(Context context) {
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

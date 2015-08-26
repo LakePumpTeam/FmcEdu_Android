@@ -23,6 +23,7 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.OperateTypeEnum;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.BaiduUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -376,7 +377,7 @@ public class RelatedInfoActivity extends BaseActivity {
             ToastToolUtils.showLong("提交成功");
             return;
         }
-
+        BaiduUtils.stopStartWork(RelatedInfoActivity.this);
         this.finish();
         Intent intent = new Intent(RelatedInfoActivity.this, AuditingActivity.class);
         startActivity(intent);

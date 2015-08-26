@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fmc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,5 +10,13 @@
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_bracelet_introduce" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_margin_middle"
+        android:textColor="@color/select_item_title_font_color"
+        android:textSize="@dimen/font_size_middle"
+        android:lineSpacingExtra="4dp"
+        android:text="       湖畔科技推出的校园智能设备，通过GPRS定位，能够为您获取孩子的时时位置，保障孩子的安全"/>
 
-</RelativeLayout>
+</LinearLayout>

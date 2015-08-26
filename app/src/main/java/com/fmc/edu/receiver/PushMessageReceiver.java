@@ -1,19 +1,28 @@
 package com.fmc.edu.receiver;
 
+import android.accounts.NetworkErrorException;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.baidu.android.pushservice.BasicPushNotificationBuilder;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.fmc.edu.MessageListActivity;
+import com.fmc.edu.R;
 import com.fmc.edu.RelatedInfoActivity;
 import com.fmc.edu.TimeWorkActivity;
 import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.entity.MessageListEntity;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.JsonToMapUtils;
 import com.fmc.edu.utils.JsonUtils;
+import com.fmc.edu.utils.NetworkUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
+import com.fmc.edu.utils.StringUtils;
 import com.fmc.edu.utils.ToastToolUtils;
 import com.google.gson.JsonObject;
 
@@ -30,6 +39,16 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
     @Override
     public void onBind(Context context, int errorCode, String appId, String userId, String channelId, String requestId) {
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(context);
+        if (!NetworkUtils.isNetworkConnected(context)) {
+            return;
+        }
+        if (StringUtils.isEmptyOrNull(loginUserEntity.cellphone) || StringUtils.isEmptyOrNull((loginUserEntity.password))) {
+            return;
+        }
+        if (StringUtils.isEmptyOrNull(channelId) || StringUtils.isEmptyOrNull(userId)) {
+            return;
+        }
+
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("deviceType", 3);
         params.put("userId", loginUserEntity.userId);
@@ -85,5 +104,7 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
 
         ToastToolUtils.showShort(title);
     }
+
+
 
 }

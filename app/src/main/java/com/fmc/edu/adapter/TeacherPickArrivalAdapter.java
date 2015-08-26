@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fmc.edu.R;
 import com.fmc.edu.entity.PickUpEntity;
+import com.fmc.edu.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,11 @@ public class TeacherPickArrivalAdapter extends FmcBaseAdapter<PickUpEntity> {
         }
         if (isClear) {
             mItems.clear();
+        }
+        if (!isClear && mItems.size() > 0) {
+            if (StringUtils.isEmptyOrNull(mItems.get(0).date)) {
+                mItems.clear();
+            }
         }
         mItems.addAll(list);
         notifyDataSetChanged();

@@ -1,5 +1,7 @@
 package com.fmc.edu;
 
+import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.android.pushservice.BasicPushNotificationBuilder;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.fmc.edu.customcontrol.PromptWindowControl;
 import com.fmc.edu.customcontrol.SelectListControl;
 import com.fmc.edu.entity.CommonEntity;
@@ -15,6 +20,8 @@ import com.fmc.edu.entity.LoginUserEntity;
 import com.fmc.edu.enums.AuditStateTypeEnum;
 import com.fmc.edu.enums.UserRoleEnum;
 import com.fmc.edu.http.MyIon;
+import com.fmc.edu.utils.AppConfigUtils;
+import com.fmc.edu.utils.BaiduUtils;
 import com.fmc.edu.utils.ConvertUtils;
 import com.fmc.edu.utils.ServicePreferenceUtils;
 import com.fmc.edu.utils.StringUtils;
@@ -179,6 +186,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void afterCallBack(Map<String, Object> data) {
                         saveLocalLoginInfo(cellphone, password, salt, data);
+                        BaiduUtils.baiduStartWork (LoginActivity.this);
                         gotoMainData(data);
                     }
                 }

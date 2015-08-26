@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.fmc.edu.adapter.PickUpAdapter;
 import com.fmc.edu.adapter.TeacherPickArrivalAdapter;
 import com.fmc.edu.adapter.TeacherPickUnArrivalAdapter;
 import com.fmc.edu.customcontrol.ProgressControl;
@@ -140,11 +141,14 @@ public class TeacherPickActivity extends BaseActivity {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
                 slideArrival.setFooterViewVisible(false);
                 if (null == list || 0 == list.size()) {
-                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays  + "天没有数据");
+                    ToastToolUtils.showShort("最近" + mCurrentNoDataDays + "天没有数据");
+                    if (mArrivalAdapter.getCount() == 0) {
+                        mArrivalAdapter.addAllItems(PickUpEntity.getEmptyPickupEntityList(), false);
+                    }
                     mCurrentNoDataDays++;
                     return;
                 }
-                mArrivalTotalCount +=list.size();
+                mArrivalTotalCount += list.size();
                 rbArrival.setText("已到家长(" + (mArrivalTotalCount > 99 ? "99+" : mArrivalTotalCount) + ")");
                 mCurrentNoDataDays = 1;
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
@@ -163,13 +167,14 @@ public class TeacherPickActivity extends BaseActivity {
             public void afterCallBack(Map<String, Object> data) {
                 List<Map<String, Object>> list = ConvertUtils.getList(data.get("records"));
                 if (null == list || 0 == list.size()) {
+
                     ToastToolUtils.showShort("最近" + mCurrentNoDataDays + "天没有数据");
                     mCurrentNoDataDays++;
                     return;
                 }
                 rbUnArrival.setText("未到家长(" + list.size() + ")");
                 List<PickUpEntity> pickUpList = PickUpEntity.toPickUpEntityList(list);
-               mUnArrivalAdapter.addAllItems(pickUpList, true);
+                mUnArrivalAdapter.addAllItems(pickUpList, true);
             }
         });
     }

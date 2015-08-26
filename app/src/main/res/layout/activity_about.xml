@@ -7,8 +7,43 @@
 
     <com.fmc.edu.customcontrol.TopBarControl
         android:layout_width="match_parent"
+        android:id="@+id/about_top_bar"
         android:layout_height="@dimen/activity_top_bar_height"
         fmc:backVisible="true"
         fmc:topTitle="@string/title_activity_about" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/about_top_bar"
+        android:layout_margin="@dimen/activity_margin_middle"
+        android:textColor="@color/select_item_title_font_color"
+        android:textSize="@dimen/font_size_middle"
+        android:lineSpacingExtra="4dp"
+        android:text="         畔科技一直致力于为您提供更优秀的产品和服务，当您在使用我们产品的时候，遇到使用问题，或者有好的改进建议，请您告诉我们，我们竭诚为你服务。校园吧作为一个公众平台，学校的教育我们共同关注；"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_margin_middle"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/about_top_bar"
+            android:textColor="@color/select_item_title_font_color"
+            android:textSize="@dimen/font_size_small"
+            android:text="相伴教育官方邮箱：xbjy@ hupantech.com"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/about_top_bar"
+            android:textColor="@color/select_item_title_font_color"
+            android:textSize="@dimen/font_size_small"
+            android:text="hupantech@yeah.net"/>
+    </LinearLayout>
 </RelativeLayout>

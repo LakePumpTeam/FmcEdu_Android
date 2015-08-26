@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fmc.edu.R;
+import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.entity.TimeWorkEntity;
+import com.fmc.edu.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +20,23 @@ import java.util.List;
 public class TimeWorkAdapter extends FmcBaseAdapter<TimeWorkEntity> {
     public TimeWorkAdapter(Context context, List<TimeWorkEntity> items) {
         super(context, items);
+    }
+
+
+    public void addAllItems(List<TimeWorkEntity> list, boolean isClear) {
+        if (null == mItems) {
+            mItems = new ArrayList<>();
+        }
+        if (isClear) {
+            mItems.clear();
+        }
+        if (!isClear && mItems.size() > 0) {
+            if (StringUtils.isEmptyOrNull(mItems.get(0).date)) {
+                mItems.clear();
+            }
+        }
+        mItems.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -34,7 +54,7 @@ public class TimeWorkAdapter extends FmcBaseAdapter<TimeWorkEntity> {
         txtDate.setText(item.date);
         txtWeek.setText(item.week);
         txtTime.setText(item.time);
-        txtSign.setText(item.attendance ? "进校" : "离校");
+        txtSign.setText(item.attendanceName);
         return convertView;
     }
 }

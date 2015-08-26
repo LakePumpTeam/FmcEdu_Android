@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.fmc.edu.adapter.PickUpAdapter;
 import com.fmc.edu.adapter.TimeWorkAdapter;
 import com.fmc.edu.customcontrol.SlideListView;
 import com.fmc.edu.entity.LoginUserEntity;
+import com.fmc.edu.entity.PickUpEntity;
 import com.fmc.edu.entity.TimeWorkEntity;
 import com.fmc.edu.http.MyIon;
 import com.fmc.edu.utils.ConvertUtils;
@@ -47,6 +49,8 @@ public class TimeWorkActivity extends BaseActivity {
         List<TimeWorkEntity> list = (List<TimeWorkEntity>) getIntent().getExtras().getSerializable("list");
         if (null == list || 0 == list.size()) {
             ToastToolUtils.showShort("最近一天没有数据");
+            mAdapter = new TimeWorkAdapter(this, TimeWorkEntity.getEmptyTimeWorkEntityList());
+            slideListView.setAdapter(mAdapter);
             mCurrentNoDataDays++;
             return;
         }
