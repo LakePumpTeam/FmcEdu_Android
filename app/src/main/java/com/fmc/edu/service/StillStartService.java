@@ -42,7 +42,9 @@ public class StillStartService extends Service {
 
 
     public static void startStillStartService(Context context) {
-       // baiduStartWork(context);
+        if(!AppConfigUtils.isDevelopFour()) {
+            return;
+        }
         if (isServiceRunning(context)) {
             return;
         }
@@ -56,7 +58,6 @@ public class StillStartService extends Service {
             return;
         }
         context.stopService(service);
-       // PushManager.stopWork(context);
     }
 
 

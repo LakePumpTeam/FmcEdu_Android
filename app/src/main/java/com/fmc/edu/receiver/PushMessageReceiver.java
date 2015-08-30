@@ -38,6 +38,9 @@ import java.util.Map;
 public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessageReceiver {
     @Override
     public void onBind(Context context, int errorCode, String appId, String userId, String channelId, String requestId) {
+        if(!AppConfigUtils.isDevelopFour()) {
+            return;
+        }
         LoginUserEntity loginUserEntity = ServicePreferenceUtils.getLoginUserByPreference(context);
         if (!NetworkUtils.isNetworkConnected(context)) {
             return;

@@ -138,12 +138,17 @@ public class MainActivity extends BaseActivity {
             rlAudit.setVisibility(View.GONE);
             imgSendNewMsg.setVisibility(View.GONE);
         }
+
         if (AppConfigUtils.isKindergarten()) {
             menuPickup.setVisibility(View.VISIBLE);
             menuTimeWork.setVisibility(View.GONE);
         } else {
             menuPickup.setVisibility(View.GONE);
             menuTimeWork.setVisibility(View.VISIBLE);
+        }
+        if (!AppConfigUtils.isDevelopFour()) {
+            menuPickup.setVisibility(View.GONE);
+            menuTimeWork.setVisibility(View.GONE);
         }
     }
 
